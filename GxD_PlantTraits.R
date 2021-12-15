@@ -11,10 +11,10 @@
 
 # lots of libraries that mostly get the base map shapes and colors
 #devtools::install_github("ropenscilabs/rnaturalearth")
-library("rnaturalearth")
+library("rnaturalearth") #https://cran.r-project.org/web/packages/rnaturalearth/rnaturalearth.pdf
 library(sp)
 #install.packages("rnaturalearthdata")
-library("rnaturalearthdata")
+library("rnaturalearthdata") #https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-physical-labels/
 library("rnaturalearthhires")
 #install.packages("maps")
 library(maps)
@@ -24,6 +24,10 @@ library(reshape)
 library(mapproj)
 #install.packages("sf")
 library(sf)
+#install.packages("raster")
+library(raster)
+#install.packages("rgdal")
+library(rgdal)
 library(ggplot2)
 library(tidyverse)
 # setting the color palatte
@@ -56,16 +60,26 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 #get data for the US map
 US <- ne_countries(scale = "medium", country = "United States of America",returnclass = "sf")
 
-#download geographic line data from website  -- not correct data, how to get physical lines
-#ne_download(scale = 'medium', type = 'geographic_lines',category = 'physical')
+US_States<-ne_states(country = "United States of America")
 
-#load in geographic line data
-Geographic_lines<-ne_load(scale = 'medium', type = 'geographic_lines')
+#load in raster from website https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-physical-labels/ that contains physical feature areas 
 
-world %>% 
+Geographic_Locations <- (system.file("NA_CEC_Eco_Level1.shp", package="raster"))
+s <- shapefile(Geographic_Locations)
+
+#download state line data from website
+#ne_download(scale = 'medium', type = 'states',category = c("cultural", "physical","raster"))
+#load in state line data
+State_lines<-ne_load(scale = 'medium', type = 'states')
+
+ne_10m_geography_regions_polys.zip
+
+US %>% 
   ggplot()+
-  geom_sf(color="black",fill="grey")+
-  geom_polygon(data = Geographic_lines, aes(x=long, y = lat, group = group), fill="white",colour="darkgray", alpha=0.3)
+  geom_sf(color="black",fill="white")+
+  geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill="white",colour="black", alpha=0.3)+
+  geom_polygon(data = Geographic_Locations, aes(x=long, y = lat, group = group), fill="white",colour="darkgray", alpha=0.3)+
+  coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
   
 #create dataframe with just NA map data
 NA_MapData<-map_data("world") %>% 
