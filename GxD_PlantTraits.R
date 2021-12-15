@@ -120,5 +120,3 @@ ggplot()+
   labs(fill="Response Variable") + #legend label
   theme(legend.position=c(0.15,0.2))  #legend position
 #export at 1500 x 1000
-
-
