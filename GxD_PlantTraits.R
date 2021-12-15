@@ -26,6 +26,8 @@ library(mapproj)
 library(sf)
 #install.packages("raster")
 library(raster)
+#install.packages("rgdal")
+library(rgdal)
 library(ggplot2)
 library(tidyverse)
 # setting the color palatte
@@ -72,14 +74,8 @@ summary(Geographic_Locations@data)
 #make data frame with just names of locations of interest
 Geographic_Locations_df <- broom::tidy(Geographic_Locations, region = "NA_L1NAME")
 
-ggplot() + geom_polygon(data = Geographic_Locations, aes(x = long, y = lat, group = group), colour = "black", fill = NA)
-
 #create a data frame that has the names of the geographic locations 
-cnames <- aggregate(cbind(long, lat) ~ id, data=Geographic_Locations_df, FUN=mean)
-
-#Remove all but the great plains region
-GreatPlains <- cnames %>% 
-  select(id=="GREAT PLAINS")
+cnames <- aggregate(cbind(long, lat) ~ id, data=Geographic_Locations_df, FUN=median)
 
 #download state line data from website
 ne_download(scale = 'medium', type = 'states',category = c("cultural", "physical","raster"))
@@ -88,19 +84,19 @@ State_lines<-ne_load(scale = 'medium', type = 'states')
 
 #want state lines but not working with geographic locations yet
 #Map<-US %>% 
- # ggplot()+
-  #geom_sf(color="black",fill=NA)+
- # geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
-  #coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
-  
+# ggplot()+
+#geom_sf(color="black",fill=NA)+
+# geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
+#coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
+
 #map of geographic locations in NA
 Map_Geography <-
   ggplot()+
-  geom_polygon(data = Geographic_Locations, aes(x = long, y = lat, group = group), colour = "darkgreen", fill = NA) +
+  geom_polygon(data = filter(Geographic_Locations_df, id=="GREAT PLAINS"), aes(x = long, y = lat, group = group,fill=id), colour = "black") +
   geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
 
 Map_Geography
-  
+
 #create dataframe with just NA map data
 NA_MapData<-map_data("world") %>% 
   filter(region==c("USA","Canada"))
@@ -124,4 +120,5 @@ ggplot()+
   labs(fill="Response Variable") + #legend label
   theme(legend.position=c(0.15,0.2))  #legend position
 #export at 1500 x 1000
+
 
