@@ -11,10 +11,10 @@
 
 # lots of libraries that mostly get the base map shapes and colors
 #devtools::install_github("ropenscilabs/rnaturalearth")
-library("rnaturalearth")
+library("rnaturalearth") #https://cran.r-project.org/web/packages/rnaturalearth/rnaturalearth.pdf
 library(sp)
 #install.packages("rnaturalearthdata")
-library("rnaturalearthdata")
+library("rnaturalearthdata") #https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-physical-labels/
 library("rnaturalearthhires")
 #install.packages("maps")
 library(maps)
@@ -24,6 +24,8 @@ library(reshape)
 library(mapproj)
 #install.packages("sf")
 library(sf)
+#install.packages("raster")
+library(raster)
 library(ggplot2)
 library(tidyverse)
 # setting the color palatte
@@ -35,6 +37,8 @@ CraterLakepal <- park_palette("CraterLake", 7)
 
 
 #### Set Working Directory ####
+#Bloodworth - Mac
+setwd("/Users/kathrynbloodworth/Dropbox (Smithsonian)/Projects/Dissertation/Data")
 
 #### Set ggplot base ####
 #Set ggplot2 theme to black and white
@@ -56,16 +60,46 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 #get data for the US map
 US <- ne_countries(scale = "medium", country = "United States of America",returnclass = "sf")
 
-#download geographic line data from website  -- not correct data, how to get physical lines
-#ne_download(scale = 'medium', type = 'geographic_lines',category = 'physical')
+US_States<-ne_states(country = "United States of America")
 
-#load in geographic line data
-Geographic_lines<-ne_load(scale = 'medium', type = 'geographic_lines')
+#load in raster from website https://www.epa.gov/eco-research/ecoregions-north-america that contains physical feature areas 
 
-world %>% 
+Geographic_Locations <- (readOGR("na_cec_eco_l1/NA_CEC_Eco_Level1.shp"))
+s <- shapefile("na_cec_eco_l1/NA_CEC_Eco_Level1.shp")
+
+summary(Geographic_Locations@data)
+
+#make data frame with just names of locations of interest
+Geographic_Locations_df <- broom::tidy(Geographic_Locations, region = "NA_L1NAME")
+
+ggplot() + geom_polygon(data = Geographic_Locations, aes(x = long, y = lat, group = group), colour = "black", fill = NA)
+
+#create a data frame that has the names of the geographic locations 
+cnames <- aggregate(cbind(long, lat) ~ id, data=Geographic_Locations_df, FUN=mean)
+
+#Remove all but the great plains region
+GreatPlains <- cnames %>% 
+  select(id=="GREAT PLAINS")
+
+#download state line data from website
+ne_download(scale = 'medium', type = 'states',category = c("cultural", "physical","raster"))
+#load in state line data
+State_lines<-ne_load(scale = 'medium', type = 'states')
+
+#want state lines but not working with geographic locations yet
+#Map<-US %>% 
+ # ggplot()+
+  #geom_sf(color="black",fill=NA)+
+ # geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
+  #coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
+  
+#map of geographic locations in NA
+Map_Geography <-
   ggplot()+
-  geom_sf(color="black",fill="grey")+
-  geom_polygon(data = Geographic_lines, aes(x=long, y = lat, group = group), fill="white",colour="darkgray", alpha=0.3)
+  geom_polygon(data = Geographic_Locations, aes(x = long, y = lat, group = group), colour = "darkgreen", fill = NA) +
+  geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
+
+Map_Geography
   
 #create dataframe with just NA map data
 NA_MapData<-map_data("world") %>% 
