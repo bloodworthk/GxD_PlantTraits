@@ -26,6 +26,11 @@ library(mapproj)
 library(sf)
 #install.packages("raster")
 library(raster)
+<<<<<<< HEAD
+=======
+  #install.packages("rgdal")
+  library(rgdal)
+>>>>>>> f2ae86e0a7412027ff7d251b7af46e9c6bddd2fc
 library(ggplot2)
 library(tidyverse)
 # setting the color palatte
@@ -88,11 +93,11 @@ State_lines<-ne_load(scale = 'medium', type = 'states')
 
 #want state lines but not working with geographic locations yet
 #Map<-US %>% 
- # ggplot()+
-  #geom_sf(color="black",fill=NA)+
- # geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
-  #coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
-  
+# ggplot()+
+#geom_sf(color="black",fill=NA)+
+# geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
+#coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
+
 #map of geographic locations in NA
 Map_Geography <-
   ggplot()+
@@ -100,7 +105,7 @@ Map_Geography <-
   geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
 
 Map_Geography
-  
+
 #create dataframe with just NA map data
 NA_MapData<-map_data("world") %>% 
   filter(region==c("USA","Canada"))
