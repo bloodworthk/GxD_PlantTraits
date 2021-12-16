@@ -28,6 +28,8 @@ library(sf)
 library(raster)
 #install.packages("rgdal")
 library(rgdal)
+#install.packages("tmap")
+library(tmap) 
 library(ggplot2)
 library(tidyverse)
 # setting the color palatte
@@ -67,9 +69,13 @@ US_States<-ne_states(country = "United States of America")
 #load in raster from website https://www.epa.gov/eco-research/ecoregions-north-america that contains physical feature areas 
 
 Geographic_Locations <- (readOGR("na_cec_eco_l1/NA_CEC_Eco_Level1.shp"))
-s <- shapefile("na_cec_eco_l1/NA_CEC_Eco_Level1.shp")
+Ecosystem_shp<- shapefile("na_cec_eco_l1/NA_CEC_Eco_Level1.shp")
 
 summary(Geographic_Locations@data)
+
+state_shp <- shapefile("ne_50m_admin_1_states_provinces/ne_50m_admin_1_states_provinces.shp")
+
+summary(state_shp@data)
 
 #make data frame with just names of locations of interest
 Geographic_Locations_df <- broom::tidy(Geographic_Locations, region = "NA_L1NAME")
@@ -90,33 +96,77 @@ State_lines<-ne_load(scale = 'medium', type = 'states')
 #coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
 
 #map of geographic locations in NA
-Map_Geography <-
+Map_Geography <-US %>% 
   ggplot()+
+  geom_sf(color="black",fill=NA)+
   geom_polygon(data = filter(Geographic_Locations_df, id=="GREAT PLAINS"), aes(x = long, y = lat, group = group,fill=id), colour = "black") +
-  geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
+  geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
+  coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
+  
+  #geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
 
 Map_Geography
 
-#create dataframe with just NA map data
-NA_MapData<-map_data("world") %>% 
-  filter(region==c("USA","Canada"))
 
-#create dataframe with just map data
-MapData<-map_data("state",boundary=TRUE) %>% 
-  filter()
 
-#map of locations of meta-analysis studies
-ggplot()+
-  geom_polygon(data = world, aes(x=long, y = lat, group = group), fill="white",colour="darkgray", alpha=0.3) +
-  #geom_polygon(data = TGP_MapData, aes(x=long, y=lat, group = region, fill = region),fill="gray")+
-  #geom_polygon(data = TGP_MapData_Canada, aes(x=long, y=lat, group = country.etc, fill = country.etc),fill="gray")+
-  borders("state",colour="black") +
-  xlim(-180,-50)+
-  #geom_point(data=Map_ResponseVariables_LatLong, mapping=aes(x=Long,y=Lat,fill=Response_Variable),size=3.5,shape=21) +  #this is the dataframe of lat/long, and the points are being colored by num_codominants, with the point shape and size specified at the end fill=response variable
-  #scale_colour_manual(values=GeneralGrantpal)+
-  theme(text=element_text(size=20, colour="black"),axis.text.x=element_text(size=20, colour="black"),axis.text.y=element_text(size=20, colour="black")) + #formatting the text
-  ylab(expression("Latitude "*degree*""))+ #labels for the map x and y axes
-  xlab(expression("Longitude "*degree*"")) +
-  labs(fill="Response Variable") + #legend label
-  theme(legend.position=c(0.15,0.2))  #legend position
-#export at 1500 x 1000
+#making a map with tmap package - https://geocompr.robinlovelace.net/adv-map.html
+
+# load data
+data(World)
+
+# get current options
+str(tmap_options())
+# get current style
+tmap_style()
+tmap_options(check.and.fix = TRUE)
+tmap_options(max.categories = 286)
+
+
+# Add fill and border layers to US shape
+MAP_US<-tm_shape(US) +
+  tm_polygons()
+
+MAP_US
+
+#add layer of state outlines to map
+MAP_US_States<-MAP_US+
+  qtm(state_shp,alpha = 0.7)
+
+MAP_US_States
+
+#tm_shape(state_shp)
+  #tm_polygons(col="woe_name")
+
+#adding ecosystem layer 
+
+MAP_US_Ecosystem<-MAP_US+
+  qtm(Ecosystem_shp)+
+  tm_polygons(col="NA_L1NAME")
+
+MAP_US_Ecosystem
+
+MAP_Ecosystem1<-tm_shape(Ecosystem_shp) +
+  tm_polygons()
+  
+  
+  qtm(state_shp)+
+  tm_polygons(col="woe_label")
+  tm_shape(state_shp)+
+  tm_rgb()+
+  tm_borders()
+  
+MAP_US_States
+
+
+state_shp$woe_label <- as.vector(state_shp$woe_label)
+Geographic_Locations$NA_L1NAME <- as.vector(Geographic_Locations$NA_L1NAME)
+
+
+
+
+
+
+
+
+
+
