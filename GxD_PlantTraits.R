@@ -6,38 +6,15 @@
 #Created: 12/14/2021
 ##########################################################################################################
 
-
 #### Load Libraries ####
 
-# lots of libraries that mostly get the base map shapes and colors
-#devtools::install_github("ropenscilabs/rnaturalearth")
-library("rnaturalearth") #https://cran.r-project.org/web/packages/rnaturalearth/rnaturalearth.pdf
-library(sp)
-#install.packages("rnaturalearthdata")
-library("rnaturalearthdata") #https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-physical-labels/
-library("rnaturalearthhires")
-#install.packages("maps")
-library(maps)
-#install.packages("reshape")
-library(reshape)
-#install.packages("mapproj")
-library(mapproj)
-#install.packages("sf")
-library(sf)
-#install.packages("raster")
-library(raster)
-#install.packages("rgdal")
-#library(rgdal)
-#install.packages("tmap")
-library(tmap) 
+library(lme4)
 library(ggplot2)
-library(tidyverse)
-# setting the color palatte
-# install.packagesTR("devtools")
-#devtools::install_github("katiejolly/nationalparkcolors")
-library(nationalparkcolors)
-GeneralGrantpal<-park_palette("GeneralGrant", 7)
-CraterLakepal <- park_palette("CraterLake", 7)
+#install.packages("visreg")
+library(visreg)
+#install.packages("lattice")
+library(lattice)
+library(tidyverse) 
 
 
 #### Set Working Directory ####
@@ -57,126 +34,62 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 
 #### Read in Data ####
 
-#### Create Map of Grasslands in North America ####
+#Trait Data
+All_Traits_2019<-read.csv("DxG_Plant_Traits/2019_DxG_leaf_traits.csv")
+Field_Traits_2020<-read.csv("DxG_Plant_Traits/2020_DxG_FieldTraits.csv")
+Leaf_Traits_2020<-read.csv("DxG_Plant_Traits/2020_DxG_leaf_traits.csv")
+Field_Traits_2021<-read.csv("DxG_Plant_Traits/2021_DxG_FieldTraits.csv")
+Leaf_Traits_2021<-read.csv("DxG_Plant_Traits/2021_DxG_leaf_traits.csv")
 
-#Map information
+#Species Comp Data
+FK_SpComp_2018<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2018.csv")
+FK_SpComp_2018$plot<-as.factor(FK_SpComp_2018$plot)
+FK_SpComp_2019<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2019.csv")
+FK_SpComp_2020<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2020.csv")
+FK_SpComp_2021<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2021.csv")
+TB_SpComp_2018<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2018.csv")
+TB_SpComp_2019<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2019.csv")
+TB_SpComp_2020<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2020.csv")
+TB_SpComp_2021<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2021.csv")
 
-#get data for the US map
-US <- ne_countries(scale = "medium", country = "United States of America",returnclass = "sf")
 
-US_States<-ne_states(country = "United States of America")
+#Plot Data
+plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv")
 
-#load in raster from website https://www.epa.gov/eco-research/ecoregions-north-america that contains physical feature areas 
+#Soil moisture data  - bring in and keep only what we need for this study and take average SM data for all months
+SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>% 
+  filter(Site=="FK") %>% 
+  filter(Year==2019) %>%
+  group_by(Block,Paddock,Plot,Drought,Grazing) %>% 
+  summarise(Avg_SM=mean(Soil_Moisture)) %>% 
+  rename(plot="Plot")
 
-#Geographic_Locations <- (readOGR("na_cec_eco_l1/NA_CEC_Eco_Level1.shp"))
-Ecosystem_shp<- shapefile("na_cec_eco_l1/NA_CEC_Eco_Level1.shp")
+#### Clean Up Species Comp Data and Calculate Relative Cover ####
 
-summary(Ecosystem_shp@data)
+#get dataframe with just total cover per plot for each year
+#2018
+Aerial_Cover_2018_FK<-FK_SpComp_2018 %>% 
+  filter(aerial_basal!="Basal")
 
-state_shp <- shapefile("ne_50m_admin_1_states_provinces/ne_50m_admin_1_states_provinces.shp")
+Long_Cov_2018_FK<-gather(Aerial_Cover_2018_FK,key="species","cover",18:117) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("Oenotherea.suffrutescens.1","STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo","Oneothera.n.","Rock","Moss.Lichen.Bogr.overlap")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
 
-summary(state_shp@data)
 
-#make data frame with just names of locations of interest
-Geographic_Locations_df <- broom::tidy(Ecosystem_shp, region = "NA_L1NAME")
 
-#create a data frame that has the names of the geographic locations 
-cnames <- aggregate(cbind(long, lat) ~ id, data=Geographic_Locations_df, FUN=median)
 
-#download state line data from website
-ne_download(scale = 'medium', type = 'states',category = c("cultural", "physical","raster"))
-#load in state line data
-State_lines<-ne_load(scale = 'medium', type = 'states')
-
-#want state lines but not working with geographic locations yet
-#Map<-US %>% 
-# ggplot()+
-#geom_sf(color="black",fill=NA)+
-# geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
-#coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
-
-#map of geographic locations in NA
-Map_Geography <-US %>% 
-  ggplot()+
-  geom_sf(color="black",fill=NA)+
-  geom_polygon(data = filter(Geographic_Locations_df, id=="GREAT PLAINS"), aes(x = long, y = lat, group = group,fill=id), colour = "black") +
-  geom_polygon(data = State_lines, aes(x=long, y = lat, group = group), fill=NA,colour="black", alpha=0.3)+
-  coord_sf(xlim = c(-130, -70), ylim =  c(25,60), expand = FALSE)
+Relative_Cover_2018_FK<-Aerial_Cover_2018_FK %>% 
+  select(year,site,plot) %>% 
   
-  #geom_text(data = filter(cnames, id=="GREAT PLAINS"), aes(x = long, y = lat, label = id), size = 4)
-
-Map_Geography
-
-
-
-#making a map with tmap package - https://geocompr.robinlovelace.net/adv-map.html
-
-# load data
-data(World)
-
-# get current options
-str(tmap_options())
-# get current style
-tmap_style()
-tmap_options(check.and.fix = TRUE)
-tmap_options(max.categories = 286)
-
-
-# Add fill and border layers to US shape
-MAP_US<-tm_shape(US) +
-  tm_polygons()
-
-MAP_US
-
-#add layer of state outlines to map
-MAP_US_States<-MAP_US+
-  qtm(state_shp,alpha = 0.7)
-
-MAP_US_States
-
-#tm_shape(state_shp)
-  #tm_polygons(col="woe_name")
-
-#adding ecosystem layer 
-
-MAP_US_Ecosystem<-MAP_US+
-  qtm(Ecosystem_shp)+
-  tm_polygons(col="NA_L1NAME")
-
-MAP_US_Ecosystem
-
-####working 
-MAP_Ecosystem1<-tm_shape(Ecosystem_shp) +
-  tm_polygons()
   
-MAP_Ecosystem1
+  Relative_Cover_2018_FK$newcolumn <- 0
 
-MAP_Ecosystem_States<-MAP_Ecosystem1+
-  qtm(state_shp,alpha = 0.7)
-
-MAP_Ecosystem_States
-
-
-
-###
-  qtm(state_shp)+
-  tm_polygons(col="woe_label")
-  tm_shape(state_shp)+
-  tm_rgb()+
-  tm_borders()
-  
-MAP_US_States
-
-
-state_shp$woe_label <- as.vector(state_shp$woe_label)
-Geographic_Locations$NA_L1NAME <- as.vector(Geographic_Locations$NA_L1NAME)
-
-
-
-
-
-
-
+for (i in 18:100) {
+  x <- Aerial_Cover_2018_FK[,i]/Aerial_Cover_2018_FK[,10]
+  Relative_Cover_2018_FK <- cbind(Relative_Cover_2018_FK, data.frame(x[1]))
+}
 
 
 
