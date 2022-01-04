@@ -67,29 +67,164 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
 #get dataframe with just total cover per plot for each year
-#2018
+#FK - 2018
 Aerial_Cover_2018_FK<-FK_SpComp_2018 %>% 
   filter(aerial_basal!="Basal")
 
+#Create Long dataframe from wide dataframe
 Long_Cov_2018_FK<-gather(Aerial_Cover_2018_FK,key="species","cover",18:117) %>% 
   select(year,site,plot,added_total_excel,species,cover) %>% 
   filter(!species %in% c("Oenotherea.suffrutescens.1","STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo","Oneothera.n.","Rock","Moss.Lichen.Bogr.overlap")) %>% 
   na.omit(cover) %>% 
   filter(cover!=0)
 
+#Calculate Relative Cover
+Relative_Cover_2018_FK<-Long_Cov_2018_FK%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
 
+#FK - 2019
+#get dataframe with just total cover per plot
+Total_Cover_2019_FK<-FK_SpComp_2019%>%
+  #only keep added total
+  filter(!is.na(genus_species)) %>% 
+  filter(genus_species!="") %>% 
+  group_by(block,plot) %>% 
+  summarise(Total_Cover=sum(aerial_cover,na.rm = T)) %>% 
+  ungroup()
 
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2019_FK<-FK_SpComp_2019 %>% 
+  #take out all 'species' that are not actually plant species
+  filter(!is.na(genus_species)) %>% 
+  filter(genus_species!="") %>% 
+  filter(!genus_species %in% c("Added_Total","Estimated_Total" ,"Rock","Litter", "Bare Ground","overlap","Overlap", "Dung","ASER_Like_Woody","Lichen","Moss", "silver_stuff_unk3", "Skinny_leaf_fuzzy_bottom","oenothera?_basal_rossette","dead_mustard_unk","oenothera?_basal_rossetta","Oenothera_waxy_leaves","Basal_rosette","Mushroom")) %>% 
+  rename(Species_Cover="aerial_cover") %>% 
+  select(-observers,-date)
 
-Relative_Cover_2018_FK<-Aerial_Cover_2018_FK %>% 
-  select(year,site,plot) %>% 
-  
-  
-  Relative_Cover_2018_FK$newcolumn <- 0
+#Calculate Relative Cover
+Relative_Cover_2019_FK<-Species_Cover_2019_FK%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2019_FK)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(Species_Cover/Total_Cover)*100) %>% 
+  select(-Species_Cover,-basal_cover,-Total_Cover) %>% 
+  mutate(Relative_Cover=replace_na(Relative_Cover,0))
 
-for (i in 18:100) {
-  x <- Aerial_Cover_2018_FK[,i]/Aerial_Cover_2018_FK[,10]
-  Relative_Cover_2018_FK <- cbind(Relative_Cover_2018_FK, data.frame(x[1]))
-}
+#FK - 2020
+#get dataframe with just total cover per plot
+Total_Cover_2020_FK<-FK_SpComp_2020%>%
+  #only keep added total
+  filter(!is.na(genus_species)) %>% 
+  filter(genus_species!="") %>% 
+  group_by(block,plot) %>% 
+  summarise(Total_Cover=sum(aerial_cover,na.rm = T)) %>% 
+  ungroup()
 
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2020_FK<-FK_SpComp_2020 %>% 
+  #take out all 'species' that are not actually plant species
+  filter(!is.na(genus_species)) %>% 
+  filter(genus_species!="") %>% 
+  filter(!genus_species %in% c("Added_total","Estimated_total" ,"Rock","Litter", "Bareground","overlap","Overlap", "Dung","ASER_Like_Woody","Lichen","Moss", "silver_stuff_unk3", "Skinny_leaf_fuzzy_bottom","oenothera?_basal_rossette","dead_mustard_unk","oenothera?_basal_rossetta","Oenothera_waxy_leaves","Basal_rosette","Mushroom","basal_aster_KW_pic_unknown","lanceolate_KW_pic_unknown","Antennaria_spp_unknown","basal_rosette_2020_KW_pic_unknown","Lithospermum_KW_pic_unknown","long_pods_no_leaves_KW_pic_unknown", "Artemisia_look_alike_no_smell_KW_pic_unknown","Astragalus_KW_pic_unknown","flat_spikelet_panicle_KW_pic_unknown","Antennaria_KW_pic_unknown")) %>% 
+  rename(Species_Cover="aerial_cover") %>% 
+  select(-observers,-date)
 
+#Calculate Relative Cover
+Relative_Cover_2020_FK<-Species_Cover_2020_FK%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2020_FK)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(Species_Cover/Total_Cover)*100) %>% 
+  select(-Species_Cover,-basal_cover,-Total_Cover) %>% 
+  mutate(Relative_Cover=replace_na(Relative_Cover,0))
 
+#FK - 2021
+Aerial_Cover_2021_FK<-FK_SpComp_2021 %>% 
+  filter(aerial_basal!="basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2021_FK<-gather(Aerial_Cover_2021_FK,key="species","cover",20:61) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("Poa_diseased_Kwpic.","Linear_leaf_hairy_red_stem_KWpic.")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_2021_FK<-Long_Cov_2021_FK%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
+
+#TB- 2018
+Aerial_Cover_2018_TB<-TB_SpComp_2018 %>% 
+  filter(aerial_basal!="Basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2018_TB<-gather(Aerial_Cover_2018_TB,key="species","cover",18:113) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("Oenotherea.suffrutescens.1", "STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii",  "CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_2018_TB<-Long_Cov_2018_TB%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
+
+#TB- 2019
+Aerial_Cover_2019_TB<-TB_SpComp_2019 %>% 
+  filter(aerial_basal!="Basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2019_TB<-gather(Aerial_Cover_2019_TB,key="species","cover",18:114) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","Penstemon.sp.","CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+Long_Cov_2019_TB$cover<-as.numeric(Long_Cov_2019_TB$cover)
+
+#Calculate Relative Cover
+Relative_Cover_2019_TB<-Long_Cov_2019_TB%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
+
+#TB- 2020
+Aerial_Cover_2020_TB<-TB_SpComp_2020 %>% 
+  filter(aerial_basal!="Basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2020_TB<-gather(Aerial_Cover_2020_TB,key="species","cover",18:114) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","Penstemon.sp.","CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0) %>% 
+  filter(cover!="<0.5")
+
+Long_Cov_2020_TB$cover<-as.numeric(Long_Cov_2020_TB$cover)
+
+#Calculate Relative Cover
+Relative_Cover_2020_TB<-Long_Cov_2020_TB%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
+
+#TB- 2021
+Aerial_Cover_2021_TB<-TB_SpComp_2021 %>% 
+  filter(aerial_basal!="basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2021_TB<-gather(Aerial_Cover_2021_TB,key="species","cover",21:79) %>% 
+  select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("Unk_baby_forb_opp.")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0) %>% 
+  filter(cover!="<0.5")
+
+#Calculate Relative Cover
+Relative_Cover_2021_TB<-Long_Cov_2021_TB%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100)
