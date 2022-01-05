@@ -278,10 +278,12 @@ Species_Comp_RelCov_All<-
 
 #### Calculate top 90 % of each plot for each year ####
 
-Species_Cover_90_2018_FK <- Relative_Cover_2018_FK %>%
-  group_by()
+Species_Cover_90_all<-Species_Comp_RelCov_All[order(Species_Comp_RelCov_All$year, Species_Comp_RelCov_All$site,Species_Comp_RelCov_All$plot,-Species_Comp_RelCov_All$Relative_Cover),]
 
-
+Species_Cover_90_all<-Species_Cover_90_all %>% 
+  group_by(year,site,plot) %>%
+  mutate(Total_Percent = cumsum(Relative_Cover)) %>% 
+  ungroup()
 
 
 
