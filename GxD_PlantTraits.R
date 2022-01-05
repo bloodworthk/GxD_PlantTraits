@@ -299,12 +299,55 @@ Trait_Species_Unique<-Trait_Species %>%
   select(-species) %>% 
   unique() %>% 
   mutate(Genus_Species_Correct=ifelse(Genus_Species=="BRTE","Bromus.tectorum",ifelse(Genus_Species=="CADU","Carex.duriuscula",ifelse(Genus_Species=="CAFI","Carex.filifolia",ifelse(Genus_Species=="Carex_durescula","Carex.duriuscula",ifelse(Genus_Species=="Carex_duriuscula","Carex.duriuscula",ifelse(Genus_Species=="conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Coryphanthus_vivipara","Coryphantha.viviparus",ifelse(Genus_Species=="Coryphantha_viviparus","Coryphantha.viviparus",ifelse(Genus_Species=="COVI","Coryphantha.viviparus",ifelse(Genus_Species=="DEPI","Descurainia.pinnata",ifelse(Genus_Species=="ERHO","Eremogone.hookeri",ifelse(Genus_Species=="GUSA","Gutierrezia.sarothrae",ifelse(Genus_Species=="HECO","Hesperostipa.comata",ifelse(Genus_Species=="Hesperostipa_comata","Hesperostipa.comata" ,ifelse(Genus_Species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(Genus_Species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(Genus_Species=="KOMA","Koeleria.macrantha",ifelse(Genus_Species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(Genus_Species=="LOAR","Logfia.arvensis",ifelse(Genus_Species=="Logfia_arvensis","Logfia.arvensis",ifelse(Genus_Species=="LYJU","Lygodesmia_juncea",ifelse(Genus_Species=="MUDI","Musineon.divaricatum",ifelse(Genus_Species=="NAVI","Nassella.viridula",ifelse(Genus_Species=="Oenothera_suffrutescens","Oenothera.suffrutescens",ifelse(Genus_Species=="oenothera_suffruticosa","Oenothera.suffrutescens",ifelse(Genus_Species=="Carex_filifolia","Carex.filifolia", ifelse(Genus_Species=="Liatrus_punctata","Liatris_punctata",ifelse(Genus_Species== "LOFO","Lomatium.foeniculaceum",ifelse(Genus_Species=="Pascopyrum_smithii","Pascopyrum.smithii",Genus_Species))))))))))))))))))))))))))))))) %>% 
-  unique()
-
-
+  unique() %>% 
+  select(site,Genus_Species)
 
 #save as a csv
-write.csv(Trait_Species,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
+write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
+
+#### Clean up trait data ####
 
 
+##make dataframes match up
+All_Traits_2019<- All_Traits_2019[!apply(is.na(All_Traits_2019) |All_Traits_2019 == "", 1, all),]
+All_Traits_2019_fixed<-All_Traits_2019 %>% 
+  select(-X,-X.1,-plant) %>% 
+  mutate(year=2019) %>% 
+  rename(wet_leaf_weight="wet_weight_g") %>% 
+  mutate(dry_leaf_weight=as.numeric(ifelse(leaf_mg=="no leaf",NA,ifelse(leaf_mg=="",NA,leaf_mg))))
+All_Traits_2019_fixed<-All_Traits_2019_fixed[, c(24,1,4,2,3,5,6,7,8,9,10,11,12,13,14,15,17,16,18,19,20,21,22,23)]
 
+#merge field and lab traits
+All_Traits_2020<-Leaf_Traits_2020 %>% 
+  mutate(wet_leaf_weight=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",wet_leaf_weight_g))) %>% 
+  mutate(dry_leaf_weight=as.numeric(ifelse(dry_leaf_weight_g=="<0.0001","0.00001",dry_leaf_weight_g))) %>% 
+  select(-paddock,-plant,-date,-comments,-dry_leaf_weight_g,-wet_leaf_weight_g) %>% 
+  left_join(Field_Traits_2020) %>% 
+  mutate(biomass_mg=dry_plant_weight_g+dry_leaf_weight)
+
+All_Traits_2020_fixed<-All_Traits_2020 %>% 
+  rename(open_flowers="open_.flowers") %>% 
+  select(-observer,-date,-plant)%>% 
+  mutate(year=2020) %>% 
+  rename(leaf_thickness_mm="leaf_thickness_.mm.") %>% 
+  mutate(leaf_area_cm=NA) %>% 
+  select(-dry_plant_weight_g)
+All_Traits_2020_fixed<-All_Traits_2020_fixed[, c(23,1,4,2,3,8,9,10,11,12,13,14,15,16,17,18,19,20,22,5,24,6,7,21)]
+
+#### add in once 2021 data is done ####
+#merge field and lab traits 2021
+All_Traits_2021<-Leaf_Traits_2021 %>% 
+  select(-paddock,-plant,-date,-comments) %>% 
+  left_join(Field_Traits_2021) %>% 
+  mutate(biomass_mg=dry_plant_weight_g+dry_leaf_weight)
+
+All_Traits_2021_fixed<-All_Traits_2021 %>% 
+  select(-paddock,-X,-X.1,-X.2,-X.3,-X.4,-X.5)%>% 
+  rename(block="DxG_block") %>% 
+  rename(open_flowers="open_.flowers") %>% 
+  mutate(year=2021)
+All_Traits_2021_fixed<-All_Traits_2021_fixed[, c()]
+
+#join field traits together
+Traits<-All_Traits_2019_fixed %>% 
+  full_join(All_Traits_2020_fixed)
