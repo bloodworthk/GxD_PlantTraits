@@ -300,7 +300,7 @@ Trait_Species_Unique<-Trait_Species %>%
   unique() %>% 
   mutate(Genus_Species_Correct=ifelse(Genus_Species=="BRTE","Bromus.tectorum",ifelse(Genus_Species=="CADU","Carex.duriuscula",ifelse(Genus_Species=="CAFI","Carex.filifolia",ifelse(Genus_Species=="Carex_durescula","Carex.duriuscula",ifelse(Genus_Species=="Carex_duriuscula","Carex.duriuscula",ifelse(Genus_Species=="conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Coryphanthus_vivipara","Coryphantha.viviparus",ifelse(Genus_Species=="Coryphantha_viviparus","Coryphantha.viviparus",ifelse(Genus_Species=="COVI","Coryphantha.viviparus",ifelse(Genus_Species=="DEPI","Descurainia.pinnata",ifelse(Genus_Species=="ERHO","Eremogone.hookeri",ifelse(Genus_Species=="GUSA","Gutierrezia.sarothrae",ifelse(Genus_Species=="HECO","Hesperostipa.comata",ifelse(Genus_Species=="Hesperostipa_comata","Hesperostipa.comata" ,ifelse(Genus_Species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(Genus_Species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(Genus_Species=="KOMA","Koeleria.macrantha",ifelse(Genus_Species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(Genus_Species=="LOAR","Logfia.arvensis",ifelse(Genus_Species=="Logfia_arvensis","Logfia.arvensis",ifelse(Genus_Species=="LYJU","Lygodesmia_juncea",ifelse(Genus_Species=="MUDI","Musineon.divaricatum",ifelse(Genus_Species=="NAVI","Nassella.viridula",ifelse(Genus_Species=="Oenothera_suffrutescens","Oenothera.suffrutescens",ifelse(Genus_Species=="oenothera_suffruticosa","Oenothera.suffrutescens",ifelse(Genus_Species=="Carex_filifolia","Carex.filifolia", ifelse(Genus_Species=="Liatrus_punctata","Liatris_punctata",ifelse(Genus_Species== "LOFO","Lomatium.foeniculaceum",ifelse(Genus_Species=="Pascopyrum_smithii","Pascopyrum.smithii",Genus_Species))))))))))))))))))))))))))))))) %>% 
   unique() %>% 
-  select(site,Genus_Species)
+  select(-Genus_Species)
 
 #save as a csv
 write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
@@ -348,6 +348,30 @@ All_Traits_2021_fixed<-All_Traits_2021 %>%
   mutate(year=2021)
 All_Traits_2021_fixed<-All_Traits_2021_fixed[, c()]
 
-#join field traits together
+#join all traits together
 Traits<-All_Traits_2019_fixed %>% 
   full_join(All_Traits_2020_fixed)
+
+
+### Check how many plants have trait data compared to how many still needed for 90%
+
+#FK Species Done
+Species_FK<-Traits %>% 
+  filter(site=="FK")
+Species_TB<-Traits %>% 
+  filter(site=="TB")
+
+Trait_Species_Unique_FK <- Trait_Species_Unique %>% 
+  filter(site=="FK") %>% 
+  unique()
+Trait_Species_Unique_TB <- Trait_Species_Unique %>% 
+  filter(site=="TB")%>% 
+  unique()
+
+#put a 1 next to any species that has been already measured at FK
+Trait_Species_Done_FK<-Trait_Species_Unique_FK %>% 
+  mutate(Done=ifelse(Genus_Species_Correct=="Aristida.purpurea",1,ifelse(Genus_Species_Correct=="Bromus.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Hesperostipa.comata",1,ifelse(Genus_Species_Correct=="Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Pediomelum.esculentum",1,ifelse(Genus_Species_Correct=="Sphaeralcea.coccinea",1,ifelse(Genus_Species_Correct=="Tragopogon.dubius",1,0))))))))))
+
+#put a 1 next to any species that has been already measured at TB
+Trait_Species_Done_TB<-Trait_Species_Unique_TB %>% 
+  mutate(Done=ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Vicia.americana",1,ifelse(Genus_Species_Correct== "Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,0)))))) #know we did more than 5 species in year 1 - where are those?
