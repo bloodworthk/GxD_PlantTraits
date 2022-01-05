@@ -81,7 +81,11 @@ Long_Cov_2018_FK<-gather(Aerial_Cover_2018_FK,key="species","cover",18:117) %>%
 #Calculate Relative Cover
 Relative_Cover_2018_FK<-Long_Cov_2018_FK%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2018_FK$plot<-as.factor(Relative_Cover_2018_FK$plot)
 
 #FK - 2019
 #get dataframe with just total cover per plot
@@ -111,7 +115,13 @@ Relative_Cover_2019_FK<-Species_Cover_2019_FK%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
   mutate(Relative_Cover=(Species_Cover/Total_Cover)*100) %>% 
   select(-Species_Cover,-basal_cover,-Total_Cover) %>% 
-  mutate(Relative_Cover=replace_na(Relative_Cover,0))
+  mutate(Relative_Cover=replace_na(Relative_Cover,0)) %>% 
+  mutate(year=2019)  %>% 
+  rename(species="genus_species") %>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2019_FK$plot<-as.factor(Relative_Cover_2019_FK$plot)
 
 #FK - 2020
 #get dataframe with just total cover per plot
@@ -141,7 +151,13 @@ Relative_Cover_2020_FK<-Species_Cover_2020_FK%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
   mutate(Relative_Cover=(Species_Cover/Total_Cover)*100) %>% 
   select(-Species_Cover,-basal_cover,-Total_Cover) %>% 
-  mutate(Relative_Cover=replace_na(Relative_Cover,0))
+  mutate(Relative_Cover=replace_na(Relative_Cover,0)) %>% 
+  mutate(year=2020) %>% 
+  rename(species="genus_species") %>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2020_FK$plot<-as.factor(Relative_Cover_2020_FK$plot)
 
 #FK - 2021
 Aerial_Cover_2021_FK<-FK_SpComp_2021 %>% 
@@ -157,7 +173,11 @@ Long_Cov_2021_FK<-gather(Aerial_Cover_2021_FK,key="species","cover",20:61) %>%
 #Calculate Relative Cover
 Relative_Cover_2021_FK<-Long_Cov_2021_FK%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2021_FK$plot<-as.factor(Relative_Cover_2021_FK$plot)
 
 #TB- 2018
 Aerial_Cover_2018_TB<-TB_SpComp_2018 %>% 
@@ -173,7 +193,11 @@ Long_Cov_2018_TB<-gather(Aerial_Cover_2018_TB,key="species","cover",18:113) %>%
 #Calculate Relative Cover
 Relative_Cover_2018_TB<-Long_Cov_2018_TB%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100)%>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2018_TB$plot<-as.factor(Relative_Cover_2018_TB$plot)
 
 #TB- 2019
 Aerial_Cover_2019_TB<-TB_SpComp_2019 %>% 
@@ -191,7 +215,11 @@ Long_Cov_2019_TB$cover<-as.numeric(Long_Cov_2019_TB$cover)
 #Calculate Relative Cover
 Relative_Cover_2019_TB<-Long_Cov_2019_TB%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100)%>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2019_TB$plot<-as.factor(Relative_Cover_2019_TB$plot)
 
 #TB- 2020
 Aerial_Cover_2020_TB<-TB_SpComp_2020 %>% 
@@ -210,7 +238,11 @@ Long_Cov_2020_TB$cover<-as.numeric(Long_Cov_2020_TB$cover)
 #Calculate Relative Cover
 Relative_Cover_2020_TB<-Long_Cov_2020_TB%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100)%>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2020_TB$plot<-as.factor(Relative_Cover_2020_TB$plot)
 
 #TB- 2021
 Aerial_Cover_2021_TB<-TB_SpComp_2021 %>% 
@@ -227,4 +259,30 @@ Long_Cov_2021_TB<-gather(Aerial_Cover_2021_TB,key="species","cover",21:79) %>%
 #Calculate Relative Cover
 Relative_Cover_2021_TB<-Long_Cov_2021_TB%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(cover/added_total_excel)*100)
+  mutate(Relative_Cover=(cover/added_total_excel)*100)%>% 
+  select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2021_TB$plot<-as.factor(Relative_Cover_2021_TB$plot)
+
+####Merge all TB and FK Data Frames together
+Species_Comp_RelCov_All<- 
+  full_join(Relative_Cover_2018_TB,Relative_Cover_2019_TB) %>% 
+  full_join(Relative_Cover_2020_TB) %>% 
+  full_join(Relative_Cover_2021_TB) %>% 
+  full_join(Relative_Cover_2018_FK) %>% 
+  full_join(Relative_Cover_2019_FK) %>% 
+  full_join(Relative_Cover_2020_FK) %>% 
+  full_join(Relative_Cover_2021_FK)
+
+
+#### Calculate top 90 % of each plot for each year ####
+
+Species_Cover_90_2018_FK <- Relative_Cover_2018_FK %>%
+  group_by()
+
+
+
+
+
+
