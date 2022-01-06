@@ -301,6 +301,7 @@ Species_Cover_90_all<-Species_Cover_90_all %>%
   filter(Total_Percent<=93)
 
 Trait_Species_Unique<-Species_Cover_90_all %>% 
+  select(-Relative_Cover,-Total_Percent,-plot,-year) %>% 
   unique() 
 
 #save as a csv
@@ -314,7 +315,7 @@ All_Traits_2019<- All_Traits_2019[!apply(is.na(All_Traits_2019) |All_Traits_2019
 All_Traits_2019_fixed<-All_Traits_2019 %>% 
   select(-X,-X.1,-plant) %>% 
   mutate(year=2019) %>% 
-  rename(wet_leaf_weight="wet_weight_g") %>% 
+  mutate(wet_leaf_weight=as.numeric(ifelse(wet_weight_g=="<0.001","0.0001",wet_weight_g))) %>% 
   mutate(dry_leaf_weight=as.numeric(ifelse(leaf_mg=="no leaf",NA,ifelse(leaf_mg=="",NA,leaf_mg))))
 All_Traits_2019_fixed<-All_Traits_2019_fixed[, c(24,1,4,2,3,5,6,7,8,9,10,11,12,13,14,15,17,16,18,19,20,21,22,23)]
 
@@ -324,7 +325,9 @@ All_Traits_2020<-Leaf_Traits_2020 %>%
   mutate(dry_leaf_weight=as.numeric(ifelse(dry_leaf_weight_g=="<0.0001","0.00001",dry_leaf_weight_g))) %>% 
   select(-paddock,-plant,-date,-comments,-dry_leaf_weight_g,-wet_leaf_weight_g) %>% 
   left_join(Field_Traits_2020) %>% 
-  mutate(biomass_mg=dry_plant_weight_g+dry_leaf_weight)
+  mutate(biomass_g=dry_plant_weight_g+dry_leaf_weight) %>% 
+  mutate(biomass_mg=biomass_g*1000) %>% 
+  select(-biomass_g)
 
 All_Traits_2020_fixed<-All_Traits_2020 %>% 
   rename(open_flowers="open_.flowers") %>% 
@@ -340,7 +343,9 @@ All_Traits_2020_fixed<-All_Traits_2020_fixed[, c(23,1,4,2,3,8,9,10,11,12,13,14,1
 All_Traits_2021<-Leaf_Traits_2021 %>% 
   select(-paddock,-plant,-date,-comments) %>% 
   left_join(Field_Traits_2021) %>% 
-  mutate(biomass_mg=dry_plant_weight_g+dry_leaf_weight)
+  mutate(biomass_g=dry_plant_weight_g+dry_leaf_weight) %>% 
+  mutate(biomass_mg=biomass_g*1000) %>% 
+  select(-biomass_g)
 
 All_Traits_2021_fixed<-All_Traits_2021 %>% 
   select(-paddock,-X,-X.1,-X.2,-X.3,-X.4,-X.5)%>% 
@@ -352,7 +357,7 @@ All_Traits_2021_fixed<-All_Traits_2021_fixed[, c()]
 #join all traits together
 Traits<-All_Traits_2019_fixed %>% 
   full_join(All_Traits_2020_fixed) %>% 
-  separate(genus_species,c("Genus","Species"), sep = "_")%>%
+  separate(genus_species,c("Genus","Species"), sep = "([_ ])")%>%
   mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
 
 
@@ -367,6 +372,7 @@ Species_TB<-Traits %>%
 Trait_Species_Unique_FK <- Trait_Species_Unique %>% 
   filter(site=="FK") %>% 
   unique()
+
 Trait_Species_Unique_TB <- Trait_Species_Unique %>% 
   filter(site=="TB")%>% 
   unique()
@@ -377,7 +383,7 @@ Trait_Species_Done_FK<-Trait_Species_Unique_FK %>%
 
 #put a 1 next to any species that has been already measured at TB
 Trait_Species_Done_TB<-Trait_Species_Unique_TB %>% 
-  mutate(Done=ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Vicia.americana",1,ifelse(Genus_Species_Correct== "Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,0)))))) #know we did more than 5 species in year 1 - where are those?
+  mutate(Done=ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Vicia.americana",1,ifelse(Genus_Species_Correct== "Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Carex.filifolia",1,ifelse(Genus_Species_Correct=="Psoralidium.tenuiflorum",1,ifelse(Genus_Species_Correct=="Phlox.hoodii",1,ifelse(Genus_Species_Correct=="Plantago.patagonica",1,ifelse(Genus_Species_Correct=="Comandra.umbellata",1,0))))))))))))
 
 Trait_Species_Done<-Trait_Species_Done_FK %>% 
   rbind(Trait_Species_Done_TB)
@@ -427,7 +433,8 @@ AverageTraits<-Traits %>%
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
   left_join(AverageTraits) %>% 
-  filter(year!=2018) %>% 
+  filter(year!=2018) %>%
+  filter(year!=2021) %>% #until 2021 data is entered
   group_by(year,site,plot,block,rainfall_reduction,drought,grazing_category,grazing_treatment) %>% 
   #calculate CWM using tidyr function, removing NAs for now until more data are collected
   summarise(
@@ -441,13 +448,201 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
   ungroup()
   
 
+#### Plot the data ####
+####CWM - Height Plots ####
+#Figure looking at CWM of height - 2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=Height_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Height (cm)")+
+  expand_limits(y=30)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=30, label="2019",size=20)
+#save at 1100 x 1000
 
-summarize(           # Coding for how we want our CWMs summarized
-  Height_cwm = weighted.mean(Height..cm., wts),   # Actual calculation of CWMs
-  SLA_cwm = weighted.mean(SLA..cm2.g., wts),
-  Nmass_cwm = weighted.mean(X.N..N.mass., wts),
-  N15_cwm = weighted.mean(N15, wts),
-  Cmass_cwm = weighted.mean(X.C..Cmass., wts),
-  C13_cwm = weighted.mean(C13, wts),
-  CNratio_cwm = weighted.mean(C.N..ratio., wts)
-)
+#Figure looking at CWM of height - 2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=Height_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Height (cm)")+
+  expand_limits(y=30)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  geom_text(x=6, y=30, label="2020",size=20)
+#save at 1000 x 1000
+
+####CWM - Biomass Plots ####
+#2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=Biomass_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Biomass (mg)")+
+  expand_limits(y=400)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=400, label="2019",size=20)
+#save at 1000 x 1000
+
+#2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=Biomass_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Biomass (mg)")+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  expand_limits(y=1000)+
+  geom_text(x=6, y=1000, label="2020",size=20)
+#save at 1000 x 1000
+
+####CWM - Percent Green ####
+#2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=PercentGreen_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Greenness (%)")+
+  expand_limits(y=150)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=150, label="2019",size=20)
+#save at 1000 x 1000
+
+#2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=PercentGreen_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community-weighted Mean of Greenness (%)")+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  expand_limits(y=150)+
+  geom_text(x=6, y=150, label="2020",size=20)
+#save at 1000 x 1000
+
+####CWM - Emerging Leaves ####
+#2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Emerging Leaves")+
+  expand_limits(y=6)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=6, label="2019",size=20)
+#save at 1000 x 1000
+
+#2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Emerging Leaves")+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  expand_limits(y=6)+
+  geom_text(x=6, y=6, label="2020",size=20)
+#save at 1000 x 1000
+
+
+####CWM - Developed Leaves ####
+#2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Developed Leaves")+
+  expand_limits(y=15)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=15, label="2019",size=20)
+#save at 1000 x 1000
+
+#2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Developed Leaves")+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  expand_limits(y=15)+
+  geom_text(x=6, y=15, label="2020",size=20)
+#save at 1000 x 1000
+
+####CWM - Scenesced Leaves ####
+#2019
+ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Scenesced Leaves")+
+  expand_limits(y=7)+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = "NONE")+
+  geom_text(x=10, y=7, label="2019",size=20)
+#save at 1000 x 1000
+
+#2020
+ggplot(subset(CWM_Collected_Data,year==2020),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,fill=grazing_treatment)) +  
+  geom_point(size=2, shape=23)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM of Scenesced Leaves")+
+  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.89))+
+  expand_limits(y=7)+
+  geom_text(x=6, y=7, label="2020",size=20)
+#save at 1000 x 1000
+
+
+#### Statistics
+#CWM of height
+Height_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(Height_CWM_AOV_model)
+
+model.tables(Height_CWM_AOV_model)
+
+#CWM of biomass
+Biomass_CWM_AOV_model <- aov(Biomass_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(Biomass_CWM_AOV_model)
+
+model.tables(Biomass_CWM_AOV_model)
+
+#CWM of percent green
+PercentGreen_CWM_AOV_model <- aov(PercentGreen_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(PercentGreen_CWM_AOV_model)
+
+model.tables(PercentGreen_CWM_AOV_model)
+
+#CWM of emerging leaves
+EmergingLeaves_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(EmergingLeaves_CWM_AOV_model)
+
+model.tables(EmergingLeaves_CWM_AOV_model)
+
+#CWM of developed leaves
+DevelopedLeaves_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(DevelopedLeaves_CWM_AOV_model)
+
+model.tables(DevelopedLeaves_CWM_AOV_model)
+
+#CWM of scenesced leaves
+ScenescedLeaves_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*drought*year, data = CWM_Collected_Data) 
+
+summary(ScenescedLeaves_CWM_AOV_model)
+
+model.tables(ScenescedLeaves_CWM_AOV_model)
+
+
+
