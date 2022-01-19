@@ -400,7 +400,7 @@ Database_Data<-Trait_Database %>%
 #merge FK/TB traits with trait database
 Ground_Database_Traits <-Trait_Species_Done %>% 
   left_join(Database_Data)
-  
+
 #### Look at differences in Trait Database Traits across community weighted means ####
 
 #Calculate CWM
@@ -410,13 +410,13 @@ CWM_Database_Data<- Species_Comp_RelCov_All %>%
   group_by(block,plot,year,site)
 
 CWM_Database<-functcomp(CWM_Database_Data$trait[, 1:3], CWM_Database_Data$Relative_Cover, CWM.type = "all")
-  
-  
-  #calculate CWM using tidyr function, removing NAs for now until more data are collected
-  summarise(PhotosyntheticPathway_CWM=weighted.mean(photosynthetic_pathway,Relative_Cover,na.rm = T))
+
+
+#calculate CWM using tidyr function, removing NAs for now until more data are collected
+summarise(PhotosyntheticPathway_CWM=weighted.mean(photosynthetic_pathway,Relative_Cover,na.rm = T))
 
 #### Look at differences in collected traits for CWM 
-  
+
 #Clean up leaf traits and calculate SLA
 AverageTraits<-Traits %>% 
   group_by(year,site,block,Genus_Species_Correct) %>% 
@@ -429,7 +429,7 @@ AverageTraits<-Traits %>%
     Avg_scenesced_leaves=mean(scenesced_leaves),
   ) %>% 
   ungroup()
-  
+
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
   left_join(AverageTraits) %>% 
@@ -444,9 +444,9 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     EmergingLeaves_CWM=weighted.mean(Avg_emerging_leaves,Relative_Cover,na.rm=T),
     DevelopedLeaves_CWM=weighted.mean(Avg_developed_leaves,Relative_Cover,na.rm=T),
     ScenescedLeaves_CWM=weighted.mean(Avg_scenesced_leaves,Relative_Cover,na.rm=T),
-    ) %>% 
+  ) %>% 
   ungroup()
-  
+
 
 #### Plot the data ####
 ####CWM - Height Plots ####
@@ -605,7 +605,7 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Low Grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   ylab("Community-weighted Mean")+
   expand_limits(y=3)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_blank(),axis.title.y=element_text(size=60),axis.title.x=element_blank(),legend.text=element_text(size=60),legend.title=element_text(size=60),legend.position =c(0.75,0.8))+
+  theme(axis.text.y=element_text(size=60),axis.text.x=element_blank(),axis.title.y=element_text(size=60),axis.title.x=element_blank(),legend.text=element_text(size=60),legend.title=element_text(size=60),legend.position =c(0.76,0.8))+
   annotate("text", x=50, y=3, label = "a. Developed Leaves", size=40)
 #save at 1600 X 1600
 
