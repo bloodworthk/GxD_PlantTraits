@@ -475,9 +475,9 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   xlab("Rainfall Reduction (%)")+
   ylab("Community-weighted Mean of Height (cm)")+
   expand_limits(y=30)+
-  theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=20),axis.title.y=element_text(size=24),axis.title.x=element_text(size=24),legend.text=element_text(size=25),legend.title=element_text(size=30),legend.position = c(0.8,0.87))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
   annotate("text", x=1, y=30, label = "a.", size=20)
-#save at 1000 x 1000
+#save at 1600 x 1600
 
 
 ####CWM - Biomass Plots ####
@@ -495,17 +495,17 @@ ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=Biomass_
 
 #2020 - FK 
 ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction,y=Biomass_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_point(size=10, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE, size=4)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   expand_limits(y=1000)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_text(size=60),axis.title.y=element_blank(),axis.title.x=element_text(size=60),legend.text=element_text(size=48),legend.title=element_text(size=60),legend.position ="NONE")+
-  annotate("text", x=38, y=1000, label = "d. Biomass (mg)", size=40)
+  theme(axis.text.y=element_text(size=80),axis.text.x=element_text(size=80),axis.title.y=element_blank(),axis.title.x=element_text(size=80),legend.text=element_text(size=80),legend.title=element_text(size=80),legend.position ="NONE")+
+  annotate("text", x=38, y=1000, label = "d. Biomass (mg)", size=35)
 #save at 1600 x 1600
 
 ####CWM - Percent Green ####
@@ -523,31 +523,31 @@ ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=PercentG
 
 #2020 - FK
 ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_point(size=10, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE,size=4)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("Community-weighted Mean")+
   expand_limits(y=80)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_text(size=60),axis.title.y=element_text(size=60),axis.title.x=element_text(size=60),legend.text=element_text(size=48),legend.title=element_text(size=60),legend.position ="NONE")+
-  annotate("text", x=42, y=80, label = "c. Percent Green", size=40)
+  theme(axis.text.y=element_text(size=80),axis.text.x=element_text(size=80),axis.title.y=element_text(size=80),axis.title.x=element_text(size=80),legend.text=element_text(size=80),legend.title=element_text(size=80),legend.position ="NONE")+
+  annotate("text", x=42, y=80, label = "c. Percent Green", size=35)
 #save at 1600 x 1600
 
 ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_point(size=10, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE,size=4)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   ylab("Community-weighted Mean")+
   expand_limits(y=3)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_blank(),axis.title.y=element_text(size=60),axis.title.x=element_blank(),legend.text=element_text(size=48),legend.title=element_text(size=60),legend.position =c(0.76,0.8))+
+  theme(axis.text.y=element_text(size=80),axis.text.x=element_blank(),axis.title.y=element_text(size=80),axis.title.x=element_blank(),legend.text=element_text(size=70),legend.title=element_text(size=70),legend.position =c(0.70,0.74))+
   annotate("text", x=50, y=3, label = "a. Developed Leaves", size=40)
 #save at 1600 X 1600
 
@@ -605,8 +605,8 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Low Grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   ylab("Community-weighted Mean")+
   expand_limits(y=3)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_blank(),axis.title.y=element_text(size=60),axis.title.x=element_blank(),legend.text=element_text(size=60),legend.title=element_text(size=60),legend.position =c(0.76,0.8))+
-  annotate("text", x=50, y=3, label = "a. Developed Leaves", size=40)
+  theme(axis.text.y=element_text(size=70),axis.text.x=element_blank(),axis.title.y=element_text(size=70),axis.title.x=element_blank(),legend.text=element_text(size=70),legend.title=element_text(size=70),legend.position =c(0.70,0.75))+
+  annotate("text", x=50, y=3, label = "a. Developed Leaves", size=35)
 #save at 1600 X 1600
 
 ####CWM - Scenesced Leaves ####
@@ -624,18 +624,18 @@ ggplot(subset(CWM_Collected_Data,year==2019),aes(x=rainfall_reduction,y=Scenesce
 
 #2020
 ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_point(size=10, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE,size=4)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("Community-weighted Mean of Senesced Leaves")+
   expand_limits(y=6)+
-  theme(axis.text.y=element_text(size=60),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position ="NONE")+
-  annotate("text", x=43, y=6, label = "b.Senesced Leaves", size=40)
+  theme(axis.text.y=element_text(size=80),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position ="NONE")+
+  annotate("text", x=43, y=6, label = "b.Senesced Leaves", size=35)
 
 
 #### Statistics for FK 2020 ###
