@@ -500,7 +500,7 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","orange3","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   expand_limits(y=1000)+
@@ -528,7 +528,7 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","orange3","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("Community-weighted Mean")+
@@ -543,7 +543,7 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","orange3","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   ylab("Community-weighted Mean")+
   expand_limits(y=3)+
@@ -629,7 +629,7 @@ ggplot(subset(CWM_Collected_Data,year==2020&site=="FK"),aes(x=rainfall_reduction
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","orange3","maroon4"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_linetype_manual(values=c("twodash","twodash","twodash"),labels = c("Low grazing", "Medium Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("Community-weighted Mean of Senesced Leaves")+
