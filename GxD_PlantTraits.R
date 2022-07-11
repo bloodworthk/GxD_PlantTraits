@@ -840,3 +840,195 @@ summary(Green_TB_2021_CWM_AOV_model) #grazing is significant
 model.tables(Green_TB_2021_CWM_AOV_model)
 #CWM 2021 FK is significant across drought treatments
 TukeyHSD(Green_TB_2021_CWM_AOV_model)
+
+
+####CWM - Emerging Leaves Plots and Stats #### 
+#2022 still needs to be added in 
+
+#CWM of Emerging Leaves - 2018 and FK
+EmergingLeaves_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=15)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.70,0.80))+
+  annotate("text", x=8, y=15, label = "FK 2018", size=20)
+
+
+#CWM of Emerging Leaves - 2019 and FK
+EmergingLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=15)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=15, label = "FK 2019", size=20)
+
+
+#CWM of Emerging Leaves - 2020 and FK
+EmergingLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=15)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=15, label = "FK 2020", size=20)
+
+
+#CWM of Emerging Leaves - 2021 and FK
+EmergingLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=10)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=10, label = "FK 2021", size=20)
+
+#Create graph of all years for Emerging Leaves data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(EmergingLeaves_FK_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(EmergingLeaves_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(EmergingLeaves_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(EmergingLeaves_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of Emerging Leaves for Fort Keogh 2018
+EmergingLeaves_FK_2018_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
+summary(EmergingLeaves_FK_2018_CWM_AOV_model) #drought is significant
+model.tables(EmergingLeaves_FK_2018_CWM_AOV_model)
+TukeyHSD(EmergingLeaves_FK_2018_CWM_AOV_model)
+
+#CWM of Emerging Leaves for Fort Keogh 2019
+EmergingLeaves_FK_2019_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
+summary(EmergingLeaves_FK_2019_CWM_AOV_model)
+model.tables(EmergingLeaves_FK_2019_CWM_AOV_model)
+
+#CWM of Emerging Leaves for Fort Keogh 2020
+EmergingLeaves_FK_2020_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
+summary(EmergingLeaves_FK_2020_CWM_AOV_model) #drought is significant
+model.tables(EmergingLeaves_FK_2020_CWM_AOV_model)
+TukeyHSD(EmergingLeaves_FK_2020_CWM_AOV_model)
+
+#CWM of Emerging Leaves for Fort Keogh 2021
+EmergingLeaves_FK_2021_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
+summary(EmergingLeaves_FK_2021_CWM_AOV_model) #drought is significant
+model.tables(EmergingLeaves_FK_2021_CWM_AOV_model)
+TukeyHSD(EmergingLeaves_FK_2021_CWM_AOV_model)
+
+##Thunder Basin
+
+#CWM of Emerging Leaves - 2018 and TB
+EmergingLeaves_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=6)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.70,0.85))+
+  annotate("text", x=8, y=6, label = "TB 2018", size=20)
+
+
+#CWM of Emerging Leaves - 2019 and TB
+EmergingLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=6)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=6, label = "TB 2019", size=20)
+
+
+#CWM of Emerging Leaves - 2020 and TB
+EmergingLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=6)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=6, label = "TB 2020", size=20)
+
+
+#CWM of Emerging Leaves - 2021 and TB
+EmergingLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves (cm)")+
+  expand_limits(y=6)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=6, label = "TB 2021", size=20)
+
+#Create graph of all years for Emerging Leaves data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(EmergingLeaves_TB_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(EmergingLeaves_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(EmergingLeaves_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(EmergingLeaves_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of Emerging Leaves for TB 2018
+EmergingLeaves_TB_2018_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
+summary(EmergingLeaves_TB_2018_CWM_AOV_model) #grazing is significant
+model.tables(EmergingLeaves_TB_2018_CWM_AOV_model)
+TukeyHSD(EmergingLeaves_TB_2018_CWM_AOV_model)
+
+#CWM of Emerging Leaves for TB 2019
+EmergingLeaves_TB_2019_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
+summary(EmergingLeaves_TB_2019_CWM_AOV_model) 
+model.tables(EmergingLeaves_TB_2019_CWM_AOV_model)
+
+#CWM of Emerging Leaves for TB 2020
+EmergingLeaves_TB_2020_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
+summary(EmergingLeaves_TB_2020_CWM_AOV_model) 
+model.tables(EmergingLeaves_TB_2020_CWM_AOV_model)
+
+#CWM of Emerging Leaves for TB 2021
+EmergingLeaves_TB_2021_CWM_AOV_model <- aov(EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
+summary(EmergingLeaves_TB_2021_CWM_AOV_model) 
+model.tables(EmergingLeaves_TB_2021_CWM_AOV_model)
