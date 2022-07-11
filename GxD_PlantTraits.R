@@ -12,6 +12,7 @@ library(lme4)
 library(ggplot2)
 #install.packages("visreg")
 library(visreg)
+library(grid)
 #install.packages("lattice")
 library(lattice)
 #install.packages("FD")
@@ -440,7 +441,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     FlowerHeads_CWM=weighted.mean(Avg_flower_heads,Relative_Cover,na.rm=T),
     OpenFlowers_CWM=weighted.mean(Avg_open_flowers,Relative_Cover,na.rm=T),
   ) %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction))
 
 #Counting # of each plot number in CWM_Collected_Data to make sure all data are represented
 #CWM_Collected_Data_Count<-CWM_Collected_Data %>% 
@@ -453,22 +455,20 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 ####CWM - Height Plots and Stats #### 
 #2022 still needs to be added in 
 
-
 #CWM of height - 2018 and FK
 Height_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
   geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
-  scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community-weighted Mean of Height (cm)")+
+  ylab("CWM Height (cm)")+
   expand_limits(y=25)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
-  annotate("text", x=8, y=30, label = "a. 2018", size=20)
-#save at 1600 x 1600
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=30, label = "FK 2018", size=20)
 
 
 #CWM of height - 2019 and FK
@@ -477,15 +477,15 @@ Height_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rain
   geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
-  scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community-weighted Mean of Height (cm)")+
+  ylab("CWM Height (cm)")+
   expand_limits(y=25)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
-  annotate("text", x=8, y=30, label = "2019", size=20)
-#save at 1600 x 1600
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "FK 2019", size=20)
+
 
 #CWM of height - 2020 and FK
 Height_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
@@ -493,15 +493,15 @@ Height_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rain
   geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
-  scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community-weighted Mean of Height (cm)")+
+  ylab("CWM Height (cm)")+
   expand_limits(y=25)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
-  annotate("text", x=8, y=30, label = "2020", size=20)
-#save at 1600 x 1600
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "FK 2020", size=20)
+
 
 #CWM of height - 2021 and FK
 Height_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
@@ -509,42 +509,142 @@ Height_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rain
   geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
-  scale_shape_manual(values=c(15,16,17),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("No grazing", "Low Grazing","High Grazing"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community-weighted Mean of Height (cm)")+
+  ylab("CWM Height (cm)")+
   expand_limits(y=25)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
-  annotate("text", x=8, y=30, label = "2021", size=20)
-#save at 1600 x 1600
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "FK 2021", size=20)
 
 #Create graph of all years for height data
-
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_FK_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Height_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Height_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Height_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
 
 #CWM of height for Fort Keogh 2018
-Height_FK_2018_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*drought + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
+Height_FK_2018_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
 summary(Height_FK_2018_CWM_AOV_model)
 model.tables(Height_FK_2018_CWM_AOV_model)
 
 #CWM of height for Fort Keogh 2019
-Height_FK_2019_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*drought + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
+Height_FK_2019_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
 summary(Height_FK_2019_CWM_AOV_model)
 model.tables(Height_FK_2019_CWM_AOV_model)
 
 #CWM of height for Fort Keogh 2020
-Height_FK_2020_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*drought + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
+Height_FK_2020_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
 summary(Height_FK_2020_CWM_AOV_model)
 model.tables(Height_FK_2020_CWM_AOV_model)
 
 #CWM of height for Fort Keogh 2021
-Height_FK_2021_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*drought + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
+Height_FK_2021_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
 summary(Height_FK_2021_CWM_AOV_model)
 model.tables(Height_FK_2021_CWM_AOV_model)
+#CWM 2021 FK is significant across drought treatments
+TukeyHSD(Height_FK_2021_CWM_AOV_model)
+
+##Thunder Basin
+
+#CWM of height - 2018 and TB
+Height_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Height (cm)")+
+  expand_limits(y=25)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=30, label = "TB 2018", size=20)
 
 
+#CWM of height - 2019 and TB
+Height_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Height (cm)")+
+  expand_limits(y=25)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "TB 2019", size=20)
 
 
+#CWM of height - 2020 and TB
+Height_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Height (cm)")+
+  expand_limits(y=25)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "TB 2020", size=20)
+
+
+#CWM of height - 2021 and TB
+Height_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Height (cm)")+
+  expand_limits(y=25)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=30, label = "TB 2021", size=20)
+
+#Create graph of all years for height data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_TB_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Height_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Height_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Height_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of height for TB 2018
+Height_TB_2018_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
+summary(Height_TB_2018_CWM_AOV_model) #grazing is significant
+model.tables(Height_TB_2018_CWM_AOV_model)
+TukeyHSD(Height_TB_2018_CWM_AOV_model)
+
+#CWM of height for TB 2019
+Height_TB_2019_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
+summary(Height_TB_2019_CWM_AOV_model) #grazing is significant
+model.tables(Height_TB_2019_CWM_AOV_model)
+TukeyHSD(Height_TB_2019_CWM_AOV_model)
+
+#CWM of height for TB 2020
+Height_TB_2020_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
+summary(Height_TB_2020_CWM_AOV_model) #grazing is significant
+model.tables(Height_TB_2020_CWM_AOV_model)
+TukeyHSD(Height_TB_2020_CWM_AOV_model)
+
+#CWM of height for TB 2021
+Height_TB_2021_CWM_AOV_model <- aov(Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
+summary(Height_TB_2021_CWM_AOV_model) #grazing is significant
+model.tables(Height_TB_2021_CWM_AOV_model)
+#CWM 2021 FK is significant across drought treatments
+TukeyHSD(Height_TB_2021_CWM_AOV_model)
 
 
 
