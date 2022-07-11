@@ -1405,7 +1405,196 @@ summary(ScenescedLeaves_TB_2020_CWM_AOV_model)  #grazing is significant
 model.tables(ScenescedLeaves_TB_2020_CWM_AOV_model)
 TukeyHSD(ScenescedLeaves_TB_2020_CWM_AOV_model)
 
-#CWM of Scenesced Leaves for TB 2021
-ScenescedLeaves_TB_2021_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
-summary(ScenescedLeaves_TB_2021_CWM_AOV_model) 
-model.tables(ScenescedLeaves_TB_2021_CWM_AOV_model)
+#CWM of Flower Heads Leaves for TB 2021
+FlowerHeads_TB_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
+summary(FlowerHeads_TB_2021_CWM_AOV_model) 
+model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
+
+####CWM - Flower Heads Plots and Stats #### 
+#2022 still needs to be added in 
+
+#CWM of Flower Heads - 2018 and FK
+FlowerHeads_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads")+
+  expand_limits(y=5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.75,0.85))+
+  annotate("text", x=8, y=5, label = "FK 2018", size=20)
+
+
+#CWM of Flower Heads - 2019 and FK
+FlowerHeads_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads")+
+  expand_limits(y=5)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=5, label = "FK 2019", size=20)
+
+
+#CWM of Flower Heads - 2020 and FK
+FlowerHeads_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads")+
+  expand_limits(y=5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=5, label = "FK 2020", size=20)
+
+
+#CWM of Flower Heads - 2021 and FK
+FlowerHeads_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads")+
+  expand_limits(y=5)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=5, label = "FK 2021", size=20)
+
+#Create graph of all years for Flower Heads data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(FlowerHeads_FK_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(FlowerHeads_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(FlowerHeads_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(FlowerHeads_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of Flower Heads for Fort Keogh 2018
+FlowerHeads_FK_2018_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
+summary(FlowerHeads_FK_2018_CWM_AOV_model) 
+model.tables(FlowerHeads_FK_2018_CWM_AOV_model)
+
+#CWM of Flower Heads for Fort Keogh 2019
+FlowerHeads_FK_2019_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
+summary(FlowerHeads_FK_2019_CWM_AOV_model)
+model.tables(FlowerHeads_FK_2019_CWM_AOV_model)
+
+#CWM of Flower Heads for Fort Keogh 2020
+FlowerHeads_FK_2020_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
+summary(FlowerHeads_FK_2020_CWM_AOV_model) 
+model.tables(FlowerHeads_FK_2020_CWM_AOV_model)
+
+#CWM of Flower Heads for Fort Keogh 2021
+FlowerHeads_FK_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
+summary(FlowerHeads_FK_2021_CWM_AOV_model) 
+model.tables(FlowerHeads_FK_2021_CWM_AOV_model)
+
+##Thunder Basin
+
+#CWM of Flower Heads - 2018 and TB
+FlowerHeads_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads (cm)")+
+  expand_limits(y=10)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.text=element_text(size=55),legend.title=element_text(size=55),legend.position = c(0.70,0.85))+
+  annotate("text", x=8, y=10, label = "TB 2018", size=20)
+
+
+#CWM of Flower Heads - 2019 and TB
+FlowerHeads_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads (cm)")+
+  expand_limits(y=10)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=10, label = "TB 2019", size=20)
+
+
+#CWM of Flower Heads - 2020 and TB
+FlowerHeads_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads (cm)")+
+  expand_limits(y=10)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=10, label = "TB 2020", size=20)
+
+
+#CWM of Flower Heads - 2021 and TB
+FlowerHeads_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Flower Heads (cm)")+
+  expand_limits(y=10)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=10, label = "TB 2021", size=20)
+
+#Create graph of all years for Flower Heads data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(FlowerHeads_TB_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(FlowerHeads_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(FlowerHeads_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(FlowerHeads_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of Flower Heads for TB 2018
+FlowerHeads_TB_2018_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
+summary(FlowerHeads_TB_2018_CWM_AOV_model) 
+model.tables(FlowerHeads_TB_2018_CWM_AOV_model)
+
+#CWM of Flower Heads for TB 2019
+FlowerHeads_TB_2019_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
+summary(FlowerHeads_TB_2019_CWM_AOV_model) #grazing is significant
+model.tables(FlowerHeads_TB_2019_CWM_AOV_model)
+TukeyHSD(FlowerHeads_TB_2019_CWM_AOV_model)
+
+#CWM of Flower Heads for TB 2020
+FlowerHeads_TB_2020_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
+summary(FlowerHeads_TB_2020_CWM_AOV_model)  #grazing is significant
+model.tables(FlowerHeads_TB_2020_CWM_AOV_model)
+TukeyHSD(FlowerHeads_TB_2020_CWM_AOV_model)
+
+#CWM of Flower Heads for TB 2021
+FlowerHeads_TB_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
+summary(FlowerHeads_TB_2021_CWM_AOV_model) 
+model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
