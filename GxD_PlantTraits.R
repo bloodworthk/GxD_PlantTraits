@@ -21,7 +21,7 @@ library(tidyverse)
 
 #### Set Working Directory ####
 #Bloodworth - Mac
-setwd("/Users/kathrynbloodworth/Dropbox (Smithsonian)/Projects/Dissertation/Data")
+setwd("~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data")
 
 #### Set ggplot base ####
 #Set ggplot2 theme to black and white
@@ -37,14 +37,24 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 #### Read in Data ####
 
 #Trait Data
-All_Traits_2019<-read.csv("DxG_Plant_Traits/2019_DxG_leaf_traits.csv")
-Field_Traits_2020<-read.csv("DxG_Plant_Traits/2020_DxG_FieldTraits.csv")
-Leaf_Traits_2020<-read.csv("DxG_Plant_Traits/2020_DxG_leaf_traits.csv")
-Field_Traits_2021<-read.csv("DxG_Plant_Traits/2021_DxG_FieldTraits.csv")
-Leaf_Traits_2021<-read.csv("DxG_Plant_Traits/2021_DxG_leaf_traits.csv")
+Field_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_FieldTraits.csv") %>% 
+  select(Site,DxG_block, paddock, genus_species, species_code, height_cm, emerging_leaves, developed_leaves, scenesced_leaves, flower_heads, open_flowers, percent_green, Date, Season, people, comments)
+Lab_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_LabTraits.csv") %>% 
+  rename(Site=site) %>% 
+  rename(DxG_block=block) %>% 
+  rename(Season=season) %>% 
+  rename(comments_lab=comments) %>% 
+  rename(date_lab=date) %>% 
+  rename(people_lab=personelle) %>% 
+  #removing genus species and season from this dataframe to avoid spelling issues and inconsistancies with data entered
+  select(-genus_species,-Season)
+
+#merge trait dataframes
+Traits<-Field_Traits %>% 
+  left_join(Lab_Traits)
 
 #Trait Database
-Trait_Database<-read.csv("DxG_Plant_Traits/sCoRRE categorical trait data_11302021.csv")
+#Trait_Database<-read_csv("DxG_Plant_Traits/sCoRRE categorical trait data_11302021.csv")
 
 #Species Comp Data
 FK_SpComp_2018<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2018.csv")
@@ -311,63 +321,41 @@ write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.n
 
 
 ##make dataframes match up
-All_Traits_2019<- All_Traits_2019[!apply(is.na(All_Traits_2019) |All_Traits_2019 == "", 1, all),]
-All_Traits_2019_fixed<-All_Traits_2019 %>% 
-  select(-X,-X.1,-plant) %>% 
-  mutate(year=2019) %>% 
-  mutate(wet_leaf_weight=as.numeric(ifelse(wet_weight_g=="<0.001","0.0001",wet_weight_g))) %>% 
-  mutate(dry_leaf_weight=as.numeric(ifelse(leaf_mg=="no leaf",NA,ifelse(leaf_mg=="",NA,leaf_mg))))
-All_Traits_2019_fixed<-All_Traits_2019_fixed[, c(24,1,4,2,3,5,6,7,8,9,10,11,12,13,14,15,17,16,18,19,20,21,22,23)]
 
-#merge field and lab traits
-All_Traits_2020<-Leaf_Traits_2020 %>% 
-  mutate(wet_leaf_weight=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",wet_leaf_weight_g))) %>% 
-  mutate(dry_leaf_weight=as.numeric(ifelse(dry_leaf_weight_g=="<0.0001","0.00001",dry_leaf_weight_g))) %>% 
-  select(-paddock,-plant,-date,-comments,-dry_leaf_weight_g,-wet_leaf_weight_g) %>% 
-  left_join(Field_Traits_2020) %>% 
-  mutate(biomass_g=dry_plant_weight_g+dry_leaf_weight) %>% 
-  mutate(biomass_mg=biomass_g*1000) %>% 
-  select(-biomass_g)
+#remove all NAs from height column to remove any plants not collected/measured but to avoid removing plants where percent green was not collected  by accident
+Traits_Clean <- Traits [complete.cases(Traits[ , 6]),] %>% 
+  filter(comments_lab!="not BRTE - did not measure, remove from data") %>% 
+  filter(comments_lab!="maybe KOMA?") %>% 
+  mutate(wet_leaf_weight_g=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",ifelse(wet_leaf_weight_g=="0..0233",0.0233, wet_leaf_weight_g))))
 
-All_Traits_2020_fixed<-All_Traits_2020 %>% 
-  rename(open_flowers="open_.flowers") %>% 
-  select(-observer,-date,-plant)%>% 
-  mutate(year=2020) %>% 
-  rename(leaf_thickness_mm="leaf_thickness_.mm.") %>% 
-  mutate(leaf_area_cm=NA) %>% 
-  select(-dry_plant_weight_g)
-All_Traits_2020_fixed<-All_Traits_2020_fixed[, c(23,1,4,2,3,8,9,10,11,12,13,14,15,16,17,18,19,20,22,5,24,6,7,21)]
+#Changing ARTR to ARFR based on comments on lab traits
+Traits_Clean[602, "genus_species"] <- "Artemisia_frigida"
+Traits_Clean[602, "species_code"] <- "ARFR"
 
-#### add in once 2021 data is done ####
-#merge field and lab traits 2021
-All_Traits_2021<-Leaf_Traits_2021 %>% 
-  select(-paddock,-plant,-date,-comments) %>% 
-  left_join(Field_Traits_2021) %>% 
-  mutate(biomass_g=dry_plant_weight_g+dry_leaf_weight) %>% 
-  mutate(biomass_mg=biomass_g*1000) %>% 
-  select(-biomass_g)
+#changing LIPU to LIIN based on comments on lab traits
+Traits_Clean[427, "genus_species"] <- "Lithospermum_incisum"
+Traits_Clean[427, "species_code"] <- "LIIN"
+  
+#changing MUDI to PIOP based on comments on lab traits
+Traits_Clean[249, "genus_species"] <- "Picradeniopsis_oppositifolia"
+Traits_Clean[249, "species_code"] <- "PIOP"
 
-All_Traits_2021_fixed<-All_Traits_2021 %>% 
-  select(-paddock,-X,-X.1,-X.2,-X.3,-X.4,-X.5)%>% 
-  rename(block="DxG_block") %>% 
-  rename(open_flowers="open_.flowers") %>% 
-  mutate(year=2021)
-All_Traits_2021_fixed<-All_Traits_2021_fixed[, c()]
+#changing LIIN to LIPU based on comments on lab traits
+Traits_Clean[504, "genus_species"] <- "Liatris_punctata"
+Traits_Clean[504, "species_code"] <- "LIPU"
 
-#join all traits together
-Traits<-All_Traits_2019_fixed %>% 
-  full_join(All_Traits_2020_fixed) %>% 
-  separate(genus_species,c("Genus","Species"), sep = "([_ ])")%>%
-  mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
+#changing KOMA to PASM based on comments on lab traits
+Traits_Clean[475, "genus_species"] <- "Pascopyrum_smithii"
+Traits_Clean[475, "species_code"] <- "PASM"
 
 
 ### Check how many plants have trait data compared to how many still needed for 90%
 
 #FK Species Done
-Species_FK<-Traits %>% 
-  filter(site=="FK")
-Species_TB<-Traits %>% 
-  filter(site=="TB")
+Species_FK<-Traits_Clean %>% 
+  filter(Site=="FK")
+Species_TB<-Traits_Clean %>% 
+  filter(Site=="TB")
 
 Trait_Species_Unique_FK <- Trait_Species_Unique %>% 
   filter(site=="FK") %>% 
@@ -379,27 +367,23 @@ Trait_Species_Unique_TB <- Trait_Species_Unique %>%
 
 #put a 1 next to any species that has been already measured at FK
 Trait_Species_Done_FK<-Trait_Species_Unique_FK %>% 
-  mutate(Done=ifelse(Genus_Species_Correct=="Aristida.purpurea",1,ifelse(Genus_Species_Correct=="Bromus.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Hesperostipa.comata",1,ifelse(Genus_Species_Correct=="Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Pediomelum.esculentum",1,ifelse(Genus_Species_Correct=="Sphaeralcea.coccinea",1,ifelse(Genus_Species_Correct=="Tragopogon.dubius",1,0))))))))))
+  mutate(Done=ifelse(Genus_Species_Correct=="Alyssum.desertorum",1,ifelse(Genus_Species_Correct=="Androsace.occidentalis",1,ifelse(Genus_Species_Correct=="Astragalus.purshii",1,ifelse(Genus_Species_Correct=="Astragalus.gracilis",1,ifelse(Genus_Species_Correct=="Bromus.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Carex.duriuscula",1,ifelse(Genus_Species_Correct=="Carex.filifolia",1,ifelse(Genus_Species_Correct=="Conyza.canadensis",1,ifelse(Genus_Species_Correct=="Hedeoma.hispida",1,ifelse(Genus_Species_Correct=="Hesperostipa.comata",1,ifelse(Genus_Species_Correct=="Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Lepidium.densiflorum",1,ifelse(Genus_Species_Correct=="Liatris.punctata",1,ifelse(Genus_Species_Correct=="Lithospermum.incisum",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Lygodesmia.juncea",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Pediomelum.esculentum",1,ifelse(Genus_Species_Correct=="Plantago.patagonica",1,ifelse(Genus_Species_Correct=="Poa.secunda",1,ifelse(Genus_Species_Correct=="Sphaeralcea.coccinea",1,ifelse(Genus_Species_Correct=="Taraxacum.officinale",1,ifelse(Genus_Species_Correct=="Tragopogon.dubius",1,ifelse(Genus_Species_Correct=="Vulpia.octoflora",1,ifelse(Genus_Species_Correct=="Linum.rigidum",1,ifelse(Genus_Species_Correct=="Aristida.purpurea",1,ifelse(Genus_Species_Correct=="Artemisia.cana",1,ifelse(Genus_Species_Correct=="Artemisia.dracunculus",1,ifelse(Genus_Species_Correct=="Artemisia.frigida",1,ifelse(Genus_Species_Correct=="Bouteloua.dactyloides",1,ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Sporobolus.cryptandrus",1,0))))))))))))))))))))))))))))))))))
 
 #put a 1 next to any species that has been already measured at TB
 Trait_Species_Done_TB<-Trait_Species_Unique_TB %>% 
-  mutate(Done=ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Vicia.americana",1,ifelse(Genus_Species_Correct== "Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Carex.filifolia",1,ifelse(Genus_Species_Correct=="Psoralidium.tenuiflorum",1,ifelse(Genus_Species_Correct=="Phlox.hoodii",1,ifelse(Genus_Species_Correct=="Plantago.patagonica",1,ifelse(Genus_Species_Correct=="Comandra.umbellata",1,0))))))))))))
+  mutate(Done=ifelse(Genus_Species_Correct=="Allium.textile",1,ifelse(Genus_Species_Correct=="Alyssum.desertorum",1,ifelse(Genus_Species_Correct=="Antennaria.parvifolia",1,ifelse(Genus_Species_Correct=="Astragalus.bisulcatus",1,ifelse(Genus_Species_Correct=="Bromus.arvensis",1,ifelse(Genus_Species_Correct=="Bromus.tectorum",1,ifelse(Genus_Species_Correct=="Carex.duriuscula",1,ifelse(Genus_Species_Correct=="Carex.filifolia",1,ifelse(Genus_Species_Correct=="Cirsium.undulatum",1,ifelse(Genus_Species_Correct=="Collomia.linearis",1,ifelse(Genus_Species_Correct=="Descurainia.pinnata",1,ifelse(Genus_Species_Correct=="Draba.reptans",1,ifelse(Genus_Species_Correct=="Eremogone.hookeri",1,ifelse(Genus_Species_Correct=="Erigeron.canus",1,ifelse(Genus_Species_Correct=="Erigeron.pumilus",1,ifelse(Genus_Species_Correct=="Hedeoma.hispida",1,ifelse(Genus_Species_Correct=="Hesperostipa.comata",1,ifelse(Genus_Species_Correct=="Koeleria.macrantha",1,ifelse(Genus_Species_Correct=="Lepidium.densiflorum",1,ifelse(Genus_Species_Correct=="Lithospermum.incisum",1,ifelse(Genus_Species_Correct=="Logfia.arvensis",1,ifelse(Genus_Species_Correct=="Lomatium.foeniculaceum",1,ifelse(Genus_Species_Correct=="Musineon.divaricatum",1,ifelse(Genus_Species_Correct=="Nassella.viridula",1,ifelse(Genus_Species_Correct=="Nothocalais.cuspidate",1,ifelse(Genus_Species_Correct=="Oenothera.suffrtescuns",1,ifelse(Genus_Species_Correct=="Pascopyrum.smithii",1,ifelse(Genus_Species_Correct=="Phlox.hoodii",1,ifelse(Genus_Species_Correct=="Picradeniopsis.oppositifolia",1,ifelse(Genus_Species_Correct=="Plantago.patagonica",1,ifelse(Genus_Species_Correct=="Poa.secunda",1,ifelse(Genus_Species_Correct=="Psoralidium.tenuiflorum",1,ifelse(Genus_Species_Correct=="Sphaeralcea.coccinea",1,ifelse(Genus_Species_Correct=="Taraxacum.officinale",1,ifelse(Genus_Species_Correct=="Tetraneuris.acaulis",1,ifelse(Genus_Species_Correct=="Tragopogon.dubius",1,ifelse(Genus_Species_Correct=="Vulpia.octoflora",1,ifelse(Genus_Species_Correct=="Vicia.americana",1,ifelse(Genus_Species_Correct=="Elymus.elymoides",1,ifelse(Genus_Species_Correct=="Aristida.purpurea",1,ifelse(Genus_Species_Correct=="Artemisia.frigida",1,ifelse(Genus_Species_Correct=="Artemisia.tridentata",1,ifelse(Genus_Species_Correct=="Bouteloua.gracilis",1,ifelse(Genus_Species_Correct=="Gutierrezia.sarothrae",1,0)))))))))))))))))))))))))))))))))))))))))))))
 
 Trait_Species_Done<-Trait_Species_Done_FK %>% 
   rbind(Trait_Species_Done_TB)
 
-
-#save as a csv
-write.csv(Trait_Species_Done,"DxG_Plant_Traits/Trait_Species_Done.csv", row.names = FALSE)
-
 #### Look at Trait Database Data and compare to species needed for this project ####
-Database_Data<-Trait_Database %>% 
-  separate(species_matched,c("Genus","Species"), sep = " ")%>%
-  mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
+#Database_Data<-Trait_Database %>% 
+  #separate(species_matched,c("Genus","Species"), sep = " ")%>%
+  #mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
 
 #merge FK/TB traits with trait database
-Ground_Database_Traits <-Trait_Species_Done %>% 
-  left_join(Database_Data)
+#Ground_Database_Traits <-Trait_Species_Done %>% 
+ # left_join(Database_Data)
 
 #### Look at differences in Trait Database Traits across community weighted means ####
 
