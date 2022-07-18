@@ -10,7 +10,7 @@
 
 library(lme4)
 library(ggplot2)
-#install.packages("visreg")
+#install.packages("vi>>> /usr/bin/git pullsreg")
 library(visreg)
 library(grid)
 #install.packages("lattice")
@@ -92,10 +92,10 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
 run.ij (set.directory = "~/Desktop/Leaves/")
 
 leafdata_2<-run.ij(path.imagej = NULL, set.memory = 1, set.directory="~/Desktop/Leaves",
-       distance.pixel = 826, known.distance = 21, trim.pixel = 20,
-       low.circ = 0, upper.circ = 1, low.size = 0.7,
-       upper.size = "Infinity", prefix = "\\.|-", log = F,
-       check.image = F, save.image = F)
+                   distance.pixel = 826, known.distance = 21, trim.pixel = 20,
+                   low.circ = 0, upper.circ = 1, low.size = 0.7,
+                   upper.size = "Infinity", prefix = "\\.|-", log = F,
+                   check.image = F, save.image = F)
 
 # prepare the target directory that contains example image files
 ex.dir <- eximg()
@@ -389,7 +389,7 @@ Traits_Clean[602, "species_code"] <- "ARFR"
 #changing LIPU to LIIN based on comments on lab traits
 Traits_Clean[427, "genus_species"] <- "Lithospermum_incisum"
 Traits_Clean[427, "species_code"] <- "LIIN"
-  
+
 #changing MUDI to PIOP based on comments on lab traits
 Traits_Clean[249, "genus_species"] <- "Picradeniopsis_oppositifolia"
 Traits_Clean[249, "species_code"] <- "PIOP"
@@ -432,20 +432,20 @@ Trait_Species_Done<-Trait_Species_Done_FK %>%
 
 #### Look at Trait Database Data and compare to species needed for this project ####
 #Database_Data<-Trait_Database %>% 
-  #separate(species_matched,c("Genus","Species"), sep = " ")%>%
-  #mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
+#separate(species_matched,c("Genus","Species"), sep = " ")%>%
+#mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
 
 #merge FK/TB traits with trait database
 #Ground_Database_Traits <-Trait_Species_Done %>% 
- # left_join(Database_Data)
+# left_join(Database_Data)
 
 #### Look at differences in Trait Database Traits across community weighted means ####
 
 #Calculate CWM
 #CWM_Database_Data<- Species_Comp_RelCov_All %>% 
- # left_join(plot_layoutK) %>% 
- # left_join(Ground_Database_Traits) %>% 
- # group_by(block,plot,year,site)
+# left_join(plot_layoutK) %>% 
+# left_join(Ground_Database_Traits) %>% 
+# group_by(block,plot,year,site)
 
 #CWM_Database<-functcomp(CWM_Database_Data$trait[, 1:3], CWM_Database_Data$Relative_Cover, CWM.type = "all")
 
@@ -467,13 +467,13 @@ AverageTraits<-Traits_Clean %>%
     Avg_scenesced_leaves=mean(scenesced_leaves,na.rm=T),
     Avg_flower_heads=mean(flower_heads),
     Avg_open_flowers=mean(open_flowers),
-    ) %>% 
+  ) %>% 
   ungroup() %>% 
   #edit genus species to match species comp data
   mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
   mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
   select(-genus_species,-Genus_Species_2)
- 
+
 
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
@@ -498,8 +498,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 
 #Counting # of each plot number in CWM_Collected_Data to make sure all data are represented
 #CWM_Collected_Data_Count<-CWM_Collected_Data %>% 
-  #group_by(plot) %>% 
-  #count()
+#group_by(plot) %>% 
+#count()
 
 
 #### Plot the data ####
@@ -1840,3 +1840,4 @@ TukeyHSD(OpenFlowers_TB_2020_CWM_AOV_model)
 OpenFlowers_TB_2021_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
 summary(OpenFlowers_TB_2021_CWM_AOV_model) 
 model.tables(OpenFlowers_TB_2021_CWM_AOV_model)
+
