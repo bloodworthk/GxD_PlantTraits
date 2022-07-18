@@ -18,6 +18,8 @@ library(lattice)
 #install.packages("FD")
 library(FD)
 library(tidyverse) 
+#install.packages("LeafArea")
+library(LeafArea)
 
 
 #### Set Working Directory ####
@@ -82,6 +84,38 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
   group_by(Block,Paddock,Plot,Drought,Grazing) %>% 
   summarise(Avg_SM=mean(Soil_Moisture)) %>% 
   rename(plot="Plot")
+
+#### Determine Leaf Area ####
+
+
+#setting path to leaf images
+run.ij (set.directory = "~/Desktop/Leaves/")
+
+leafdata_2<-run.ij(path.imagej = NULL, set.memory = 1, set.directory="~/Desktop/Leaves",
+       distance.pixel = 826, known.distance = 21, trim.pixel = 20,
+       low.circ = 0, upper.circ = 1, low.size = 0.7,
+       upper.size = "Infinity", prefix = "\\.|-", log = F,
+       check.image = F, save.image = F)
+
+# prepare the target directory that contains example image files
+ex.dir <- eximg()
+res <- run.ij(set.directory = ex.dir, log=T)
+res
+
+
+#prepare example files
+data(leafdata)
+tf <- paste(tempdir(), "/", sep = "")
+for (i in 1:7){
+  write.table(leafdata[[i]],paste(tf,names(leafdata)[i],sep=""),sep="\t")
+}
+
+#### Pliman Leaf Area ####
+devtools::install_github("TiagoOlivoto/pliman")
+library(plimam)
+
+
+
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
