@@ -17,9 +17,9 @@ library(grid)
 library(lattice)
 #install.packages("FD")
 library(FD)
+#install.packages("pliman")
+library(pliman)
 library(tidyverse) 
-#install.packages("LeafArea")
-library(LeafArea)
 
 
 #### Set Working Directory ####
@@ -85,55 +85,78 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
   summarise(Avg_SM=mean(Soil_Moisture)) %>% 
   rename(plot="Plot")
 
-#### Determine Leaf Area ####
-
-
-#setting path to leaf images
-run.ij (set.directory = "~/Desktop/Leaves/")
-
-leafdata_2<-run.ij(path.imagej = NULL, set.memory = 1, set.directory="~/Desktop/Leaves",
-                   distance.pixel = 826, known.distance = 21, trim.pixel = 20,
-                   low.circ = 0, upper.circ = 1, low.size = 0.7,
-                   upper.size = "Infinity", prefix = "\\.|-", log = F,
-                   check.image = F, save.image = F)
-
-# prepare the target directory that contains example image files
-ex.dir <- eximg()
-res <- run.ij(set.directory = ex.dir, log=T)
-res
-
-
-#prepare example files
-data(leafdata)
-tf <- paste(tempdir(), "/", sep = "")
-for (i in 1:7){
-  write.table(leafdata[[i]],paste(tf,names(leafdata)[i],sep=""),sep="\t")
-}
-
-#### Pliman Leaf Area ####
-#install.packages("pliman")
-library(pliman)
+#### Determine Leaf Area - Pliman Leaf Area ####
 
 #create path to images of leaves
-path <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned"
+path <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves"
+
+#Import images into a list from the folder of individual leaf pictures. imports based on start of name of each file - i imported based on site and block 
+FK_B1 <- image_import(pattern="FK_B1_",path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
+FK_B2 <- image_import(pattern="FK_B2_", path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
+FK_B3 <- image_import(pattern="FK_B3_", path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
+
+#display images
+image_combine(FK_B1)
+image_combine(FK_B2)
+image_combine(FK_B3)
 
 #import image and view it
-leaves <- 
-  image_import("FK_Early_22_TEST.jpg",
-               path = path,
-               plot = TRUE)
+FK_B1_LG_LIIN <- 
+  image_import("FK_B1_LG_LIIN.jpg",path = path,plot = TRUE)
+               
+FK_B1_MG_ALDE<- 
+  image_import("FK_B1_MG_ALDE.jpg",path = path,plot = TRUE)
 
-#see segmented leaves from the background
-image_segment(leaves, index = "all")
-leaves_b<-image_binary(leaves,index = "NB")
+FK_B1_MG_ANOC <- 
+  image_import("FK_B1_MG_ANOC.jpg",path = path,plot = TRUE)
+
+FK_B1_MG_LYJU <- 
+  image_import("FK_B1_MG_LYJU.jpg",path = path,plot = TRUE)
+
+FK_B2_HG_LEDE <- 
+  image_import("FK_B2_HG_LEDE.jpg",path = path, plot = TRUE)
+
+FK_B2_LG_LIPU <- 
+  image_import("FK_B2_LG_LIPU.jpg",path = path, plot = TRUE)
+
 
 #count number of leaves
-count<-analyze_objects(leaves,marker="id",watershed=FALSE,object_size = "elarge")
+ANA_FK_B1_LG_LIIN<-analyze_objects(FK_B1_LG_LIIN,marker="id",watershed=FALSE,object_size = "elarge")
+
+ANA_FK_B1_MG_ALDE<-analyze_objects(FK_B1_MG_ALDE,marker="id",watershed=FALSE,object_size = "elarge")
+
+ANA_FK_B1_MG_ANOC<-analyze_objects(FK_B1_MG_ANOC,marker="id",watershed=FALSE,object_size = "elarge")
+
+ANA_FK_B1_MG_LYJU<-analyze_objects(FK_B1_MG_LYJU,marker="id",watershed=FALSE,object_size = "elarge")
+
+ANA_FK_B2_HG_LEDE<-analyze_objects(FK_B2_HG_LEDE,marker="id",watershed=FALSE,object_size = "elarge")
+
+ANA_FK_B2_LG_LIPU<-analyze_objects(FK_B2_LG_LIPU,marker=FALSE,watershed=FALSE,object_size = "elarge")
+
 
 #get leaf area measurements 
-area <-
-  get_measures(count, dpi=72) ### giving pixel area - need to figure out how to convert to cm2 to see if it's correct. area from imagej is around 98cm2
+AREA_FK_B1_LG_LIIN <-
+  as.data.frame(get_measures(ANA_FK_B1_LG_LIIN, dpi=72)) %>% 
+  select(id,area)
+  mutate(ifelse(id==1,"FK_B1_LG_LIIN",id))
 
+AREA_FK_B1_MG_ALDE <-
+  get_measures(ANA_FK_B1_MG_ALDE, dpi=72)
+
+AREA_FK_B1_MG_ANOC <-
+  get_measures(ANA_FK_B1_MG_ANOC, dpi=72)
+
+AREA_FK_B1_MG_LYJU <-
+  get_measures(ANA_FK_B1_MG_LYJU, dpi=72)
+
+AREA_FK_B2_HG_LEDE <-
+  get_measures(ANA_FK_B2_HG_LEDE, dpi=72)
+
+AREA_FK_B2_LG_LIPU <-
+  get_measures(ANA_FK_B2_LG_LIPU, dpi=72)
+
+
+#Combine Data frames and give 
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
