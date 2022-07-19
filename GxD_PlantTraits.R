@@ -103,7 +103,7 @@ image_combine(FK_B3)
 #import image and view it
 FK_B1_LG_LIIN <- 
   image_import("FK_B1_LG_LIIN.jpg",path = path,plot = TRUE)
-               
+
 FK_B1_MG_ALDE<- 
   image_import("FK_B1_MG_ALDE.jpg",path = path,plot = TRUE)
 
@@ -161,6 +161,7 @@ AREA_FK_B2_LG_LIPU <-
 #### Questions for Nico ####
 #1. can i run a for loop to get all of the images from the file and get an area for each one into one dataframe
 #2. is there a way to do that while making the name of the file be some sort of ID in the dataframe
+
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
