@@ -90,69 +90,32 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
 #create path to images of leaves
 path <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves"
 
-#Import images into a list from the folder of individual leaf pictures. imports based on start of name of each file - i imported based on site and block 
-FK_B1 <- image_import(pattern="FK_B1_",path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
-FK_B2 <- image_import(pattern="FK_B2_", path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
-FK_B3 <- image_import(pattern="FK_B3_", path="~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves")
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names<-list.files(path=path,pattern="*.jpg")
 
-#display images
-image_combine(FK_B1)
-image_combine(FK_B2)
-image_combine(FK_B3)
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area<-data.frame()
 
-#import image and view it
-FK_B1_LG_LIIN <- 
-  image_import("FK_B1_LG_LIIN.jpg",path = path,plot = TRUE)
-
-FK_B1_MG_ALDE<- 
-  image_import("FK_B1_MG_ALDE.jpg",path = path,plot = TRUE)
-
-FK_B1_MG_ANOC <- 
-  image_import("FK_B1_MG_ANOC.jpg",path = path,plot = TRUE)
-
-FK_B1_MG_LYJU <- 
-  image_import("FK_B1_MG_LYJU.jpg",path = path,plot = TRUE)
-
-FK_B2_HG_LEDE <- 
-  image_import("FK_B2_HG_LEDE.jpg",path = path, plot = TRUE)
-
-FK_B2_LG_LIPU <- 
-  image_import("FK_B2_LG_LIPU.jpg",path = path, plot = TRUE)
-
-
-#count number of leaves
-ANA_FK_B1_LG_LIIN<-analyze_objects(FK_B1_LG_LIIN,marker="id",watershed=FALSE,object_size = "elarge")
-
-ANA_FK_B1_MG_ALDE<-analyze_objects(FK_B1_MG_ALDE,marker="id",watershed=FALSE,object_size = "elarge")
-
-ANA_FK_B1_MG_ANOC<-analyze_objects(FK_B1_MG_ANOC,marker="id",watershed=FALSE,object_size = "elarge")
-
-ANA_FK_B1_MG_LYJU<-analyze_objects(FK_B1_MG_LYJU,marker="id",watershed=FALSE,object_size = "elarge")
-
-ANA_FK_B2_HG_LEDE<-analyze_objects(FK_B2_HG_LEDE,marker="id",watershed=FALSE,object_size = "elarge")
-
-ANA_FK_B2_LG_LIPU<-analyze_objects(FK_B2_LG_LIPU,marker=FALSE,watershed=FALSE,object_size = "elarge")
-
-
-#get leaf area measurements 
-
-AREA_FK_B1_LG_LIIN <-
-  as.data.frame(get_measures(ANA_FK_B1_LG_LIIN, dpi=72)) 
-
-AREA_FK_B1_MG_ALDE <-
-  get_measures(ANA_FK_B1_MG_ALDE, dpi=72)
-
-AREA_FK_B1_MG_ANOC <-
-  get_measures(ANA_FK_B1_MG_ANOC, dpi=72)
-
-AREA_FK_B1_MG_LYJU <-
-  get_measures(ANA_FK_B1_MG_LYJU, dpi=72)
-
-AREA_FK_B2_HG_LEDE <-
-  get_measures(ANA_FK_B2_HG_LEDE, dpi=72)
-
-AREA_FK_B2_LG_LIPU <-
-  get_measures(ANA_FK_B2_LG_LIPU, dpi=72)
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area<-rbind(Leaf_Area,a)
+}
 
 
 #Combine Data frames and give 
