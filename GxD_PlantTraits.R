@@ -17,7 +17,7 @@ library(grid)
 library(lattice)
 #install.packages("FD")
 library(FD)
-install.packages("pliman")
+#install.packages("pliman")
 library(pliman)
 library(tidyverse) 
 
@@ -101,7 +101,7 @@ path_FK_B1_HG <- "/Users/kjbloodw/Box/Projects/Dissertation/Data/DxG_Plant_Trait
 Leaf_File_Names_FK_B1_HG<-list.files(path=path_FK_B1_HG,pattern="*.jpg")
 
 #Create an empty dataframe for the areas (this must be run everytime before the for loop)
-FK_Leaf_Area_FK_B1_HG<-data.frame()
+Leaf_Area_FK_B1_HG<-data.frame()
 
 #i is a variable that changes according to the list and then it repeats until end of list
 #start a for loop where i is equal to a given Leaf file name
@@ -121,7 +121,7 @@ for (i in Leaf_File_Names_FK_B1_HG) {
   #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
   a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
   #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
-  Leaf_Area_FK_B1_HG<-rbind(Leaf_Area,a)
+  Leaf_Area_FK_B1_HG<-rbind(Leaf_Area_FK_B1_HG,a)
 }
 
 
