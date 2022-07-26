@@ -113,7 +113,7 @@ for (i in Leaf_File_Names_FK_B1_HG) {
   #save each analyzed leaf file so I can check the outline
   png(filename=paste(path,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
   #count number of leaves
-  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge")
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
   #close session to save photo
   dev.off()
   #get leaf area measurements 
