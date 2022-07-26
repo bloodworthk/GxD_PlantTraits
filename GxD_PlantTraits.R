@@ -17,7 +17,7 @@ library(grid)
 library(lattice)
 #install.packages("FD")
 library(FD)
-#install.packages("pliman")
+install.packages("pliman")
 library(pliman)
 library(tidyverse) 
 
@@ -25,6 +25,9 @@ library(tidyverse)
 #### Set Working Directory ####
 #Bloodworth - Mac
 setwd("~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data")
+
+#Bloodworth - PC
+setwd("/Users/kjbloodw/Box/Projects/Dissertation/Data")
 
 #### Set ggplot base ####
 #Set ggplot2 theme to black and white
@@ -87,22 +90,26 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
 
 #### Determine Leaf Area - Pliman Leaf Area ####
 
-#create path to images of leaves
-path <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves"
+#### Leaf Area - FK_B1_HG
+#create path to images of leaves - MAC
+path_FK_B1_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_HG"
+
+#create path to images of leaves - PC
+path_FK_B1_HG <- "/Users/kjbloodw/Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_HG"
 
 #Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
-Leaf_File_Names<-list.files(path=path,pattern="*.jpg")
+Leaf_File_Names_FK_B1_HG<-list.files(path=path_FK_B1_HG,pattern="*.jpg")
 
 #Create an empty dataframe for the areas (this must be run everytime before the for loop)
-Leaf_Area<-data.frame()
+FK_Leaf_Area_FK_B1_HG<-data.frame()
 
 #i is a variable that changes according to the list and then it repeats until end of list
 #start a for loop where i is equal to a given Leaf file name
-for (i in Leaf_File_Names) {
+for (i in Leaf_File_Names_FK_B1_HG) {
   #print name of files to make sure it is grabbing all files
   print(i)
   #import image and view it
-  image_import <- image_import(i,path = path,plot = FALSE)
+  image_import <- image_import(i,path = path_FK_B1_HG,plot = FALSE)
   #save each analyzed leaf file so I can check the outline
   png(filename=paste(path,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
   #count number of leaves
@@ -114,16 +121,8 @@ for (i in Leaf_File_Names) {
   #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
   a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
   #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
-  Leaf_Area<-rbind(Leaf_Area,a)
+  Leaf_Area_FK_B1_HG<-rbind(Leaf_Area,a)
 }
-
-
-#Combine Data frames and give 
-
-
-#### Questions for Nico ####
-#1. can i run a for loop to get all of the images from the file and get an area for each one into one dataframe
-#2. is there a way to do that while making the name of the file be some sort of ID in the dataframe
 
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
