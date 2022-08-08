@@ -93,38 +93,7 @@ SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>%
 #create a path for all analyzed images
 path_outlined_leaf<-"~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/"
 
-#### Leaf Area - FK_B1_HG
-#create path to images of leaves - MAC
-path_FK_B1_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_HG"
-
-#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
-Leaf_File_Names_FK_B1_HG<-list.files(path=path_FK_B1_HG,pattern="*.jpg")
-
-#Create an empty dataframe for the areas (this must be run everytime before the for loop)
-Leaf_Area_FK_B1_HG<-data.frame()
-
-#i is a variable that changes according to the list and then it repeats until end of list
-#start a for loop where i is equal to a given Leaf file name
-for (i in Leaf_File_Names_FK_B1_HG) {
-  #print name of files to make sure it is grabbing all files
-  print(i)
-  #import image and view it
-  image_import <- image_import(i,path = path_FK_B1_HG,plot = FALSE)
-  #save each analyzed leaf file so I can check the outline
-  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
-  #count number of leaves
-  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
-  #close session to save photo
-  dev.off()
-  #get leaf area measurements 
-  measures <-get_measures(analyze, dpi=72)
-  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
-  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
-  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
-  Leaf_Area_FK_B1_HG<-rbind(Leaf_Area_FK_B1_HG,a)
-}
-
-#### Leaf Area - FK_B1_LG
+#### Leaf Area - FK_B1_LG ####
 #create path to images of leaves - MAC
 path_FK_B1_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_LG"
 
@@ -155,7 +124,7 @@ for (i in Leaf_File_Names_FK_B1_LG) {
   Leaf_Area_FK_B1_LG<-rbind(Leaf_Area_FK_B1_LG,a)
 }
 
-#### Leaf Area - FK_B1_MG
+#### Leaf Area - FK_B1_MG ####
 #create path to images of leaves - MAC
 path_FK_B1_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_MG"
 
@@ -184,6 +153,502 @@ for (i in Leaf_File_Names_FK_B1_MG) {
   a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
   #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
   Leaf_Area_FK_B1_MG<-rbind(Leaf_Area_FK_B1_MG,a)
+}
+
+#### Leaf Area - FK_B1_HG ####
+#create path to images of leaves - MAC
+path_FK_B1_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B1_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B1_HG<-list.files(path=path_FK_B1_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B1_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B1_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B1_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B1_HG<-rbind(Leaf_Area_FK_B1_HG,a)
+}
+
+#### Leaf Area - FK_B2_LG ####
+#create path to images of leaves - MAC
+path_FK_B2_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B2_LG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B2_LG<-list.files(path=path_FK_B2_LG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B2_LG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B2_LG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B2_LG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B2_LG<-rbind(Leaf_Area_FK_B2_LG,a)
+}
+
+#### Leaf Area - FK_B2_MG ####
+#create path to images of leaves - MAC
+path_FK_B2_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B2_MG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B2_MG<-list.files(path=path_FK_B2_MG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B2_MG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B2_MG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B2_MG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B2_MG<-rbind(Leaf_Area_FK_B2_MG,a)
+}
+
+#### Leaf Area - FK_B2_HG ####
+#create path to images of leaves - MAC
+path_FK_B2_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B2_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B2_HG<-list.files(path=path_FK_B2_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B2_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B2_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B2_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B2_HG<-rbind(Leaf_Area_FK_B2_HG,a)
+}
+
+#### Leaf Area - FK_B3_LG ####
+#create path to images of leaves - MAC
+path_FK_B3_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B3_LG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B3_LG<-list.files(path=path_FK_B3_LG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B3_LG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B3_LG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B3_LG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B3_LG<-rbind(Leaf_Area_FK_B3_LG,a)
+}
+
+#### Leaf Area - FK_B3_MG ####
+#create path to images of leaves - MAC
+path_FK_B3_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B3_MG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B3_MG<-list.files(path=path_FK_B3_MG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B3_MG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B3_MG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B3_MG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B3_MG<-rbind(Leaf_Area_FK_B3_MG,a)
+}
+
+#### Leaf Area - FK_B3_HG ####
+#create path to images of leaves - MAC
+path_FK_B3_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/FK_B3_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_FK_B3_HG<-list.files(path=path_FK_B3_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_FK_B3_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_FK_B3_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_FK_B3_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_FK_B3_HG<-rbind(Leaf_Area_FK_B3_HG,a)
+}
+
+#### Leaf Area - TB_B1_LG ####
+#create path to images of leaves - MAC
+path_TB_B1_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B1_LG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B1_LG<-list.files(path=path_TB_B1_LG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B1_LG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B1_LG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B1_LG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B1_LG<-rbind(Leaf_Area_TB_B1_LG,a)
+}
+
+#### Leaf Area - TB_B1_MG ####
+#create path to images of leaves - MAC
+path_TB_B1_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B1_MG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B1_MG<-list.files(path=path_TB_B1_MG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B1_MG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B1_MG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B1_MG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B1_MG<-rbind(Leaf_Area_TB_B1_MG,a)
+}
+
+#### Leaf Area - TB_B1_HG ####
+#create path to images of leaves - MAC
+path_TB_B1_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B1_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B1_HG<-list.files(path=path_TB_B1_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B1_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B1_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B1_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B1_HG<-rbind(Leaf_Area_TB_B1_HG,a)
+}
+
+#### Leaf Area - TB_B2_LG ####
+#create path to images of leaves - MAC
+path_TB_B2_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B2_LG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B2_LG<-list.files(path=path_TB_B2_LG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B2_LG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B2_LG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B2_LG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B2_LG<-rbind(Leaf_Area_TB_B2_LG,a)
+}
+
+#### Leaf Area - TB_B2_MG ####
+#create path to images of leaves - MAC
+path_TB_B2_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B2_MG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B2_MG<-list.files(path=path_TB_B2_MG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B2_MG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B2_MG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B2_MG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B2_MG<-rbind(Leaf_Area_TB_B2_MG,a)
+}
+
+#### Leaf Area - TB_B2_HG ####
+#create path to images of leaves - MAC
+path_TB_B2_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B2_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B2_HG<-list.files(path=path_TB_B2_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B2_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B2_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B2_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B2_HG<-rbind(Leaf_Area_TB_B2_HG,a)
+}
+
+#### Leaf Area - TB_B3_LG ####
+#create path to images of leaves - MAC
+path_TB_B3_LG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B3_LG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B3_LG<-list.files(path=path_TB_B3_LG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B3_LG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B3_LG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B3_LG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B3_LG<-rbind(Leaf_Area_TB_B3_LG,a)
+}
+
+#### Leaf Area - TB_B3_MG ####
+#create path to images of leaves - MAC
+path_TB_B3_MG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B3_MG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B3_MG<-list.files(path=path_TB_B3_MG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B3_MG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B3_MG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B3_MG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B3_MG<-rbind(Leaf_Area_TB_B3_MG,a)
+}
+
+#### Leaf Area - FK_B3_HG ####
+#create path to images of leaves - MAC
+path_TB_B3_HG <- "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/DxG_Plant_Traits/2022_Community_Traits_Scanned/Individual_Leaves/TB_B3_HG"
+
+#Create a list of image file names (path is the path to folder with individual leaves and pattern is saying to select anything that ends in .jpg - * is wildcard telling it anything that ends with .jpg)
+Leaf_File_Names_TB_B3_HG<-list.files(path=path_TB_B3_HG,pattern="*.jpg")
+
+#Create an empty dataframe for the areas (this must be run everytime before the for loop)
+Leaf_Area_TB_B3_HG<-data.frame()
+
+#i is a variable that changes according to the list and then it repeats until end of list
+#start a for loop where i is equal to a given Leaf file name
+for (i in Leaf_File_Names_TB_B3_HG) {
+  #print name of files to make sure it is grabbing all files
+  print(i)
+  #import image and view it
+  image_import <- image_import(i,path = path_TB_B3_HG,plot = FALSE)
+  #save each analyzed leaf file so I can check the outline
+  png(filename=paste(path_outlined_leaf,'/Outlined_Leaf/',i,'_analyzed','.png',sep=""))
+  #count number of leaves
+  analyze<- analyze_objects(image_import,marker="id",watershed=FALSE,object_size = "elarge",col_background = "white")
+  #close session to save photo
+  dev.off()
+  #get leaf area measurements 
+  measures <-get_measures(analyze, dpi=72)
+  #create a temporary dataframe that has a column named Leaf_ID where the names from Leaf_File_Names are placed as they're processed through the for loop and then make another column called Leaf_Area where the area from measures is placed
+  a<-data.frame(Leaf_ID=i,Leaf_Area_cm=measures$area)
+  #put the information from dataframe a into a permanent data frame called Leaf Area where it combines the data from every run through the for loop
+  Leaf_Area_TB_B3_HG<-rbind(Leaf_Area_TB_B3_HG,a)
 }
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
