@@ -674,7 +674,10 @@ Leaf_Area_All<- Leaf_Area_FK_B1_HG %>%
   rbind(Leaf_Area_TB_B3_HG) %>% 
   group_by(Leaf_ID) %>% 
   summarise(Leaf_Area_cm=sum(Leaf_Area_cm)) %>% 
-  separate(Leaf_ID,c("Site","Block","Grazing_Treatment","SpCo"), sep = "_")
+  separate(Leaf_ID,c("Site","Block","Grazing_Treatment","SpCo"), sep = "_") %>% 
+  separate(SpCo,c("Species_Code","jpg")) %>% 
+  select(-jpg)
+
 
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
