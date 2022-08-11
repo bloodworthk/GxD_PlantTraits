@@ -651,6 +651,31 @@ for (i in Leaf_File_Names_TB_B3_HG) {
   Leaf_Area_TB_B3_HG<-rbind(Leaf_Area_TB_B3_HG,a)
 }
 
+#### Combine all area data frames into one ####
+
+Leaf_Area_All<- Leaf_Area_FK_B1_HG %>% 
+  rbind(Leaf_Area_FK_B1_LG) %>% 
+  rbind(Leaf_Area_FK_B1_MG) %>% 
+  rbind(Leaf_Area_FK_B1_HG) %>% 
+  rbind(Leaf_Area_FK_B2_LG) %>% 
+  rbind(Leaf_Area_FK_B2_MG) %>% 
+  rbind(Leaf_Area_FK_B2_HG) %>% 
+  rbind(Leaf_Area_FK_B3_LG) %>% 
+  rbind(Leaf_Area_FK_B3_MG) %>% 
+  rbind(Leaf_Area_FK_B3_HG) %>% 
+  rbind(Leaf_Area_TB_B1_LG) %>% 
+  rbind(Leaf_Area_TB_B1_MG) %>% 
+  rbind(Leaf_Area_TB_B1_HG) %>% 
+  rbind(Leaf_Area_TB_B2_LG) %>% 
+  rbind(Leaf_Area_TB_B2_MG) %>% 
+  rbind(Leaf_Area_TB_B2_HG) %>% 
+  rbind(Leaf_Area_TB_B3_LG) %>% 
+  rbind(Leaf_Area_TB_B3_MG) %>% 
+  rbind(Leaf_Area_TB_B3_HG) %>% 
+  group_by(Leaf_ID) %>% 
+  summarise(Leaf_Area_cm=sum(Leaf_Area_cm)) %>% 
+  separate(Leaf_ID,c("Site","Block","Grazing_Treatment","SpCo"), sep = "_")
+
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
 #get dataframe with just total cover per plot for each year
