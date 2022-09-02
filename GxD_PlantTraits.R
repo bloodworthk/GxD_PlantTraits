@@ -1592,7 +1592,7 @@ anova(TB_EmergingLeaves_2021_LMER, type = 3)
 #CWM of Developed Leaves - 2018 and FK
 DevelopedLeaves_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1608,7 +1608,7 @@ DevelopedLeaves_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),a
 #CWM of Developed Leaves - 2019 and FK
 DevelopedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1624,7 +1624,7 @@ DevelopedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),a
 #CWM of Developed Leaves - 2020 and FK
 DevelopedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1640,7 +1640,7 @@ DevelopedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),a
 #CWM of Developed Leaves - 2021 and FK
 DevelopedLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1660,32 +1660,32 @@ print(DevelopedLeaves_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(DevelopedLeaves_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Developed Leaves for Fort Keogh 2018
-DevelopedLeaves_FK_2018_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
-summary(DevelopedLeaves_FK_2018_CWM_AOV_model) 
-model.tables(DevelopedLeaves_FK_2018_CWM_AOV_model)
+##CWM of DevelopedLeaves for Fort Keogh 2018 - LMER
+FK_DevelopedLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_DevelopedLeaves_2018_LMER, type = 3)
+#grazing (p=0.1006), drought (p=0.1373), grazing*drought(p=0.2652)
 
-#CWM of Developed Leaves for Fort Keogh 2019
-DevelopedLeaves_FK_2019_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
-summary(DevelopedLeaves_FK_2019_CWM_AOV_model)
-model.tables(DevelopedLeaves_FK_2019_CWM_AOV_model)
+#CWM of DevelopedLeaves for Fort Keogh 2019 - LMER
+FK_DevelopedLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_DevelopedLeaves_2019_LMER, type = 3)
+#grazing (p=0.8814), drought (p=0.5534), grazing*drought(p=0.6053)
 
-#CWM of Developed Leaves for Fort Keogh 2020
-DevelopedLeaves_FK_2020_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
-summary(DevelopedLeaves_FK_2020_CWM_AOV_model) 
-model.tables(DevelopedLeaves_FK_2020_CWM_AOV_model)
+#CWM of DevelopedLeaves for Fort Keogh 2020 - LMER
+FK_DevelopedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_DevelopedLeaves_2020_LMER, type = 3)
+#grazing (p=0.8764), drought (p=0.2855), grazing*drought(p=0.3125)
 
-#CWM of Developed Leaves for Fort Keogh 2021
-DevelopedLeaves_FK_2021_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
-summary(DevelopedLeaves_FK_2021_CWM_AOV_model) 
-model.tables(DevelopedLeaves_FK_2021_CWM_AOV_model)
+#CWM of DevelopedLeaves for Fort Keogh 2021 - LMER
+FK_DevelopedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_DevelopedLeaves_2021_LMER, type = 3)
+#grazing (p=0.4296), drought (p=0.3093), grazing*drought(p=0.6436)
 
 ##Thunder Basin
 
 #CWM of Developed Leaves - 2018 and TB
 DevelopedLeaves_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1701,7 +1701,7 @@ DevelopedLeaves_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),a
 #CWM of Developed Leaves - 2019 and TB
 DevelopedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1717,7 +1717,7 @@ DevelopedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
 #CWM of Developed Leaves - 2020 and TB
 DevelopedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1733,7 +1733,7 @@ DevelopedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),a
 #CWM of Developed Leaves - 2021 and TB
 DevelopedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1753,26 +1753,25 @@ print(DevelopedLeaves_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(DevelopedLeaves_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Developed Leaves for TB 2018
-DevelopedLeaves_TB_2018_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
-summary(DevelopedLeaves_TB_2018_CWM_AOV_model) #grazing is significant
-model.tables(DevelopedLeaves_TB_2018_CWM_AOV_model)
-TukeyHSD(DevelopedLeaves_TB_2018_CWM_AOV_model)
+#CWM of DevelopedLeaves for Thunder Basin 2018 - LMER
+TB_DevelopedLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_DevelopedLeaves_2018_LMER, type = 3)
+#grazing (p=0.003759), drought (p=0.419828), grazing*drought(p=0.488266)
 
-#CWM of Developed Leaves for TB 2019
-DevelopedLeaves_TB_2019_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
-summary(DevelopedLeaves_TB_2019_CWM_AOV_model) 
-model.tables(DevelopedLeaves_TB_2019_CWM_AOV_model)
+#CWM of DevelopedLeaves for Thunder Basin 2019 - LMER
+TB_DevelopedLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_DevelopedLeaves_2019_LMER, type = 3)
+#grazing (p=0.2558), drought (p=0.3420), grazing*drought(p=0.1955)
 
-#CWM of Developed Leaves for TB 2020
-DevelopedLeaves_TB_2020_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
-summary(DevelopedLeaves_TB_2020_CWM_AOV_model) 
-model.tables(DevelopedLeaves_TB_2020_CWM_AOV_model)
+#CWM of DevelopedLeaves for Thunder Basin 2020 - LMER
+TB_DevelopedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_DevelopedLeaves_2020_LMER, type = 3)
+#grazing (p=0.08416), drought (p=0.72446), grazing*drought(p=0.33049)
 
-#CWM of Developed Leaves for TB 2021
-DevelopedLeaves_TB_2021_CWM_AOV_model <- aov(DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
-summary(DevelopedLeaves_TB_2021_CWM_AOV_model) 
-model.tables(DevelopedLeaves_TB_2021_CWM_AOV_model)
+#CWM of DevelopedLeaves for Thunder Basin 2021 - LMER
+TB_DevelopedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_DevelopedLeaves_2021_LMER, type = 3)
+#grazing (p=0.4952), drought (p=0.9982), grazing*drought(p=0.5508)
 
 ####CWM - Scenesced Leaves Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1780,7 +1779,7 @@ model.tables(DevelopedLeaves_TB_2021_CWM_AOV_model)
 #CWM of Scenesced Leaves - 2018 and FK
 ScenescedLeaves_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1796,7 +1795,7 @@ ScenescedLeaves_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),a
 #CWM of Scenesced Leaves - 2019 and FK
 ScenescedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1812,7 +1811,7 @@ ScenescedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),a
 #CWM of Scenesced Leaves - 2020 and FK
 ScenescedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1828,7 +1827,7 @@ ScenescedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),a
 #CWM of Scenesced Leaves - 2021 and FK
 ScenescedLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1848,32 +1847,32 @@ print(ScenescedLeaves_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(ScenescedLeaves_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Scenesced Leaves for Fort Keogh 2018
-ScenescedLeaves_FK_2018_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
-summary(ScenescedLeaves_FK_2018_CWM_AOV_model) 
-model.tables(ScenescedLeaves_FK_2018_CWM_AOV_model)
+##CWM of ScenescedLeaves for Fort Keogh 2018 - LMER
+FK_ScenescedLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_ScenescedLeaves_2018_LMER, type = 3)
+#grazing (p=0.9375), drought (p=0.5642), grazing*drought(p=0.3112)
 
-#CWM of Scenesced Leaves for Fort Keogh 2019
-ScenescedLeaves_FK_2019_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
-summary(ScenescedLeaves_FK_2019_CWM_AOV_model)
-model.tables(ScenescedLeaves_FK_2019_CWM_AOV_model)
+#CWM of ScenescedLeaves for Fort Keogh 2019 - LMER
+FK_ScenescedLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_ScenescedLeaves_2019_LMER, type = 3)
+#grazing (p=0.9275), drought (p=0.5635), grazing*drought(p=0.2060)
 
-#CWM of Scenesced Leaves for Fort Keogh 2020
-ScenescedLeaves_FK_2020_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
-summary(ScenescedLeaves_FK_2020_CWM_AOV_model) 
-model.tables(ScenescedLeaves_FK_2020_CWM_AOV_model)
+#CWM of ScenescedLeaves for Fort Keogh 2020 - LMER
+FK_ScenescedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_ScenescedLeaves_2020_LMER, type = 3)
+#grazing (p=0.8477), drought (p=0.1529), grazing*drought(p=0.2627)
 
-#CWM of Scenesced Leaves for Fort Keogh 2021
-ScenescedLeaves_FK_2021_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
-summary(ScenescedLeaves_FK_2021_CWM_AOV_model) 
-model.tables(ScenescedLeaves_FK_2021_CWM_AOV_model)
+#CWM of ScenescedLeaves for Fort Keogh 2021 - LMER
+FK_ScenescedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_ScenescedLeaves_2021_LMER, type = 3)
+#grazing (p=0.7516), drought (p=0.2891), grazing*drought(p=0.2450)
 
 ##Thunder Basin
 
 #CWM of Scenesced Leaves - 2018 and TB
 ScenescedLeaves_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1889,7 +1888,7 @@ ScenescedLeaves_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),a
 #CWM of Scenesced Leaves - 2019 and TB
 ScenescedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1905,7 +1904,7 @@ ScenescedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
 #CWM of Scenesced Leaves - 2020 and TB
 ScenescedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1921,7 +1920,7 @@ ScenescedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),a
 #CWM of Scenesced Leaves - 2021 and TB
 ScenescedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1941,27 +1940,25 @@ print(ScenescedLeaves_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(ScenescedLeaves_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Scenesced Leaves for TB 2018
-ScenescedLeaves_TB_2018_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
-summary(ScenescedLeaves_TB_2018_CWM_AOV_model) #grazing is significant
-model.tables(ScenescedLeaves_TB_2018_CWM_AOV_model)
-TukeyHSD(ScenescedLeaves_TB_2018_CWM_AOV_model)
+#CWM of ScenescedLeaves for Thunder Basin 2018 - LMER
+TB_ScenescedLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_ScenescedLeaves_2018_LMER, type = 3)
+#grazing (p=0.003424), drought (p=0.231840), grazing*drought(p=0.333466)
 
-#CWM of Scenesced Leaves for TB 2019
-ScenescedLeaves_TB_2019_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
-summary(ScenescedLeaves_TB_2019_CWM_AOV_model) 
-model.tables(ScenescedLeaves_TB_2019_CWM_AOV_model)
+#CWM of ScenescedLeaves for Thunder Basin 2019 - LMER
+TB_ScenescedLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_ScenescedLeaves_2019_LMER, type = 3)
+#grazing (p=0.2212), drought (p=0.3499), grazing*drought(p=0.5318)
 
-#CWM of Scenesced Leaves for TB 2020
-ScenescedLeaves_TB_2020_CWM_AOV_model <- aov(ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
-summary(ScenescedLeaves_TB_2020_CWM_AOV_model)  #grazing is significant
-model.tables(ScenescedLeaves_TB_2020_CWM_AOV_model)
-TukeyHSD(ScenescedLeaves_TB_2020_CWM_AOV_model)
+#CWM of ScenescedLeaves for Thunder Basin 2020 - LMER
+TB_ScenescedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_ScenescedLeaves_2020_LMER, type = 3)
+#grazing (p=0.008496), drought (p=0.092847), grazing*drought(p=0.241701)
 
-#CWM of Flower Heads Leaves for TB 2021
-FlowerHeads_TB_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
-summary(FlowerHeads_TB_2021_CWM_AOV_model) 
-model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
+#CWM of ScenescedLeaves for Thunder Basin 2021 - LMER
+TB_ScenescedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_ScenescedLeaves_2021_LMER, type = 3)
+#grazing (p=0.3414), drought (p=0.4713), grazing*drought(p=0.7283)
 
 ####CWM - Flower Heads Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1969,7 +1966,7 @@ model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
 #CWM of Flower Heads - 2018 and FK
 FlowerHeads_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1985,7 +1982,7 @@ FlowerHeads_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x
 #CWM of Flower Heads - 2019 and FK
 FlowerHeads_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2001,7 +1998,7 @@ FlowerHeads_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x
 #CWM of Flower Heads - 2020 and FK
 FlowerHeads_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2017,7 +2014,7 @@ FlowerHeads_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x
 #CWM of Flower Heads - 2021 and FK
 FlowerHeads_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2037,32 +2034,32 @@ print(FlowerHeads_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(FlowerHeads_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Flower Heads for Fort Keogh 2018
-FlowerHeads_FK_2018_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
-summary(FlowerHeads_FK_2018_CWM_AOV_model) 
-model.tables(FlowerHeads_FK_2018_CWM_AOV_model)
+##CWM of FlowerHeads for Fort Keogh 2018 - LMER
+FK_FlowerHeads_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerHeads_2018_LMER, type = 3)
+#grazing (p=0.9341), drought (p=0.9073), grazing*drought(p=0.4458)
 
-#CWM of Flower Heads for Fort Keogh 2019
-FlowerHeads_FK_2019_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
-summary(FlowerHeads_FK_2019_CWM_AOV_model)
-model.tables(FlowerHeads_FK_2019_CWM_AOV_model)
+#CWM of FlowerHeads for Fort Keogh 2019 - LMER
+FK_FlowerHeads_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerHeads_2019_LMER, type = 3)
+#grazing (p=0.7415), drought (p=0.5434), grazing*drought(p=0.2987)
 
-#CWM of Flower Heads for Fort Keogh 2020
-FlowerHeads_FK_2020_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
-summary(FlowerHeads_FK_2020_CWM_AOV_model) 
-model.tables(FlowerHeads_FK_2020_CWM_AOV_model)
+#CWM of FlowerHeads for Fort Keogh 2020 - LMER
+FK_FlowerHeads_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerHeads_2020_LMER, type = 3)
+#grazing (p=0.8788), drought (p=0.6779), grazing*drought(p=0.1899)
 
-#CWM of Flower Heads for Fort Keogh 2021
-FlowerHeads_FK_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
-summary(FlowerHeads_FK_2021_CWM_AOV_model) 
-model.tables(FlowerHeads_FK_2021_CWM_AOV_model)
+#CWM of FlowerHeads for Fort Keogh 2021 - LMER
+FK_FlowerHeads_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerHeads_2021_LMER, type = 3)
+#grazing (p=0.5648), drought (p=0.5355), grazing*drought(p=0.8493)
 
 ##Thunder Basin
 
 #CWM of Flower Heads - 2018 and TB
 FlowerHeads_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2078,7 +2075,7 @@ FlowerHeads_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x
 #CWM of Flower Heads - 2019 and TB
 FlowerHeads_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2094,7 +2091,7 @@ FlowerHeads_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x
 #CWM of Flower Heads - 2020 and TB
 FlowerHeads_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2110,7 +2107,7 @@ FlowerHeads_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x
 #CWM of Flower Heads - 2021 and TB
 FlowerHeads_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=FlowerHeads_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2130,27 +2127,25 @@ print(FlowerHeads_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(FlowerHeads_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Flower Heads for TB 2018
-FlowerHeads_TB_2018_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
-summary(FlowerHeads_TB_2018_CWM_AOV_model) 
-model.tables(FlowerHeads_TB_2018_CWM_AOV_model)
+#CWM of FlowerHeads for Thunder Basin 2018 - LMER
+TB_FlowerHeads_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerHeads_2018_LMER, type = 3)
+#grazing (p=0.8140, drought (p=0.3877), grazing*drought(p=0.3052)
 
-#CWM of Flower Heads for TB 2019
-FlowerHeads_TB_2019_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
-summary(FlowerHeads_TB_2019_CWM_AOV_model) #grazing is significant
-model.tables(FlowerHeads_TB_2019_CWM_AOV_model)
-TukeyHSD(FlowerHeads_TB_2019_CWM_AOV_model)
+#CWM of FlowerHeads for Thunder Basin 2019 - LMER
+TB_FlowerHeads_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerHeads_2019_LMER, type = 3)
+#grazing (p=0.3527), drought (p=0.5062), grazing*drought(p=0.3912)
 
-#CWM of Flower Heads for TB 2020
-FlowerHeads_TB_2020_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
-summary(FlowerHeads_TB_2020_CWM_AOV_model)  #grazing is significant
-model.tables(FlowerHeads_TB_2020_CWM_AOV_model)
-TukeyHSD(FlowerHeads_TB_2020_CWM_AOV_model)
+#CWM of FlowerHeads for Thunder Basin 2020 - LMER
+TB_FlowerHeads_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerHeads_2020_LMER, type = 3)
+#grazing (p=0.6403), drought (p=0.4991), grazing*drought(p=0.5460)
 
-#CWM of Flower Heads for TB 2021
-FlowerHeads_TB_2021_CWM_AOV_model <- aov(FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
-summary(FlowerHeads_TB_2021_CWM_AOV_model) 
-model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
+#CWM of FlowerHeads for Thunder Basin 2021 - LMER
+TB_FlowerHeads_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerHeads_2021_LMER, type = 3)
+#grazing (p=0.9082), drought (p=0.1777), grazing*drought(p=0.5872)
 
 ####CWM - Open Flowers Plots and Stats #### 
 #2022 still needs to be added in 
@@ -2158,7 +2153,7 @@ model.tables(FlowerHeads_TB_2021_CWM_AOV_model)
 #CWM of Open Flowers - 2018 and FK
 OpenFlowers_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2174,7 +2169,7 @@ OpenFlowers_FK_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="FK"),aes(x
 #CWM of Open Flowers - 2019 and FK
 OpenFlowers_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2190,7 +2185,7 @@ OpenFlowers_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x
 #CWM of Open Flowers - 2020 and FK
 OpenFlowers_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2206,7 +2201,7 @@ OpenFlowers_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x
 #CWM of Open Flowers - 2021 and FK
 OpenFlowers_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2226,32 +2221,32 @@ print(OpenFlowers_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(OpenFlowers_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Open Flowers for Fort Keogh 2018
-OpenFlowers_FK_2018_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="FK")) 
-summary(OpenFlowers_FK_2018_CWM_AOV_model) 
-model.tables(OpenFlowers_FK_2018_CWM_AOV_model)
+##CWM of OpenFlowers for Fort Keogh 2018 - LMER
+FK_OpenFlowers_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_OpenFlowers_2018_LMER, type = 3)
+#grazing (p=0.3524), drought (p=0.3894), grazing*drought(p=0.2157)
 
-#CWM of Open Flowers for Fort Keogh 2019
-OpenFlowers_FK_2019_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="FK")) 
-summary(OpenFlowers_FK_2019_CWM_AOV_model)
-model.tables(OpenFlowers_FK_2019_CWM_AOV_model)
+#CWM of OpenFlowers for Fort Keogh 2019 - LMER
+FK_OpenFlowers_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_OpenFlowers_2019_LMER, type = 3)
+#grazing (p=0.6775), drought (p=0.7224), grazing*drought(p=0.8393)
 
-#CWM of Open Flowers for Fort Keogh 2020
-OpenFlowers_FK_2020_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="FK")) 
-summary(OpenFlowers_FK_2020_CWM_AOV_model) 
-model.tables(OpenFlowers_FK_2020_CWM_AOV_model)
+#CWM of OpenFlowers for Fort Keogh 2020 - LMER
+FK_OpenFlowers_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_OpenFlowers_2020_LMER, type = 3)
+#grazing (p=0.4308), drought (p=0.3578), grazing*drought(p=0.5390)
 
-#CWM of Open Flowers for Fort Keogh 2021
-OpenFlowers_FK_2021_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="FK")) 
-summary(OpenFlowers_FK_2021_CWM_AOV_model) 
-model.tables(OpenFlowers_FK_2021_CWM_AOV_model)
+#CWM of OpenFlowers for Fort Keogh 2021 - LMER
+FK_OpenFlowers_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_OpenFlowers_2021_LMER, type = 3)
+#grazing (p=0.5933), drought (p=0.2636), grazing*drought(p=0.7423)
 
 ##Thunder Basin
 
 #CWM of Open Flowers - 2018 and TB
 OpenFlowers_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2267,7 +2262,7 @@ OpenFlowers_TB_18<-ggplot(subset(CWM_Collected_Data,year==2018&Site=="TB"),aes(x
 #CWM of Open Flowers - 2019 and TB
 OpenFlowers_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2283,7 +2278,7 @@ OpenFlowers_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x
 #CWM of Open Flowers - 2020 and TB
 OpenFlowers_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2299,7 +2294,7 @@ OpenFlowers_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x
 #CWM of Open Flowers - 2021 and TB
 OpenFlowers_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2319,26 +2314,22 @@ print(OpenFlowers_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(OpenFlowers_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of Open Flowers for TB 2018
-OpenFlowers_TB_2018_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2018&Site=="TB")) 
-summary(OpenFlowers_TB_2018_CWM_AOV_model) #grazing is significant, drought is marginally significant
-model.tables(OpenFlowers_TB_2018_CWM_AOV_model)
-TukeyHSD(OpenFlowers_TB_2018_CWM_AOV_model)
+#CWM of OpenFlowers for Thunder Basin 2018 - LMER
+TB_OpenFlowers_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2018_LMER, type = 3)
+#grazing (p=0.001421, drought (p=0.062471), grazing*drought(p=0.542256)
 
-#CWM of Open Flowers for TB 2019
-OpenFlowers_TB_2019_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2019&Site=="TB")) 
-summary(OpenFlowers_TB_2019_CWM_AOV_model) #grazing is significant
-model.tables(OpenFlowers_TB_2019_CWM_AOV_model)
-TukeyHSD(OpenFlowers_TB_2019_CWM_AOV_model)
+#CWM of OpenFlowers for Thunder Basin 2019 - LMER
+TB_OpenFlowers_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2019_LMER, type = 3)
+#grazing (p=0.2658), drought (p=0.3921), grazing*drought(p=0.6402)
 
-#CWM of Open Flowers for TB 2020
-OpenFlowers_TB_2020_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2020&Site=="TB")) 
-summary(OpenFlowers_TB_2020_CWM_AOV_model)  #grazing is significant, drought is marginally singificant
-model.tables(OpenFlowers_TB_2020_CWM_AOV_model)
-TukeyHSD(OpenFlowers_TB_2020_CWM_AOV_model)
+#CWM of OpenFlowers for Thunder Basin 2020 - LMER
+TB_OpenFlowers_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2020_LMER, type = 3)
+#grazing (p=0.31599), drought (p=0.01678), grazing*drought(p=0.31359)
 
-#CWM of Open Heads for TB 2021
-OpenFlowers_TB_2021_CWM_AOV_model <- aov(OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block), data = subset(CWM_Collected_Data,year==2021&Site=="TB")) 
-summary(OpenFlowers_TB_2021_CWM_AOV_model) 
-model.tables(OpenFlowers_TB_2021_CWM_AOV_model)
-
+#CWM of OpenFlowers for Thunder Basin 2021 - LMER
+TB_OpenFlowers_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2021_LMER, type = 3)
+#grazing (p=0.84051), drought (p=0.27396), grazing*drought(p=0.06227)
