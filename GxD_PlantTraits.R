@@ -100,11 +100,9 @@ plot_layoutK$plot<-as.factor(plot_layoutK$plot)
 
 #Soil moisture data  - bring in and keep only what we need for this study and take average SM data for all months
 SM_data<-read.csv("DxG_Plant_Traits/SM_FK_TB_2019-2021.csv") %>% 
-  filter(Site=="FK") %>% 
-  filter(Year==2019) %>%
-  group_by(Block,Paddock,Plot,Drought,Grazing) %>% 
-  summarise(Avg_SM=mean(Soil_Moisture)) %>% 
-  rename(plot="Plot")
+  group_by(Site,Year,Block,Paddock,Plot,Drought,Grazing) %>% 
+  summarise(Avg_SM=mean(Soil_Moisture,na.rm = T)) %>% 
+  ungroup()
 
 #### Determine Leaf Area - Pliman Leaf Area ####
 
@@ -1012,14 +1010,25 @@ AverageTraits<-Traits_Clean %>%
   mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
   dplyr::select(-genus_species,-Genus_Species_2)
 
+SM_data_Update<-SM_data %>% 
+  dplyr::select(Site,Year,Plot,Drought,Grazing,Avg_SM) %>% 
+  rename(site=Site) %>% 
+  rename(year=Year) %>% 
+  rename(rainfall_reduction=Drought) %>% 
+  rename(grazing_category=Grazing) %>% 
+  rename(plot=Plot) %>% 
+  mutate(plot=as.factor(plot))
+
+
 
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
+  left_join(SM_data_Update) %>% 
   rename(Site=site) %>%
   filter(!is.na(Relative_Cover)) %>% 
   filter(Relative_Cover!=0) %>% 
   left_join(AverageTraits) %>%
-  group_by(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment) %>% 
+  group_by(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM) %>% 
   #calculate CWM using tidyr function, removing NAs for now until more data are collected
   summarise(
     Height_CWM=weighted.mean(Avg_height_cm,Relative_Cover,na.rm = T),
@@ -1051,12 +1060,12 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 #CWM of height - 2019 and FK
 Height_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("dashed","dashed","dashed"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Height (cm)")+
   expand_limits(y=25)+
@@ -1067,12 +1076,12 @@ Height_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rain
 #CWM of height - 2020 and FK
 Height_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("dashed","dashed","dashed"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Height (cm)")+
   expand_limits(y=25)+
@@ -1083,12 +1092,12 @@ Height_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rain
 #CWM of height - 2021 and FK
 Height_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","solid","solid"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Height (cm)")+
   expand_limits(y=25)+
@@ -1258,7 +1267,7 @@ Green_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=100, label = "FK 2019", size=20)
 
 
@@ -1274,7 +1283,7 @@ Green_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=100, label = "FK 2020", size=20)
 
 
@@ -1290,7 +1299,7 @@ Green_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=100, label = "FK 2021", size=20)
 
 #CWM of % Green - 2022 and FK
@@ -1337,7 +1346,6 @@ anova(FK_PercentGreen_2020_LMER, type = 3)
 summary(glht(FK_PercentGreen_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 #no significance
 
-
 #CWM of PercentGreen for Fort Keogh 2021 - LMER
 FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2021_LMER, type = 3)
@@ -1360,7 +1368,7 @@ Green_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=100, label = "TB 2019", size=20)
 
 
@@ -1376,7 +1384,7 @@ Green_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=100, label = "TB 2020", size=20)
 
 
@@ -1392,7 +1400,7 @@ Green_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=100, label = "TB 2021", size=20)
 
 #CWM of % Green - 2022 and TB
@@ -1465,7 +1473,7 @@ EmergingLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=15)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=15, label = "FK 2019", size=20)
 
 
@@ -1481,7 +1489,7 @@ EmergingLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=15)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=15, label = "FK 2020", size=20)
 
 
@@ -1497,7 +1505,7 @@ EmergingLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=10)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=10, label = "FK 2021", size=20)
 
 #CWM of Emerging Leaves - 2022 and FK
@@ -1563,7 +1571,7 @@ EmergingLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=6)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=6, label = "TB 2019", size=20)
 
 
@@ -1579,7 +1587,7 @@ EmergingLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=6)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=6, label = "TB 2020", size=20)
 
 
@@ -1595,7 +1603,7 @@ EmergingLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),ae
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=6)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=6, label = "TB 2021", size=20)
 
 #CWM of Emerging Leaves - 2022 and TB
@@ -1657,7 +1665,7 @@ DevelopedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=15)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=15, label = "FK 2019", size=20)
 
 
@@ -1673,7 +1681,7 @@ DevelopedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=15)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=15, label = "FK 2020", size=20)
 
 
@@ -1689,7 +1697,7 @@ DevelopedLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=15)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=15, label = "FK 2021", size=20)
 
 #CWM of Developed Leaves - 2022 and FK
@@ -1749,7 +1757,7 @@ DevelopedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=20)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=20, label = "TB 2019", size=20)
 
 
@@ -1765,7 +1773,7 @@ DevelopedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=20)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=20, label = "TB 2020", size=20)
 
 
@@ -1781,7 +1789,7 @@ DevelopedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Developed Leaves (cm)")+
   expand_limits(y=20)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=20, label = "TB 2021", size=20)
 
 #CWM of Developed Leaves - 2022 and TB
@@ -1846,7 +1854,7 @@ ScenescedLeaves_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=5, label = "FK 2019", size=20)
 
 
@@ -1862,7 +1870,7 @@ ScenescedLeaves_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=5, label = "FK 2020", size=20)
 
 
@@ -1878,7 +1886,7 @@ ScenescedLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=5, label = "FK 2021", size=20)
 
 #CWM of Scenesced Leaves - 2022 and FK
@@ -1938,7 +1946,7 @@ ScenescedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=5, label = "TB 2019", size=20)
 
 
@@ -1954,7 +1962,7 @@ ScenescedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=5, label = "TB 2020", size=20)
 
 
@@ -1970,7 +1978,7 @@ ScenescedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),a
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=5, label = "TB 2021", size=20)
 
 #CWM of Scenesced Leaves - 2022 and TB
@@ -2041,7 +2049,7 @@ FlowerHeads_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=5, label = "FK 2019", size=20)
 
 
@@ -2057,7 +2065,7 @@ FlowerHeads_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=5, label = "FK 2020", size=20)
 
 
@@ -2073,7 +2081,7 @@ FlowerHeads_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=5, label = "FK 2021", size=20)
 
 #CWM of Flower Heads - 2022 and FK
@@ -2133,7 +2141,7 @@ FlowerHeads_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads (cm)")+
   expand_limits(y=10)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=10, label = "TB 2019", size=20)
 
 
@@ -2149,7 +2157,7 @@ FlowerHeads_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads (cm)")+
   expand_limits(y=10)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=10, label = "TB 2020", size=20)
 
 
@@ -2165,7 +2173,7 @@ FlowerHeads_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads (cm)")+
   expand_limits(y=10)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=10, label = "TB 2021", size=20)
 
 #CWM of Flower Heads - 2022 and TB
@@ -2226,7 +2234,7 @@ OpenFlowers_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers")+
   expand_limits(y=2)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=2, label = "FK 2019", size=20)
 
 
@@ -2242,7 +2250,7 @@ OpenFlowers_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers")+
   expand_limits(y=2)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=2, label = "FK 2020", size=20)
 
 
@@ -2258,7 +2266,7 @@ OpenFlowers_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers")+
   expand_limits(y=2)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=2, label = "FK 2021", size=20)
 
 #CWM of Open Flowers - 2022 and FK
@@ -2318,7 +2326,7 @@ OpenFlowers_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers (cm)")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=1, label = "TB 2019", size=20)
 
 
@@ -2334,7 +2342,7 @@ OpenFlowers_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers (cm)")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=1, label = "TB 2020", size=20)
 
 
@@ -2350,7 +2358,7 @@ OpenFlowers_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers (cm)")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=1, label = "TB 2021", size=20)
 
 #CWM of Open Flowers - 2022 and TB
@@ -2613,7 +2621,7 @@ LeafThickness_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=0.5, label = "FK 2019", size=20)
 
 
@@ -2629,7 +2637,7 @@ LeafThickness_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=0.5, label = "FK 2020", size=20)
 
 
@@ -2645,7 +2653,7 @@ LeafThickness_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=0.5, label = "FK 2021", size=20)
 
 #CWM of Leaf Thickness - 2022 and FK
@@ -2705,7 +2713,7 @@ LeafThickness_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=0.5, label = "TB 2019", size=20)
 
 
@@ -2721,7 +2729,7 @@ LeafThickness_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=8, y=0.5, label = "TB 2020", size=20)
 
 
@@ -2737,7 +2745,7 @@ LeafThickness_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=0.5, label = "TB 2021", size=20)
 
 #CWM of Leaf Thickness - 2022 and TB
@@ -2795,4 +2803,108 @@ anova(TB_LeafThickness_2021_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2021_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 #stable-destock(p=0.0859)
+
+
+#### Running % Green with Soil moisture data ####
+#instead of categorical drought treatments to see if there is a difference
+
+####CWM - Percent Green Plots and Stats #### 
+
+#CWM of % Green - 2019 and FK
+Green_FK_19_SM<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=Avg_SM,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Soil Moisture (%)")+
+  ylab("CWM % Green (cm)")+
+  expand_limits(y=c(85,95))+
+  expand_limits(x=c(0,25))+
+  annotate("text", x=8, y=95, label = "FK 2019", size=20)
+
+
+#CWM of % Green - 2020 and FK
+Green_FK_20_SM<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=Avg_SM,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Soil Moisture (%)")+
+  ylab("CWM % Green (cm)")+
+  expand_limits(y=c(85,95))+
+  expand_limits(x=c(0,25))+
+  annotate("text", x=8, y=95, label = "FK 2020", size=20)
+
+
+#Create graph of all years for % Green data
+pushViewport(viewport(layout=grid.layout(2,1)))
+print(Green_FK_19_SM,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Green_FK_20_SM,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+#Save at 3000 x 2000  
+
+#CWM of PercentGreen for Fort Keogh 2019 - LMER
+FK_PercentGreen_2019_LMER_SM <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Avg_SM + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2019_LMER_SM, type = 3)
+#grazing (p=0.3419), drought (p=0.2850), grazing*drought(p=0.3954)
+
+#CWM of PercentGreen for Fort Keogh 2020 - LMER
+FK_PercentGreen_2020_LMER_SM <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Avg_SM + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2020_LMER_SM, type = 3)
+#grazing (p=0.53324), drought (p=0.00586), grazing*drought(p=0.84682)
+
+
+####CWM - Percent Green Plots and Stats #### 
+
+#CWM of % Green - 2019 and TB
+Green_TB_19_SM<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=Avg_SM,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Soil Moisture (%)")+
+  ylab("CWM % Green (cm)")+
+  expand_limits(y=c(85,95))+
+  expand_limits(x=c(0,25))+
+  annotate("text", x=8, y=95, label = "TB 2019", size=20)
+
+
+#CWM of % Green - 2020 and TB
+Green_TB_20_SM<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=Avg_SM,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Soil Moisture (%)")+
+  ylab("CWM % Green (cm)")+
+  expand_limits(y=c(85,95))+
+  expand_limits(x=c(0,25))+
+  annotate("text", x=8, y=95, label = "TB 2020", size=20)
+
+#Create graph of all years for % Green data
+pushViewport(viewport(layout=grid.layout(2,1)))
+print(Green_TB_19_SM,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Green_TB_20_SM,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+#Save at 3000 x 2000  
+
+#CWM of PercentGreen for TB 2019 - LMER
+TB_PercentGreen_2019_LMER_SM <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Avg_SM + (1|block) + (1|block:paddock))
+anova(TB_PercentGreen_2019_LMER_SM, type = 3)
+#grazing (p=0.4994), drought (p=0.2530), grazing*drought(p=0.3929)
+
+#CWM of PercentGreen for TB 2020 - LMER
+TB_PercentGreen_2020_LMER_SM <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Avg_SM + (1|block) + (1|block:paddock))
+anova(TB_PercentGreen_2020_LMER_SM, type = 3)
+#grazing (p=0.5720), drought (p=0.4665), grazing*drought(p=0.9153)
 
