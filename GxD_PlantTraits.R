@@ -1034,7 +1034,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     FlowerNum_CWM=weighted.mean(Avg_flower_num,Relative_Cover,na.rm=T)
   ) %>% 
   ungroup() %>% 
-  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction))
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Trtm=paste(Rainfall_reduction_cat,grazing_treatment,sep = "_"))
 
 #Counting # of each plot number in CWM_Collected_Data to make sure all data are represented
 #CWM_Collected_Data_Count<-CWM_Collected_Data %>% 
@@ -1136,10 +1137,17 @@ anova(FK_Height_2020_LMER, type = 3)
 FK_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2021_LMER, type = 3)
 #grazing (p=0.6997953), drought (p=0.0009396), grazing*drought(p=0.0819964)
-#post hoc test for lmer test
+
+#post hoc test for lmer test on rainfall reduction
 summary(glht(FK_Height_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+#75-0 (p=0.005979), 50-25 (0.36559), 75-25 (0.000825)
 
-
+##because interaction was significant, creating a new model that utilizes column with both grazing treatment and drought treatment in it. this will allow me to run a posthoc test and see the specific differences
+FK_Height_2021_LMER_C <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ Trtm + (1|block) + (1|block:paddock))
+anova(FK_Height_2021_LMER_C, type = 3)
+ #grazing*drought(p=0.02725)
+#post hoc test for lmer test on rainfall reduction*grazing
+summary(glht(FK_Height_2021_LMER_C, linfct = mcp(Trtm = "Tukey")), test = adjusted(type = "BH"))
 
 ##Thunder Basin
 
@@ -1314,6 +1322,7 @@ anova(FK_PercentGreen_2018_LMER, type = 3)
 #grazing (p=0.15757), drought (p=0.01724), grazing*drought(p=0.14112)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2018_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #CWM of PercentGreen for Fort Keogh 2019 - LMER
 FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1326,6 +1335,7 @@ anova(FK_PercentGreen_2020_LMER, type = 3)
 #grazing (p=0.343349), drought (p=0.009215), grazing*drought(p=0.697548)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 
 #CWM of PercentGreen for Fort Keogh 2021 - LMER
@@ -1334,6 +1344,7 @@ anova(FK_PercentGreen_2021_LMER, type = 3)
 #grazing (p=0.855253), drought (p=0.004181), grazing*drought(p=0.935394)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 ##Thunder Basin
 
@@ -1423,6 +1434,14 @@ anova(TB_PercentGreen_2020_LMER, type = 3)
 #grazing (p=0.006296), drought (p=0.300711), grazing*drought(p=0.076626)
 #post hoc test for lmer test
 summary(glht(TB_PercentGreen_2020_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#heavy-destock (0.00544), stable-destock (0.5201)
+
+##because interaction was significant, creating a new model that utilizes column with both grazing treatment and drought treatment in it. this will allow me to run a posthoc test and see the specific differences
+TB_PercentGreen_2020_LMER_C <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM ~ Trtm + (1|block) + (1|block:paddock))
+anova(TB_PercentGreen_2020_LMER_C, type = 3)
+#grazing*drought(p=0.02069)
+#post hoc test for lmer test on rainfall reduction*grazing
+summary(glht(TB_PercentGreen_2020_LMER_C, linfct = mcp(Trtm = "Tukey")), test = adjusted(type = "BH"))
 
 
 #CWM of PercentGreen for Thunder Basin 2021 - LMER
@@ -1510,6 +1529,7 @@ anova(FK_EmergingLeaves_2018_LMER, type = 3)
 #grazing (p=0.62651), drought (p=0.01113), grazing*drought(p=0.62248)
 #post hoc test for lmer test
 summary(glht(FK_EmergingLeaves_2018_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significane
 
 #CWM of EmergingLeaves for Fort Keogh 2019 - LMER
 FK_EmergingLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1522,6 +1542,7 @@ anova(FK_EmergingLeaves_2020_LMER, type = 3)
 #grazing (p=0.48378), drought (p=0.00176), grazing*drought(p=0.14175)
 #post hoc test for lmer test
 summary(glht(FK_EmergingLeaves_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #CWM of EmergingLeaves for Fort Keogh 2021 - LMER
 FK_EmergingLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1604,6 +1625,7 @@ print(EmergingLeaves_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 TB_EmergingLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_EmergingLeaves_2018_LMER, type = 3)
 #grazing (p=0.02996), drought (p=0.83287), grazing*drought(p=0.30538)
+
 
 #CWM of EmergingLeaves for Thunder Basin 2019 - LMER
 TB_EmergingLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1799,6 +1821,10 @@ anova(TB_DevelopedLeaves_2019_LMER, type = 3)
 TB_DevelopedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_DevelopedLeaves_2020_LMER, type = 3)
 #grazing (p=0.08416), drought (p=0.72446), grazing*drought(p=0.33049)
+#post hoc test for lmer test
+summary(glht(TB_DevelopedLeaves_2020_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+
 
 #CWM of DevelopedLeaves for Thunder Basin 2021 - LMER
 TB_DevelopedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1974,6 +2000,10 @@ print(ScenescedLeaves_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 TB_ScenescedLeaves_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_ScenescedLeaves_2018_LMER, type = 3)
 #grazing (p=0.003424), drought (p=0.231840), grazing*drought(p=0.333466)
+#post hoc test for lmer test
+summary(glht(TB_ScenescedLeaves_2018_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+
 
 #CWM of ScenescedLeaves for Thunder Basin 2019 - LMER
 TB_ScenescedLeaves_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -1984,6 +2014,12 @@ anova(TB_ScenescedLeaves_2019_LMER, type = 3)
 TB_ScenescedLeaves_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_ScenescedLeaves_2020_LMER, type = 3)
 #grazing (p=0.008496), drought (p=0.092847), grazing*drought(p=0.241701)
+#post hoc test for lmer test
+summary(glht(TB_ScenescedLeaves_2020_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+#post hoc test for lmer test
+summary(glht(TB_ScenescedLeaves_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #CWM of ScenescedLeaves for Thunder Basin 2021 - LMER
 TB_ScenescedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -2344,6 +2380,12 @@ print(OpenFlowers_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 TB_OpenFlowers_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_OpenFlowers_2018_LMER, type = 3)
 #grazing (p=0.001421, drought (p=0.062471), grazing*drought(p=0.542256)
+#post hoc test for lmer test
+summary(glht(TB_OpenFlowers_2018_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+#post hoc test for lmer test
+summary(glht(TB_OpenFlowers_2018_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance 
 
 #CWM of OpenFlowers for Thunder Basin 2019 - LMER
 TB_OpenFlowers_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -2354,11 +2396,21 @@ anova(TB_OpenFlowers_2019_LMER, type = 3)
 TB_OpenFlowers_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_OpenFlowers_2020_LMER, type = 3)
 #grazing (p=0.31599), drought (p=0.01678), grazing*drought(p=0.31359)
+#post hoc test for lmer test
+summary(glht(TB_OpenFlowers_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#99-0 (0.0467), 99-25 (0.0467), 99-75 (0.0511)
 
 #CWM of OpenFlowers for Thunder Basin 2021 - LMER
 TB_OpenFlowers_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_OpenFlowers_2021_LMER, type = 3)
 #grazing (p=0.84051), drought (p=0.27396), grazing*drought(p=0.06227)
+#for interaction
+TB_OpenFlowers_2021_LMER_C <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), OpenFlowers_CWM ~ Trtm + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2021_LMER_C)
+#now anova isnt sign though?
+#post hoc test for lmer test
+summary(glht(TB_OpenFlowers_2021_LMER_C, linfct = mcp(Trtm = "Tukey")), test = adjusted(type = "BH"))
+#no significance 
 
 ####CWM - Total Flowers Plots and Stats #### 
 #2022 still needs to be added in
@@ -2526,27 +2578,25 @@ print(Flowers_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(Flowers_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
-#CWM of FlowerNum for Fort Keogh 2018 - LMER
-FK_FlowerNum_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FK_FlowerNum_2018_LMER, type = 3)
-#grazing (p=0.9003), drought (p=0.9447), grazing*drought(p=0.5371)
+#CWM of FlowerNum for Thunder Basin 2018 - LMER
+TB_FlowerNum_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerNum_2018_LMER, type = 3)
+#grazing (p=0.5832), drought (p=0.5281), grazing*drought(p=0.3523)
 
-#CWM of FlowerNum for Fort Keogh 2019 - LMER
-FK_FlowerNum_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FK_FlowerNum_2019_LMER, type = 3)
-#grazing (p=0.9292), drought (p=0.6283), grazing*drought(p=0.4118)
+#CWM of FlowerNum for TB 2019 - LMER
+TB_FlowerNum_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerNum_2019_LMER, type = 3)
+#grazing (p=0.3223), drought (p=0.5793), grazing*drought(p=0.4582)
 
-#CWM of FlowerNum for Fort Keogh 2020 - LMER
-FK_FlowerNum_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FK_FlowerNum_2020_LMER, type = 3)
-#grazing (p=0.8831), drought (p=0.8936), grazing*drought(p=0.2432)
+#CWM of FlowerNum for TB 2020 - LMER
+TB_FlowerNum_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerNum_2020_LMER, type = 3)
+#grazing (p=0.6334), drought (p=0.5764), grazing*drought(p=0.5361)
 
-#CWM of FlowerNum for Fort Keogh 2021 - LMER
-FK_FlowerNum_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FK_FlowerNum_2021_LMER, type = 3)
-#grazing (p=0.5836), drought (p=0.5081), grazing*drought(p=0.8208)
-
-
+#CWM of FlowerNum for TB 2021 - LMER
+TB_FlowerNum_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerNum_2021_LMER, type = 3)
+#grazing (p=0.9296), drought (p=0.2541), grazing*drought(p=0.6119)
 
 ####CWM - Leaf Thickness Plots and Stats #### 
 #2022 still needs to be added in
@@ -2717,19 +2767,32 @@ print(LeafThickness_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 TB_LeafThickness_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2018_LMER, type = 3)
 #grazing (p=0.009469, drought (p=0.251629), grazing*drought(p=0.331860)
+#post hoc test for lmer test
+summary(glht(TB_LeafThickness_2018_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#stable-destock(p=0.00618)
+
 
 #CWM of LeafThickness for Thunder Basin 2019 - LMER
 TB_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2019_LMER, type = 3)
 #grazing (p=0.03456), drought (p=0.50806), grazing*drought(p=0.43680)
+#post hoc test for lmer test
+summary(glht(TB_LeafThickness_2019_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#stable-destock(p=0.0105)
 
 #CWM of LeafThickness for Thunder Basin 2020 - LMER
 TB_LeafThickness_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2020_LMER, type = 3)
 #grazing (p=0.005095), drought (p=0.320219), grazing*drought(p=0.962599)
+#post hoc test for lmer test
+summary(glht(TB_LeafThickness_2020_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#stable-destock(p=0.00974)
 
 #CWM of LeafThickness for Thunder Basin 2021 - LMER
 TB_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2021_LMER, type = 3)
 #grazing (p=0.005631), drought (p=0.608871), grazing*drought(p=0.965710)
+#post hoc test for lmer test
+summary(glht(TB_LeafThickness_2021_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#stable-destock(p=0.0859)
 
