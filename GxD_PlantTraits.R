@@ -1743,7 +1743,7 @@ anova(FK_DevelopedLeaves_2021_LMER, type = 3)
 
 ##Thunder Basin
 
-#CWM of Developed Leaves - 2019 and TB
+#CWM of Developed Leaves - 2019 and TB #line graphs
 DevelopedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
@@ -1759,7 +1759,7 @@ DevelopedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
   annotate("text", x=8, y=20, label = "TB 2019", size=20)
 
 
-#CWM of Developed Leaves - 2020 and TB
+#CWM of Developed Leaves - 2020 and TB #line graphs
 DevelopedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
@@ -1775,7 +1775,7 @@ DevelopedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),a
   annotate("text", x=8, y=20, label = "TB 2020", size=20)
 
 
-#CWM of Developed Leaves - 2021 and TB
+#CWM of Developed Leaves - 2021 and TB #line graphs
 DevelopedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
@@ -1790,7 +1790,7 @@ DevelopedLeaves_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),a
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=8, y=20, label = "TB 2021", size=20)
 
-#CWM of Developed Leaves - 2022 and TB
+#CWM of Developed Leaves - 2022 and TB #line graphs
 DevelopedLeaves_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=DevelopedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
@@ -1811,6 +1811,51 @@ print(DevelopedLeaves_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
 print(DevelopedLeaves_TB_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 print(DevelopedLeaves_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(DevelopedLeaves_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#### Box plot for Developed Leaves ####
+DevelopedLeaves_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=grazing_treatment,y=DevelopedLeaves_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Developed Leaves (cm)")+
+  expand_limits(y=20)+
+  theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=1, y=20, label = "TB 2019", size=20)
+
+DevelopedLeaves_TB_20_box<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=grazing_treatment,y=DevelopedLeaves_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Developed Leaves (cm)")+
+  expand_limits(y=20)+
+  theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=1, y=20, label = "TB 2020", size=20)
+
+DevelopedLeaves_TB_21_box<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=grazing_treatment,y=DevelopedLeaves_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Developed Leaves (cm)")+
+  expand_limits(y=20)+
+  theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=1, y=20, label = "TB 2021", size=20)
+
+DevelopedLeaves_TB_22_box<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=grazing_treatment,y=DevelopedLeaves_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Developed Leaves (cm)")+
+  expand_limits(y=20)+
+  theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=1, y=20, label = "TB 2022", size=20)
+  
+#Create graph of all years for Developed Leaves data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(DevelopedLeaves_TB_19_box,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(DevelopedLeaves_TB_20_box,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(DevelopedLeaves_TB_21_box,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(DevelopedLeaves_TB_22_box,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of DevelopedLeaves for Thunder Basin 2018 - LMER
@@ -2767,6 +2812,52 @@ print(LeafThickness_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
 print(LeafThickness_TB_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 print(LeafThickness_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
 print(LeafThickness_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+
+#### Box plot for Developed Leaves ####
+Thickness_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Leaf Thickness (cm)")+
+  expand_limits(y=0.4)+
+  theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=1, y=0.4, label = "TB 2019", size=20)
+
+Thickness_TB_20_box<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Leaf Thickness (cm)")+
+  expand_limits(y=0.4)+
+  theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=1, y=0.4, label = "TB 2020", size=20)
+
+Thickness_TB_21_box<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Leaf Thickness (cm)")+
+  expand_limits(y=0.4)+
+  theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=1, y=0.4, label = "TB 2021", size=20)
+
+Thickness_TB_22_box<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+  geom_boxplot()+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  xlab("Grazing Treatment")+
+  ylab("CWM Leaf Thickness (cm)")+
+  expand_limits(y=0.4)+
+  theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=1, y=0.4, label = "TB 2022", size=20)
+
+#Create graph of all years for Developed Leaves data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Thickness_TB_19_box,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Thickness_TB_20_box,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Thickness_TB_21_box,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Thickness_TB_22_box,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of LeafThickness for Thunder Basin 2018 - LMER
