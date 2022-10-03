@@ -2997,3 +2997,43 @@ TB_PercentGreen_2020_LMER_SM <- lmerTest::lmer(data = subset(CWM_Collected_Data,
 anova(TB_PercentGreen_2020_LMER_SM, type = 3)
 #grazing (p=0.5720), drought (p=0.4665), grazing*drought(p=0.9153)
 
+#### Running Emerging Leaves with all years in 1 figure ####
+
+####CWM - Percent Green Plots and Stats #### 
+#2022 still needs to be added in 
+
+#CWM of Emerging - Fort Keogh all years
+Emerging_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves")+
+  expand_limits(y=c(0,10))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=10, label = "Fort Keogh", size=20)
+
+#CWM of Emerging - Thunder Basin all years
+Emerging_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=EmergingLeaves_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Emerging Leaves")+
+  expand_limits(y=c(0,10))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=20, y=10, label = "Thunder Basin", size=20)
+
+#Create graph of all years for Emerging Data
+pushViewport(viewport(layout=grid.layout(1,2)))
+print(Emerging_FK_ALL,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Emerging_TB_ALL,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+#Save at 2500 x 1500  
