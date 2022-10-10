@@ -8,6 +8,7 @@
 
 #### Load Libraries ####
 
+#install.packages("lme4")
 library(lme4)
 library(ggplot2)
 #install.packages("vi>>> /usr/bin/git pullsreg")
@@ -19,6 +20,7 @@ library(lattice)
 library(FD)
 #install.packages("pliman")
 library(pliman)
+#install.packages("multcomp")
 library(multcomp)
 library(tidyverse) 
 
@@ -86,6 +88,7 @@ FK_SpComp_2018$plot<-as.factor(FK_SpComp_2018$plot)
 FK_SpComp_2019<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2019.csv")
 FK_SpComp_2020<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2020.csv")
 FK_SpComp_2021<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2021.csv")
+FK_SpComp_2022<-read.csv("DxG_Plant_Traits/DxG_spcomp_FK_2022.csv")
 TB_SpComp_2018<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2018.csv")
 TB_SpComp_2019<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2019.csv")
 TB_SpComp_2020<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2020.csv")
@@ -810,6 +813,26 @@ Relative_Cover_2021_FK<-Long_Cov_2021_FK%>%
 #make plot a factor not an integer
 Relative_Cover_2021_FK$plot<-as.factor(Relative_Cover_2021_FK$plot)
 
+#FK - 2022
+Aerial_Cover_2022_FK<-FK_SpComp_2022 %>% 
+  filter(aerial_basal!="basal")
+
+#Create Long dataframe from wide dataframe
+Long_Cov_2022_FK<-gather(Aerial_Cover_2022_FK,key="species","cover",18:68) %>% 
+  dplyr::select(year,site,plot,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("basal.rosette","final_total","final_total_excel","Lygo.deomia","Lygo.deomia.1")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_2022_FK<-Long_Cov_2022_FK%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  dplyr::select(year,site,plot,species,Relative_Cover)
+
+#make plot a factor not an integer
+Relative_Cover_2022_FK$plot<-as.factor(Relative_Cover_2022_FK$plot)
+
 #TB- 2018
 Aerial_Cover_2018_TB<-TB_SpComp_2018 %>% 
   filter(aerial_basal!="Basal")
@@ -905,9 +928,10 @@ Species_Comp_RelCov_All<-
   full_join(Relative_Cover_2019_FK) %>% 
   full_join(Relative_Cover_2020_FK) %>% 
   full_join(Relative_Cover_2021_FK) %>% 
+  full_join(Relative_Cover_2022_FK) %>% 
   mutate(Genus_Species=ifelse(species=="Oenothera_suffruticosa","Oenothera.suffrutescens",ifelse(species=="Oenotherea.suffrutescens","Oenothera.suffrutescens",ifelse(species=="OESU","Oenothera.suffrutescens",ifelse(species=="OPPO","Opuntia.polyacantha",ifelse(species=="Opuntia_polycantha","Opuntia.polyacantha",ifelse(species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(species=="PASM","Pascopyrum_smithii",ifelse(species=="Pediomelum_esculenta","Pediomelum.esculentum",ifelse(species=="pediomelum_esculentum","Pediomelum.esculentum",ifelse(species=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(species=="PHHO","Phlox.hoodii",ifelse(species=="Plantago_patagonica","Plantago.patagonica",ifelse(species=="PLPA","Plantago.patagonica",ifelse(species=="Poa_secunda","Poa.secunda",ifelse(species=="POSE","Poa.secunda",ifelse(species=="PSTE","Psoralidium.tenuiflorum",ifelse(species=="SPCO","Sphaeralcea.coccinea",ifelse(species=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(species=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",ifelse(species=="TAOF","Taraxacum.officinale",ifelse(species=="Taraxacum_officinale","Taraxacum.officinale",ifelse(species=="Tragopogon_dubius","Tragopogon.dubius",ifelse(species=="TRDU","Tragopogon.dubius",ifelse(species=="VIAM","Vicia.americana",ifelse(species=="Vicia_americana","Vicia.americana",ifelse(species=="Vulpia_octoflora","Vulpia.octoflora",ifelse(species=="VUOC","Vulpia.octoflora",ifelse(species=="ALDE","Alyssum.desertorum",ifelse(species=="Allysum_desetorum","Alyssum.desertorum",ifelse(species=="ALTE","Allium.textile",ifelse(species=="Alyssum_desertorum","Alyssum.desertorum",ifelse(species=="Alyssum.desertorum","Alyssum.desertorum",ifelse(species=="Androsace_occidentalis","Androsace.occidentalis",ifelse(species=="ARCA","Artemisia.cana",ifelse(species=="ARDR","Artemisia.dracunculus",ifelse(species=="ARFR","Artemisia.frigida",ifelse(species=="Aristida_purpurea","Aristida.purpurea",ifelse(species=="ARPU","Aristida.purpurea",ifelse(species=="Artemisia_cana","Artemisia.cana",ifelse(species=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(species=="Artemisia_frigida","Artemisia.frigida",ifelse(species=="ARTR","Artemisia.tridentata",ifelse(species=="BODA","Bouteloua.dactyloides",ifelse(species=="BOGR" ,"Bouteloua.gracilis",ifelse(species=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(species=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(species=="BRAR","Bromus.arvensis",ifelse(species=="Bromus_arvensis","Bromus.arvensis",ifelse(species=="Bromus_tectorum","Bromus.tectorum",species)))))))))))))))))))))))))))))))))))))))))))))))))) %>% 
   mutate(Genus_Species_2=ifelse(Genus_Species=="BRTE","Bromus.tectorum",ifelse(Genus_Species=="CADU","Carex.duriuscula",ifelse(Genus_Species=="CAFI","Carex.filifolia",ifelse(Genus_Species=="Carex_durescula","Carex.duriuscula",ifelse(Genus_Species=="Carex_duriuscula","Carex.duriuscula",ifelse(Genus_Species=="conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species=="Coryphanthus_vivipara","Coryphantha.viviparus",ifelse(Genus_Species=="Coryphantha_viviparus","Coryphantha.viviparus",ifelse(Genus_Species=="COVI","Coryphantha.viviparus",ifelse(Genus_Species=="DEPI","Descurainia.pinnata",ifelse(Genus_Species=="ERHO","Eremogone.hookeri",ifelse(Genus_Species=="GUSA","Gutierrezia.sarothrae",ifelse(Genus_Species=="HECO","Hesperostipa.comata",ifelse(Genus_Species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(Genus_Species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(Genus_Species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(Genus_Species=="KOMA","Koeleria.macrantha",ifelse(Genus_Species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(Genus_Species=="LOAR","Logfia.arvensis",ifelse(Genus_Species=="Logfia_arvensis","Logfia.arvensis",ifelse(Genus_Species=="LYJU","Lygodesmia.juncea",ifelse(Genus_Species=="MUDI","Musineon.divaricatum",ifelse(Genus_Species=="NAVI","Nassella.viridula",ifelse(Genus_Species=="Oenothera_suffrutescens","Oenothera.suffrutescens",ifelse(Genus_Species=="oenothera_suffruticosa","Oenothera.suffrutescens",ifelse(Genus_Species=="Carex_filifolia","Carex.filifolia", ifelse(Genus_Species=="Liatrus_punctata","Liatris.punctata",ifelse(Genus_Species== "LOFO","Lomatium.foeniculaceum",ifelse(Genus_Species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(Genus_Species=="Lygodesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species=="Asclepias_stenophylla","Asclepias.stenophylla",ifelse(Genus_Species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(Genus_Species=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species== "Euphorbia_nutans","Euphorbia.nutans",ifelse(Genus_Species=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species=="Lactuca_serriola","Lactuca.serriola",ifelse(Genus_Species=="COLI","Collomia.linearis",Genus_Species))))))))))))))))))))))))))))))))))))))))) %>%
-  mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="DRRE","Draba.reptans",ifelse(Genus_Species_2=="ANPA","Antennaria.parvifolia",ifelse(Genus_Species_2=="CAMI","Camelina.microcarpa",ifelse(Genus_Species_2=="ERCA.","Erigeron.canus",ifelse(Genus_Species_2=="ERPU","Erigeron.pumilus",ifelse(Genus_Species_2=="ERPU.","Erigeron.pumilus",ifelse(Genus_Species_2=="HEHI","Hedeoma.hispida",ifelse(Genus_Species_2=="LEDE","Lepidium.densiflorum",ifelse(Genus_Species_2=="LIIN","Lithospermum.incisum",ifelse(Genus_Species_2=="LIPU","Liatris.punctata",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="NOCU","Nothocalais.cuspidata",ifelse(Genus_Species_2=="PEES","Pediomelum.esculentum",ifelse(Genus_Species_2=="PIOP","Picradeniopsis.oppositifolia",ifelse(Genus_Species_2=="POAV","Polygonum.aviculare",ifelse(Genus_Species_2=="VEPE","Veronica.peregrina", ifelse(Genus_Species_2=="ZIVE","Zigadenus.venenosus", Genus_Species_2)))))))))))))))))))) %>% 
+  mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="DRRE","Draba.reptans",ifelse(Genus_Species_2=="ANPA","Antennaria.parvifolia",ifelse(Genus_Species_2=="CAMI","Camelina.microcarpa",ifelse(Genus_Species_2=="ERCA.","Erigeron.canus",ifelse(Genus_Species_2=="ERPU","Erigeron.pumilus",ifelse(Genus_Species_2=="ERPU.","Erigeron.pumilus",ifelse(Genus_Species_2=="HEHI","Hedeoma.hispida",ifelse(Genus_Species_2=="LEDE","Lepidium.densiflorum",ifelse(Genus_Species_2=="LIIN","Lithospermum.incisum",ifelse(Genus_Species_2=="LIPU","Liatris.punctata",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="MODI","Musineon.divaricatum",ifelse(Genus_Species_2=="NOCU","Nothocalais.cuspidata",ifelse(Genus_Species_2=="PEES","Pediomelum.esculentum",ifelse(Genus_Species_2=="PIOP","Picradeniopsis.oppositifolia",ifelse(Genus_Species_2=="POAV","Polygonum.aviculare",ifelse(Genus_Species_2=="VEPE","Veronica.peregrina", ifelse(Genus_Species_2=="ZIVE","Zigadenus.venenosus", ifelse(Genus_Species_2=="ANOC","Androsace.occidentalis", ifelse(Genus_Species_2=="ASGR","Astragalus.gracilis",ifelse(Genus_Species_2=="ASPU","Astragalus.purshii",ifelse(Genus_Species_2=="COCA","Conyza.canadensis",ifelse(Genus_Species_2=="LIRI","Linum.rigidum",ifelse(Genus_Species_2=="MAGR","Machaeranthera.grindelioides",ifelse(Genus_Species_2=="PEAL","Pediomelum.esculentum",ifelse(Genus_Species_2=="SPCR","Sporobolus.cryptandrus",Genus_Species_2)))))))))))))))))))))))))))) %>% 
   dplyr::select(-species,-Genus_Species,-Genus_Species_2)
 
 
@@ -1112,14 +1136,13 @@ Height_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rain
   annotate("text", x=8, y=30, label = "FK 2021", size=20)
 
 #CWM of height - 2022 and FK
-Height_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+Height_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Height (cm)")+
   expand_limits(y=25)+
@@ -1199,6 +1222,12 @@ fitOR3 <- glm(y3 ~ CWM_Collected_2021_FK$grazing_treatment*CWM_Collected_2021_FK
               family=binomial(link="logit"))
 # plot multiple models
 sjp.glmm(fitOR1, fitOR2, fitOR3)
+
+
+#CWM of height for Fort Keogh 2022 - LMER
+FK_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2022_LMER, type = 3)
+#grazing (p=0.86285), drought (p=0.02237), grazing*drought(p=0.48520)
 
 ##Thunder Basin
 
@@ -1346,12 +1375,12 @@ Green_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainf
 #CWM of % Green - 2022 and FK
 Green_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","solid","solid"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","solid","solid"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM % Green (cm)")+
   expand_limits(y=c(80,100))+
@@ -1394,6 +1423,10 @@ anova(FK_PercentGreen_2021_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 #no significance
+
+FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2022_LMER, type = 3)
+#grazing (p=0.3831), drought (p=0.6320), grazing*drought(p=0.7856)
 
 ##Thunder Basin
 
@@ -1597,6 +1630,12 @@ FK_EmergingLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,y
 anova(FK_EmergingLeaves_2021_LMER, type = 3)
 #grazing (p=0.3024), drought (p=0.4010), grazing*drought(p=0.5852)
 
+##CWM of EmergingLeaves for Fort Keogh 2022 - LMER
+FK_EmergingLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_EmergingLeaves_2022_LMER, type = 3)
+#grazing (p=0.3438), drought (p=0.3546), grazing*drought(p=0.4631)
+
+
 ##Thunder Basin
 
 #CWM of Emerging Leaves - 2019 and TB
@@ -1780,6 +1819,11 @@ anova(FK_DevelopedLeaves_2020_LMER, type = 3)
 #CWM of DevelopedLeaves for Fort Keogh 2021 - LMER
 FK_DevelopedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_DevelopedLeaves_2021_LMER, type = 3)
+#grazing (p=0.4296), drought (p=0.3093), grazing*drought(p=0.6436)
+
+#CWM of DevelopedLeaves for Fort Keogh 2022 - LMER
+FK_DevelopedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_DevelopedLeaves_2022_LMER, type = 3)
 #grazing (p=0.4296), drought (p=0.3093), grazing*drought(p=0.6436)
 
 ##Thunder Basin
@@ -1974,14 +2018,13 @@ ScenescedLeaves_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),a
   annotate("text", x=8, y=5, label = "FK 2021", size=20)
 
 #CWM of Scenesced Leaves - 2022 and FK
-ScenescedLeaves_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+ScenescedLeaves_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
@@ -2015,6 +2058,11 @@ anova(FK_ScenescedLeaves_2020_LMER, type = 3)
 FK_ScenescedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_ScenescedLeaves_2021_LMER, type = 3)
 #grazing (p=0.7516), drought (p=0.2891), grazing*drought(p=0.2450)
+
+#CWM of ScenescedLeaves for Fort Keogh 2022 - LMER
+FK_ScenescedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_ScenescedLeaves_2022_LMER, type = 3)
+#grazing (p=0.37198), drought (p=0.01175), grazing*drought(p=0.28801)
 
 ##Thunder Basin
 
@@ -2210,6 +2258,11 @@ FK_FlowerHeads_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year
 anova(FK_FlowerHeads_2021_LMER, type = 3)
 #grazing (p=0.5648), drought (p=0.5355), grazing*drought(p=0.8493)
 
+#CWM of FlowerHeads for Fort Keogh 2022 - LMER
+FK_FlowerHeads_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerHeads_2022_LMER, type = 3)
+#grazing (p=0.7063), drought (p=0.2274), grazing*drought(p=0.1471)
+
 ##Thunder Basin
 
 #CWM of Flower Heads - 2019 and TB
@@ -2394,6 +2447,11 @@ anova(FK_OpenFlowers_2020_LMER, type = 3)
 FK_OpenFlowers_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_OpenFlowers_2021_LMER, type = 3)
 #grazing (p=0.5933), drought (p=0.2636), grazing*drought(p=0.7423)
+
+#CWM of OpenFlowers for Fort Keogh 2022 - LMER
+FK_OpenFlowers_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_OpenFlowers_2022_LMER, type = 3)
+#grazing (p=0.2108), drought (p=0.2610), grazing*drought(p=0.9359)
 
 ##Thunder Basin
 
@@ -2596,6 +2654,11 @@ FK_FlowerNum_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==
 anova(FK_FlowerNum_2021_LMER, type = 3)
 #grazing (p=0.5836), drought (p=0.5081), grazing*drought(p=0.8208)
 
+#CWM of FlowerNum for Fort Keogh 2022 - LMER
+FK_FlowerNum_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_FlowerNum_2022_LMER, type = 3)
+#grazing (p=0.6362), drought (p=0.1777), grazing*drought(p=0.1384)
+
 
 ##Thunder Basin
 
@@ -2782,6 +2845,11 @@ FK_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,ye
 anova(FK_LeafThickness_2021_LMER, type = 3)
 #grazing (p=0.5948), drought (p=0.8867), grazing*drought(p=0.8539)
 
+#CWM of LeafThickness for Fort Keogh 2022 - LMER
+FK_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2022_LMER, type = 3)
+#grazing (p=0.9697), drought (p=0.2508), grazing*drought(p=0.9704)
+
 ##Thunder Basin
 
 #CWM of Leaf Thickness - 2019 and TB
@@ -2855,7 +2923,7 @@ print(LeafThickness_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 
-#### Box plot for Developed Leaves ####
+#### Box plot for Leaf Thickness ####
 Thickness_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
   geom_boxplot()+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
@@ -3026,6 +3094,11 @@ anova(FK_LDMC_2020_LMER, type = 3)
 FK_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2021_LMER, type = 3)
 #grazing (p=0.8974), drought (p=0.6057), grazing*drought(p=0.9743)
+
+#CWM of LDMC for Fort Keogh 2022 - LMER
+FK_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2022_LMER, type = 3)
+#grazing (p=0.9281), drought (p=0.9429), grazing*drought(p=0.5343)
 
 ##Thunder Basin 
 #CWM of LDMC - 2019 and TB
@@ -3211,6 +3284,12 @@ anova(FK_Biomass_2020_LMER, type = 3)
 FK_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2021_LMER, type = 3)
 #grazing (p=0.54448), drought (p=0.02502), grazing*drought(p=0.39830)
+
+#CWM of Biomass for Fort Keogh 2022 - LMER
+FK_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Biomass_2022_LMER, type = 3)
+#grazing (p=0.5073), drought (p=0.5087), grazing*drought(p=0.8485)
+
 
 ## Thunder Basin
 
