@@ -1151,6 +1151,7 @@ anova(FK_Height_2020_LMER, type = 3)
 
 #CWM of height for Fort Keogh 2021 - LMER
 FK_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+summary(FK_Height_2021_LMER)
 anova(FK_Height_2021_LMER, type = 3)
 #grazing (p=0.6997953), drought (p=0.0009396), grazing*drought(p=0.0819964)
 #post hoc test for lmer test on rainfall reduction
@@ -1158,9 +1159,26 @@ summary(glht(FK_Height_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")
 #75-0 (p=0.005979), 50-25 (0.36559), 75-25 (0.000825)
 #post hoc comparing slopes of lines - 
 
-install.packages("emuR")
+#install.packages("emuR")
 library(emuR)
-Slope.test(...)
+
+#make matrix for each grazing treatment with y data (CWM Height) and x data (rainfall reduction)
+Height_FK_21_LG<- CWM_Collected_Data %>% 
+  filter(year==2021 & Site=="FK" & grazing_treatment=="destock") %>% 
+  select(Height_CWM,rainfall_reduction) %>% 
+  as.matrix()
+
+Height_FK_21_MG<- CWM_Collected_Data %>% 
+  filter(year==2021 & Site=="FK" & grazing_treatment=="stable") %>% 
+  select(Height_CWM,rainfall_reduction) %>% 
+  as.matrix()
+
+Height_FK_21_HG<- CWM_Collected_Data %>% 
+  filter(year==2021 & Site=="FK" & grazing_treatment=="heavy") %>% 
+  select(Height_CWM,rainfall_reduction) %>% 
+  as.matrix()
+
+Slope.test(Height_FK_21_LG,Height_FK_21_MG,Height_FK_21_HG)
  
 #install.packages("sjPlot")
 library(sjPlot)
