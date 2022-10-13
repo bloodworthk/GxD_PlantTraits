@@ -3558,7 +3558,7 @@ PCA_FK_19_meta<-cbind(CWM_Collected_Data_FK_19,axes_FK_19)%>%
 #find contributions of CW traits to PCA axes #
 var_FK_19 <- get_pca_var(PCA_FK_19)
 var_FK_19
-head(var_FK_19$contrib, 12)
+head(var_FK_19$contrib, 13)
 
 #### PCA for FK 2020 ####
 PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,11:21],scale=TRUE)
