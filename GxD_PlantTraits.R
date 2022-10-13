@@ -22,6 +22,8 @@ library(FD)
 library(pliman)
 #install.packages("multcomp")
 library(multcomp)
+#install.packages("factoextra")
+library(factoextra)
 library(tidyverse) 
 
 
@@ -3506,3 +3508,177 @@ pushViewport(viewport(layout=grid.layout(1,2)))
 print(Emerging_FK_ALL,vp=viewport(layout.pos.row=1, layout.pos.col =1))
 print(Emerging_TB_ALL,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 #Save at 2500 x 1500  
+
+
+#### PCAs ####
+
+#Create seperate dataframes for each site and year for PCAs
+CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2019)
+
+CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2020)
+
+CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2021)
+
+CWM_Collected_Data_FK_22<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2022)
+
+CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2019) %>% 
+  na.omit(Biomass_CWM)
+
+CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2020) %>% 
+  na.omit(Biomass_CWM) %>% 
+  na.omit(LDMC_CWM)
+
+CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2021) %>% 
+  na.omit(Biomass_CWM) 
+
+CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2022)
+
+#### PCA for FK 2019 ####
+PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,11:21],scale=TRUE)
+PCA_FK_19
+summary(PCA_FK_19)
+
+axes_FK_19 <- predict(PCA_FK_19, newdata = CWM_Collected_Data_FK_19)
+head(axes_FK_19, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_19_meta<-cbind(CWM_Collected_Data_FK_19,axes_FK_19)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_19 <- get_pca_var(PCA_FK_19)
+var_FK_19
+head(var_FK_19$contrib, 12)
+
+#### PCA for FK 2020 ####
+PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,11:21],scale=TRUE)
+PCA_FK_20
+summary(PCA_FK_20)
+
+axes_FK_20 <- predict(PCA_FK_20, newdata = CWM_Collected_Data_FK_20)
+head(axes_FK_20, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_20_meta<-cbind(CWM_Collected_Data_FK_20,axes_FK_20)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_20 <- get_pca_var(PCA_FK_20)
+var_FK_20
+head(var_FK_20$contrib, 12)
+
+#### PCA for FK 2021 ####
+PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,11:21],scale=TRUE)
+PCA_FK_21
+summary(PCA_FK_21)
+
+axes_FK_21 <- predict(PCA_FK_21, newdata = CWM_Collected_Data_FK_21)
+head(axes_FK_21, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_21_meta<-cbind(CWM_Collected_Data_FK_21,axes_FK_21)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_21 <- get_pca_var(PCA_FK_21)
+var_FK_21
+head(var_FK_21$contrib, 12)
+
+#### PCA for FK 2022 ####
+PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,11:21],scale=TRUE)
+PCA_FK_22
+summary(PCA_FK_22)
+
+axes_FK_22 <- predict(PCA_FK_22, newdata = CWM_Collected_Data_FK_22)
+head(axes_FK_22, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_22_meta<-cbind(CWM_Collected_Data_FK_22,axes_FK_22)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_22 <- get_pca_var(PCA_FK_22)
+var_FK_22
+head(var_FK_22$contrib, 12)
+
+#### PCA for TB 2019 ####
+PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,11:21],scale=TRUE)
+PCA_TB_19
+summary(PCA_TB_19)
+
+axes_TB_19 <- predict(PCA_TB_19, newdata = CWM_Collected_Data_TB_19)
+head(axes_TB_19, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_19_meta<-cbind(CWM_Collected_Data_TB_19,axes_TB_19)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_19 <- get_pca_var(PCA_TB_19)
+var_TB_19
+head(var_FK_19$contrib, 12)
+
+#### PCA for TB 2020 ####
+PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,11:21],scale=TRUE)
+PCA_TB_20
+summary(PCA_TB_20)
+
+axes_TB_20 <- predict(PCA_TB_20, newdata = CWM_Collected_Data_TB_20)
+head(axes_TB_20, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_20_meta<-cbind(CWM_Collected_Data_TB_20,axes_TB_20)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_20 <- get_pca_var(PCA_TB_20)
+var_TB_20
+head(var_TB_20$contrib, 12)
+
+#### PCA for TB 2021 ####
+PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,11:21],scale=TRUE)
+PCA_TB_21
+summary(PCA_TB_21)
+
+axes_TB_21 <- predict(PCA_TB_21, newdata = CWM_Collected_Data_TB_21)
+head(axes_TB_21, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_21_meta<-cbind(CWM_Collected_Data_TB_21,axes_TB_21)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_21 <- get_pca_var(PCA_TB_21)
+var_TB_21
+head(var_TB_21$contrib, 12)
+
+#### PCA for TB 2022 ####
+PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,11:21],scale=TRUE)
+PCA_TB_22
+summary(PCA_TB_22)
+
+axes_TB_22 <- predict(PCA_TB_22, newdata = CWM_Collected_Data_TB_22)
+head(axes_TB_22, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_22_meta<-cbind(CWM_Collected_Data_TB_22,axes_TB_22)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_22 <- get_pca_var(PCA_TB_22)
+var_TB_22
+head(var_TB_22$contrib, 12)
+
+
+#### PCA Graphs #### 
+g<-autoplot(PCA,data=Nutrients,scale=0,         colour="Site",loadings=TRUE,loadings.colour="black",size=3,         loadings.label=TRUE,loadings.label.colour="black",loadings.label.size=6)
+arrow_ends <- layer_data(g, 2)[,c(2,4)]
+autoplot(PCA,data=Nutrients,scale=0,         colour="Site",loadings=TRUE,loadings.colour="black",size=3,         loadings.label=TRUE,loadings.label.colour="black",loadings.label.size=5,         loadings.label.vjust = 1.5,frame=T,frame.colour = 'Site') +  geom_point(data = arrow_ends, aes(xend, yend), size = 2) +   theme(plot.background=element_blank(),        panel.background=element_rect(fill='transparent',color='black',size=1),        legend.key=element_blank())
