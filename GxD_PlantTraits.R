@@ -1315,7 +1315,7 @@ Height_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rain
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Height (cm)")+
   expand_limits(y=25)+
@@ -1351,6 +1351,11 @@ anova(TB_Height_2020_LMER, type = 3)
 TB_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2021_LMER, type = 3)
 #grazing (p=0.1568), drought (p=0.3947), grazing*drought(p=0.7429)
+
+#CWM of height for Thunder Basin 2022 - LMER
+TB_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2022_LMER, type = 3)
+#grazing (p=0.04306), drought (p=0.24875), grazing*drought(p=0.79121)
 
 ####CWM - Percent Green Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1509,7 +1514,7 @@ Green_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainf
 #CWM of % Green - 2022 and TB
 Green_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1550,6 +1555,10 @@ TB_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,yea
 anova(TB_PercentGreen_2021_LMER, type = 3)
 #grazing (p=0.2083), drought (p=0.4037), grazing*drought(p=0.8290)
 
+#CWM of PercentGreen for Thunder Basin 2022 - LMER
+TB_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PercentGreen_2022_LMER, type = 3)
+#grazing (p=0.09664), drought (p=0.04725), grazing*drought(p=0.66708)
 
 ####CWM - Emerging Leaves Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1712,7 +1721,7 @@ EmergingLeaves_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),ae
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Emerging Leaves (cm)")+
   expand_limits(y=6)+
@@ -1746,6 +1755,11 @@ anova(TB_EmergingLeaves_2020_LMER, type = 3)
 TB_EmergingLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_EmergingLeaves_2021_LMER, type = 3)
 #grazing (p=0.3690), drought (p=0.9297), grazing*drought(p=0.4890)
+
+#CWM of EmergingLeaves for Thunder Basin 2022 - LMER
+TB_EmergingLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_EmergingLeaves_2022_LMER, type = 3)
+#grazing (p=0.1576), drought (p=0.6863), grazing*drought(p=0.5750)
 
 ####CWM - Developed Leaves Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1986,6 +2000,11 @@ TB_DevelopedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,
 anova(TB_DevelopedLeaves_2021_LMER, type = 3)
 #grazing (p=0.4952), drought (p=0.9982), grazing*drought(p=0.5508)
 
+#CWM of DevelopedLeaves for Thunder Basin 2022 - LMER
+TB_DevelopedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), DevelopedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_DevelopedLeaves_2022_LMER, type = 3)
+#grazing (p=0.3378), drought (p=0.8275), grazing*drought(p=0.7658)
+
 ####CWM - Scenesced Leaves Plots and Stats #### 
 #2022 still needs to be added in 
 
@@ -2140,7 +2159,7 @@ ScenescedLeaves_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),a
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Scenesced Leaves (cm)")+
   expand_limits(y=5)+
@@ -2178,6 +2197,11 @@ anova(TB_ScenescedLeaves_2020_LMER, type = 3)
 TB_ScenescedLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_ScenescedLeaves_2021_LMER, type = 3)
 #grazing (p=0.3414), drought (p=0.4713), grazing*drought(p=0.7283)
+
+#CWM of ScenescedLeaves for Thunder Basin 2022 - LMER
+TB_ScenescedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_ScenescedLeaves_2022_LMER, type = 3)
+#grazing (p=0.0412), drought (p=0.4911), grazing*drought(p=0.7575)
 
 ####CWM - Flower Heads Plots and Stats #### 
 #2022 still needs to be added in 
@@ -2334,7 +2358,7 @@ FlowerHeads_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Flower Heads (cm)")+
   expand_limits(y=10)+
@@ -2368,6 +2392,11 @@ anova(TB_FlowerHeads_2020_LMER, type = 3)
 TB_FlowerHeads_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_FlowerHeads_2021_LMER, type = 3)
 #grazing (p=0.9082), drought (p=0.1777), grazing*drought(p=0.5872)
+
+#CWM of FlowerHeads for Thunder Basin 2022 - LMER
+TB_FlowerHeads_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), FlowerHeads_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerHeads_2022_LMER, type = 3)
+#grazing (p=0.7883), drought (p=0.2169), grazing*drought(p=0.1963)
 
 ####CWM - Open Flowers Plots and Stats #### 
 #2022 still needs to be added in 
@@ -2524,7 +2553,7 @@ OpenFlowers_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Open Flowers (cm)")+
   expand_limits(y=1)+
@@ -2574,6 +2603,11 @@ anova(TB_OpenFlowers_2021_LMER_C)
 #post hoc test for lmer test
 summary(glht(TB_OpenFlowers_2021_LMER_C, linfct = mcp(Trtm = "Tukey")), test = adjusted(type = "BH"))
 #no significance 
+
+#CWM of OpenFlowers for Thunder Basin 2022 - LMER
+TB_OpenFlowers_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), OpenFlowers_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_OpenFlowers_2022_LMER, type = 3)
+#grazing (p=0.1738), drought (p=0.7592), grazing*drought(p=0.4359)
 
 ####CWM - Total Flowers Plots and Stats #### 
 #2022 still needs to be added in
@@ -2731,7 +2765,7 @@ Flowers_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rai
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Total Flower Number")+
   expand_limits(y=8)+
@@ -2765,6 +2799,11 @@ anova(TB_FlowerNum_2020_LMER, type = 3)
 TB_FlowerNum_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_FlowerNum_2021_LMER, type = 3)
 #grazing (p=0.9296), drought (p=0.2541), grazing*drought(p=0.6119)
+
+#CWM of FlowerNum for TB 2022 - LMER
+TB_FlowerNum_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), FlowerNum_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_FlowerNum_2022_LMER, type = 3)
+#grazing (p=0.7685), drought (p=0.2689), grazing*drought(p=0.2045)
 
 ####CWM - Leaf Thickness Plots and Stats #### 
 #2022 still needs to be added in
@@ -2921,7 +2960,7 @@ LeafThickness_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
-  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Rainfall Reduction (%)")+
   ylab("CWM Leaf Thickness (mm)")+
   expand_limits(y=0.5)+
@@ -2938,7 +2977,7 @@ print(LeafThickness_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 
 
 #### Box plot for Leaf Thickness ####
-Thickness_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+Thickness_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM)) +  
   geom_boxplot()+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   xlab("Grazing Treatment")+
@@ -2947,7 +2986,7 @@ Thickness_TB_19_box<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes
   theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=1, y=0.4, label = "TB 2019", size=20)
 
-Thickness_TB_20_box<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+Thickness_TB_20_box<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM)) +  
   geom_boxplot()+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   xlab("Grazing Treatment")+
@@ -2956,7 +2995,7 @@ Thickness_TB_20_box<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes
   theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=1, y=0.4, label = "TB 2020", size=20)
 
-Thickness_TB_21_box<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+Thickness_TB_21_box<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM))+
   geom_boxplot()+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   xlab("Grazing Treatment")+
@@ -2965,7 +3004,7 @@ Thickness_TB_21_box<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes
   theme(axis.text.y=element_text(size=55),axis.title.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=1, y=0.4, label = "TB 2021", size=20)
 
-Thickness_TB_22_box<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=grazing_treatment,y=LeafThickness_CWM)) +  
+Thickness_TB_22_box<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM)) +  
   geom_boxplot()+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   xlab("Grazing Treatment")+
@@ -3008,6 +3047,11 @@ anova(TB_LeafThickness_2021_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2021_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 #stable-destock(p=0.0859)
+
+#CWM of LeafThickness for Thunder Basin 2022 - LMER
+TB_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2022_LMER, type = 3)
+#grazing (p=3.144e-05), drought (p=0.4181), grazing*drought(p=0.9265)
 
 ####CWM - LDMC Plots and Stats #### 
 #2022 still needs to be added in
@@ -3198,6 +3242,11 @@ anova(TB_LDMC_2020_LMER, type = 3)
 TB_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2021_LMER, type = 3)
 #grazing (p=0.07248), drought (p=0.24112), grazing*drought(p=0.78809)
+
+#CWM of LDMC for TB 2022 - LMER
+TB_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2022_LMER, type = 3)
+#grazing (p=0.2010), drought (p=0.2214), grazing*drought(p=0.8344)
 
 ####CWM - Biomass Plots and Stats #### 
 #2022 still needs to be added in
@@ -3390,6 +3439,11 @@ anova(TB_Biomass_2020_LMER, type = 3)
 TB_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2021_LMER, type = 3)
 #grazing (p=0.06516), drought (p=0.02987), grazing*drought(p=0.54141)
+
+#CWM of Biomass for TB 2022 - LMER
+TB_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Biomass_2022_LMER, type = 3)
+#grazing (p=0.1076), drought (p=0.7132), grazing*drought(p=0.9793)
 
 #### Running % Green with Soil moisture data ####
 #instead of categorical drought treatments to see if there is a difference
