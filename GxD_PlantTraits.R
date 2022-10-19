@@ -26,7 +26,10 @@ library(pliman)
 library(multcomp)
 #install.packages("factoextra")
 library(factoextra)
+#install.packages("fundiversity")
+library(fundiversity)
 library(tidyverse) 
+
 
 
 #### Set Working Directory ####
@@ -3793,6 +3796,23 @@ print(PCA_TB_22,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 
 #### PCA Stats ####
 
+# run PERMANOVA using adonis, All_Traits_O_Trait_Drop (Change) Dataset for SN
+PERMANOVA <-adonis(Rip_SN_Ch_Traits~Treatment, data = SN_Ch_Traits_O_Drop, 
+                   permutations = 1000, method = 'bray') 
+PERMANOVA
+
 #### Functional Diversity ####
+
+FD_FK_19<-CWM_Collected_Data_FK_19 %>% 
+  dplyr::select(Height_CWM,PercentGreen_CWM,EmergingLeaves_CWM,DevelopedLeaves_CWM,ScenescedLeaves_CWM,FlowerHeads_CWM,OpenFlowers_CWM,LeafThickness_CWM,FlowerNum_CWM,LDMC_CWM,Biomass_CWM)
+
+install.packages("FD")
+library(FD)
+x<-dbFD(PCA_FK_19)
+x
+
+
+
+
 
 
