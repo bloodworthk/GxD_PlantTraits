@@ -3908,6 +3908,141 @@ PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatme
 print(PERMANOVA_TB_22)
 #drought (p=0.23673), grazing (p=0.008991), DxG (0.847153)
 
+## PERMDISP ##
+
+# FK 2019
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_19 <- vegdist(CWM_FK_19_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_19_drought <- betadisper(BC_Distance_Matrix_FK_19,CWM_FK_19_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_19_drought) #p=0.6567
+
+
+# FK 2020
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_20 <- vegdist(CWM_FK_20_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_20_drought <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_20_drought) #p=0.8268
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_20_graze <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Grazing_2020)
+anova(Dispersion_FK_20_graze) #p=0.842
+
+#combine 2020 grazing+drought
+CWM_FK_20_Treatment<-CWM_FK_20_Treatment %>% 
+  mutate(Trtm_20=paste(Rainfall_reduction_cat,Grazing_2020,sep="."))
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_20_DxG <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Trtm_20)
+anova(Dispersion_FK_20_DxG) #p=0.984
+
+
+# FK 2021
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_21 <- vegdist(CWM_FK_21_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_21_drought <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_21_drought) #p=0.2659
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_21_graze <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$grazing_treatment)
+anova(Dispersion_FK_21_graze) #p=0.6441
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_21_DxG <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Trtm)
+anova(Dispersion_FK_21_DxG) #p=0.9959
+
+
+# FK 2022
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_22 <- vegdist(CWM_FK_22_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_22_drought <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_22_drought) #p=0.1634
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_22_graze <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$grazing_treatment)
+anova(Dispersion_FK_22_graze) #p=0.4731
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_22_DxG <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Trtm)
+anova(Dispersion_FK_22_DxG) #p=0.9886
+
+# TB 2019
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_19 <- vegdist(CWM_TB_19_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_19_drought <- betadisper(BC_Distance_Matrix_TB_19,CWM_TB_19_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_19_drought) #p=0.3649
+
+# TB 2020
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_20 <- vegdist(CWM_TB_20_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_20_drought <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_20_drought) #p=0.5175
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_20_graze <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Grazing_2020)
+anova(Dispersion_TB_20_graze) #p=0.3177
+
+#combine 2020 grazing+drought
+CWM_TB_20_Treatment<-CWM_TB_20_Treatment %>% 
+  mutate(Trtm_20=paste(Rainfall_reduction_cat,Grazing_2020,sep="."))
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_20_DxG <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Trtm_20)
+anova(Dispersion_TB_20_DxG) #p=0.1283
+
+# TB 2021
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_21 <- vegdist(CWM_TB_21_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_21_drought <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_21_drought) #p=0.8262
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_21_graze <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$grazing_treatment)
+anova(Dispersion_TB_21_graze) #p=0.3113
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_21_DxG <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Trtm)
+anova(Dispersion_TB_21_DxG) #p=0.5866
+
+
+# TB 2022
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_22 <- vegdist(CWM_TB_22_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_22_drought <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_22_drought) #p=0.6337
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_22_graze <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$grazing_treatment)
+anova(Dispersion_TB_22_graze) #p=0.3852
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
+anova(Dispersion_TB_22_DxG) #p=0.646
+
+
 #### Functional Diversity ####
 
 FD_FK_19<-CWM_Collected_Data_FK_19 %>% 
