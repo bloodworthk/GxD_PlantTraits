@@ -26,8 +26,6 @@ library(pliman)
 library(multcomp)
 #install.packages("factoextra")
 library(factoextra)
-#install.packages("fundiversity")
-library(fundiversity)
 library(tidyverse) 
 
 
@@ -3796,10 +3794,119 @@ print(PCA_TB_22,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 
 #### PCA Stats ####
 
-# run PERMANOVA using adonis, All_Traits_O_Trait_Drop (Change) Dataset for SN
-PERMANOVA <-adonis(Rip_SN_Ch_Traits~Treatment, data = SN_Ch_Traits_O_Drop, 
+#make two seperate dataframes for each year and site to have treatment data and trait data seperate
+
+## FK ##
+#2019
+CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2020
+CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2021
+CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2022
+CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+## TB ##
+#2019
+CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2020
+CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2021
+CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2022
+CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+
+# run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
+
+## FK ##
+#FK 2019
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
                    permutations = 1000, method = 'bray') 
-PERMANOVA
+print(PERMANOVA_FK_19) 
+# drought (p=0.953)
+
+#FK 2020
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_FK_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_20)
+#drought (p=0.3876), grazing (p=0.7842), DxG (0.9930)
+
+#FK 2021
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_21)
+#drought (p=0.01199), grazing (p=0.79520), DxG (0.74625)
+
+#FK 2022
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_22)
+#drought (p=0.3477), grazing (p=0.4396), DxG (0.7223)
+
+##TB##
+
+#TB 2019
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_19) 
+# drought (p=0.8521)
+
+#TB 2020
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_TB_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_20)
+#drought (p=0.8062), grazing (p=0.1449), DxG (0.6913)
+
+#TB 2021
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_21)
+#drought (p=0.78222), grazing (p=0.09191), DxG (0.98901)
+
+#TB 2022
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_22)
+#drought (p=0.23673), grazing (p=0.008991), DxG (0.847153)
 
 #### Functional Diversity ####
 
