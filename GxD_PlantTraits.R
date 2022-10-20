@@ -3762,7 +3762,15 @@ head(var_TB_22$contrib, 12)
 #### PCA Graphs #### 
 
 #FK
-PCA_FK_19<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="Trtm", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6)
+PCA_FK_19_G<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="Trtm", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="Trtm")
+
+#create arrows and say how big arrow ends are
+arrow_ends <- layer_data(PCA_FK_19_G, 2)[,c(2,4)]
+
+#add in 
+autoplot(PCA_FK_19,data=CWM_Collected_Data_FK_19,scale=0,colour="Trtm",loadings=TRUE,loadings.colour="black",size=3,         loadings.label=TRUE,loadings.label.colour="black",loadings.label.size=5,loadings.label.vjust = 1.5,frame=T,frame.colour = 'Trtm') +
+  geom_point(data = arrow_ends, aes(xend, yend), size = 2) +
+  theme(plot.background=element_blank(),panel.background=element_rect(fill='transparent',color='black',size=1),legend.key=element_blank())
 
 PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="Trtm", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6)
 
