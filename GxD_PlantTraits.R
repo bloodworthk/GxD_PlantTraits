@@ -1077,8 +1077,6 @@ SM_data_Update<-SM_data %>%
   rename(plot=Plot) %>% 
   mutate(plot=as.factor(plot))
 
-
-
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
   left_join(SM_data_Update) %>% 
@@ -4045,16 +4043,12 @@ anova(Dispersion_TB_22_DxG) #p=0.646
 
 #### Functional Diversity ####
 
-FD_FK_19<-CWM_Collected_Data_FK_19 %>% 
-  dplyr::select(Height_CWM,PercentGreen_CWM,EmergingLeaves_CWM,DevelopedLeaves_CWM,ScenescedLeaves_CWM,FlowerHeads_CWM,OpenFlowers_CWM,LeafThickness_CWM,FlowerNum_CWM,LDMC_CWM,Biomass_CWM)
+FD_FK_19<-AverageTraits %>% 
+  filter(Site=="FK") %>% 
+  dplyr::select(-Site,-Season,-DxG_block,-species_code) 
 
-install.packages("FD")
-library(FD)
-x<-dbFD(PCA_FK_19)
-x
-
+#trying to make species the row names
+row.names(FD_FK_19)<-FD_FK_19$Genus_Species_Correct
 
 
-
-
-
+CWM_Collected_Data
