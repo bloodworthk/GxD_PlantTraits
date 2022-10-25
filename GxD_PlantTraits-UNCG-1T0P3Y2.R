@@ -1077,6 +1077,8 @@ SM_data_Update<-SM_data %>%
   rename(plot=Plot) %>% 
   mutate(plot=as.factor(plot))
 
+
+
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
   left_join(SM_data_Update) %>% 
@@ -4043,17 +4045,16 @@ anova(Dispersion_TB_22_DxG) #p=0.646
 
 #### Functional Diversity ####
 
-FD_FK_19<-AverageTraits %>% 
-  filter(Site=="FK") %>% 
-  dplyr::select(-Site,-Season,-species_code) %>%
-  group_by(Genus_Species_Correct) %>% 
-  summarise(Height_Mean=mean(Avg_height_cm,na.rm = T), Biomass_Mean=mean(Avg_biomass_g,na.rm = T), Mean_Green=mean(Avg_percent_green,na.rm = T), Mean_Emerging=mean(Avg_emerging_leaves,na.rm = T), Mean_Developed=mean(Avg_developed_leaves,na.rm = T), Mean_Senesced=mean(Avg_scenesced_leaves,na.rm = T), Mean_FlHeads=mean(Avg_flower_heads,na.rm = T), Mean_OpenFl=mean(Avg_open_flowers,na.rm = T), Mean_Thickness=mean(Avg_leaf_thickness,na.rm = T), Mean_FlNum=mean(Avg_flower_num,na.rm = T), Mean_LDMC=mean(Avg_LDMC,na.rm = T)) %>% 
-  ungroup()
-  
-#trying to make species the row names
-row.names(FD_FK_19)<-FD_FK_19$Genus_Species_Correct
+FD_FK_19<-CWM_Collected_Data_FK_19 %>% 
+  dplyr::select(Height_CWM,PercentGreen_CWM,EmergingLeaves_CWM,DevelopedLeaves_CWM,ScenescedLeaves_CWM,FlowerHeads_CWM,OpenFlowers_CWM,LeafThickness_CWM,FlowerNum_CWM,LDMC_CWM,Biomass_CWM)
 
-#not allowing me to keep row names while deleting genus_species_Correct
-FD_FK_19<-FD_FK_19 %>% 
-  dplyr::select(-Genus_Species_Correct)
+install.packages("FD")
+library(FD)
+x<-dbFD(PCA_FK_19)
+x
+
+
+
+
+
 
