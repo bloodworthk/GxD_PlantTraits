@@ -4043,12 +4043,62 @@ anova(Dispersion_TB_22_DxG) #p=0.646
 
 #### Functional Diversity ####
 
-FD_FK_19<-AverageTraits %>% 
+#remove everything but CWM and plot data and create FK and 2019 only dataframe 
+FD_FK_19<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2019) %>% 
+  dplyr::select(-Site,-year,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) 
+
+#remove plot data from data frame and spread data out so plots are columns
+FD_FK_19_CWM<-FD_FK_19[,-1]
+
+#transpose
+FD_FK_19_CWM<-t(FD_FK_19_CWM)
+
+ex1<-gowdis(FD_FK_19_CWM)
+
+#trying to create a matrix with just the plot numbers
+FD_FK_19_Plot<-as.matrix(FD_FK_19[1])
+FD_FK_19_Plot<-t(FD_FK_19_Plot) 
+
+#doesnt like this because plot layout must have column names. it wants species for this and for species abundances to be fulled in while traits functional traits are filled into the other. should i do this based on just traits not CWM of traits? then i could have a species matrix. BUT i don't have functional traits for all species or for all plots so then I am not sure how to make the x matrix that contains the functional traits by species
+ex2<-functcomp(FD_FK_19_CWM,FD_FK_19_Plot)
+
+ex8<-dbFD(FD_FK_19_CWM,FD_FK_19_Plot)
+
+#trying to make x a trait matrix by species
+
+Avg_Traits_FK<-AverageTraits %>%
   filter(Site=="FK") %>% 
-  dplyr::select(-Site,-Season,-DxG_block,-species_code) 
+  select(-Site,-species_code,-Season) %>%  
+  group_by(Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(Avg_height_cm,na.rm=T),
+    Avg_biomass_g=mean(Avg_biomass_g,na.rm=T),
+    Avg_percent_green=mean(Avg_percent_green,na.rm=T),
+    Avg_emerging_leaves=mean(Avg_emerging_leaves,na.rm=T),
+    Avg_developed_leaves=mean(Avg_developed_leaves,na.rm=T),
+    Avg_scenesced_leaves=mean(Avg_scenesced_leaves,na.rm=T),
+    Avg_flower_heads=mean(Avg_flower_heads,na.rm=T),
+    Avg_open_flowers=mean(Avg_open_flowers,na.rm=T),
+    Avg_leaf_thickness=mean(Avg_leaf_thickness,na.rm=T),
+    Avg_flower_num=mean(Avg_flower_num,na.rm=T), 
+    Avg_LDMC=mean(Avg_LDMC,na.rm=T)
+  ) %>% 
+  ungroup() 
 
-#trying to make species the row names
-row.names(FD_FK_19)<-FD_FK_19$Genus_Species_Correct
+#transpose data
+Avg_Traits_FK_Data<-t(Avg_Traits_FK)
 
+#make species codes new column names
+colnames(Avg_Traits_FK_Data) <- Avg_Traits_FK_Data[1,]
 
-CWM_Collected_Data
+#remove plot data from data frame and spread data out so plots are columns
+Avg_Traits_FK_Data<-Avg_Traits_FK_Data[-1,]
+
+#matrix with just species
+Species_Comp_Wide<- Species_Comp_RelCov_All %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Trtm=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  
+  
+  
