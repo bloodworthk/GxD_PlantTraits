@@ -971,15 +971,15 @@ Species_Comp_RelCov_All<-
 
 #create a dataframe that groups by year, site, and plot and then calculates the cummulative sum of relative cover within each yearXsiteXplot
 #Species_Cover_90_all<-Species_Cover_90_all %>% 
-  #group_by(year,site,plot) %>%
-  #mutate(Total_Percent = cumsum(Relative_Cover)) %>% 
-  #ungroup() %>% 
-  #remove any species after the 90% threshold is met
-  #filter(Total_Percent<=93)
+#group_by(year,site,plot) %>%
+#mutate(Total_Percent = cumsum(Relative_Cover)) %>% 
+#ungroup() %>% 
+#remove any species after the 90% threshold is met
+#filter(Total_Percent<=93)
 
 #Trait_Species_Unique<-Species_Cover_90_all %>% 
-  #select(-Relative_Cover,-Total_Percent,-plot,-year) %>% 
-  #unique() 
+#select(-Relative_Cover,-Total_Percent,-plot,-year) %>% 
+#unique() 
 
 #save as a csv
 #write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
@@ -1230,7 +1230,7 @@ Height_FK_21_HG<- CWM_Collected_Data %>%
   as.matrix()
 
 Slope.test(Height_FK_21_LG,Height_FK_21_MG,Height_FK_21_HG)
- 
+
 #install.packages("sjPlot")
 library(sjPlot)
 CWM_Collected_2021_FK<-CWM_Collected_Data %>% 
@@ -1966,7 +1966,7 @@ DevelopedLeaves_TB_22_box<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB
   expand_limits(y=20)+
   theme(axis.text.y=element_blank(),axis.title.y=element_blank(),axis.text.x=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=1, y=20, label = "TB 2022", size=20)
-  
+
 #Create graph of all years for Developed Leaves data
 pushViewport(viewport(layout=grid.layout(2,2)))
 print(DevelopedLeaves_TB_19_box,vp=viewport(layout.pos.row=1, layout.pos.col =1))
@@ -3858,7 +3858,7 @@ CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>%
 ## FK ##
 #FK 2019
 PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
-                   permutations = 1000, method = 'bray') 
+                          permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_19) 
 # drought (p=0.953)
 
@@ -4093,12 +4093,30 @@ Avg_Traits_FK_Data<-t(Avg_Traits_FK)
 colnames(Avg_Traits_FK_Data) <- Avg_Traits_FK_Data[1,]
 
 #remove plot data from data frame and spread data out so plots are columns
-Avg_Traits_FK_Data<-Avg_Traits_FK_Data[-1,]
+Avg_Traits_FK_Data<-Avg_Traits_FK_Data[-1,] %>% 
+  as.data.frame() %>% 
+  select(-Androsace.occidentalis,-Artemisia.cana,-Hedeoma.hispida,-Sporobolus.cryptandrus)
+
+#not keeping row names - not sure why
+Avg_Traits_FK_Data_Num<-lapply(Avg_Traits_FK_Data,as.numeric,keep.rownames=TRUE)
 
 #matrix with just species
-Species_Comp_Wide<- Species_Comp_RelCov_All %>% 
+Species_Comp<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
-  mutate(Trtm=paste(rainfall_reduction,grazing_treatment,sep="_"))
-  
-  
+  mutate(Trtm=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  filter(Relative_Cover!=0)
+
+#species comp for 2019 FK - wide format
+Species_Comp_FK19_Wide<-Species_Comp %>% 
+  filter(year==2019 & site=="FK") %>% 
+  select(Genus_Species_Correct,Relative_Cover,plot,Trtm) %>% 
+  spread(key=Genus_Species_Correct,value=Relative_Cover,fill=0) %>% 
+  select(-Asclepias.stenophylla,-Coryphantha.vivipara,-Oenothera.suffrutescens,-opuntia_pads,-Opuntia.polyacantha,-Vicia.americana,-Euphorbia.nutans) %>% 
+  as.matrix()
+
+
+ex1<-gowdis(Avg_Traits_FK_Data)
+
+#not working -- says there's a different number of species but there isnt, not sure how to fix this or make it work. 
+ex2 <- functcomp(Avg_Traits_FK_Data, Species_Comp_FK19_Wide)
   
