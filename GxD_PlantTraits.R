@@ -1042,13 +1042,19 @@ Traits_Clean[475, "species_code"] <- "PASM"
 #### Look at differences in collected traits for CWM 
 
 #Clean up leaf traits and calculate SLA and average traits by site
-AverageTraits<-Traits_Clean %>% 
+Traits_Clean_2<-Traits_Clean %>% 
   mutate(total_flower_num=flower_heads+open_flowers) %>% 
   mutate(Dry_Leaf_Weight_g_update=ifelse(Dry_Leaf_Weight_g=="REWEIGH",NA,ifelse(Dry_Leaf_Weight_g=="<0.001",0.00005,ifelse(Dry_Leaf_Weight_g=="<0.0001",0.00005,ifelse(Dry_Leaf_Weight_g=="Empty",NA,ifelse(Dry_Leaf_Weight_g=="EMPTY",NA,ifelse(Dry_Leaf_Weight_g=="MISSING",NA,Dry_Leaf_Weight_g))))))) %>% 
   mutate(Dry_Biomass_min_Leaf_g_update=ifelse(Dry_Biomass_min_Leaf_g=="REWEIGH",NA,ifelse(Dry_Biomass_min_Leaf_g=="<0.001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="<0.0001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="Empty",NA,ifelse(Dry_Biomass_min_Leaf_g=="EMPTY",NA,ifelse(Dry_Biomass_min_Leaf_g=="MISSING",NA,Dry_Biomass_min_Leaf_g))))))) %>% 
   mutate(LDMC=as.numeric(Dry_Leaf_Weight_g_update)/wet_leaf_weight_g) %>% 
   mutate(Plant_Biomass=as.numeric(Dry_Leaf_Weight_g_update)+as.numeric(Dry_Biomass_min_Leaf_g_update)) %>% 
-  group_by(Site,genus_species,species_code,Season,DxG_block) %>% 
+  #edit genus species to match species comp data
+  mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
+  mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
+  dplyr::select(-genus_species,-Genus_Species_2)
+
+AverageTraits<-Traits_Clean_2%>% 
+  group_by(Site,Genus_Species_Correct,species_code,Season,DxG_block) %>% 
   summarise(
     Avg_height_cm=mean(height_cm),
     Avg_biomass_g=mean(Plant_Biomass),
@@ -1062,11 +1068,8 @@ AverageTraits<-Traits_Clean %>%
     Avg_flower_num=mean(total_flower_num), 
     Avg_LDMC=mean(LDMC)
   ) %>% 
-  ungroup() %>% 
-  #edit genus species to match species comp data
-  mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
-  mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
-  dplyr::select(-genus_species,-Genus_Species_2)
+  ungroup() 
+  
 
 SM_data_Update<-SM_data %>% 
   dplyr::select(Site,Year,Plot,Drought,Grazing,Avg_SM) %>% 
@@ -4043,80 +4046,188 @@ anova(Dispersion_TB_22_DxG) #p=0.646
 
 #### Functional Diversity ####
 
-#remove everything but CWM and plot data and create FK and 2019 only dataframe 
-FD_FK_19<-CWM_Collected_Data %>% 
-  filter(Site=="FK" & year==2019) %>% 
-  dplyr::select(-Site,-year,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Avg_SM,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) 
-
-#remove plot data from data frame and spread data out so plots are columns
-FD_FK_19_CWM<-FD_FK_19[,-1]
-
-#transpose
-FD_FK_19_CWM<-t(FD_FK_19_CWM)
-
-ex1<-gowdis(FD_FK_19_CWM)
-
-#trying to create a matrix with just the plot numbers
-FD_FK_19_Plot<-as.matrix(FD_FK_19[1])
-FD_FK_19_Plot<-t(FD_FK_19_Plot) 
-
-#doesnt like this because plot layout must have column names. it wants species for this and for species abundances to be fulled in while traits functional traits are filled into the other. should i do this based on just traits not CWM of traits? then i could have a species matrix. BUT i don't have functional traits for all species or for all plots so then I am not sure how to make the x matrix that contains the functional traits by species
-ex2<-functcomp(FD_FK_19_CWM,FD_FK_19_Plot)
-
-ex8<-dbFD(FD_FK_19_CWM,FD_FK_19_Plot)
-
-#trying to make x a trait matrix by species
-
-Avg_Traits_FK<-AverageTraits %>%
+###FK
+##create dataframe from the raw trait data where wesubset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_FK<-Traits_Clean_2 %>%
   filter(Site=="FK") %>% 
-  select(-Site,-species_code,-Season) %>%  
-  group_by(Genus_Species_Correct) %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
   summarise(
-    Avg_height_cm=mean(Avg_height_cm,na.rm=T),
-    Avg_biomass_g=mean(Avg_biomass_g,na.rm=T),
-    Avg_percent_green=mean(Avg_percent_green,na.rm=T),
-    Avg_emerging_leaves=mean(Avg_emerging_leaves,na.rm=T),
-    Avg_developed_leaves=mean(Avg_developed_leaves,na.rm=T),
-    Avg_scenesced_leaves=mean(Avg_scenesced_leaves,na.rm=T),
-    Avg_flower_heads=mean(Avg_flower_heads,na.rm=T),
-    Avg_open_flowers=mean(Avg_open_flowers,na.rm=T),
-    Avg_leaf_thickness=mean(Avg_leaf_thickness,na.rm=T),
-    Avg_flower_num=mean(Avg_flower_num,na.rm=T), 
-    Avg_LDMC=mean(Avg_LDMC,na.rm=T)
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_emerging_leaves=mean(emerging_leaves,na.rm=T),
+    Avg_developed_leaves=mean(developed_leaves,na.rm=T),
+    Avg_scenesced_leaves=mean(scenesced_leaves,na.rm=T),
+    Avg_flower_heads=mean(flower_heads,na.rm=T),
+    Avg_open_flowers=mean(open_flowers,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_flower_num=mean(total_flower_num,na.rm=T), 
+    Avg_LDMC=mean(LDMC,na.rm=T)
   ) %>% 
-  ungroup() 
+  ungroup() %>% 
+  mutate(Sp_Num=c(1:33))
 
-#transpose data
-Avg_Traits_FK_Data<-t(Avg_Traits_FK)
-
-#make species codes new column names
-colnames(Avg_Traits_FK_Data) <- Avg_Traits_FK_Data[1,]
-
-#remove plot data from data frame and spread data out so plots are columns
-Avg_Traits_FK_Data<-Avg_Traits_FK_Data[-1,] %>% 
-  as.data.frame() %>% 
-  select(-Androsace.occidentalis,-Artemisia.cana,-Hedeoma.hispida,-Sporobolus.cryptandrus)
-
-#not keeping row names - not sure why
-Avg_Traits_FK_Data_Num<-lapply(Avg_Traits_FK_Data,as.numeric,keep.rownames=TRUE)
-
-#matrix with just species
-Species_Comp<- Species_Comp_RelCov_All %>% 
-  left_join(plot_layoutK) %>% 
-  mutate(Trtm=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
-  filter(Relative_Cover!=0)
-
-#species comp for 2019 FK - wide format
-Species_Comp_FK19_Wide<-Species_Comp %>% 
-  filter(year==2019 & site=="FK") %>% 
-  select(Genus_Species_Correct,Relative_Cover,plot,Trtm) %>% 
-  spread(key=Genus_Species_Correct,value=Relative_Cover,fill=0) %>% 
-  select(-Asclepias.stenophylla,-Coryphantha.vivipara,-Oenothera.suffrutescens,-opuntia_pads,-Opuntia.polyacantha,-Vicia.americana,-Euphorbia.nutans) %>% 
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
   as.matrix()
 
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data) <- c(1:33)
 
-ex1<-gowdis(Avg_Traits_FK_Data)
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
 
-#not working -- says there's a different number of species but there isnt, not sure how to fix this or make it work. 
-ex2 <- functcomp(Avg_Traits_FK_Data, Species_Comp_FK19_Wide)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK19_Wide<-Species_Comp_FK %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK19_Wide_Data<-Species_Comp_FK19_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK19_Wide_PlotData<-Species_Comp_FK19_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK19_Wide_Data,corr = "none")
+FK_FunctionalDiversity
+
+#create dataframe from the raw trait data where wesubset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_FK<-Traits_Clean_2 %>%
+  filter(Site=="FK") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_emerging_leaves=mean(emerging_leaves,na.rm=T),
+    Avg_developed_leaves=mean(developed_leaves,na.rm=T),
+    Avg_scenesced_leaves=mean(scenesced_leaves,na.rm=T),
+    Avg_flower_heads=mean(flower_heads,na.rm=T),
+    Avg_open_flowers=mean(open_flowers,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_flower_num=mean(total_flower_num,na.rm=T), 
+    Avg_LDMC=mean(LDMC,na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  mutate(Sp_Num=c(1:33))
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide<-Species_Comp_FK %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data<-Species_Comp_FK_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData<-Species_Comp_FK_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK_Wide_Data,corr = "none")
+FK_FunctionalDiversity
+
+### TB
+##create dataframe from the raw trait data where wesubset TB data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_TB<-Traits_Clean_2 %>%
+  filter(Site=="TB") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_emerging_leaves=mean(emerging_leaves,na.rm=T),
+    Avg_developed_leaves=mean(developed_leaves,na.rm=T),
+    Avg_scenesced_leaves=mean(scenesced_leaves,na.rm=T),
+    Avg_flower_heads=mean(flower_heads,na.rm=T),
+    Avg_open_flowers=mean(open_flowers,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_flower_num=mean(total_flower_num,na.rm=T), 
+    Avg_LDMC=mean(LDMC,na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  filter(!Genus_Species_Correct %in% c("Oenothera.suffrtescuns")) %>% 
+  mutate(Sp_Num=c(1:43))
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data<-Avg_Traits_TB %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames<-Avg_Traits_TB %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide<-Species_Comp_TB %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
   
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data<-Species_Comp_TB_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData<-Species_Comp_TB_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity <- dbFD(Avg_Traits_TB_Data, Species_Comp_TB_Wide_Data,corr = "none")
+TB_FunctionalDiversity
+
+
