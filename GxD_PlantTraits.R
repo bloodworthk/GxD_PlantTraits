@@ -4044,7 +4044,7 @@ Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$
 anova(Dispersion_TB_22_DxG) #p=0.646
 
 
-#### Functional Diversity ####
+#### Functional Diversity Calculations ####
 
 ###FK
 ##create dataframe from the raw trait data where wesubset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
@@ -4230,4 +4230,45 @@ Species_Comp_TB_Wide_PlotData<-Species_Comp_TB_Wide %>%
 TB_FunctionalDiversity <- dbFD(Avg_Traits_TB_Data, Species_Comp_TB_Wide_Data,corr = "none")
 TB_FunctionalDiversity
 
+### Functional Diversity Stats #### 
 
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK<-as.data.frame(FK_FunctionalDiversity) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData)
+
+Functional_Diversity_TB<-as.data.frame(TB_FunctionalDiversity) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData)
+
+Functional_Diversity<-Functional_Diversity_FK %>% 
+  rbind(Functional_Diversity_TB) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
+  
+
+#Functional Richness (FRic) FK 18
+FK_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FRiC_LMER, type = 3)
+#grazing (p=0.9756), drought (p=0.9787), grazing*drought(p=0.9789)
+
+#Functional Richness (FRic) FK 19
+FK_19_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FRiC_LMER, type = 3)
+#drought (p=0.9843)
+
+#Functional Richness (FRic) FK 20
+FK_20_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FRic ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FRiC_LMER, type = 3)
+#grazing (p=0.9708), drought (p=0.9759), grazing*drought(p=0.9819)
+
+#Functional Richness (FRic) FK 21
+FK_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FRiC_LMER, type = 3)
+#grazing (p=0.9957), drought (p=0.9950), grazing*drought(p=0.9957)
+
+#Functional Richness (FRic) FK 22
+FK_22_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FRiC_LMER, type = 3)
+#grazing (p=0.9839), drought (p=0.9855), grazing*drought(p=0.9851)
