@@ -1358,6 +1358,8 @@ anova(TB_Height_2021_LMER, type = 3)
 TB_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2022_LMER, type = 3)
 #grazing (p=0.04306), drought (p=0.24875), grazing*drought(p=0.79121)
+#post hoc test for lmer test on rainfall reduction
+summary(glht(TB_Height_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
 
 ####CWM - Percent Green Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1394,9 +1396,9 @@ Green_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainf
 
 
 #CWM of % Green - 2021 and FK
-Green_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+Green_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=PercentGreen_CWM)) +
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -1561,6 +1563,12 @@ anova(TB_PercentGreen_2021_LMER, type = 3)
 TB_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PercentGreen_2022_LMER, type = 3)
 #grazing (p=0.09664), drought (p=0.04725), grazing*drought(p=0.66708)
+#post hoc test for lmer test drought
+summary(glht(TB_PercentGreen_2022_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance 
+#post hoc test for lmer test grazing
+summary(glht(TB_PercentGreen_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#heavy-destock (0.0955)
 
 ####CWM - Emerging Leaves Plots and Stats #### 
 #2022 still needs to be added in 
@@ -1655,7 +1663,7 @@ anova(FK_EmergingLeaves_2020_LMER, type = 3)
 summary(glht(FK_EmergingLeaves_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 #no significance
 
-#CWM of EmergingLeaves for Fort Keogh 2021 - LMER
+#CWM of Emerging Leaves for Fort Keogh 2021 - LMER
 FK_EmergingLeaves_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), EmergingLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_EmergingLeaves_2021_LMER, type = 3)
 #grazing (p=0.3024), drought (p=0.4010), grazing*drought(p=0.5852)
@@ -2103,6 +2111,8 @@ anova(FK_ScenescedLeaves_2021_LMER, type = 3)
 FK_ScenescedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_ScenescedLeaves_2022_LMER, type = 3)
 #grazing (p=0.37198), drought (p=0.01175), grazing*drought(p=0.28801)
+#post hoc test for lmer test
+summary(glht(FK_ScenescedLeaves_2022_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 
 ##Thunder Basin
 
@@ -2125,7 +2135,7 @@ ScenescedLeaves_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),a
 #CWM of Scenesced Leaves - 2020 and TB
 ScenescedLeaves_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=ScenescedLeaves_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -2204,6 +2214,8 @@ anova(TB_ScenescedLeaves_2021_LMER, type = 3)
 TB_ScenescedLeaves_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), ScenescedLeaves_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_ScenescedLeaves_2022_LMER, type = 3)
 #grazing (p=0.0412), drought (p=0.4911), grazing*drought(p=0.7575)
+#post hoc test for lmer test
+summary(glht(TB_ScenescedLeaves_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
 ####CWM - Flower Heads Plots and Stats #### 
 #2022 still needs to be added in 
@@ -3287,9 +3299,9 @@ Biomass_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rai
 
 
 #CWM of Biomass - 2021 and FK
-Biomass_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=Biomass_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
-  geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
+Biomass_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=OpenFlowers_CWM)) +  
+  geom_point(aes(shape=grazing_treatment,color=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -3343,6 +3355,8 @@ anova(FK_Biomass_2020_LMER, type = 3)
 FK_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2021_LMER, type = 3)
 #grazing (p=0.54448), drought (p=0.02502), grazing*drought(p=0.39830)
+#post hoc test for lmer test
+summary(glht(FK_Biomass_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 
 #CWM of Biomass for Fort Keogh 2022 - LMER
 FK_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -3385,9 +3399,9 @@ Biomass_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rai
 
 
 #CWM of Biomass - 2021 and TB
-Biomass_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=Biomass_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+Biomass_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=OpenFlowers_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -3441,6 +3455,10 @@ anova(TB_Biomass_2020_LMER, type = 3)
 TB_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2021_LMER, type = 3)
 #grazing (p=0.06516), drought (p=0.02987), grazing*drought(p=0.54141)
+#post hoc test for lmer test
+summary(glht(TB_Biomass_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#post hoc test for lmer test
+summary(glht(TB_Biomass_2021_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
 #CWM of Biomass for TB 2022 - LMER
 TB_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
