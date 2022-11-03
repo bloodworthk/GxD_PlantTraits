@@ -4454,3 +4454,4 @@ anova(TB_21_FDis_LMER, type = 3)
 TB_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_22_FDis_LMER, type = 3)
 #grazing (p=0.004292), drought (p=0.481674), grazing*drought(p=0.354431)
+
