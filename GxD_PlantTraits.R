@@ -4296,6 +4296,9 @@ anova(FK_22_FRiC_LMER, type = 3)
 TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 #grazing (p=0.10127), drought (p=0.05941), grazing*drought(p=0.60270)
+#post hoc test for lmer test
+summary(glht(TB_18_FRiC_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#not significant
 
 #Functional Richness (FRic) TB 19
 TB_19_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4328,6 +4331,10 @@ anova(FK_18_FEve_LMER, type = 3)
 FK_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_19_FEve_LMER, type = 3)
 #drought (p=0.03506)
+#post hoc test for lmer test
+summary(glht(FK_19_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#75-20 (0.0202),75-50 (0.0749)
+
 
 #Functional Evenness (FEve) FK 20
 FK_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4338,6 +4345,9 @@ anova(FK_20_FEve_LMER, type = 3)
 FK_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_21_FEve_LMER, type = 3)
 #grazing (p=0.8930849), drought (p=0.0001245), grazing*drought(p=0.3828739)
+#post hoc test for lmer test
+summary(glht(FK_21_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Evenness (FEve) FK 22
 FK_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4353,21 +4363,33 @@ anova(TB_18_FEve_LMER, type = 3)
 TB_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_19_FEve_LMER, type = 3)
 #drought (p=0.0622)
+#post hoc test for lmer test
+summary(glht(TB_19_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#50-0 (0.0604), 99-50 (0.0529)
 
 #Functional Evenness (FEve) TB 20
 TB_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_20_FEve_LMER, type = 3)
 #grazing (p=0.88482), drought (p=0.03235), grazing*drought(p=0.87809)
+#post hoc test for lmer test
+summary(glht(TB_20_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Evenness (FEve) TB 21
 TB_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FEve_LMER, type = 3)
 #grazing (p=0.83595), drought (p=0.04388), grazing*drought(p=0.71326)
+#post hoc test for lmer test
+summary(glht(TB_21_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Evenness (FEve) TB 22
 TB_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_22_FEve_LMER, type = 3)
 #grazing (p=0.97868), drought (p=0.05684), grazing*drought(p=0.34553)
+#post hoc test for lmer test
+summary(glht(TB_22_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 ###Functional Diversity
 
@@ -4375,11 +4397,17 @@ anova(TB_22_FEve_LMER, type = 3)
 FK_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_18_FDiv_LMER, type = 3)
 #grazing (p=0.86847), drought (p=0.01476), grazing*drought(p=0.84613)
+#post hoc test for lmer test
+summary(glht(FK_18_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Diversity (FDiv) FK 19
 FK_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_19_FDiv_LMER, type = 3)
 #drought (p=0.007593)
+#post hoc test for lmer test
+summary(glht(FK_19_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#75-0 (0.01784), 75-50(0.00308)
 
 #Functional Diversity (FDiv) FK 20
 FK_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4390,11 +4418,17 @@ anova(FK_20_FDiv_LMER, type = 3)
 FK_21_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_21_FDiv_LMER, type = 3)
 #grazing (p=0.623397), drought (p=0.000835), grazing*drought(p=0.783319)
+#post hoc test for lmer test
+summary(glht(FK_21_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Diversity (FDiv) FK 22
 FK_22_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_22_FDiv_LMER, type = 3)
 #grazing (p=0.930356), drought (p=0.001071), grazing*drought(p=0.963570)
+#post hoc test for lmer test
+summary(glht(FK_22_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#99-0 (0.0987), 99-25(0.0987),99-75(0.0987)
 
 #Functional Diversity (FDiv) TB 18
 TB_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4405,6 +4439,9 @@ anova(TB_18_FDiv_LMER, type = 3)
 TB_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_19_FDiv_LMER, type = 3)
 #drought (p=0.02707)
+#post hoc test for lmer test
+summary(glht(TB_19_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#50-0 (0.0110), 50-25 (0.0464), 75-50 (0.0782), 99-50 (0.0474)
 
 #Functional Diversity (FDiv) TB 20
 TB_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4427,11 +4464,18 @@ anova(TB_22_FDiv_LMER, type = 3)
 FK_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_18_FDis_LMER, type = 3)
 #grazing (p=0.12777), drought (p=0.01055), grazing*drought(p=0.23658)
+#post hoc test for lmer test
+summary(glht(FK_18_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Dispersion (FDis) FK 19
 FK_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_19_FDis_LMER, type = 3)
 #drought (p=0.0112)
+#post hoc test for lmer test
+summary(glht(FK_19_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#75-0 (0.0164), 99-0(0.0814), 75-50 (0.0301)
+
 
 #Functional Dispersion (FDis) FK 20
 FK_20_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4442,16 +4486,31 @@ anova(FK_20_FDis_LMER, type = 3)
 FK_21_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_21_FDis_LMER, type = 3)
 #grazing (p=0.06973), drought (p=0.01641), grazing*drought(p=0.49868)
+#post hoc test for lmer test
+summary(glht(FK_21_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#75-0 (0.223)
+#post hoc test for lmer test
+summary(glht(FK_21_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#not significant
 
 #Functional Dispersion (FDis) FK 22
 FK_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_22_FDis_LMER, type = 3)
 #grazing (p=0.07433), drought (p=0.02983), grazing*drought(p=0.43246)
+#post hoc test for lmer test
+summary(glht(FK_22_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+#post hoc test for lmer test
+summary(glht(FK_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Dispersion (FDis) TB 18
 TB_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FDis_LMER, type = 3)
 #grazing (p=0.01015), drought (p=0.64001), grazing*drought(p=0.29925)
+#post hoc test for lmer test
+summary(glht(TB_18_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 #Functional Dispersion (FDis) TB 19
 TB_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4472,4 +4531,7 @@ anova(TB_21_FDis_LMER, type = 3)
 TB_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_22_FDis_LMER, type = 3)
 #grazing (p=0.004292), drought (p=0.481674), grazing*drought(p=0.354431)
+#post hoc test for lmer test
+summary(glht(TB_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
