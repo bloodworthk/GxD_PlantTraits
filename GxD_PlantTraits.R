@@ -4247,6 +4247,7 @@ Functional_Diversity<-Functional_Diversity_FK %>%
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
   mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
   
+###Functional Richness
 
 #Functional Richness (FRic) FK 18
 FK_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
@@ -4272,3 +4273,184 @@ anova(FK_21_FRiC_LMER, type = 3)
 FK_22_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_22_FRiC_LMER, type = 3)
 #grazing (p=0.9839), drought (p=0.9855), grazing*drought(p=0.9851)
+
+#Functional Richness (FRic) TB 18
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FRiC_LMER, type = 3)
+#grazing (p=0.10127), drought (p=0.05941), grazing*drought(p=0.60270)
+
+#Functional Richness (FRic) TB 19
+TB_19_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FRiC_LMER, type = 3)
+#drought (p=0.8989)
+
+#Functional Richness (FRic) TB 20
+TB_20_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FRic ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FRiC_LMER, type = 3)
+#grazing (p=0.5238), drought (p=0.9734), grazing*drought(p=0.5234)
+
+#Functional Richness (FRic) TB 21
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FRiC_LMER, type = 3)
+#grazing (p=0.1131), drought (p=0.9064), grazing*drought(p=0.6431)
+
+#Functional Richness (FRic) TB 22
+TB_22_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FRiC_LMER, type = 3)
+#grazing (p=0.3020), drought (p=0.4240), grazing*drought(p=0.9272)
+
+###Functional Evenness
+
+#Functional Evenness (FEve) FK 18
+FK_18_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FEve_LMER, type = 3)
+#grazing (p=0.8462), drought (p=0.2256), grazing*drought(p=0.2256)
+
+#Functional Evenness (FEve) FK 19
+FK_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FEve_LMER, type = 3)
+#drought (p=0.03506)
+
+#Functional Evenness (FEve) FK 20
+FK_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FEve_LMER, type = 3)
+#grazing (p=0.7899), drought (p=0.2131), grazing*drought(p=0.9864)
+
+#Functional Evenness (FEve) FK 21
+FK_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FEve_LMER, type = 3)
+#grazing (p=0.8930849), drought (p=0.0001245), grazing*drought(p=0.3828739)
+
+#Functional Evenness (FEve) FK 22
+FK_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FEve_LMER, type = 3)
+#grazing (p=0.8779), drought (p=0.1469), grazing*drought(p=0.4673)
+
+#Functional Evenness (FEve) TB 18
+TB_18_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FEve_LMER, type = 3)
+#grazing (p=0.7977), drought (p=0.8548), grazing*drought(p=0.6541)
+
+#Functional Evenness (FEve) TB 19
+TB_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FEve_LMER, type = 3)
+#drought (p=0.0622)
+
+#Functional Evenness (FEve) TB 20
+TB_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FEve_LMER, type = 3)
+#grazing (p=0.88482), drought (p=0.03235), grazing*drought(p=0.87809)
+
+#Functional Evenness (FEve) TB 21
+TB_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FEve_LMER, type = 3)
+#grazing (p=0.83595), drought (p=0.04388), grazing*drought(p=0.71326)
+
+#Functional Evenness (FEve) TB 22
+TB_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FEve_LMER, type = 3)
+#grazing (p=0.97868), drought (p=0.05684), grazing*drought(p=0.34553)
+
+###Functional Diversity
+
+#Functional Diversity (FDiv) FK 18
+FK_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDiv_LMER, type = 3)
+#grazing (p=0.86847), drought (p=0.01476), grazing*drought(p=0.84613)
+
+#Functional Diversity (FDiv) FK 19
+FK_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDiv_LMER, type = 3)
+#drought (p=0.007593)
+
+#Functional Diversity (FDiv) FK 20
+FK_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDiv_LMER, type = 3)
+#grazing (p=0.9108), drought (p=0.1948), grazing*drought(p=0.6843)
+
+#Functional Diversity (FDiv) FK 21
+FK_21_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDiv_LMER, type = 3)
+#grazing (p=0.623397), drought (p=0.000835), grazing*drought(p=0.783319)
+
+#Functional Diversity (FDiv) FK 22
+FK_22_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDiv_LMER, type = 3)
+#grazing (p=0.930356), drought (p=0.001071), grazing*drought(p=0.963570)
+
+#Functional Diversity (FDiv) TB 18
+TB_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDiv_LMER, type = 3)
+#grazing (p=0.1901), drought (p=0.2330), grazing*drought(p=0.6831)
+
+#Functional Diversity (FDiv) TB 19
+TB_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDiv_LMER, type = 3)
+#drought (p=0.02707)
+
+#Functional Diversity (FDiv) TB 20
+TB_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDiv_LMER, type = 3)
+#grazing (p=0.9142), drought (p=0.5069), grazing*drought(p=0.5791)
+
+#Functional Diversity (FDiv) TB 21
+TB_21_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDiv_LMER, type = 3)
+#grazing (p=0.6438), drought (p=0.2292), grazing*drought(p=0.1494)
+
+#Functional Diversity (FDiv) TB 22
+TB_22_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDiv_LMER, type = 3)
+#grazing (p=0.5061), drought (p=0.7065), grazing*drought(p=0.8979)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 18
+FK_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDis_LMER, type = 3)
+#grazing (p=0.12777), drought (p=0.01055), grazing*drought(p=0.23658)
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER, type = 3)
+#drought (p=0.0112)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER, type = 3)
+#grazing (p=0.1685), drought (p=0.3464), grazing*drought(p=0.9718)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER, type = 3)
+#grazing (p=0.06973), drought (p=0.01641), grazing*drought(p=0.49868)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER, type = 3)
+#grazing (p=0.07433), drought (p=0.02983), grazing*drought(p=0.43246)
+
+#Functional Dispersion (FDis) TB 18
+TB_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDis_LMER, type = 3)
+#grazing (p=0.01015), drought (p=0.64001), grazing*drought(p=0.29925)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER, type = 3)
+#drought (p=0.4418)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER, type = 3)
+#grazing (p=0.9417), drought (p=0.4565), grazing*drought(p=0.3277)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER, type = 3)
+#grazing (p=0.1721), drought (p=0.7788), grazing*drought(p=0.2305)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER, type = 3)
+#grazing (p=0.004292), drought (p=0.481674), grazing*drought(p=0.354431)
