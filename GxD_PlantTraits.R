@@ -1148,7 +1148,6 @@ CWM_Collected_Data[,c(11:23)]<-sqrt(CWM_Collected_Data[,c(11:23)])
 chart.Correlation(CWM_Collected_Data[11:23],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed
-chart.Correlation(CWM_Collected_Data[c(21,11,20,23,18,22)],pch="41", cex = 4, method="pearson", histogram = TRUE)
 chart.Correlation(CWM_Collected_Data[c(21,11,20,23,18,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
