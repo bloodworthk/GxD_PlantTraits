@@ -26,6 +26,8 @@ library(pliman)
 library(multcomp)
 #install.packages("factoextra")
 library(factoextra)
+#install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
 library(tidyverse) 
 
 
@@ -64,20 +66,22 @@ Lab_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_LabTraits.csv") %>%
   #removing genus species and season from this dataframe to avoid spelling issues and inconsistancies with data entered
   dplyr::select(-genus_species,-Season)
 
-Dry_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_DRYLabTraits_ALL.csv") %>% 
+Dry_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_DRYLabTraits_ALL_CHECKED.csv") %>% 
   rename(DxG_block=Block) %>% 
   rename(paddock=Grazing_Paddock) %>% 
   rename(species_code=Species) %>% 
-  dplyr::select(-Barcode_Scan,-Year,-comments)
+  dplyr::select(Site,DxG_block,paddock,species_code,Biomass_Type,Dry_Weight_g) %>% 
+  mutate(Dry_Weight_g=ifelse(Dry_Weight_g=="<0.0001", 0.00001,ifelse(Dry_Weight_g=="<0.001",0.00001,ifelse(Dry_Weight_g=="MISSING",NA,ifelse(Dry_Weight_g=="REWEIGH",NA,ifelse(Dry_Weight_g=="Empty",NA,ifelse(Dry_Weight_g=="empty???",NA,ifelse(Dry_Weight_g=="EMPTY",NA,Dry_Weight_g))))))))
 
 Dry_Traits_Biomass<-subset(Dry_Traits,Biomass_Type=="B") %>% 
-  rename(Dry_Biomass_min_Leaf_g=dry_weight_g) %>% 
+  rename(Dry_Biomass_min_Leaf_g=Dry_Weight_g) %>% 
   dplyr::select(-Biomass_Type)
 
 Dry_Traits_Leaf<-subset(Dry_Traits,Biomass_Type=="L") %>% 
-  rename(Dry_Leaf_Weight_g=dry_weight_g) %>% 
+  rename(Dry_Leaf_Weight_g=Dry_Weight_g) %>% 
   dplyr::select(-Biomass_Type)
 
+Leaf_Area<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_LeafArea.csv") %>% 
 #merge trait dataframes
 Traits<-Field_Traits %>% 
   left_join(Lab_Traits) %>% 
@@ -967,15 +971,15 @@ Species_Comp_RelCov_All<-
 #### Calculate top 90 % of each plot for each year ####
 
 #sort dataframe by year, site, plot, and relative cover (from highest to lowest)
-#Species_Cover_90_all<-Species_Comp_RelCov_All[order(Species_Comp_RelCov_All$year, Species_Comp_RelCov_All$site,Species_Comp_RelCov_All$plot,-Species_Comp_RelCov_All$Relative_Cover),]
+Species_Cover_90_all<-Species_Comp_RelCov_All[order(Species_Comp_RelCov_All$year, Species_Comp_RelCov_All$site,Species_Comp_RelCov_All$plot,-Species_Comp_RelCov_All$Relative_Cover),]
 
 #create a dataframe that groups by year, site, and plot and then calculates the cummulative sum of relative cover within each yearXsiteXplot
-#Species_Cover_90_all<-Species_Cover_90_all %>% 
-#group_by(year,site,plot) %>%
-#mutate(Total_Percent = cumsum(Relative_Cover)) %>% 
-#ungroup() %>% 
+Species_Cover_90_all<-Species_Cover_90_all %>% 
+group_by(year,site,plot) %>%
+mutate(Total_Percent = cumsum(Relative_Cover)) %>% 
+ungroup() %>% 
 #remove any species after the 90% threshold is met
-#filter(Total_Percent<=93)
+filter(Total_Percent<=93)
 
 #Trait_Species_Unique<-Species_Cover_90_all %>% 
 #select(-Relative_Cover,-Total_Percent,-plot,-year) %>% 
@@ -993,27 +997,28 @@ Species_Comp_RelCov_All<-
 Traits_Clean <- Traits [complete.cases(Traits[ , 6]),] %>% 
   filter(comments_lab!="not BRTE - did not measure, remove from data") %>% 
   filter(comments_lab!="maybe KOMA?") %>% 
+  filter(comments_lab!="add 0.0012 to total biomass (wet)") %>% 
   mutate(wet_leaf_weight_g=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",ifelse(wet_leaf_weight_g=="0..0233",0.0233, wet_leaf_weight_g))))
 
 #Changing ARTR to ARFR based on comments on lab traits
-Traits_Clean[602, "genus_species"] <- "Artemisia_frigida"
-Traits_Clean[602, "species_code"] <- "ARFR"
+Traits_Clean[613, "genus_species"] <- "Artemisia_frigida"
+Traits_Clean[613, "species_code"] <- "ARFR"
 
 #changing LIPU to LIIN based on comments on lab traits
-Traits_Clean[427, "genus_species"] <- "Lithospermum_incisum"
-Traits_Clean[427, "species_code"] <- "LIIN"
+Traits_Clean[438, "genus_species"] <- "Lithospermum_incisum"
+Traits_Clean[438, "species_code"] <- "LIIN"
 
 #changing MUDI to PIOP based on comments on lab traits
-Traits_Clean[249, "genus_species"] <- "Picradeniopsis_oppositifolia"
-Traits_Clean[249, "species_code"] <- "PIOP"
+Traits_Clean[259, "genus_species"] <- "Picradeniopsis_oppositifolia"
+Traits_Clean[259, "species_code"] <- "PIOP"
 
 #changing LIIN to LIPU based on comments on lab traits
-Traits_Clean[504, "genus_species"] <- "Liatris_punctata"
-Traits_Clean[504, "species_code"] <- "LIPU"
+Traits_Clean[515, "genus_species"] <- "Liatris_punctata"
+Traits_Clean[515, "species_code"] <- "LIPU"
 
 #changing KOMA to PASM based on comments on lab traits
-Traits_Clean[475, "genus_species"] <- "Pascopyrum_smithii"
-Traits_Clean[475, "species_code"] <- "PASM"
+Traits_Clean[486, "genus_species"] <- "Pascopyrum_smithii"
+Traits_Clean[486, "species_code"] <- "PASM"
 
 
 #### Look at Trait Database Data and compare to species needed for this project ####
@@ -1044,6 +1049,8 @@ Traits_Clean[475, "species_code"] <- "PASM"
 #Clean up leaf traits and calculate SLA and average traits by site
 Traits_Clean_2<-Traits_Clean %>% 
   mutate(total_flower_num=flower_heads+open_flowers) %>% 
+  mutate(total_leaf_num=emerging_leaves+developed_leaves+scenesced_leaves) %>% 
+  mutate(SLA=)
   mutate(Dry_Leaf_Weight_g_update=ifelse(Dry_Leaf_Weight_g=="REWEIGH",NA,ifelse(Dry_Leaf_Weight_g=="<0.001",0.00005,ifelse(Dry_Leaf_Weight_g=="<0.0001",0.00005,ifelse(Dry_Leaf_Weight_g=="Empty",NA,ifelse(Dry_Leaf_Weight_g=="EMPTY",NA,ifelse(Dry_Leaf_Weight_g=="MISSING",NA,Dry_Leaf_Weight_g))))))) %>% 
   mutate(Dry_Biomass_min_Leaf_g_update=ifelse(Dry_Biomass_min_Leaf_g=="REWEIGH",NA,ifelse(Dry_Biomass_min_Leaf_g=="<0.001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="<0.0001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="Empty",NA,ifelse(Dry_Biomass_min_Leaf_g=="EMPTY",NA,ifelse(Dry_Biomass_min_Leaf_g=="MISSING",NA,Dry_Biomass_min_Leaf_g))))))) %>% 
   mutate(LDMC=as.numeric(Dry_Leaf_Weight_g_update)/wet_leaf_weight_g) %>% 
@@ -1066,7 +1073,8 @@ AverageTraits<-Traits_Clean_2%>%
     Avg_open_flowers=mean(open_flowers),
     Avg_leaf_thickness=mean(leaf_thickness_.mm.),
     Avg_flower_num=mean(total_flower_num), 
-    Avg_LDMC=mean(LDMC)
+    Avg_LDMC=mean(LDMC),
+    Avg_total_leaf=mean(total_leaf_num)
   ) %>% 
   ungroup() 
   
@@ -1101,7 +1109,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     LeafThickness_CWM=weighted.mean(Avg_leaf_thickness,Relative_Cover,na.rm=T),
     FlowerNum_CWM=weighted.mean(Avg_flower_num,Relative_Cover,na.rm=T),
     LDMC_CWM=weighted.mean(Avg_LDMC,Relative_Cover,na.rm=T),
-    Biomass_CWM=weighted.mean(Avg_biomass_g,Relative_Cover,na.rm=T)
+    Biomass_CWM=weighted.mean(Avg_biomass_g,Relative_Cover,na.rm=T),
+    TotalLeaf_CWM=weighted.mean(Avg_total_leaf,Relative_Cover,na.rm=T)
   ) %>% 
   ungroup() %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -1112,6 +1121,55 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 #CWM_Collected_Data_Count<-CWM_Collected_Data %>% 
 #group_by(plot) %>% 
 #count()
+
+#### Trait Correlation Testing ####
+
+#changing size of chart.correlation text on line 17 to cex = 2
+#trace("chart.Correlation", edit=T) 
+#using spearman test because data are not normally distributed
+chart.Correlation(CWM_Collected_Data[11:22],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
+#looking at histograms independently
+hist(CWM_Collected_Data$Height_CWM) #normal
+hist(CWM_Collected_Data$PercentGreen_CWM) #normal
+hist(CWM_Collected_Data$EmergingLeaves_CWM) #right tail
+hist(CWM_Collected_Data$DevelopedLeaves_CWM) #right tail
+hist(CWM_Collected_Data$ScenescedLeaves_CWM) #right tail
+hist(CWM_Collected_Data$TotalLeaf_CWM) #right tail
+hist(CWM_Collected_Data$FlowerHeads_CWM) #right tail
+hist(CWM_Collected_Data$OpenFlowers_CWM) #right tail
+hist(CWM_Collected_Data$FlowerNum_CWM) #right tail
+hist(CWM_Collected_Data$LeafThickness_CWM) #normal
+hist(CWM_Collected_Data$LDMC_CWM) #normal 
+hist(CWM_Collected_Data$Biomass_CWM) #right tail
+
+#testing and visualizing normality 
+# Shapiro-Wilk normality test 
+shapiro.test(CWM_Collected_Data$Height_CWM) # p = 4.31e-07
+ggqqplot(CWM_Collected_Data$Height_CWM, ylab = "Height")
+shapiro.test(CWM_Collected_Data$PercentGreen_CWM) # p = 7.069e-05
+ggqqplot(CWM_Collected_Data$PercentGreen_CWM, ylab = "PercentGreen")
+shapiro.test(CWM_Collected_Data$EmergingLeaves_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$EmergingLeaves_CWM, ylab = "EmergingLeaves")
+shapiro.test(CWM_Collected_Data$DevelopedLeaves_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$DevelopedLeaves_CWM, ylab = "DevelopedLeaves")
+shapiro.test(CWM_Collected_Data$ScenescedLeaves_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$ScenescedLeaves_CWM, ylab = "ScenescedLeaves")
+shapiro.test(CWM_Collected_Data$TotalLeaf_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$TotalLeaf_CWM, ylab = "TotalLeaf")
+shapiro.test(CWM_Collected_Data$FlowerHeads_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$FlowerHeads_CWM, ylab = "FlowerHeads")
+shapiro.test(CWM_Collected_Data$OpenFlowers_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$OpenFlowers_CWM, ylab = "OpenFlowers")
+shapiro.test(CWM_Collected_Data$FlowerNum_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$FlowerNum_CWM, ylab = "FlowerNum")
+shapiro.test(CWM_Collected_Data$LeafThickness_CWM) # p=1.155e-09
+ggqqplot(CWM_Collected_Data$LeafThickness_CWM, ylab = "LeafThickness")
+shapiro.test(CWM_Collected_Data$LDMC_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$LDMC_CWM, ylab = "LDMC")
+shapiro.test(CWM_Collected_Data$Biomass_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$Biomass_CWM, ylab = "Biomass")
 
 
 #### Plot the data ####
@@ -1133,7 +1191,6 @@ Height_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rain
   expand_limits(y=25)+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=30, label = "FK 2019", size=20)
-
 
 #CWM of height - 2020 and FK
 Height_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=Height_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
