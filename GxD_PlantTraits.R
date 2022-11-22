@@ -81,12 +81,19 @@ Dry_Traits_Leaf<-subset(Dry_Traits,Biomass_Type=="L") %>%
   rename(Dry_Leaf_Weight_g=Dry_Weight_g) %>% 
   dplyr::select(-Biomass_Type)
 
-Leaf_Area<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_LeafArea.csv") %>% 
+Leaf_Area<-read.csv("DxG_Plant_Traits/2022_DxG_LeafArea.csv") %>% 
+  select(Species_Code,Site,Block,Grazing_Treatment,Total.Area,NOTES) %>% 
+  rename(species_code=Species_Code) %>% 
+  rename(DxG_block=Block) %>% 
+  rename(paddock=Grazing_Treatment) %>% 
+  mutate(ID=paste(species_code,Site,DxG_block,paddock,sep = "_"))
+  
 #merge trait dataframes
 Traits<-Field_Traits %>% 
   left_join(Lab_Traits) %>% 
   left_join(Dry_Traits_Biomass) %>% 
-  left_join(Dry_Traits_Leaf)
+  left_join(Dry_Traits_Leaf) %>% 
+  left_join(Leaf_Area)
 
 #Trait Database
 #Trait_Database<-read_csv("DxG_Plant_Traits/sCoRRE categorical trait data_11302021.csv")
@@ -1020,6 +1027,12 @@ Traits_Clean[515, "species_code"] <- "LIPU"
 Traits_Clean[486, "genus_species"] <- "Pascopyrum_smithii"
 Traits_Clean[486, "species_code"] <- "PASM"
 
+Traits_Clean$Dry_Leaf_Weight_g<-as.numeric(Traits_Clean$Dry_Leaf_Weight_g)
+Traits_Clean$Dry_Biomass_min_Leaf_g<-as.numeric(Traits_Clean$Dry_Biomass_min_Leaf_g)
+
+#remove SLA that is unusually big -- PLPA_TB_3_LG - make an NA
+Traits_Clean[263, "Total.Area"] <- NA
+
 
 #### Look at Trait Database Data and compare to species needed for this project ####
 #Database_Data<-Trait_Database %>% 
@@ -1050,7 +1063,7 @@ Traits_Clean[486, "species_code"] <- "PASM"
 Traits_Clean_2<-Traits_Clean %>% 
   mutate(total_flower_num=flower_heads+open_flowers) %>% 
   mutate(total_leaf_num=emerging_leaves+developed_leaves+scenesced_leaves) %>% 
-  mutate(SLA=)
+  mutate(SLA=Total.Area/Dry_Leaf_Weight_g) %>% 
   mutate(Dry_Leaf_Weight_g_update=ifelse(Dry_Leaf_Weight_g=="REWEIGH",NA,ifelse(Dry_Leaf_Weight_g=="<0.001",0.00005,ifelse(Dry_Leaf_Weight_g=="<0.0001",0.00005,ifelse(Dry_Leaf_Weight_g=="Empty",NA,ifelse(Dry_Leaf_Weight_g=="EMPTY",NA,ifelse(Dry_Leaf_Weight_g=="MISSING",NA,Dry_Leaf_Weight_g))))))) %>% 
   mutate(Dry_Biomass_min_Leaf_g_update=ifelse(Dry_Biomass_min_Leaf_g=="REWEIGH",NA,ifelse(Dry_Biomass_min_Leaf_g=="<0.001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="<0.0001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="Empty",NA,ifelse(Dry_Biomass_min_Leaf_g=="EMPTY",NA,ifelse(Dry_Biomass_min_Leaf_g=="MISSING",NA,Dry_Biomass_min_Leaf_g))))))) %>% 
   mutate(LDMC=as.numeric(Dry_Leaf_Weight_g_update)/wet_leaf_weight_g) %>% 
@@ -1063,18 +1076,19 @@ Traits_Clean_2<-Traits_Clean %>%
 AverageTraits<-Traits_Clean_2%>% 
   group_by(Site,Genus_Species_Correct,species_code,Season,DxG_block) %>% 
   summarise(
-    Avg_height_cm=mean(height_cm),
-    Avg_biomass_g=mean(Plant_Biomass),
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
     Avg_percent_green=mean(percent_green,na.rm=T),
-    Avg_emerging_leaves=mean(emerging_leaves),
-    Avg_developed_leaves=mean(developed_leaves),
+    Avg_emerging_leaves=mean(emerging_leaves,na.rm=T),
+    Avg_developed_leaves=mean(developed_leaves,na.rm=T),
     Avg_scenesced_leaves=mean(scenesced_leaves,na.rm=T),
-    Avg_flower_heads=mean(flower_heads),
-    Avg_open_flowers=mean(open_flowers),
-    Avg_leaf_thickness=mean(leaf_thickness_.mm.),
-    Avg_flower_num=mean(total_flower_num), 
-    Avg_LDMC=mean(LDMC),
-    Avg_total_leaf=mean(total_leaf_num)
+    Avg_flower_heads=mean(flower_heads,na.rm=T),
+    Avg_open_flowers=mean(open_flowers,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_flower_num=mean(total_flower_num,na.rm=T), 
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_total_leaf=mean(total_leaf_num,na.rm=T),
+    Avg_SLA=mean(SLA,na.rm=T)
   ) %>% 
   ungroup() 
   
@@ -1110,7 +1124,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     FlowerNum_CWM=weighted.mean(Avg_flower_num,Relative_Cover,na.rm=T),
     LDMC_CWM=weighted.mean(Avg_LDMC,Relative_Cover,na.rm=T),
     Biomass_CWM=weighted.mean(Avg_biomass_g,Relative_Cover,na.rm=T),
-    TotalLeaf_CWM=weighted.mean(Avg_total_leaf,Relative_Cover,na.rm=T)
+    TotalLeaf_CWM=weighted.mean(Avg_total_leaf,Relative_Cover,na.rm=T),
+    Avg_SLA_CWM=weighted.mean(Avg_SLA,Relative_Cover,na.rm=T)
   ) %>% 
   ungroup() %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -1124,28 +1139,36 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 
 #### Trait Correlation Testing ####
 
+#Try sqrt(x) transformation because data is positively skewed
+CWM_Collected_Data[,c(11:23)]<-sqrt(CWM_Collected_Data[,c(11:23)]) 
+
 #changing size of chart.correlation text on line 17 to cex = 2
 #trace("chart.Correlation", edit=T) 
 #using spearman test because data are not normally distributed
-chart.Correlation(CWM_Collected_Data[11:22],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data[11:23],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#make chart correlation with just traits we discussed
+chart.Correlation(CWM_Collected_Data[c(21,11,20,23,18,22)],pch="41", cex = 4, method="pearson", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data[c(21,11,20,23,18,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
-#looking at histograms independently
+#looking at histograms independently (sqrt)
 hist(CWM_Collected_Data$Height_CWM) #normal
 hist(CWM_Collected_Data$PercentGreen_CWM) #normal
-hist(CWM_Collected_Data$EmergingLeaves_CWM) #right tail
-hist(CWM_Collected_Data$DevelopedLeaves_CWM) #right tail
-hist(CWM_Collected_Data$ScenescedLeaves_CWM) #right tail
-hist(CWM_Collected_Data$TotalLeaf_CWM) #right tail
-hist(CWM_Collected_Data$FlowerHeads_CWM) #right tail
-hist(CWM_Collected_Data$OpenFlowers_CWM) #right tail
-hist(CWM_Collected_Data$FlowerNum_CWM) #right tail
+hist(CWM_Collected_Data$EmergingLeaves_CWM) #normal
+hist(CWM_Collected_Data$DevelopedLeaves_CWM) #mostly normal (slightly positively skewed)
+hist(CWM_Collected_Data$ScenescedLeaves_CWM) #normal
+hist(CWM_Collected_Data$TotalLeaf_CWM) #mostly normal (slightly positively skewed)
+hist(CWM_Collected_Data$FlowerHeads_CWM) ##normal
+hist(CWM_Collected_Data$OpenFlowers_CWM)#normal
+hist(CWM_Collected_Data$FlowerNum_CWM) #mostly normal (slightly positively skewed)
 hist(CWM_Collected_Data$LeafThickness_CWM) #normal
-hist(CWM_Collected_Data$LDMC_CWM) #normal 
-hist(CWM_Collected_Data$Biomass_CWM) #right tail
+hist(CWM_Collected_Data$LDMC_CWM) #positively skewed
+hist(CWM_Collected_Data$Biomass_CWM) #mostly normal (slightly positively skewed)
+hist(CWM_Collected_Data$Avg_SLA_CWM) #positive skewed
 
 #testing and visualizing normality 
-# Shapiro-Wilk normality test 
+# Shapiro-Wilk normality test  # are outdated (for not transformed data)
 shapiro.test(CWM_Collected_Data$Height_CWM) # p = 4.31e-07
 ggqqplot(CWM_Collected_Data$Height_CWM, ylab = "Height")
 shapiro.test(CWM_Collected_Data$PercentGreen_CWM) # p = 7.069e-05
@@ -1170,6 +1193,9 @@ shapiro.test(CWM_Collected_Data$LDMC_CWM) # p < 2.2e-16
 ggqqplot(CWM_Collected_Data$LDMC_CWM, ylab = "LDMC")
 shapiro.test(CWM_Collected_Data$Biomass_CWM) # p < 2.2e-16
 ggqqplot(CWM_Collected_Data$Biomass_CWM, ylab = "Biomass")
+shapiro.test(CWM_Collected_Data$Avg_SLA_CWM) # p < 2.2e-16
+ggqqplot(CWM_Collected_Data$Avg_SLA_CWM, ylab = "SLA")
+
 
 
 #### Plot the data ####
