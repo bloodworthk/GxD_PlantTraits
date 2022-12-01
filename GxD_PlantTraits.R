@@ -5970,36 +5970,35 @@ head(var_TB_22$contrib, 12)
 #FK
 PCA_FK_18_G<-autoplot(PCA_FK_18, data=CWM_Collected_Data_FK_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
   theme(legend.position = c(0.1,0.9))
-#save as 1500x1000
+#save as 1300x1000
 
 PCA_FK_19_G<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
-#save as 1500x1000
+  theme(legend.position = c(0.1,0.9))
 
 PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_FK_21<-autoplot(PCA_FK_21, data=CWM_Collected_Data_FK_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_FK_22<-autoplot(PCA_FK_22, data=CWM_Collected_Data_FK_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 #TB
 PCA_TB_18<-autoplot(PCA_TB_18, data=CWM_Collected_Data_TB_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_21<-autoplot(PCA_TB_21, data=CWM_Collected_Data_TB_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_22<-autoplot(PCA_TB_22, data=CWM_Collected_Data_TB_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = "none")
+  theme(legend.position = c(0.1,0.9))
 
 #Create graph of all years for PCAs
 pushViewport(viewport(layout=grid.layout(5,2)))
