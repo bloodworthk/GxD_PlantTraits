@@ -6313,3 +6313,7 @@ anova(Dispersion_TB_22_graze)
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG) 
 
+#### SIMPER ####
+
+
+
