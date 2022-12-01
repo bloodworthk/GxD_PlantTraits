@@ -4679,38 +4679,30 @@ print(Green_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 ##CWM of PercentGreen for Fort Keogh 2018 - LMER
-FK_PercentGreen_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_PercentGreen_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2018_LMER, type = 3)
-#grazing (p=0.15757), drought (p=0.01724), grazing*drought(p=0.14112)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2018_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
-#no significance
 
 #CWM of PercentGreen for Fort Keogh 2019 - LMER
-FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2019_LMER, type = 3)
-#drought (p=0.8495)
 
 #CWM of PercentGreen for Fort Keogh 2020 - LMER
-FK_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM_TF ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2020_LMER, type = 3)
-#grazing (p=0.98790), drought (p=0.02319), grazing*drought(p=0.60878)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
-#no significance
 
 #CWM of PercentGreen for Fort Keogh 2021 - LMER
-FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2021_LMER, type = 3)
-#grazing (p=0.855253), drought (p=0.004181), grazing*drought(p=0.935394)
 #post hoc test for lmer test
 summary(glht(FK_PercentGreen_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
-#no significance
 
 #CWM of PercentGreen for Fort Keogh 2022 - LMER
-FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2022_LMER, type = 3)
-#grazing (p=0.3831), drought (p=0.6320), grazing*drought(p=0.7856)
 
 ##Thunder Basin
 
@@ -4785,33 +4777,25 @@ print(Green_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of PercentGreen for Thunder Basin 2018 - LMER
-TB_PercentGreen_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_PercentGreen_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PercentGreen_2018_LMER, type = 3)
-#grazing (p=0.1805), drought (p=0.1084), grazing*drought(p=0.2070)
 
 #CWM of PercentGreen for Thunder Basin 2019 - LMER
-TB_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PercentGreen_2019_LMER, type = 3)
-#drought (p=0.3487)
 
 #CWM of PercentGreen for Thunder Basin 2020 - LMER
-TB_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PercentGreen_2020_LMER, type = 3)
-#grazing (p=0.49677), drought (p=0.19312), grazing*drought(p=0.06024)
 
 
 #CWM of PercentGreen for Thunder Basin 2021 - LMER
-TB_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PercentGreen_2021_LMER, type = 3)
-#grazing (p=0.2083), drought (p=0.4037), grazing*drought(p=0.8290)
-
-CWM_Collected_Data$grazing_treatment<-as.factor(CWM_Collected_Data$grazing_treatment)
-
 
 #CWM of PercentGreen for Thunder Basin 2022 - LMER
-TB_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(TB_PercentGreen_2022_LMER, type = 3) #grazing (p=0.09664), drought (p=0.04725), grazing*drought(p=0.66708)
-#finding the difference between slopes
+TB_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PercentGreen_2022_LMER, type = 3) 
 TB_PercentGreen_2022_LMER_Slope <- emmeans(TB_PercentGreen_2022_LMER,  "Rainfall_reduction_cat", by="grazing_treatment")
 test(TB_PercentGreen_2022_LMER_Slope)
 
@@ -4888,31 +4872,26 @@ print(Biomass_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of Biomass for Fort Keogh 2018 - LMER
-FK_Biomass_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Biomass_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2018_LMER, type = 3)
-#grazing (p=0.7076), drought (p=0.3050), grazing*drought(p=0.3160)
 
 #CWM of Biomass for Fort Keogh 2019 - LMER
-FK_Biomass_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Biomass_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Biomass_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Biomass_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2019_LMER, type = 3)
-#drought (p=0.6426)
 
 #CWM of Biomass for Fort Keogh 2020 - LMER
-FK_Biomass_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Biomass_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Biomass_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Biomass_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2020_LMER, type = 3)
-#grazing (p=0.8889), drought (p=0.7126), grazing*drought(p=0.9006)
 
 #CWM of Biomass for Fort Keogh 2021 - LMER
-FK_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2021_LMER, type = 3)
-#grazing (p=0.54448), drought (p=0.02502), grazing*drought(p=0.39830)
 #post hoc test for lmer test
 summary(glht(FK_Biomass_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
 
 #CWM of Biomass for Fort Keogh 2022 - LMER
-FK_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Biomass_2022_LMER, type = 3)
-#grazing (p=0.5073), drought (p=0.5087), grazing*drought(p=0.8485)
 
 
 ## Thunder Basin
@@ -4988,30 +4967,25 @@ print(Biomass_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of Biomass for TB 2018 - LMER
-TB_Biomass_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Biomass_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2018_LMER, type = 3)
-#grazing (p=0.7076), drought (p=0.3050), grazing*drought(p=0.3160)
 
 #CWM of Biomass for TB 2019 - LMER
-TB_Biomass_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Biomass_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Biomass_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Biomass_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2019_LMER, type = 3)
-#drought (p=0.1469)
 
 #CWM of Biomass for TB 2020 - LMER
-TB_Biomass_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Biomass_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Biomass_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Biomass_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2020_LMER, type = 3)
-#grazing (p=0.8264), drought (p=0.1169), grazing*drought(p=0.9245)
 
 #CWM of Biomass for TB 2021 - LMER
-TB_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Biomass_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2021_LMER, type = 3)
-#grazing (p=0.3624), drought (p=0.3042), grazing*drought(p=0.8970)
 
 
 #CWM of Biomass for TB 2022 - LMER
-TB_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Biomass_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Biomass_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Biomass_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Biomass_2022_LMER, type = 3)
-#grazing (p=0.1076), drought (p=0.7132), grazing*drought(p=0.9793)
 
 ####CWM - Height Plots and Stats #### 
 
@@ -5084,35 +5058,29 @@ print(Height_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of height for Fort Keogh 2018 - LMER
-FK_Height_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Height_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2018_LMER, type = 3)
-#grazing (p=0.2133), drought (p=0.7010), grazing*drought(p=0.1052)
 
 #CWM of height for Fort Keogh 2019 - LMER
-FK_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2019_LMER, type = 3)
-#drought (p=0.1765)
 
 #CWM of height for Fort Keogh 2020 - LMER
-FK_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2020_LMER, type = 3)
-#grazing (p=0.5786), drought (p=0.6126), grazing*drought(p=0.4688)
 
 #CWM of height for Fort Keogh 2021 - LMER
-FK_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2021_LMER, type = 3)
-#grazing (p=0.6997953), drought (p=0.0009396), grazing*drought(p=0.0819964)
 #post hoc test for lmer test on rainfall reduction
 summary(glht(FK_Height_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
-#75-0 (p=0.005979), 50-25 (0.36559), 75-25 (0.000825)
 #finding the difference between slopes
 FK_Height_2021_LMER_Slope <- emmeans(FK_Height_2021_LMER,  "Rainfall_reduction_cat", by="grazing_treatment")
 test(TB_PercentGreen_2022_LMER_Slope)
 
 #CWM of height for Fort Keogh 2022 - LMER
-FK_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_Height_2022_LMER, type = 3)
-#grazing (p=0.86285), drought (p=0.02237), grazing*drought(p=0.48520)
 #post hoc test for lmer test on rainfall reduction
 summary(glht(FK_Height_2022_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
 
@@ -5190,31 +5158,26 @@ print(Height_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of height for Thunder Basin 2018 - LMER
-TB_Height_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Height_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2018_LMER, type = 3)
-#grazing (p=0.009498), drought (p=0.521174), grazing*drought(p=0.314285)
 #post hoc test for lmer test
 summary(glht(TB_Height_2018_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
 #CWM of height for Thunder Basin 2019 - LMER
-TB_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2019_LMER, type = 3)
-#drought (p=0.4983)
 
 #CWM of height for Thunder Basin 2020 - LMER
-TB_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Height_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2020_LMER, type = 3)
-#grazing (p=0.2947), drought (p=0.3690), grazing*drought(p=0.4527)
 
 #CWM of height for Thunder Basin 2021 - LMER
-TB_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2021_LMER, type = 3)
-#grazing (p=0.1568), drought (p=0.3947), grazing*drought(p=0.7429)
 
 #CWM of height for Thunder Basin 2022 - LMER
-TB_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_Height_2022_LMER, type = 3)
-#grazing (p=0.04306), drought (p=0.24875), grazing*drought(p=0.79121)
 #post hoc test for lmer test on rainfall reduction
 summary(glht(TB_Height_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
@@ -5291,29 +5254,24 @@ print(LDMC_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of LDMC for Fort Keogh 2018 - LMER
-FK_LDMC_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LDMC_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2018_LMER, type = 3)
-#grazing (p=0.2665), drought (p=0.2227), grazing*drought(p=0.3045)
 
 #CWM of LDMC for Fort Keogh 2019 - LMER
-FK_LDMC_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LDMC_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LDMC_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LDMC_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2019_LMER, type = 3)
-#drought (p=0.9641)
 
 #CWM of LDMC for Fort Keogh 2020 - LMER
-FK_LDMC_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LDMC_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LDMC_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LDMC_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2020_LMER, type = 3)
-#grazing (p=0.3492), drought (p=0.5718), grazing*drought(p=0.6738)
 
 #CWM of LDMC for Fort Keogh 2021 - LMER
-FK_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2021_LMER, type = 3)
-#grazing (p=0.8974), drought (p=0.6057), grazing*drought(p=0.9743)
 
 #CWM of LDMC for Fort Keogh 2022 - LMER
-FK_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LDMC_2022_LMER, type = 3)
-#grazing (p=0.9281), drought (p=0.9429), grazing*drought(p=0.5343)
 
 ##Thunder Basin 
 #CWM of LDMC - 2019 and TB
@@ -5387,32 +5345,28 @@ print(LDMC_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of LDMC for TB 2018 - LMER
-TB_LDMC_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LDMC_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2018_LMER, type = 3)
-#grazing (p=0.1568), drought (p=0.1427), grazing*drought(p=0.3960)
 
 #CWM of LDMC for TB 2019 - LMER
-TB_LDMC_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LDMC_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LDMC_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LDMC_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2019_LMER, type = 3)
-#drought (p=0.5297)
 
 #CWM of LDMC for TB 2020 - LMER
-TB_LDMC_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LDMC_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2020_LMER, type = 3)
 
-TB_LDMC_2020_LMER_trtm <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM ~ Trtm + (1|block) + (1|block:paddock))
+TB_LDMC_2020_LMER_trtm <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM_TF ~ Trtm + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2020_LMER_trtm, type = 3)
 summary(glht(TB_LDMC_2020_LMER_trtm, linfct = mcp(Trtm = "Tukey")), test = adjusted(type = "BH"))
 
 #CWM of LDMC for TB 2021 - LMER
-TB_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LDMC_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2021_LMER, type = 3)
-#grazing (p=0.07248), drought (p=0.24112), grazing*drought(p=0.78809)
 
 #CWM of LDMC for TB 2022 - LMER
-TB_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LDMC_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LDMC_2022_LMER, type = 3)
-#grazing (p=0.2010), drought (p=0.2214), grazing*drought(p=0.8344)
 
 ####CWM - SLA Plots and Stats #### 
 
@@ -5487,23 +5441,23 @@ print(SLA_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of SLA for Fort Keogh 2018 - LMER
-FK_SLA_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_SLA_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_SLA_2018_LMER, type = 3)
 
 #CWM of SLA for Fort Keogh 2019 - LMER
-FK_SLA_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Avg_SLA_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_SLA_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_SLA_2019_LMER, type = 3)
 
 #CWM of SLA for Fort Keogh 2020 - LMER
-FK_SLA_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Avg_SLA_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_SLA_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Avg_SLA_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_SLA_2020_LMER, type = 3)
 
 #CWM of SLA for Fort Keogh 2021 - LMER
-FK_SLA_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_SLA_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_SLA_2021_LMER, type = 3)
 
 #CWM of SLA for Fort Keogh 2022 - LMER
-FK_SLA_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_SLA_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_SLA_2022_LMER, type = 3)
 
 ##Thunder Basin 
@@ -5578,27 +5532,24 @@ print(SLA_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of SLA for TB 2018 - LMER
-TB_SLA_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_SLA_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_SLA_2018_LMER, type = 3)
 
 #CWM of SLA for TB 2019 - LMER
-TB_SLA_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Avg_SLA_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_SLA_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_SLA_2019_LMER, type = 3)
-#drought (p=0.5297)
 
 #CWM of SLA for TB 2020 - LMER
-TB_SLA_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Avg_SLA_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_SLA_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Avg_SLA_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_SLA_2020_LMER, type = 3)
 
 #CWM of SLA for TB 2021 - LMER
-TB_SLA_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_SLA_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_SLA_2021_LMER, type = 3)
-#grazing (p=0.07248), drought (p=0.24112), grazing*drought(p=0.78809)
 
 #CWM of SLA for TB 2022 - LMER
-TB_SLA_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Avg_SLA_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_SLA_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_SLA_2022_LMER, type = 3)
-#grazing (p=0.2010), drought (p=0.2214), grazing*drought(p=0.8344)
 
 ####CWM - Leaf Thickness Plots and Stats #### 
 
@@ -5673,29 +5624,24 @@ print(LeafThickness_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 ##CWM of LeafThickness for Fort Keogh 2018 - LMER
-FK_LeafThickness_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LeafThickness_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LeafThickness_2018_LMER, type = 3)
-#grazing (p=0.4198), drought (p=0.9533), grazing*drought(p=0.1858)
 
 #CWM of LeafThickness for Fort Keogh 2019 - LMER
-FK_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LeafThickness_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LeafThickness_2019_LMER, type = 3)
-#drought (p=0.389)
 
 #CWM of LeafThickness for Fort Keogh 2020 - LMER
-FK_LeafThickness_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LeafThickness_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LeafThickness_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LeafThickness_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LeafThickness_2020_LMER, type = 3)
-#grazing (p=0.8634), drought (p=0.8172), grazing*drought(p=0.8932)
 
 #CWM of LeafThickness for Fort Keogh 2021 - LMER
-FK_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LeafThickness_2021_LMER, type = 3)
-#grazing (p=0.5948), drought (p=0.8867), grazing*drought(p=0.8539)
 
 #CWM of LeafThickness for Fort Keogh 2022 - LMER
-FK_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+FK_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_LeafThickness_2022_LMER, type = 3)
-#grazing (p=0.9697), drought (p=0.2508), grazing*drought(p=0.9704)
 
 ##Thunder Basin
 
@@ -5770,34 +5716,27 @@ print(LeafThickness_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3000 x 2000  
 
 #CWM of LeafThickness for Thunder Basin 2018 - LMER
-TB_LeafThickness_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LeafThickness_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2018_LMER, type = 3)
-#grazing (p=0.009469, drought (p=0.251629), grazing*drought(p=0.331860)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2018_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
-#stable-destock(p=0.00618)
-
 
 #CWM of LeafThickness for Thunder Basin 2019 - LMER
-TB_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2019_LMER, type = 3)
-#drought (p=0.5277)
 
 #CWM of LeafThickness for Thunder Basin 2020 - LMER
-TB_LeafThickness_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LeafThickness_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LeafThickness_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LeafThickness_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2020_LMER, type = 3)
-#grazing (p=0.5722), drought (p=0.3767), grazing*drought(p=0.9549)
 
 #CWM of LeafThickness for Thunder Basin 2021 - LMER
-TB_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LeafThickness_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2021_LMER, type = 3)
-#grazing (p=0.005631), drought (p=0.608871), grazing*drought(p=0.965710)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2021_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
-#stable-destock(p=0.0859)
 
 #CWM of LeafThickness for Thunder Basin 2022 - LMER
-TB_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_LeafThickness_2022_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
@@ -5810,52 +5749,52 @@ summary(glht(TB_LeafThickness_2022_LMER, linfct = mcp(grazing_treatment = "Tukey
 
 CWM_Collected_Data_FK_18<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2018) %>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2019)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2020)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2021)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_FK_22<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2022)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 #TB
 
 CWM_Collected_Data_TB_18<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2018) %>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2019) %>% 
   na.omit(Biomass_CWM)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2020) %>% 
   na.omit(Biomass_CWM) %>% 
   na.omit(LDMC_CWM)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2021) %>% 
   filter(!is.na(Biomass_CWM))%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2022)%>% 
-  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM,-EmergingLeaves_CWM_TF,-DevelopedLeaves_CWM_TF,-ScenescedLeaves_CWM_TF,-FlowerHeads_CWM_TF,-OpenFlowers_CWM_TF,-FlowerNum_CWM_TF,-TotalLeaf_CWM_TF)
 
 #### PCA for FK 2018 ####
-PCA_FK_18<-prcomp(CWM_Collected_Data_FK_18[,10:15],scale=TRUE)
+PCA_FK_18<-prcomp(CWM_Collected_Data_FK_18[,19:24],scale=TRUE)
 PCA_FK_18
 summary(PCA_FK_18)
 
@@ -5872,7 +5811,7 @@ var_FK_18
 head(var_FK_18$contrib, 13)
 
 #### PCA for FK 2019 ####
-PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,10:15],scale=TRUE)
+PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,19:24],scale=TRUE)
 PCA_FK_19
 summary(PCA_FK_19)
 
@@ -5889,7 +5828,7 @@ var_FK_19
 head(var_FK_19$contrib, 13)
 
 #### PCA for FK 2020 ####
-PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,10:15],scale=TRUE)
+PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,19:24],scale=TRUE)
 PCA_FK_20
 summary(PCA_FK_20)
 
@@ -5906,7 +5845,7 @@ var_FK_20
 head(var_FK_20$contrib, 12)
 
 #### PCA for FK 2021 ####
-PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,10:15],scale=TRUE)
+PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,19:24],scale=TRUE)
 PCA_FK_21
 summary(PCA_FK_21)
 
@@ -5923,7 +5862,7 @@ var_FK_21
 head(var_FK_21$contrib, 12)
 
 #### PCA for FK 2022 ####
-PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,10:15],scale=TRUE)
+PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,19:24],scale=TRUE)
 PCA_FK_22
 summary(PCA_FK_22)
 
@@ -5940,7 +5879,7 @@ var_FK_22
 head(var_FK_22$contrib, 12)
 
 #### PCA for TB 2018 ####
-PCA_TB_18<-prcomp(CWM_Collected_Data_TB_18[,10:15],scale=TRUE)
+PCA_TB_18<-prcomp(CWM_Collected_Data_TB_18[,19:24],scale=TRUE)
 PCA_TB_18
 summary(PCA_TB_18)
 
@@ -5958,7 +5897,7 @@ head(var_TB_18$contrib, 12)
 
 
 #### PCA for TB 2019 ####
-PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,10:15],scale=TRUE)
+PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,19:24],scale=TRUE)
 PCA_TB_19
 summary(PCA_TB_19)
 
@@ -5975,7 +5914,7 @@ var_TB_19
 head(var_TB_19$contrib, 12)
 
 #### PCA for TB 2020 ####
-PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,10:15],scale=TRUE)
+PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,19:24],scale=TRUE)
 PCA_TB_20
 summary(PCA_TB_20)
 
@@ -5992,7 +5931,7 @@ var_TB_20
 head(var_TB_20$contrib, 12)
 
 #### PCA for TB 2021 ####
-PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,10:15],scale=TRUE)
+PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,19:24],scale=TRUE)
 PCA_TB_21
 summary(PCA_TB_21)
 
@@ -6009,7 +5948,7 @@ var_TB_21
 head(var_TB_21$contrib, 11)
 
 #### PCA for TB 2022 ####
-PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,10:15],scale=TRUE)
+PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,19:24],scale=TRUE)
 PCA_TB_22
 summary(PCA_TB_22)
 
@@ -6083,74 +6022,74 @@ print(PCA_TB_22,vp=viewport(layout.pos.row=5, layout.pos.col=2))
 ## FK ##
 #2018
 CWM_FK_18_Trait<-CWM_Collected_Data_FK_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_FK_18_Treatment<-CWM_Collected_Data_FK_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2019
 CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2020
 CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2021
 CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2022
 CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 ## TB ##
 #2018
 CWM_TB_18_Trait<-CWM_Collected_Data_TB_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_TB_18_Treatment<-CWM_Collected_Data_TB_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2019
 CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2020
 CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2021
 CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 #2022
 CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
 
 
 # run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
@@ -6160,31 +6099,26 @@ CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>%
 PERMANOVA_FK_18 <-adonis2(CWM_FK_18_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_18_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_18) 
-#drought (p=0.36863), grazing (p=0.05295), DxG (0.67133)
 
 #FK 2019
 PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_19) 
-# drought (p=0.4406)
 
 #FK 2020
 PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_FK_20_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_20)
-#drought (p=0.68232), grazing (p=0.01898), DxG (0.69131)
 
 #FK 2021
 PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_21_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_21)
-#drought (p=0.8032), grazing (p=0.9161), DxG (0.4116)
 
 #FK 2022
 PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_22_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_22)
-#drought (p=0.8841), grazing (p=0.1479), DxG (0.9600)
 
 ##TB##
 
@@ -6192,31 +6126,26 @@ print(PERMANOVA_FK_22)
 PERMANOVA_TB_18 <-adonis2(CWM_TB_18_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_18_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_18)
-#drought (p=0.7393), grazing (p=0.1329), DxG (0.9830)
 
 #TB 2019
 PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_19) 
-# drought (p=0.996)
 
 #TB 2020
 PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_TB_20_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_20)
-#drought (p=0.63237), grazing (p=0.05994), DxG (0.78521)
 
 #TB 2021
 PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_21_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_21)
-#drought (p=0.8082), grazing (p=0.4675), DxG (0.6494)
 
 #TB 2022
 PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_22_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_22)
-#drought (p=0.2288), grazing (p=0.1958), DxG (0.5385)
 
 ## PERMDISP ##
 
@@ -6227,15 +6156,15 @@ BC_Distance_Matrix_FK_18 <- vegdist(CWM_FK_18_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_18_drought <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_18_drought) #p=0.329
+anova(Dispersion_FK_18_drought) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_FK_18_graze <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$grazing_treatment)
-anova(Dispersion_FK_18_graze) #p=0.4871
+anova(Dispersion_FK_18_graze)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_FK_18_DxG <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$Trtm)
-anova(Dispersion_FK_18_DxG) #p=0.9726
+anova(Dispersion_FK_18_DxG) 
 
 # FK 2019
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6244,7 +6173,7 @@ BC_Distance_Matrix_FK_19 <- vegdist(CWM_FK_19_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_19_drought <- betadisper(BC_Distance_Matrix_FK_19,CWM_FK_19_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_19_drought) #p=0.9303
+anova(Dispersion_FK_19_drought) 
 
 
 # FK 2020
@@ -6254,11 +6183,11 @@ BC_Distance_Matrix_FK_20 <- vegdist(CWM_FK_20_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_20_drought <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_20_drought) #p=0.9408
+anova(Dispersion_FK_20_drought)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_FK_20_graze <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Grazing_2020)
-anova(Dispersion_FK_20_graze) #p=0.9412
+anova(Dispersion_FK_20_graze) 
 
 #combine 2020 grazing+drought
 CWM_FK_20_Treatment<-CWM_FK_20_Treatment %>% 
@@ -6266,7 +6195,7 @@ CWM_FK_20_Treatment<-CWM_FK_20_Treatment %>%
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_FK_20_DxG <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Trtm_20)
-anova(Dispersion_FK_20_DxG) #p=0.704
+anova(Dispersion_FK_20_DxG) 
 
 
 # FK 2021
@@ -6276,15 +6205,15 @@ BC_Distance_Matrix_FK_21 <- vegdist(CWM_FK_21_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_21_drought <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_21_drought) #p=0.1834
+anova(Dispersion_FK_21_drought) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_FK_21_graze <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$grazing_treatment)
-anova(Dispersion_FK_21_graze) #p=0.6864
+anova(Dispersion_FK_21_graze)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_FK_21_DxG <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Trtm)
-anova(Dispersion_FK_21_DxG) #p=0.9823
+anova(Dispersion_FK_21_DxG)
 
 
 # FK 2022
@@ -6294,15 +6223,15 @@ BC_Distance_Matrix_FK_22 <- vegdist(CWM_FK_22_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_22_drought <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_22_drought) #p=0.7996
+anova(Dispersion_FK_22_drought) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_FK_22_graze <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$grazing_treatment)
-anova(Dispersion_FK_22_graze) #p=0.3236
+anova(Dispersion_FK_22_graze) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_FK_22_DxG <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Trtm)
-anova(Dispersion_FK_22_DxG) #p=0.979
+anova(Dispersion_FK_22_DxG)
 
 # TB 2018
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6311,7 +6240,7 @@ BC_Distance_Matrix_TB_18 <- vegdist(CWM_TB_18_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_TB_18_drought <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_18_drought) #p=0.5419
+anova(Dispersion_TB_18_drought)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_TB_18_graze <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$grazing_treatment)
@@ -6319,7 +6248,7 @@ anova(Dispersion_TB_18_graze) #p=0.1685
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_18_DxG <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Trtm)
-anova(Dispersion_TB_18_DxG) #p=0.9013
+anova(Dispersion_TB_18_DxG) 
 
 # TB 2019
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6328,7 +6257,7 @@ BC_Distance_Matrix_TB_19 <- vegdist(CWM_TB_19_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_TB_19_drought <- betadisper(BC_Distance_Matrix_TB_19,CWM_TB_19_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_19_drought) #p=0.9966
+anova(Dispersion_TB_19_drought)
 
 # TB 2020
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6337,11 +6266,11 @@ BC_Distance_Matrix_TB_20 <- vegdist(CWM_TB_20_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_TB_20_drought <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_20_drought) #p=0.5655
+anova(Dispersion_TB_20_drought) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_TB_20_graze <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Grazing_2020)
-anova(Dispersion_TB_20_graze) #p=0.03489
+anova(Dispersion_TB_20_graze)
 
 #combine 2020 grazing+drought
 CWM_TB_20_Treatment<-CWM_TB_20_Treatment %>% 
@@ -6349,7 +6278,7 @@ CWM_TB_20_Treatment<-CWM_TB_20_Treatment %>%
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_20_DxG <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Trtm_20)
-anova(Dispersion_TB_20_DxG) #p=0.4609
+anova(Dispersion_TB_20_DxG) 
 
 # TB 2021
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6358,16 +6287,15 @@ BC_Distance_Matrix_TB_21 <- vegdist(CWM_TB_21_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_TB_21_drought <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_21_drought) #p=0.6566
+anova(Dispersion_TB_21_drought)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_TB_21_graze <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$grazing_treatment)
-anova(Dispersion_TB_21_graze) #p=0.8301
+anova(Dispersion_TB_21_graze)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_21_DxG <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Trtm)
-anova(Dispersion_TB_21_DxG) #p=0.9322
-
+anova(Dispersion_TB_21_DxG) 
 
 # TB 2022
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -6376,13 +6304,13 @@ BC_Distance_Matrix_TB_22 <- vegdist(CWM_TB_22_Trait)
 #drought
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_TB_22_drought <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_22_drought) #p=0.5377
+anova(Dispersion_TB_22_drought) 
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment
 Dispersion_TB_22_graze <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$grazing_treatment)
-anova(Dispersion_TB_22_graze) #p=0.6113
+anova(Dispersion_TB_22_graze)
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
-anova(Dispersion_TB_22_DxG) #p=0.5424
+anova(Dispersion_TB_22_DxG) 
 
