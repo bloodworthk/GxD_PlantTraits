@@ -1143,15 +1143,41 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 #### Trait Correlation Testing ####
 
 #Try sqrt(x) transformation because data is positively skewed
-CWM_Collected_Data[,c(11:23)]<-sqrt(CWM_Collected_Data[,c(11:23)]) 
+CWM_Collected_Data<-CWM_Collected_Data %>% 
+  mutate(Height_CWM_TF=sqrt(Height_CWM)) %>% 
+  mutate(PercentGreen_CWM_TF=sqrt(PercentGreen_CWM)) %>% 
+  mutate(EmergingLeaves_CWM_TF=sqrt(EmergingLeaves_CWM)) %>% 
+  mutate(DevelopedLeaves_CWM_TF=sqrt(DevelopedLeaves_CWM)) %>% 
+  mutate(ScenescedLeaves_CWM_TF=sqrt(ScenescedLeaves_CWM)) %>% 
+  mutate(FlowerHeads_CWM_TF=sqrt(FlowerHeads_CWM)) %>% 
+  mutate(OpenFlowers_CWM_TF=sqrt(OpenFlowers_CWM)) %>% 
+  mutate(LeafThickness_CWM_TF=sqrt(LeafThickness_CWM)) %>% 
+  mutate(FlowerNum_CWM_TF=sqrt(FlowerNum_CWM)) %>% 
+  mutate(LDMC_CWM_TF=sqrt(LDMC_CWM)) %>% 
+  mutate(Biomass_CWM_TF=sqrt(Biomass_CWM)) %>% 
+  mutate(TotalLeaf_CWM_TF=sqrt(TotalLeaf_CWM)) %>% 
+  mutate(Avg_SLA_CWM_TF=sqrt(Avg_SLA_CWM))
 
 #changing size of chart.correlation text on line 17 to cex = 2
 #trace("chart.Correlation", edit=T) 
 #using spearman test because data are not normally distributed
-chart.Correlation(CWM_Collected_Data[11:23],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#FK
+CWM_Collected_Data_FK<-CWM_Collected_Data %>%
+  filter(Site=="FK")
 
-#make chart correlation with just traits we discussed
-chart.Correlation(CWM_Collected_Data[c(21,11,20,23,18,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[27:39],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#TB
+CWM_Collected_Data_TB<-CWM_Collected_Data %>%
+  filter(Site=="TB")
+
+chart.Correlation(CWM_Collected_Data_TB[27:39],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#make chart correlation with just traits we discussed - FK
+chart.Correlation(CWM_Collected_Data_FK[c(27,28,34,36,37,39)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#make chart correlation with just traits we discussed - TB
+chart.Correlation(CWM_Collected_Data_TB[c(27,28,34,36,37,39)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
 #looking at histograms independently (sqrt)
