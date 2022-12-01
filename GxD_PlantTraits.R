@@ -5592,7 +5592,6 @@ LeafThickness_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
   annotate("text", x=8, y=0.5, label = "FK 2019", size=20)
 
-
 #CWM of Leaf Thickness - 2020 and FK
 LeafThickness_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=LeafThickness_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
@@ -5776,3 +5775,578 @@ TB_LeafThickness_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,ye
 anova(TB_LeafThickness_2022_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+
+
+#### PCAs ####
+
+#Create seperate dataframes for each site and year for PCAs
+#FK
+
+CWM_Collected_Data_FK_18<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2018) %>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2019)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2020)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2021)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_FK_22<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2022)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+#TB
+
+CWM_Collected_Data_TB_18<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2018) %>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2019) %>% 
+  na.omit(Biomass_CWM)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2020) %>% 
+  na.omit(Biomass_CWM) %>% 
+  na.omit(LDMC_CWM)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2021) %>% 
+  filter(!is.na(Biomass_CWM))%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2022)%>% 
+  select(-EmergingLeaves_CWM,-DevelopedLeaves_CWM,-ScenescedLeaves_CWM,-FlowerHeads_CWM,-OpenFlowers_CWM,-FlowerNum_CWM,-TotalLeaf_CWM,-Avg_SM)
+
+#### PCA for FK 2018 ####
+PCA_FK_18<-prcomp(CWM_Collected_Data_FK_18[,10:15],scale=TRUE)
+PCA_FK_18
+summary(PCA_FK_18)
+
+axes_FK_18 <- predict(PCA_FK_18, newdata = CWM_Collected_Data_FK_18)
+head(axes_FK_18, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_18_meta<-cbind(CWM_Collected_Data_FK_18,axes_FK_18)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_18 <- get_pca_var(PCA_FK_18)
+var_FK_18
+head(var_FK_18$contrib, 13)
+
+#### PCA for FK 2019 ####
+PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,10:15],scale=TRUE)
+PCA_FK_19
+summary(PCA_FK_19)
+
+axes_FK_19 <- predict(PCA_FK_19, newdata = CWM_Collected_Data_FK_19)
+head(axes_FK_19, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_19_meta<-cbind(CWM_Collected_Data_FK_19,axes_FK_19)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_19 <- get_pca_var(PCA_FK_19)
+var_FK_19
+head(var_FK_19$contrib, 13)
+
+#### PCA for FK 2020 ####
+PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,10:15],scale=TRUE)
+PCA_FK_20
+summary(PCA_FK_20)
+
+axes_FK_20 <- predict(PCA_FK_20, newdata = CWM_Collected_Data_FK_20)
+head(axes_FK_20, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_20_meta<-cbind(CWM_Collected_Data_FK_20,axes_FK_20)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_20 <- get_pca_var(PCA_FK_20)
+var_FK_20
+head(var_FK_20$contrib, 12)
+
+#### PCA for FK 2021 ####
+PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,10:15],scale=TRUE)
+PCA_FK_21
+summary(PCA_FK_21)
+
+axes_FK_21 <- predict(PCA_FK_21, newdata = CWM_Collected_Data_FK_21)
+head(axes_FK_21, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_21_meta<-cbind(CWM_Collected_Data_FK_21,axes_FK_21)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_21 <- get_pca_var(PCA_FK_21)
+var_FK_21
+head(var_FK_21$contrib, 12)
+
+#### PCA for FK 2022 ####
+PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,10:15],scale=TRUE)
+PCA_FK_22
+summary(PCA_FK_22)
+
+axes_FK_22 <- predict(PCA_FK_22, newdata = CWM_Collected_Data_FK_22)
+head(axes_FK_22, 4)
+
+#put PCA axes with site and plot #   
+PCA_FK_22_meta<-cbind(CWM_Collected_Data_FK_22,axes_FK_22)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_FK_22 <- get_pca_var(PCA_FK_22)
+var_FK_22
+head(var_FK_22$contrib, 12)
+
+#### PCA for TB 2018 ####
+PCA_TB_18<-prcomp(CWM_Collected_Data_TB_18[,10:15],scale=TRUE)
+PCA_TB_18
+summary(PCA_TB_18)
+
+axes_TB_18 <- predict(PCA_TB_18, newdata = CWM_Collected_Data_TB_18)
+head(axes_TB_18, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_18_meta<-cbind(CWM_Collected_Data_TB_18,axes_TB_18)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_18 <- get_pca_var(PCA_TB_18)
+var_TB_18
+head(var_TB_18$contrib, 12)
+
+
+#### PCA for TB 2019 ####
+PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,10:15],scale=TRUE)
+PCA_TB_19
+summary(PCA_TB_19)
+
+axes_TB_19 <- predict(PCA_TB_19, newdata = CWM_Collected_Data_TB_19)
+head(axes_TB_19, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_19_meta<-cbind(CWM_Collected_Data_TB_19,axes_TB_19)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_19 <- get_pca_var(PCA_TB_19)
+var_TB_19
+head(var_TB_19$contrib, 12)
+
+#### PCA for TB 2020 ####
+PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,10:15],scale=TRUE)
+PCA_TB_20
+summary(PCA_TB_20)
+
+axes_TB_20 <- predict(PCA_TB_20, newdata = CWM_Collected_Data_TB_20)
+head(axes_TB_20, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_20_meta<-cbind(CWM_Collected_Data_TB_20,axes_TB_20)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_20 <- get_pca_var(PCA_TB_20)
+var_TB_20
+head(var_TB_20$contrib, 12)
+
+#### PCA for TB 2021 ####
+PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,10:15],scale=TRUE)
+PCA_TB_21
+summary(PCA_TB_21)
+
+axes_TB_21 <- predict(PCA_TB_21, newdata = CWM_Collected_Data_TB_21)
+head(axes_TB_21, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_21_meta<-cbind(CWM_Collected_Data_TB_21,axes_TB_21)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_21 <- get_pca_var(PCA_TB_21)
+var_TB_21
+head(var_TB_21$contrib, 11)
+
+#### PCA for TB 2022 ####
+PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,10:15],scale=TRUE)
+PCA_TB_22
+summary(PCA_TB_22)
+
+axes_TB_22 <- predict(PCA_TB_22, newdata = CWM_Collected_Data_TB_22)
+head(axes_TB_22, 4)
+
+#put PCA axes with site and plot #   
+PCA_TB_22_meta<-cbind(CWM_Collected_Data_TB_22,axes_TB_22)%>%
+  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+
+#find contributions of CW traits to PCA axes #
+var_TB_22 <- get_pca_var(PCA_TB_22)
+var_TB_22
+head(var_TB_22$contrib, 12)
+
+
+#### PCA Graphs #### 
+
+#FK
+PCA_FK_18_G<-autoplot(PCA_FK_18, data=CWM_Collected_Data_FK_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+#save as 1500x1000
+
+PCA_FK_19_G<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+#save as 1500x1000
+
+PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_FK_21<-autoplot(PCA_FK_21, data=CWM_Collected_Data_FK_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_FK_22<-autoplot(PCA_FK_22, data=CWM_Collected_Data_FK_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+#TB
+PCA_TB_18<-autoplot(PCA_TB_18, data=CWM_Collected_Data_TB_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_TB_21<-autoplot(PCA_TB_21, data=CWM_Collected_Data_TB_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+PCA_TB_22<-autoplot(PCA_TB_22, data=CWM_Collected_Data_TB_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")
+
+#Create graph of all years for PCAs
+pushViewport(viewport(layout=grid.layout(5,2)))
+print(PCA_FK_18,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(PCA_FK_19,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(PCA_FK_20,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(PCA_FK_21,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(PCA_FK_22,vp=viewport(layout.pos.row=5, layout.pos.col =1))
+print(PCA_TB_18,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(PCA_TB_19,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(PCA_TB_20,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(PCA_TB_21,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+print(PCA_TB_22,vp=viewport(layout.pos.row=5, layout.pos.col =2))
+#Save at 2500 x 1500  
+
+#### PCA Stats ####
+
+#make two seperate dataframes for each year and site to have treatment data and trait data seperate
+
+## FK ##
+#2018
+CWM_FK_18_Trait<-CWM_Collected_Data_FK_18 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_18_Treatment<-CWM_Collected_Data_FK_18 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2019
+CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2020
+CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2021
+CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2022
+CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+## TB ##
+#2018
+CWM_TB_18_Trait<-CWM_Collected_Data_TB_18 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_18_Treatment<-CWM_Collected_Data_TB_18 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2019
+CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2020
+CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2021
+CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+#2022
+CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
+  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)
+
+CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+
+
+# run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
+
+## FK ##
+#FK 2018
+PERMANOVA_FK_18 <-adonis2(CWM_FK_18_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_18_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_18) 
+#drought (p=0.36863), grazing (p=0.05295), DxG (0.67133)
+
+#FK 2019
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_19) 
+# drought (p=0.4406)
+
+#FK 2020
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_FK_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_20)
+#drought (p=0.68232), grazing (p=0.01898), DxG (0.69131)
+
+#FK 2021
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_21)
+#drought (p=0.8032), grazing (p=0.9161), DxG (0.4116)
+
+#FK 2022
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_22)
+#drought (p=0.8841), grazing (p=0.1479), DxG (0.9600)
+
+##TB##
+
+#TB 2018
+PERMANOVA_TB_18 <-adonis2(CWM_TB_18_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_18_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_18)
+#drought (p=0.7393), grazing (p=0.1329), DxG (0.9830)
+
+#TB 2019
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_19) 
+# drought (p=0.996)
+
+#TB 2020
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_TB_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_20)
+#drought (p=0.63237), grazing (p=0.05994), DxG (0.78521)
+
+#TB 2021
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_21)
+#drought (p=0.8082), grazing (p=0.4675), DxG (0.6494)
+
+#TB 2022
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_22)
+#drought (p=0.2288), grazing (p=0.1958), DxG (0.5385)
+
+## PERMDISP ##
+
+# FK 2018
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_18 <- vegdist(CWM_FK_18_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_18_drought <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_18_drought) #p=0.329
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_18_graze <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$grazing_treatment)
+anova(Dispersion_FK_18_graze) #p=0.4871
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_18_DxG <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$Trtm)
+anova(Dispersion_FK_18_DxG) #p=0.9726
+
+# FK 2019
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_19 <- vegdist(CWM_FK_19_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_19_drought <- betadisper(BC_Distance_Matrix_FK_19,CWM_FK_19_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_19_drought) #p=0.9303
+
+
+# FK 2020
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_20 <- vegdist(CWM_FK_20_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_20_drought <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_20_drought) #p=0.9408
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_20_graze <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Grazing_2020)
+anova(Dispersion_FK_20_graze) #p=0.9412
+
+#combine 2020 grazing+drought
+CWM_FK_20_Treatment<-CWM_FK_20_Treatment %>% 
+  mutate(Trtm_20=paste(Rainfall_reduction_cat,Grazing_2020,sep="."))
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_20_DxG <- betadisper(BC_Distance_Matrix_FK_20,CWM_FK_20_Treatment$Trtm_20)
+anova(Dispersion_FK_20_DxG) #p=0.704
+
+
+# FK 2021
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_21 <- vegdist(CWM_FK_21_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_21_drought <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_21_drought) #p=0.1834
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_21_graze <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$grazing_treatment)
+anova(Dispersion_FK_21_graze) #p=0.6864
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_21_DxG <- betadisper(BC_Distance_Matrix_FK_21,CWM_FK_21_Treatment$Trtm)
+anova(Dispersion_FK_21_DxG) #p=0.9823
+
+
+# FK 2022
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_22 <- vegdist(CWM_FK_22_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_22_drought <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_FK_22_drought) #p=0.7996
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_FK_22_graze <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$grazing_treatment)
+anova(Dispersion_FK_22_graze) #p=0.3236
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_FK_22_DxG <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Trtm)
+anova(Dispersion_FK_22_DxG) #p=0.979
+
+# TB 2018
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_18 <- vegdist(CWM_TB_18_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_18_drought <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_18_drought) #p=0.5419
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_18_graze <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$grazing_treatment)
+anova(Dispersion_TB_18_graze) #p=0.1685
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_18_DxG <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Trtm)
+anova(Dispersion_TB_18_DxG) #p=0.9013
+
+# TB 2019
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_19 <- vegdist(CWM_TB_19_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_19_drought <- betadisper(BC_Distance_Matrix_TB_19,CWM_TB_19_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_19_drought) #p=0.9966
+
+# TB 2020
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_20 <- vegdist(CWM_TB_20_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_20_drought <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_20_drought) #p=0.5655
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_20_graze <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Grazing_2020)
+anova(Dispersion_TB_20_graze) #p=0.03489
+
+#combine 2020 grazing+drought
+CWM_TB_20_Treatment<-CWM_TB_20_Treatment %>% 
+  mutate(Trtm_20=paste(Rainfall_reduction_cat,Grazing_2020,sep="."))
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_20_DxG <- betadisper(BC_Distance_Matrix_TB_20,CWM_TB_20_Treatment$Trtm_20)
+anova(Dispersion_TB_20_DxG) #p=0.4609
+
+# TB 2021
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_21 <- vegdist(CWM_TB_21_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_21_drought <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_21_drought) #p=0.6566
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_21_graze <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$grazing_treatment)
+anova(Dispersion_TB_21_graze) #p=0.8301
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_21_DxG <- betadisper(BC_Distance_Matrix_TB_21,CWM_TB_21_Treatment$Trtm)
+anova(Dispersion_TB_21_DxG) #p=0.9322
+
+
+# TB 2022
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_22 <- vegdist(CWM_TB_22_Trait)
+
+#drought
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_22_drought <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Rainfall_reduction_cat)
+anova(Dispersion_TB_22_drought) #p=0.5377
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
+Dispersion_TB_22_graze <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$grazing_treatment)
+anova(Dispersion_TB_22_graze) #p=0.6113
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
+Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
+anova(Dispersion_TB_22_DxG) #p=0.5424
+
