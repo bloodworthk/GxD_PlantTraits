@@ -6313,7 +6313,344 @@ anova(Dispersion_TB_22_graze)
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG) 
 
-#### SIMPER ####
+#### Functional Diversity Calculations ####
 
+###FK
+#create dataframe from the raw trait data where we subset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_FK<-Traits_Clean_2 %>%
+  filter(Site=="FK") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_SLA=mean(SLA,na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  mutate(Sqrt_height=sqrt(Avg_height_cm))%>%
+  mutate(Sqrt_biomass=sqrt(Avg_biomass_g))%>%
+  mutate(Sqrt_percent_green=sqrt(Avg_percent_green))%>%
+  mutate(Sqrt_leaf_thickness=sqrt(Avg_leaf_thickness))%>%
+  mutate(Sqrt_LDMC=sqrt(Avg_LDMC))%>%
+  mutate(Sqrt_SLA=sqrt(Avg_SLA)) %>% 
+  mutate(Sp_Num=c(1:33))
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site,-Avg_height_cm,-Avg_biomass_g,-Avg_leaf_thickness,-Avg_LDMC,-Avg_SLA) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide<-Species_Comp_FK %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data<-Species_Comp_FK_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData<-Species_Comp_FK_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK_Wide_Data,corr = "none")
+summary(FK_FunctionalDiversity)
+
+### TB
+##create dataframe from the raw trait data where wesubset TB data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_TB<-Traits_Clean_2 %>%
+  filter(Site=="TB") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_SLA=mean(SLA,na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  mutate(Sqrt_height=sqrt(Avg_height_cm))%>%
+  mutate(Sqrt_biomass=sqrt(Avg_biomass_g))%>%
+  mutate(Sqrt_percent_green=sqrt(Avg_percent_green))%>%
+  mutate(Sqrt_leaf_thickness=sqrt(Avg_leaf_thickness))%>%
+  mutate(Sqrt_LDMC=sqrt(Avg_LDMC))%>%
+  mutate(Sqrt_SLA=sqrt(Avg_SLA)) %>% 
+  filter(!Genus_Species_Correct %in% c("Oenothera.suffrtescuns")) %>% 
+  mutate(Sp_Num=c(1:43))
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data<-Avg_Traits_TB %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site,-Avg_height_cm,-Avg_biomass_g,-Avg_leaf_thickness,-Avg_LDMC,-Avg_SLA) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames<-Avg_Traits_TB %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide<-Species_Comp_TB %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data<-Species_Comp_TB_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData<-Species_Comp_TB_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity <- dbFD(Avg_Traits_TB_Data, Species_Comp_TB_Wide_Data,corr = "none")
+summary(TB_FunctionalDiversity)
+
+
+#### Functional Metric Graphs ####
+
+
+
+
+### Functional Diversity Stats #### 
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK<-as.data.frame(FK_FunctionalDiversity) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData)
+
+Functional_Diversity_TB<-as.data.frame(TB_FunctionalDiversity) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData)
+
+Functional_Diversity<-Functional_Diversity_FK %>% 
+  rbind(Functional_Diversity_TB) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
+
+###Functional Richness
+
+#Functional Richness (FRic) FK 18
+FK_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) FK 19
+FK_19_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) FK 20
+FK_20_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FRic ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) FK 21
+FK_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) FK 22
+FK_22_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) TB 18
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) TB 19
+TB_19_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) TB 20
+TB_20_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FRic ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) TB 21
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FRiC_LMER, type = 3)
+
+#Functional Richness (FRic) TB 22
+TB_22_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FRiC_LMER, type = 3)
+
+###Functional Evenness
+
+#Functional Evenness (FEve) FK 18
+FK_18_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) FK 19
+FK_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) FK 20
+FK_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) FK 21
+FK_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FEve_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_21_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Evenness (FEve) FK 22
+FK_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) TB 18
+TB_18_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) TB 19
+TB_19_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) TB 20
+TB_20_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FEve ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FEve_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(TB_20_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Evenness (FEve) TB 21
+TB_21_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FEve_LMER, type = 3)
+
+#Functional Evenness (FEve) TB 22
+TB_22_FEve_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FEve ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FEve_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(TB_22_FEve_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+###Functional Diversity
+
+#Functional Diversity (FDiv) FK 18
+FK_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDiv_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_18_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Diversity (FDiv) FK 19
+FK_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDiv_LMER, type = 3)
+
+FK_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) FK 21
+FK_21_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) FK 22
+FK_22_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDiv_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_22_FDiv_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Diversity (FDiv) TB 18
+TB_18_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) TB 19
+TB_19_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) TB 20
+TB_20_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDiv ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) TB 21
+TB_21_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDiv_LMER, type = 3)
+
+#Functional Diversity (FDiv) TB 22
+TB_22_FDiv_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDiv ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDiv_LMER, type = 3)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 18
+FK_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDis_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_18_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_19_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(FK_22_FDis_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+
+#Functional Dispersion (FDis) TB 18
+TB_18_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDis_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(TB_18_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER, type = 3)
+#post hoc test for lmer test
+summary(glht(TB_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
+#no significance
 
 
