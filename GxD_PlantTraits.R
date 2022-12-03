@@ -718,6 +718,7 @@ Leaf_Area_All<- Leaf_Area_FK_B1_HG %>%
   select(-jpg)
 
 
+
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
 #get dataframe with just total cover per plot for each year
@@ -998,6 +999,7 @@ filter(Total_Percent<=93)
 #save as a csv
 #write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
 
+
 #### Clean up trait data ####
 
 
@@ -1223,6 +1225,7 @@ shapiro.test(CWM_Collected_Data$Biomass_CWM) # p < 2.2e-16
 ggqqplot(CWM_Collected_Data$Biomass_CWM, ylab = "Biomass")
 shapiro.test(CWM_Collected_Data$Avg_SLA_CWM) # p < 2.2e-16
 ggqqplot(CWM_Collected_Data$Avg_SLA_CWM, ylab = "SLA")
+
 
 
 #### Plot the data ####
@@ -4605,6 +4608,8 @@ summary(glht(TB_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test =
 #no significance
 
 
+
+
 #### Paper Figures ####
 
 ####CWM - Percent Green Plots and Stats #### 
@@ -5742,6 +5747,7 @@ anova(TB_LeafThickness_2022_LMER, type = 3)
 summary(glht(TB_LeafThickness_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
 
+
 #### PCAs ####
 
 #Create seperate dataframes for each site and year for PCAs
@@ -6312,6 +6318,8 @@ anova(Dispersion_TB_22_graze)
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG) 
+
+
 
 #### Multivariate Functional Diversity Calculations ####
 
