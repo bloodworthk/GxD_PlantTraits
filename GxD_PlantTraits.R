@@ -7297,7 +7297,6 @@ Species_Comp_TB_Wide_PlotData_Height<-Species_Comp_TB_Wide_Height %>%
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_Height <- dbFD(Avg_Traits_TB_Data_Height, Species_Comp_TB_Wide_Data_Height,corr = "none")
-summary(TB_FunctionalDiversity_Height)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_Height<-as.data.frame(FK_FunctionalDiversity_Height) %>% 
@@ -7759,7 +7758,7 @@ FK_22_FRiC_LMER_Height <- lmerTest::lmer(data = subset(Functional_Diversity_Heig
 anova(FK_22_FRiC_LMER_Height, type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -7771,7 +7770,7 @@ TB_20_FRiC_LMER_Height <- lmerTest::lmer(data = subset(Functional_Diversity_Heig
 anova(TB_20_FRiC_LMER_Height, type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
@@ -7864,30 +7863,37 @@ anova(TB_22_FDis_LMER_Height, type = 3)
 
 #### SLA Diversity Metrics ####
 
-#Create a matrix with just average trait data removing all idetifiers
-Avg_Traits_FK_Data_SLA<-Avg_Traits_FK %>% 
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_SLA_1<-Avg_Traits_FK %>% 
+  select(Sqrt_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:31))
+
+Avg_Traits_FK_Data_SLA<-Avg_Traits_FK_Data_SLA_1 %>% 
   select(Sqrt_SLA) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_SLA) <- c(1:33)
+rownames(Avg_Traits_FK_Data_SLA) <- c(1:31)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_FK_SpNames_SLA<-Avg_Traits_FK %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_FK_SpNames_SLA<-Avg_Traits_FK_Data_SLA_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_FK_SLA<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="FK") %>%
   left_join(Avg_Traits_FK_SpNames_SLA) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Linum.rigidum")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_FK_Wide_SLA<-Species_Comp_FK_SLA %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_FK_Wide_Data_SLA<-Species_Comp_FK_Wide_SLA %>% 
@@ -7903,29 +7909,36 @@ Species_Comp_FK_Wide_PlotData_SLA<-Species_Comp_FK_Wide_SLA %>%
 FK_FunctionalDiversity_SLA <- dbFD(Avg_Traits_FK_Data_SLA, Species_Comp_FK_Wide_Data_SLA,corr = "none")
 
 #Create a matrix with just average trait data removing all identifiers
-Avg_Traits_TB_Data_SLA<-Avg_Traits_TB%>% 
+Avg_Traits_TB_Data_SLA_1<-Avg_Traits_TB %>% 
+  select(Sqrt_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:36))
+
+Avg_Traits_TB_Data_SLA<-Avg_Traits_TB_Data_SLA_1 %>% 
   select(Sqrt_SLA) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_SLA) <- c(1:43)
+rownames(Avg_Traits_TB_Data_SLA) <- c(1:36)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_TB_SpNames_SLA<-Avg_Traits_TB %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_TB_SpNames_SLA<-Avg_Traits_TB_Data_SLA_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_TB_SLA<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="TB") %>%
   left_join(Avg_Traits_TB_SpNames_SLA) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>%
+  filter(Genus_Species_Correct!="	
+Aristida.purpurea" & Genus_Species_Correct!="Artemisia.frigida"& Genus_Species_Correct!="Artemisia.tridentata"& Genus_Species_Correct!="Bouteloua.gracilis"& Genus_Species_Correct!="Elymus.elymoides"& Genus_Species_Correct!="Gutierrezia.sarothrae"& Genus_Species_Correct!="Hedeoma.hispida")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_TB_Wide_SLA<-Species_Comp_TB_SLA %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_TB_Wide_Data_SLA<-Species_Comp_TB_Wide_SLA %>% 
@@ -7939,7 +7952,6 @@ Species_Comp_TB_Wide_PlotData_SLA<-Species_Comp_TB_Wide_SLA %>%
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_SLA <- dbFD(Avg_Traits_TB_Data_SLA, Species_Comp_TB_Wide_Data_SLA,corr = "none")
-summary(TB_FunctionalDiversity_SLA)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_SLA<-as.data.frame(FK_FunctionalDiversity_SLA) %>% 
@@ -8401,7 +8413,7 @@ FK_22_FRiC_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,yea
 anova(FK_22_FRiC_LMER_SLA, type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -8413,7 +8425,7 @@ TB_20_FRiC_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,yea
 anova(TB_20_FRiC_LMER_SLA, type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
@@ -8581,7 +8593,6 @@ Species_Comp_TB_Wide_PlotData_percent_green<-Species_Comp_TB_Wide_percent_green 
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_percent_green <- dbFD(Avg_Traits_TB_Data_percent_green, Species_Comp_TB_Wide_Data_percent_green,corr = "none")
-summary(TB_FunctionalDiversity_percent_green)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_percent_green<-as.data.frame(FK_FunctionalDiversity_percent_green) %>% 
@@ -9043,7 +9054,7 @@ FK_22_FRiC_LMER_percent_green <- lmerTest::lmer(data = subset(Functional_Diversi
 anova(FK_22_FRiC_LMER_percent_green, type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -9055,7 +9066,7 @@ TB_20_FRiC_LMER_percent_green <- lmerTest::lmer(data = subset(Functional_Diversi
 anova(TB_20_FRiC_LMER_percent_green, type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
@@ -9148,30 +9159,37 @@ anova(TB_22_FDis_LMER_percent_green, type = 3)
 
 #### Plant_Biomass Diversity Metrics ####
 
+Avg_Traits_FK_Data_Plant_Biomass_1<-Avg_Traits_FK %>% 
+  select(Sqrt_biomass,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:31))
+
 #Create a matrix with just average trait data removing all idetifiers
-Avg_Traits_FK_Data_Plant_Biomass<-Avg_Traits_FK %>% 
-  select(Sqrt_Plant_Biomass) %>% 
+Avg_Traits_FK_Data_Plant_Biomass<-Avg_Traits_FK_Data_Plant_Biomass_1 %>%
+  select(Sqrt_biomass) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_Plant_Biomass) <- c(1:33)
+rownames(Avg_Traits_FK_Data_Plant_Biomass) <- c(1:31)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_FK_SpNames_Plant_Biomass<-Avg_Traits_FK %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_FK_SpNames_Plant_Biomass<-Avg_Traits_FK_Data_Plant_Biomass_1%>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_FK_Plant_Biomass<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="FK") %>%
   left_join(Avg_Traits_FK_SpNames_Plant_Biomass) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))%>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Linum.rigidum")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_FK_Wide_Plant_Biomass<-Species_Comp_FK_Plant_Biomass %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_FK_Wide_Data_Plant_Biomass<-Species_Comp_FK_Wide_Plant_Biomass %>% 
@@ -9187,29 +9205,36 @@ Species_Comp_FK_Wide_PlotData_Plant_Biomass<-Species_Comp_FK_Wide_Plant_Biomass 
 FK_FunctionalDiversity_Plant_Biomass <- dbFD(Avg_Traits_FK_Data_Plant_Biomass, Species_Comp_FK_Wide_Data_Plant_Biomass,corr = "none")
 
 #Create a matrix with just average trait data removing all identifiers
-Avg_Traits_TB_Data_Plant_Biomass<-Avg_Traits_TB%>% 
-  select(Sqrt_Plant_Biomass) %>% 
+Avg_Traits_TB_Data_Plant_Biomass_1<-Avg_Traits_TB %>% 
+  select(Sqrt_biomass,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:41))
+
+Avg_Traits_TB_Data_Plant_Biomass<-Avg_Traits_TB_Data_Plant_Biomass_1%>% 
+  select(Sqrt_biomass) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_Plant_Biomass) <- c(1:43)
+rownames(Avg_Traits_TB_Data_Plant_Biomass) <- c(1:41)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_TB_SpNames_Plant_Biomass<-Avg_Traits_TB %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_TB_SpNames_Plant_Biomass<-Avg_Traits_TB_Data_Plant_Biomass_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_TB_Plant_Biomass<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="TB") %>%
   left_join(Avg_Traits_TB_SpNames_Plant_Biomass) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Elymus.elymoides")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_TB_Wide_Plant_Biomass<-Species_Comp_TB_Plant_Biomass %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_TB_Wide_Data_Plant_Biomass<-Species_Comp_TB_Wide_Plant_Biomass %>% 
@@ -9223,7 +9248,6 @@ Species_Comp_TB_Wide_PlotData_Plant_Biomass<-Species_Comp_TB_Wide_Plant_Biomass 
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_Plant_Biomass <- dbFD(Avg_Traits_TB_Data_Plant_Biomass, Species_Comp_TB_Wide_Data_Plant_Biomass,corr = "none")
-summary(TB_FunctionalDiversity_Plant_Biomass)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_Plant_Biomass<-as.data.frame(FK_FunctionalDiversity_Plant_Biomass) %>% 
@@ -9685,7 +9709,7 @@ FK_22_FRiC_LMER_Plant_Biomass <- lmerTest::lmer(data = subset(Functional_Diversi
 anova(FK_22_FRiC_LMER_Plant_Biomass, type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Plant_Biomass,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -9697,7 +9721,7 @@ TB_20_FRiC_LMER_Plant_Biomass <- lmerTest::lmer(data = subset(Functional_Diversi
 anova(TB_20_FRiC_LMER_Plant_Biomass, type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Plant_Biomass,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
@@ -9791,29 +9815,35 @@ anova(TB_22_FDis_LMER_Plant_Biomass, type = 3)
 #### leaf_thickness_.mm. Diversity Metrics ####
 
 #Create a matrix with just average trait data removing all idetifiers
-Avg_Traits_FK_Data_leaf_thickness_.mm.<-Avg_Traits_FK %>% 
-  select(Sqrt_leaf_thickness_.mm.) %>% 
+Avg_Traits_FK_Data_leaf_thickness_.mm._1<-Avg_Traits_FK %>% 
+  select(Sqrt_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_leaf_thickness_.mm.<-Avg_Traits_FK_Data_leaf_thickness_.mm._1 %>% 
+  select(Sqrt_leaf_thickness) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_leaf_thickness_.mm.) <- c(1:33)
+rownames(Avg_Traits_FK_Data_leaf_thickness_.mm.) <- c(1:32)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_FK_SpNames_leaf_thickness_.mm.<-Avg_Traits_FK %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_FK_SpNames_leaf_thickness_.mm.<-Avg_Traits_FK_Data_leaf_thickness_.mm._1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_FK_leaf_thickness_.mm.<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="FK") %>%
   left_join(Avg_Traits_FK_SpNames_leaf_thickness_.mm.) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Linum.rigidum")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_FK_Wide_leaf_thickness_.mm.<-Species_Comp_FK_leaf_thickness_.mm. %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_FK_Wide_Data_leaf_thickness_.mm.<-Species_Comp_FK_Wide_leaf_thickness_.mm. %>% 
@@ -9829,29 +9859,35 @@ Species_Comp_FK_Wide_PlotData_leaf_thickness_.mm.<-Species_Comp_FK_Wide_leaf_thi
 FK_FunctionalDiversity_leaf_thickness_.mm. <- dbFD(Avg_Traits_FK_Data_leaf_thickness_.mm., Species_Comp_FK_Wide_Data_leaf_thickness_.mm.,corr = "none")
 
 #Create a matrix with just average trait data removing all identifiers
-Avg_Traits_TB_Data_leaf_thickness_.mm.<-Avg_Traits_TB%>% 
-  select(Sqrt_leaf_thickness_.mm.) %>% 
+Avg_Traits_TB_Data_leaf_thickness_.mm._1<-Avg_Traits_TB %>% 
+  select(Sqrt_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:42))
+
+Avg_Traits_TB_Data_leaf_thickness_.mm.<-Avg_Traits_TB_Data_leaf_thickness_.mm._1%>% 
+  select(Sqrt_leaf_thickness) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_leaf_thickness_.mm.) <- c(1:43)
+rownames(Avg_Traits_TB_Data_leaf_thickness_.mm.) <- c(1:42)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_TB_SpNames_leaf_thickness_.mm.<-Avg_Traits_TB %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_TB_SpNames_leaf_thickness_.mm.<-Avg_Traits_TB_Data_leaf_thickness_.mm._1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_TB_leaf_thickness_.mm.<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="TB") %>%
   left_join(Avg_Traits_TB_SpNames_leaf_thickness_.mm.) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Elymus.elymoides")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_TB_Wide_leaf_thickness_.mm.<-Species_Comp_TB_leaf_thickness_.mm. %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_TB_Wide_Data_leaf_thickness_.mm.<-Species_Comp_TB_Wide_leaf_thickness_.mm. %>% 
@@ -9865,7 +9901,6 @@ Species_Comp_TB_Wide_PlotData_leaf_thickness_.mm.<-Species_Comp_TB_Wide_leaf_thi
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_leaf_thickness_.mm. <- dbFD(Avg_Traits_TB_Data_leaf_thickness_.mm., Species_Comp_TB_Wide_Data_leaf_thickness_.mm.,corr = "none")
-summary(TB_FunctionalDiversity_leaf_thickness_.mm.)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_leaf_thickness_.mm.<-as.data.frame(FK_FunctionalDiversity_leaf_thickness_.mm.) %>% 
@@ -10327,7 +10362,7 @@ FK_22_FRiC_LMER_leaf_thickness_.mm. <- lmerTest::lmer(data = subset(Functional_D
 anova(FK_22_FRiC_LMER_leaf_thickness_.mm., type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -10339,7 +10374,7 @@ TB_20_FRiC_LMER_leaf_thickness_.mm. <- lmerTest::lmer(data = subset(Functional_D
 anova(TB_20_FRiC_LMER_leaf_thickness_.mm., type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
@@ -10433,29 +10468,36 @@ anova(TB_22_FDis_LMER_leaf_thickness_.mm., type = 3)
 #### LDMC Diversity Metrics ####
 
 #Create a matrix with just average trait data removing all idetifiers
-Avg_Traits_FK_Data_LDMC<-Avg_Traits_FK %>% 
+Avg_Traits_FK_Data_LDMC_1<-Avg_Traits_FK %>% 
+  select(Sqrt_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:31))
+
+Avg_Traits_FK_Data_LDMC<-Avg_Traits_FK_Data_LDMC_1 %>% 
   select(Sqrt_LDMC) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_LDMC) <- c(1:33)
+rownames(Avg_Traits_FK_Data_LDMC) <- c(1:31)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_FK_SpNames_LDMC<-Avg_Traits_FK %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_FK_SpNames_LDMC<-Avg_Traits_FK_Data_LDMC_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_FK_LDMC<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="FK") %>%
   left_join(Avg_Traits_FK_SpNames_LDMC) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Linum.rigidum")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_FK_Wide_LDMC<-Species_Comp_FK_LDMC %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_FK_Wide_Data_LDMC<-Species_Comp_FK_Wide_LDMC %>% 
@@ -10471,29 +10513,35 @@ Species_Comp_FK_Wide_PlotData_LDMC<-Species_Comp_FK_Wide_LDMC %>%
 FK_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_FK_Data_LDMC, Species_Comp_FK_Wide_Data_LDMC,corr = "none")
 
 #Create a matrix with just average trait data removing all identifiers
-Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB%>% 
+Avg_Traits_TB_Data_LDMC_1<-Avg_Traits_TB %>% 
+  select(Sqrt_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:41))
+
+Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_Data_LDMC_1%>% 
   select(Sqrt_LDMC) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_LDMC) <- c(1:43)
+rownames(Avg_Traits_TB_Data_LDMC) <- c(1:41)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_TB_SpNames_LDMC<-Avg_Traits_TB %>% 
-  select(Genus_Species_Correct,Sp_Num)
+Avg_Traits_TB_SpNames_LDMC<-Avg_Traits_TB_Data_LDMC_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
 Species_Comp_TB_LDMC<- Species_Comp_RelCov_All %>% 
   filter(Relative_Cover!=0) %>% 
   filter(site=="TB") %>%
   left_join(Avg_Traits_TB_SpNames_LDMC) %>% 
-  na.omit(Sp_Num) %>% 
-  mutate(ID=paste(year,site,plot,sep="_"))
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Hedeoma.hispida" & Genus_Species_Correct!="Elymus.elymoides")
 
 #put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
 Species_Comp_TB_Wide_LDMC<-Species_Comp_TB_LDMC %>% 
-  select(Sp_Num,Relative_Cover,ID) %>% 
-  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
 
 #Make a matrix with JUST the species comp data, no identifiers
 Species_Comp_TB_Wide_Data_LDMC<-Species_Comp_TB_Wide_LDMC %>% 
@@ -10507,7 +10555,6 @@ Species_Comp_TB_Wide_PlotData_LDMC<-Species_Comp_TB_Wide_LDMC %>%
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_TB_Data_LDMC, Species_Comp_TB_Wide_Data_LDMC,corr = "none")
-summary(TB_FunctionalDiversity_LDMC)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK_LDMC<-as.data.frame(FK_FunctionalDiversity_LDMC) %>% 
@@ -10969,7 +11016,7 @@ FK_22_FRiC_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,y
 anova(FK_22_FRiC_LMER_LDMC, type = 3)
 
 #Functional Richness (FRic) TB 18
-TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_18_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC, year==2018&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_18_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 19
@@ -10981,7 +11028,7 @@ TB_20_FRiC_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,y
 anova(TB_20_FRiC_LMER_LDMC, type = 3)
 
 #Functional Richness (FRic) TB 21
-TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+TB_21_FRiC_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&Site=="TB"), FRic ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_21_FRiC_LMER, type = 3)
 
 #Functional Richness (FRic) TB 22
