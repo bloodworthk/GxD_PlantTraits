@@ -4804,6 +4804,8 @@ anova(TB_PercentGreen_2022_LMER, type = 3)
 TB_PercentGreen_2022_LMER_Slope <- emmeans(TB_PercentGreen_2022_LMER,  "Rainfall_reduction_cat", by="grazing_treatment")
 test(TB_PercentGreen_2022_LMER_Slope)
 
+
+
 ####CWM - Biomass Plots and Stats #### 
 
 #CWM of Biomass - 2019 and FK
