@@ -6446,7 +6446,6 @@ Species_Comp_TB_Wide_PlotData<-Species_Comp_TB_Wide %>%
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 TB_FunctionalDiversity <- dbFD(Avg_Traits_TB_Data, Species_Comp_TB_Wide_Data,corr = "none")
-summary(TB_FunctionalDiversity)
 
 #merge FK and TB functional diversity matrices back into dataframes and join environmental data 
 Functional_Diversity_FK<-as.data.frame(FK_FunctionalDiversity) %>% 
@@ -7216,7 +7215,7 @@ anova(TB_22_FDis_LMER, type = 3)
 summary(glht(TB_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 #no significance
 
-#### Single Species Functional Metrics ####
+#### Single Trait Functional Metrics ####
 
 #### Height Diversity Metrics ####
 
@@ -8352,7 +8351,7 @@ FDis_TB_20_SLA<-ggplot(subset(Functional_Diversity_SLA,year==2020&Site=="TB"),ae
 #Functional Dispersion - TB 2021
 FDis_TB_21_SLA<-ggplot(subset(Functional_Diversity_SLA,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  #geom_smooth(color = "black", method='lm', se = FALSE)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -8698,7 +8697,7 @@ FRic_TB_19_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year=
 #Functional Richness - TB 2020
 FRic_TB_20_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=FRic,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
   geom_point(size=6, stroke =2)+
-  #geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -8893,7 +8892,7 @@ print(FEve_TB_22_percent_green,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Functional Dispersion - FK 2019
 FDis_FK_19_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  #geom_smooth(color = "black", method='lm', se = FALSE)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -8908,7 +8907,7 @@ FDis_FK_19_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year=
 #Functional Dispersion - FK 2020
 FDis_FK_20_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  geom_smooth(color = "black", method='lm', se = FALSE)+
+  #geom_smooth(color = "black", method='lm', se = FALSE)+
   #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
@@ -8939,9 +8938,9 @@ FDis_FK_21_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year=
   annotate("text", x=8.5, y=1, label = "FK 2021", size=20)
 
 #Functional Dispersion - FK 2022
-FDis_FK_22_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=FDis,color=grazing_treatment)) +  
+FDis_FK_22_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -8964,7 +8963,7 @@ print(FDis_FK_22_percent_green,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Functional Dispersion - TB 2019
 FDis_TB_19_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  geom_smooth(color = "black", method='lm', se = FALSE)+
+  #geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -8979,7 +8978,7 @@ FDis_TB_19_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year=
 #Functional Dispersion - TB 2020
 FDis_TB_20_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  #geom_smooth(color = "black", method='lm', se = FALSE)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -9006,9 +9005,9 @@ FDis_TB_21_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year=
   annotate("text", x=8.5, y=1, label = "TB 2021", size=20)
 
 #Functional Dispersion - TB 2022
-FDis_TB_22_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
+FDis_TB_22_percent_green<-ggplot(subset(Functional_Diversity_percent_green,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=FDis,color=grazing_treatment)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  geom_smooth(color = "black", method='lm', se = FALSE)+
+  geom_smooth(aes(linetype=grazing_treatment),method='glm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -10931,8 +10930,8 @@ FDis_TB_19_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2019&Site=="TB"),
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.90))+
-  expand_limits(y=c(0,1))+
-  annotate("text", x=8.5, y=1, label = "TB 2019", size=20)
+  expand_limits(y=c(0,2))+
+  annotate("text", x=8.5, y=2, label = "TB 2019", size=20)
 
 #Functional Dispersion - TB 2020
 FDis_TB_20_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
@@ -10945,8 +10944,8 @@ FDis_TB_20_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2020&Site=="TB"),
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  expand_limits(y=c(0,1))+
-  annotate("text", x=8.5, y=1, label = "TB 2020", size=20)
+  expand_limits(y=c(0,2))+
+  annotate("text", x=8.5, y=2, label = "TB 2020", size=20)
 
 #Functional Dispersion - TB 2021
 FDis_TB_21_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
@@ -10960,13 +10959,13 @@ FDis_TB_21_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2021&Site=="TB"),
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  expand_limits(y=c(0,1))+
-  annotate("text", x=8.5, y=1, label = "TB 2021", size=20)
+  expand_limits(y=c(0,2))+
+  annotate("text", x=8.5, y=2, label = "TB 2021", size=20)
 
 #Functional Dispersion - TB 2022
 FDis_TB_22_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=FDis)) +  
   geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
-  geom_smooth(color = "black", method='lm', se = FALSE)+
+  #geom_smooth(color = "black", method='lm', se = FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
   scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
@@ -10975,8 +10974,8 @@ FDis_TB_22_LDMC<-ggplot(subset(Functional_Diversity_LDMC,year==2022&Site=="TB"),
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  expand_limits(y=c(0,1))+
-  annotate("text", x=8.5, y=1, label = "TB 2022", size=20)
+  expand_limits(y=c(0,2))+
+  annotate("text", x=8.5, y=2, label = "TB 2022", size=20)
 
 #Create graph of all years for FDis
 pushViewport(viewport(layout=grid.layout(2,2)))
