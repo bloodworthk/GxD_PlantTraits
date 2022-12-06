@@ -56,7 +56,7 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 
 #Trait Data
 Field_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_FieldTraits.csv") %>% 
-  dplyr::select(Site,DxG_block, paddock, genus_species, species_code, height_cm, emerging_leaves, developed_leaves, scenesced_leaves, flower_heads, open_flowers, percent_green, Date, Season, people, comments)
+  dplyr::select(Site,DxG_block, paddock, genus_species, species_code, height_cm, emerging_leaves, developed_leaves, scenesced_leaves, flower_heads, open_flowers, percent_green, lifespan, growth_form,photosynthetic_pathway, Date, Season, people, comments)
 
 Lab_Traits<-read.csv("DxG_Plant_Traits/2022_DxG_CWM_LabTraits.csv") %>% 
   rename(Site=site) %>% 
@@ -1013,30 +1013,30 @@ Traits_Clean <- Traits [complete.cases(Traits[ , 6]),] %>%
   mutate(wet_leaf_weight_g=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",ifelse(wet_leaf_weight_g=="0..0233",0.0233, wet_leaf_weight_g))))
 
 #Changing ARTR to ARFR based on comments on lab traits
-Traits_Clean[613, "genus_species"] <- "Artemisia_frigida"
-Traits_Clean[613, "species_code"] <- "ARFR"
+Traits_Clean[58, "genus_species"] <- "Artemisia_frigida"
+Traits_Clean[58, "species_code"] <- "ARFR"
 
 #changing LIPU to LIIN based on comments on lab traits
-Traits_Clean[438, "genus_species"] <- "Lithospermum_incisum"
-Traits_Clean[438, "species_code"] <- "LIIN"
+Traits_Clean[394, "genus_species"] <- "Lithospermum_incisum"
+Traits_Clean[394, "species_code"] <- "LIIN"
 
 #changing MUDI to PIOP based on comments on lab traits
-Traits_Clean[259, "genus_species"] <- "Picradeniopsis_oppositifolia"
-Traits_Clean[259, "species_code"] <- "PIOP"
+Traits_Clean[445, "genus_species"] <- "Picradeniopsis_oppositifolia"
+Traits_Clean[445, "species_code"] <- "PIOP"
 
 #changing LIIN to LIPU based on comments on lab traits
-Traits_Clean[515, "genus_species"] <- "Liatris_punctata"
-Traits_Clean[515, "species_code"] <- "LIPU"
+Traits_Clean[388, "genus_species"] <- "Liatris_punctata"
+Traits_Clean[388, "species_code"] <- "LIPU"
 
 #changing KOMA to PASM based on comments on lab traits
-Traits_Clean[486, "genus_species"] <- "Pascopyrum_smithii"
-Traits_Clean[486, "species_code"] <- "PASM"
+Traits_Clean[356, "genus_species"] <- "Pascopyrum_smithii"
+Traits_Clean[356, "species_code"] <- "PASM"
 
 Traits_Clean$Dry_Leaf_Weight_g<-as.numeric(Traits_Clean$Dry_Leaf_Weight_g)
 Traits_Clean$Dry_Biomass_min_Leaf_g<-as.numeric(Traits_Clean$Dry_Biomass_min_Leaf_g)
 
 #remove SLA that is unusually big -- PLPA_TB_3_LG - make an NA
-Traits_Clean[263, "Total.Area"] <- NA
+Traits_Clean[524, "Total.Area"] <- NA
 
 
 #### Look at Trait Database Data and compare to species needed for this project ####
