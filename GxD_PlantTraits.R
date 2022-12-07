@@ -1240,8 +1240,6 @@ ggqqplot(CWM_Collected_Data$Biomass_CWM, ylab = "Biomass")
 shapiro.test(CWM_Collected_Data$Avg_SLA_CWM) # p < 2.2e-16
 ggqqplot(CWM_Collected_Data$Avg_SLA_CWM, ylab = "SLA")
 
-
-
 #### Plot the data ####
 
 ####CWM - Height Plots and Stats #### 
@@ -5762,7 +5760,558 @@ anova(TB_LeafThickness_2022_LMER, type = 3)
 #post hoc test for lmer test
 summary(glht(TB_LeafThickness_2022_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH"))
 
+####CWM - Lifespan Plots and Stats #### 
 
+
+#CWM of LifeSpan - 2019 and FK
+Lifespan_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=1.5, label = "FK 2019", size=20)
+
+#CWM of Lifespan - 2020 and FK
+Lifespan_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2020", size=20)
+
+
+#CWM of LifeSpan - 2021 and FK
+Lifespan_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2021", size=20)
+
+#CWM of Lifespan - 2022 and FK
+Lifespan_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=Lifespan_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2022", size=20)
+
+#Create graph of all years for Leaf Thickness data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Lifespan_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Lifespan_FK_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Lifespan_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Lifespan_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+##CWM of Lifespan for Fort Keogh 2018 - LMER
+FK_Lifespan_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Lifespan_2018_LMER, type = 3)
+
+#CWM of Lifespan for Fort Keogh 2019 - LMER
+FK_Lifespan_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Lifespan_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Lifespan_2019_LMER, type = 3)
+
+#CWM of Lifespan for Fort Keogh 2020 - LMER
+FK_Lifespan_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Lifespan_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Lifespan_2020_LMER, type = 3)
+
+#CWM of Lifespan for Fort Keogh 2021 - LMER
+FK_Lifespan_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Lifespan_2021_LMER, type = 3)
+
+#CWM of Lifespan for Fort Keogh 2022 - LMER
+FK_Lifespan_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Lifespan_2022_LMER, type = 3)
+
+##Thunder Basin
+
+#CWM of Lifespan - 2019 and TB
+Lifespan_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=1.5, label = "TB 2019", size=20)
+
+
+#CWM of Lifespan - 2020 and TB
+Lifespan_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2020", size=20)
+
+
+#CWM of Lifespan - 2021 and TB
+Lifespan_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2021", size=20)
+
+#CWM of Lifespan - 2022 and TB
+Lifespan_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=Lifespan_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Lifespan")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2022", size=20)
+
+#Create graph of all years for Lifespan data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Lifespan_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Lifespan_TB_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Lifespan_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Lifespan_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of Lifespan for Thunder Basin 2018 - LMER
+TB_Lifespan_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Lifespan_2018_LMER, type = 3)
+
+#CWM of Lifespan for Thunder Basin 2019 - LMER
+TB_Lifespan_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Lifespan_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Lifespan_2019_LMER, type = 3)
+
+#CWM of Lifespan for Thunder Basin 2020 - LMER
+TB_Lifespan_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Lifespan_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Lifespan_2020_LMER, type = 3)
+
+#CWM of Lifespan for Thunder Basin 2021 - LMER
+TB_Lifespan_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Lifespan_2021_LMER, type = 3)
+
+#CWM of Lifespan for Thunder Basin 2022 - LMER
+TB_Lifespan_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Lifespan_2022_LMER, type = 3)
+
+
+####CWM - GrowthForm Plots and Stats #### 
+
+
+#CWM of GrowthForm - 2019 and FK
+GrowthForm_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=1.5, label = "FK 2019", size=20)
+
+#CWM of GrowthForm - 2020 and FK
+GrowthForm_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2020", size=20)
+
+
+#CWM of GrowthForm - 2021 and FK
+GrowthForm_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2021", size=20)
+
+#CWM of GrowthForm - 2022 and FK
+GrowthForm_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=GrowthForm_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  #geom_smooth(color = "black", method='lm', se = FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "FK 2022", size=20)
+
+#Create graph of all years for Leaf Thickness data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(GrowthForm_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(GrowthForm_FK_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(GrowthForm_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(GrowthForm_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+##CWM of GrowthForm for Fort Keogh 2018 - LMER
+FK_GrowthForm_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_GrowthForm_2018_LMER, type = 3)
+
+#CWM of GrowthForm for Fort Keogh 2019 - LMER
+FK_GrowthForm_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_GrowthForm_2019_LMER, type = 3)
+
+#CWM of GrowthForm for Fort Keogh 2020 - LMER
+FK_GrowthForm_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), GrowthForm_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_GrowthForm_2020_LMER, type = 3)
+
+#CWM of GrowthForm for Fort Keogh 2021 - LMER
+FK_GrowthForm_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_GrowthForm_2021_LMER, type = 3)
+
+#CWM of GrowthForm for Fort Keogh 2022 - LMER
+FK_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_GrowthForm_2022_LMER, type = 3)
+
+##Thunder Basin
+
+#CWM of GrowthForm - 2019 and TB
+GrowthForm_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=GrowthForm_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=1.5, label = "TB 2019", size=20)
+
+
+#CWM of GrowthForm - 2020 and TB
+GrowthForm_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2020", size=20)
+
+
+#CWM of GrowthForm - 2021 and TB
+GrowthForm_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2021", size=20)
+
+#CWM of GrowthForm - 2022 and TB
+GrowthForm_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Growth Form")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1.5, label = "TB 2022", size=20)
+
+#Create graph of all years for GrowthForm data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(GrowthForm_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(GrowthForm_TB_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(GrowthForm_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(GrowthForm_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of GrowthForm for Thunder Basin 2018 - LMER
+TB_GrowthForm_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2018_LMER, type = 3)
+
+#CWM of GrowthForm for Thunder Basin 2019 - LMER
+TB_GrowthForm_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2019_LMER, type = 3)
+
+#CWM of GrowthForm for Thunder Basin 2020 - LMER
+TB_GrowthForm_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), GrowthForm_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2020_LMER, type = 3)
+
+#CWM of GrowthForm for Thunder Basin 2021 - LMER
+TB_GrowthForm_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2021_LMER, type = 3)
+
+#CWM of GrowthForm for Thunder Basin 2022 - LMER
+TB_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2022_LMER, type = 3)
+
+####CWM - PhotosyntheticPathway Plots and Stats #### 
+
+
+#CWM of PhotosyntheticPathway - 2019 and FK
+PhotosyntheticPathway_FK_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="FK"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=0.75)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=0.75, label = "FK 2019", size=20)
+
+#CWM of PhotosyntheticPathway - 2020 and FK
+PhotosyntheticPathway_FK_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="FK"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=0.75)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=0.75, label = "FK 2020", size=20)
+
+
+#CWM of PhotosyntheticPathway - 2021 and FK
+PhotosyntheticPathway_FK_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="FK"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  geom_smooth(color = "black", method='lm', se = FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=0.75)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=0.75, label = "FK 2021", size=20)
+
+#CWM of PhotosyntheticPathway - 2022 and FK
+PhotosyntheticPathway_FK_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="FK"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM)) +  
+  geom_point(aes(color=grazing_treatment,shape=grazing_treatment),size=6, stroke =2)+
+  #geom_smooth(color = "black", method='lm', se = FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=0.75)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=0.75, label = "FK 2022", size=20)
+
+#Create graph of all years for Leaf Thickness data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(PhotosyntheticPathway_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(PhotosyntheticPathway_FK_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(PhotosyntheticPathway_FK_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(PhotosyntheticPathway_FK_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+##CWM of PhotosyntheticPathway for Fort Keogh 2018 - LMER
+FK_PhotosyntheticPathway_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PhotosyntheticPathway_2018_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Fort Keogh 2019 - LMER
+FK_PhotosyntheticPathway_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PhotosyntheticPathway_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PhotosyntheticPathway_2019_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Fort Keogh 2020 - LMER
+FK_PhotosyntheticPathway_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PhotosyntheticPathway_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PhotosyntheticPathway_2020_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Fort Keogh 2021 - LMER
+FK_PhotosyntheticPathway_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PhotosyntheticPathway_2021_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Fort Keogh 2022 - LMER
+FK_PhotosyntheticPathway_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PhotosyntheticPathway_2022_LMER, type = 3)
+
+##Thunder Basin
+
+#CWM of PhotosyntheticPathway - 2019 and TB
+PhotosyntheticPathway_TB_19<-ggplot(subset(CWM_Collected_Data,year==2019&Site=="TB"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=8, y=1, label = "TB 2019", size=20)
+
+
+#CWM of PhotosyntheticPathway - 2020 and TB
+PhotosyntheticPathway_TB_20<-ggplot(subset(CWM_Collected_Data,year==2020&Site=="TB"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1, label = "TB 2020", size=20)
+
+
+#CWM of PhotosyntheticPathway - 2021 and TB
+PhotosyntheticPathway_TB_21<-ggplot(subset(CWM_Collected_Data,year==2021&Site=="TB"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1, label = "TB 2021", size=20)
+
+#CWM of PhotosyntheticPathway - 2022 and TB
+PhotosyntheticPathway_TB_22<-ggplot(subset(CWM_Collected_Data,year==2022&Site=="TB"),aes(x=rainfall_reduction,y=PhotosyntheticPathway_CWM,color=grazing_treatment,linetype=grazing_treatment,shape=grazing_treatment)) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=grazing_treatment),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Grazing Treatment", linetype = "Grazing Treatment", shape = "Grazing Treatment")+
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_color_manual(values=c("darkgreen","blue4","maroon4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  #scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("CWM Photosynthetic Pathway")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=8, y=1, label = "TB 2022", size=20)
+
+#Create graph of all years for PhotosyntheticPathway data
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(PhotosyntheticPathway_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(PhotosyntheticPathway_TB_20,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(PhotosyntheticPathway_TB_21,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(PhotosyntheticPathway_TB_22,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 3000 x 2000  
+
+#CWM of PhotosyntheticPathway for Thunder Basin 2018 - LMER
+TB_PhotosyntheticPathway_2018_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PhotosyntheticPathway_2018_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Thunder Basin 2019 - LMER
+TB_PhotosyntheticPathway_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PhotosyntheticPathway_2019_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Thunder Basin 2020 - LMER
+TB_PhotosyntheticPathway_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PhotosyntheticPathway_2020_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Thunder Basin 2021 - LMER
+TB_PhotosyntheticPathway_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PhotosyntheticPathway_2021_LMER, type = 3)
+
+#CWM of PhotosyntheticPathway for Thunder Basin 2022 - LMER
+TB_PhotosyntheticPathway_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_PhotosyntheticPathway_2022_LMER, type = 3)
 
 #### PCAs ####
 
@@ -6334,6 +6883,7 @@ anova(Dispersion_TB_22_graze)
 #Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG) 
+
 
 
 
