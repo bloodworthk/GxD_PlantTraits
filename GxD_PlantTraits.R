@@ -1056,9 +1056,6 @@ Traits_Clean[524, "Total.Area"] <- NA
 # left_join(Ground_Database_Traits) %>% 
 # group_by(block,plot,year,site)
 
-#CWM_Database<-functcomp(CWM_Database_Data$trait[, 1:3], CWM_Database_Data$Relative_Cover, CWM.type = "all")
-
-
 #calculate CWM using tidyr function, removing NAs for now until more data are collected
 #summarise(PhotosyntheticPathway_CWM=weighted.mean(photosynthetic_pathway,Relative_Cover,na.rm = T))
 
@@ -1073,6 +1070,12 @@ Traits_Clean_2<-Traits_Clean %>%
   mutate(Dry_Biomass_min_Leaf_g_update=ifelse(Dry_Biomass_min_Leaf_g=="REWEIGH",NA,ifelse(Dry_Biomass_min_Leaf_g=="<0.001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="<0.0001",0.00005,ifelse(Dry_Biomass_min_Leaf_g=="Empty",NA,ifelse(Dry_Biomass_min_Leaf_g=="EMPTY",NA,ifelse(Dry_Biomass_min_Leaf_g=="MISSING",NA,Dry_Biomass_min_Leaf_g))))))) %>% 
   mutate(LDMC=as.numeric(Dry_Leaf_Weight_g_update)/wet_leaf_weight_g) %>% 
   mutate(Plant_Biomass=as.numeric(Dry_Leaf_Weight_g_update)+as.numeric(Dry_Biomass_min_Leaf_g_update)) %>% 
+  #making lifespan binary (annual, biennial = 0, perennial =1)
+  mutate(lifespan_binary=ifelse(lifespan=="annual",0,ifelse(lifespan=="perennial",1,ifelse(lifespan=="annual_biennial",0,ifelse(lifespan=="biennial",0,NA))))) %>% 
+  #making growth form binary (forb, woody = 0, graminoid = 1)
+  mutate(growth_form_binary=ifelse(growth_form=="forb",0,ifelse(growth_form=="woody",0,ifelse(growth_form=="graminoid",1,NA)))) %>% 
+  #making photosynthetic pathway binary (C3=0 , C4=1)
+  mutate(photosynthetic_pathway_binary=ifelse(photosynthetic_pathway=="C3",0,ifelse(photosynthetic_pathway=="C4",1,NA))) %>% 
   #edit genus species to match species comp data
   mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
   mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
@@ -1093,7 +1096,10 @@ AverageTraits<-Traits_Clean_2%>%
     Avg_flower_num=mean(total_flower_num,na.rm=T), 
     Avg_LDMC=mean(LDMC,na.rm=T),
     Avg_total_leaf=mean(total_leaf_num,na.rm=T),
-    Avg_SLA=mean(SLA,na.rm=T)
+    Avg_SLA=mean(SLA,na.rm=T),
+    Avg_lifespan=mean(lifespan_binary,na.rm=T),
+    Avg_growth_form=mean(growth_form_binary,na.rm=T),
+    Avg_photosynthetic_pathway=mean(photosynthetic_pathway_binary,na.rm=T)
   ) %>% 
   ungroup() 
   
@@ -1130,7 +1136,10 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     LDMC_CWM=weighted.mean(Avg_LDMC,Relative_Cover,na.rm=T),
     Biomass_CWM=weighted.mean(Avg_biomass_g,Relative_Cover,na.rm=T),
     TotalLeaf_CWM=weighted.mean(Avg_total_leaf,Relative_Cover,na.rm=T),
-    Avg_SLA_CWM=weighted.mean(Avg_SLA,Relative_Cover,na.rm=T)
+    Avg_SLA_CWM=weighted.mean(Avg_SLA,Relative_Cover,na.rm=T),
+    Lifespan_CWM=weighted.mean(Avg_lifespan,Relative_Cover,na.rm=T),
+    GrowthForm_CWM=weighted.mean(Avg_growth_form,Relative_Cover,na.rm=T),
+    PhotosyntheticPathway_CWM=weighted.mean(Avg_photosynthetic_pathway,Relative_Cover,na.rm=T)
   ) %>% 
   ungroup() %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -1158,7 +1167,11 @@ CWM_Collected_Data<-CWM_Collected_Data %>%
   mutate(LDMC_CWM_TF=sqrt(LDMC_CWM)) %>% 
   mutate(Biomass_CWM_TF=sqrt(Biomass_CWM)) %>% 
   mutate(TotalLeaf_CWM_TF=sqrt(TotalLeaf_CWM)) %>% 
-  mutate(Avg_SLA_CWM_TF=sqrt(Avg_SLA_CWM))
+  mutate(Avg_SLA_CWM_TF=sqrt(Avg_SLA_CWM)) %>%
+  mutate(Lifespan_CWM_TF=sqrt(Lifespan_CWM)) %>% 
+  mutate(GrowthForm_CWM_TF=sqrt(GrowthForm_CWM)) %>% 
+  mutate(PhotosyntheticPathway_CWM_TF=sqrt(PhotosyntheticPathway_CWM))
+
 
 #changing size of chart.correlation text on line 17 to cex = 2
 #trace("chart.Correlation", edit=T) 
@@ -1167,19 +1180,20 @@ CWM_Collected_Data<-CWM_Collected_Data %>%
 CWM_Collected_Data_FK<-CWM_Collected_Data %>%
   filter(Site=="FK")
 
-chart.Correlation(CWM_Collected_Data_FK[27:39],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#all correlations
+chart.Correlation(CWM_Collected_Data_FK[30:45],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #TB
 CWM_Collected_Data_TB<-CWM_Collected_Data %>%
   filter(Site=="TB")
 
-chart.Correlation(CWM_Collected_Data_TB[27:39],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[30:45],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed - FK
-chart.Correlation(CWM_Collected_Data_FK[c(27,28,34,36,37,39)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[c(30,31,37,39,40,42,43,44,45)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed - TB
-chart.Correlation(CWM_Collected_Data_TB[c(27,28,34,36,37,39)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[c(30,31,37,39,40,42,43,44,45)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
 #looking at histograms independently (sqrt)
@@ -4137,6 +4151,7 @@ anova(Dispersion_TB_22_DxG) #p=0.646
 #### Functional Diversity Calculations ####
 
 ###FK
+  
 ##create dataframe from the raw trait data where wesubset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
 Avg_Traits_FK<-Traits_Clean_2 %>%
   filter(Site=="FK") %>% 
@@ -4196,7 +4211,6 @@ Species_Comp_FK19_Wide_PlotData<-Species_Comp_FK19_Wide %>%
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK19_Wide_Data,corr = "none")
-FK_FunctionalDiversity
 
 #create dataframe from the raw trait data where wesubset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
 Avg_Traits_FK<-Traits_Clean_2 %>%
