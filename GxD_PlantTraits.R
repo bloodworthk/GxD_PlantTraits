@@ -11725,7 +11725,7 @@ PercentGreen_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Fort Keogh", size=20)
 
 ####CWM of PercentGreen - Thunder Basin all years####
@@ -11740,7 +11740,7 @@ PercentGreen_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Thunder Basin", size=20)
 
 
@@ -11756,7 +11756,7 @@ LeafThickness_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),ae
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Fort Keogh", size=20)
 
 ####CWM of LeafThickness - Thunder Basin all years####
@@ -11771,7 +11771,7 @@ LeafThickness_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),ae
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Thunder Basin", size=20)
 
 
@@ -11787,7 +11787,7 @@ LDMC_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Fort Keogh", size=20)
 
 ####CWM of LDMC - Thunder Basin all years####
@@ -11802,7 +11802,7 @@ LDMC_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainf
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Thunder Basin", size=20)
 
 ####CWM of Avg_SLA - Fort Keogh all years####
@@ -11817,7 +11817,7 @@ Avg_SLA_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=ra
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Fort Keogh", size=20)
 
 ####CWM of Avg_SLA - Thunder Basin all years####
@@ -11832,7 +11832,7 @@ Avg_SLA_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=ra
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Thunder Basin", size=20)
 
 
@@ -11848,7 +11848,7 @@ LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=r
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Fort Keogh", size=20)
 
 ####CWM of LeafArea - Thunder Basin all years####
@@ -11863,7 +11863,7 @@ LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=r
   xlab("Rainfall Reduction (%)")+
   ylab("Community Weight Mean")+
   expand_limits(y=5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=5, label = "Thunder Basin", size=20)
 
 ####CWM of Lifespan - Fort Keogh all years####
