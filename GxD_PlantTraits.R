@@ -1099,7 +1099,8 @@ AverageTraits<-Traits_Clean_2%>%
     Avg_SLA=mean(SLA,na.rm=T),
     Avg_lifespan=mean(lifespan_binary,na.rm=T),
     Avg_growth_form=mean(growth_form_binary,na.rm=T),
-    Avg_photosynthetic_pathway=mean(photosynthetic_pathway_binary,na.rm=T)
+    Avg_photosynthetic_pathway=mean(photosynthetic_pathway_binary,na.rm=T),
+    Avg_Area=mean(Total.Area,na.rm=T)
   ) %>% 
   ungroup() 
   
@@ -1139,7 +1140,8 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
     Avg_SLA_CWM=weighted.mean(Avg_SLA,Relative_Cover,na.rm=T),
     Lifespan_CWM=weighted.mean(Avg_lifespan,Relative_Cover,na.rm=T),
     GrowthForm_CWM=weighted.mean(Avg_growth_form,Relative_Cover,na.rm=T),
-    PhotosyntheticPathway_CWM=weighted.mean(Avg_photosynthetic_pathway,Relative_Cover,na.rm=T)
+    PhotosyntheticPathway_CWM=weighted.mean(Avg_photosynthetic_pathway,Relative_Cover,na.rm=T),
+    Area_CWM=weighted.mean(Avg_Area,na.rm=T)
   ) %>% 
   ungroup() %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -1156,21 +1158,22 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
 #Try sqrt(x) transformation because data is positively skewed
 CWM_Collected_Data<-CWM_Collected_Data %>% 
   mutate(Height_CWM_TF=sqrt(Height_CWM)) %>% 
-  mutate(PercentGreen_CWM_TF=sqrt(PercentGreen_CWM)) %>% 
+  mutate(PercentGreen_CWM_TF=log10(PercentGreen_CWM)) %>% 
   mutate(EmergingLeaves_CWM_TF=sqrt(EmergingLeaves_CWM)) %>% 
   mutate(DevelopedLeaves_CWM_TF=sqrt(DevelopedLeaves_CWM)) %>% 
   mutate(ScenescedLeaves_CWM_TF=sqrt(ScenescedLeaves_CWM)) %>% 
   mutate(FlowerHeads_CWM_TF=sqrt(FlowerHeads_CWM)) %>% 
   mutate(OpenFlowers_CWM_TF=sqrt(OpenFlowers_CWM)) %>% 
-  mutate(LeafThickness_CWM_TF=sqrt(LeafThickness_CWM)) %>% 
+  mutate(LeafThickness_CWM_TF=log(LeafThickness_CWM)) %>% 
   mutate(FlowerNum_CWM_TF=sqrt(FlowerNum_CWM)) %>% 
-  mutate(LDMC_CWM_TF=sqrt(LDMC_CWM)) %>% 
-  mutate(Biomass_CWM_TF=sqrt(Biomass_CWM)) %>% 
+  mutate(LDMC_CWM_TF=1/(LDMC_CWM))%>% 
+  mutate(Biomass_CWM_TF=Biomass_CWM) %>% 
   mutate(TotalLeaf_CWM_TF=sqrt(TotalLeaf_CWM)) %>% 
-  mutate(Avg_SLA_CWM_TF=sqrt(Avg_SLA_CWM)) %>%
-  mutate(Lifespan_CWM_TF=sqrt(Lifespan_CWM)) %>% 
-  mutate(GrowthForm_CWM_TF=sqrt(GrowthForm_CWM)) %>% 
-  mutate(PhotosyntheticPathway_CWM_TF=sqrt(PhotosyntheticPathway_CWM))
+  mutate(Avg_SLA_CWM_TF=log10(Avg_SLA_CWM)) %>%
+  mutate(Lifespan_CWM_TF=exp(Lifespan_CWM)) %>% 
+  mutate(GrowthForm_CWM_TF=exp(GrowthForm_CWM)) %>% 
+  mutate(PhotosyntheticPathway_CWM_TF=log(PhotosyntheticPathway_CWM))%>% 
+  mutate(Area_CWM_TF=sqrt(Area_CWM))
 
 
 #changing size of chart.correlation text on line 17 to cex = 2
@@ -1178,22 +1181,45 @@ CWM_Collected_Data<-CWM_Collected_Data %>%
 #using spearman test because data are not normally distributed
 #FK
 CWM_Collected_Data_FK<-CWM_Collected_Data %>%
-  filter(Site=="FK")
+  filter(Site=="FK") %>% 
+  mutate(Height_CWM_TF=sqrt(Height_CWM)) %>% 
+  mutate(PercentGreen_CWM_TF=log10(PercentGreen_CWM)) %>% 
+  mutate(EmergingLeaves_CWM_TF=sqrt(EmergingLeaves_CWM)) %>% 
+  mutate(DevelopedLeaves_CWM_TF=sqrt(DevelopedLeaves_CWM)) %>% 
+  mutate(ScenescedLeaves_CWM_TF=sqrt(ScenescedLeaves_CWM)) %>% 
+  mutate(FlowerHeads_CWM_TF=sqrt(FlowerHeads_CWM)) %>% 
+  mutate(OpenFlowers_CWM_TF=sqrt(OpenFlowers_CWM)) %>% 
+  mutate(LeafThickness_CWM_TF=log10(LeafThickness_CWM)) %>% 
+  mutate(FlowerNum_CWM_TF=sqrt(FlowerNum_CWM)) %>% 
+  mutate(LDMC_CWM_TF=sqrt(LDMC_CWM)) %>% 
+  mutate(Biomass_CWM_TF=Biomass_CWM) %>% 
+  mutate(TotalLeaf_CWM_TF=sqrt(TotalLeaf_CWM)) %>% 
+  mutate(Avg_SLA_CWM_TF=log10(Avg_SLA_CWM)) %>%
+  mutate(Lifespan_CWM_TF=sqrt(Lifespan_CWM)) %>% 
+  mutate(GrowthForm_CWM_TF=exp(GrowthForm_CWM)) %>% 
+  mutate(PhotosyntheticPathway_CWM_TF=log(PhotosyntheticPathway_CWM)) %>% 
+  mutate(Area_CWM_TF=sqrt(Area_CWM))
 
 #all correlations
-chart.Correlation(CWM_Collected_Data_FK[30:45],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[31:47],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #TB
 CWM_Collected_Data_TB<-CWM_Collected_Data %>%
   filter(Site=="TB")
 
-chart.Correlation(CWM_Collected_Data_TB[30:45],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[31:47],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed - FK
-chart.Correlation(CWM_Collected_Data_FK[c(30,31,37,39,40,42,43,44,45)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#transformed
+chart.Correlation(CWM_Collected_Data_FK[c(31,32,38,40,41,43,44,45,46,47)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#not transformed
+chart.Correlation(CWM_Collected_Data_FK[c(11,12,18,20,21,23,24,25,26,27)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed - TB
-chart.Correlation(CWM_Collected_Data_TB[c(30,31,37,39,40,42,43,44,45)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[c(31,32,38,40,41,43,44,45,46,47)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#not transformed
+chart.Correlation(CWM_Collected_Data_TB[c(11,12,18,20,21,23,24,25,26,27)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
 
 
 #looking at histograms independently (sqrt)
