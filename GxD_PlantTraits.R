@@ -6897,24 +6897,20 @@ Avg_Traits_FK<-Traits_Clean_2 %>%
   group_by(Site,Genus_Species_Correct) %>% 
   summarise(
     Avg_height_cm=mean(height_cm,na.rm=T),
-    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
     Avg_percent_green=mean(percent_green,na.rm=T),
     Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
     Avg_LDMC=mean(LDMC,na.rm=T),
-    Avg_SLA=mean(SLA,na.rm=T)
+    Avg_SLA=mean(SLA,na.rm=T),
+    Avg_Lifespan=mean(lifespan_binary, na.rm=T),
+    Avg_GrowthForm=mean(growth_form_binary, na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
   ) %>% 
-  ungroup() %>% 
-  mutate(Sqrt_height=sqrt(Avg_height_cm))%>%
-  mutate(Sqrt_biomass=sqrt(Avg_biomass_g))%>%
-  mutate(Sqrt_percent_green=sqrt(Avg_percent_green))%>%
-  mutate(Sqrt_leaf_thickness=sqrt(Avg_leaf_thickness))%>%
-  mutate(Sqrt_LDMC=sqrt(Avg_LDMC))%>%
-  mutate(Sqrt_SLA=sqrt(Avg_SLA)) %>% 
-  mutate(Sp_Num=c(1:33))
+  mutate(Sp_Num=c(1:33)) %>% 
+  ungroup()
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
-  select(-Genus_Species_Correct,-Sp_Num,-Site,-Avg_height_cm,-Avg_biomass_g,-Avg_leaf_thickness,-Avg_LDMC,-Avg_SLA,-Avg_percent_green) %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -6953,6 +6949,8 @@ Species_Comp_FK_Wide_PlotData<-Species_Comp_FK_Wide %>%
 FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK_Wide_Data,corr = "none")
 summary(FK_FunctionalDiversity)
 
+
+
 ### TB
 ##create dataframe from the raw trait data where wesubset TB data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
 Avg_Traits_TB<-Traits_Clean_2 %>%
@@ -6960,25 +6958,21 @@ Avg_Traits_TB<-Traits_Clean_2 %>%
   group_by(Site,Genus_Species_Correct) %>% 
   summarise(
     Avg_height_cm=mean(height_cm,na.rm=T),
-    Avg_biomass_g=mean(Plant_Biomass,na.rm=T),
     Avg_percent_green=mean(percent_green,na.rm=T),
     Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
     Avg_LDMC=mean(LDMC,na.rm=T),
-    Avg_SLA=mean(SLA,na.rm=T)
+    Avg_SLA=mean(SLA,na.rm=T),
+    Avg_Lifespan=mean(lifespan_binary, na.rm=T),
+    Avg_GrowthForm=mean(growth_form_binary, na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
   ) %>% 
   ungroup() %>% 
-  mutate(Sqrt_height=sqrt(Avg_height_cm))%>%
-  mutate(Sqrt_biomass=sqrt(Avg_biomass_g))%>%
-  mutate(Sqrt_percent_green=sqrt(Avg_percent_green))%>%
-  mutate(Sqrt_leaf_thickness=sqrt(Avg_leaf_thickness))%>%
-  mutate(Sqrt_LDMC=sqrt(Avg_LDMC))%>%
-  mutate(Sqrt_SLA=sqrt(Avg_SLA)) %>% 
   filter(!Genus_Species_Correct %in% c("Oenothera.suffrtescuns")) %>% 
   mutate(Sp_Num=c(1:43))
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data<-Avg_Traits_TB %>% 
-  select(-Genus_Species_Correct,-Sp_Num,-Site,-Avg_height_cm,-Avg_biomass_g,-Avg_leaf_thickness,-Avg_LDMC,-Avg_SLA, -Avg_percent_green) %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -7788,7 +7782,7 @@ summary(glht(TB_22_FDis_LMER, linfct = mcp(grazing_treatment = "Tukey")), test =
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data_Height<-Avg_Traits_FK %>% 
-  select(Sqrt_height) %>% 
+  select(Avg_height_cm) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -7828,7 +7822,7 @@ summary(FK_FunctionalDiversity_Height)
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data_Height<-Avg_Traits_TB%>% 
-  select(Sqrt_height) %>% 
+  select(Avg_height_cm) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -8431,12 +8425,12 @@ anova(TB_22_FDis_LMER_Height, type = 3)
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_FK_Data_SLA_1<-Avg_Traits_FK %>% 
-  select(Sqrt_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_SLA,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:31))
 
 Avg_Traits_FK_Data_SLA<-Avg_Traits_FK_Data_SLA_1 %>% 
-  select(Sqrt_SLA) %>% 
+  select(Avg_SLA) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -8476,12 +8470,12 @@ FK_FunctionalDiversity_SLA <- dbFD(Avg_Traits_FK_Data_SLA, Species_Comp_FK_Wide_
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data_SLA_1<-Avg_Traits_TB %>% 
-  select(Sqrt_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_SLA,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:36))
 
 Avg_Traits_TB_Data_SLA<-Avg_Traits_TB_Data_SLA_1 %>% 
-  select(Sqrt_SLA) %>% 
+  select(Avg_SLA) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -9085,7 +9079,7 @@ anova(TB_22_FDis_LMER_SLA, type = 3)
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data_percent_green<-Avg_Traits_FK %>% 
-  select(Sqrt_percent_green) %>% 
+  select(Avg_percent_green) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -9123,7 +9117,7 @@ FK_FunctionalDiversity_percent_green <- dbFD(Avg_Traits_FK_Data_percent_green, S
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data_percent_green<-Avg_Traits_TB%>% 
-  select(Sqrt_percent_green) %>% 
+  select(Avg_percent_green) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -10381,12 +10375,12 @@ anova(TB_22_FDis_LMER_Plant_Biomass, type = 3)
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data_leaf_thickness_.mm._1<-Avg_Traits_FK %>% 
-  select(Sqrt_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:32))
 
 Avg_Traits_FK_Data_leaf_thickness_.mm.<-Avg_Traits_FK_Data_leaf_thickness_.mm._1 %>% 
-  select(Sqrt_leaf_thickness) %>% 
+  select(Avg_leaf_thickness) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -10425,12 +10419,12 @@ FK_FunctionalDiversity_leaf_thickness_.mm. <- dbFD(Avg_Traits_FK_Data_leaf_thick
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data_leaf_thickness_.mm._1<-Avg_Traits_TB %>% 
-  select(Sqrt_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:42))
 
 Avg_Traits_TB_Data_leaf_thickness_.mm.<-Avg_Traits_TB_Data_leaf_thickness_.mm._1%>% 
-  select(Sqrt_leaf_thickness) %>% 
+  select(Avg_leaf_thickness) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -11033,12 +11027,12 @@ anova(TB_22_FDis_LMER_leaf_thickness_.mm., type = 3)
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data_LDMC_1<-Avg_Traits_FK %>% 
-  select(Sqrt_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_LDMC,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:31))
 
 Avg_Traits_FK_Data_LDMC<-Avg_Traits_FK_Data_LDMC_1 %>% 
-  select(Sqrt_LDMC) %>% 
+  select(Avg_LDMC) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
@@ -11078,12 +11072,12 @@ FK_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_FK_Data_LDMC, Species_Comp_FK_Wid
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data_LDMC_1<-Avg_Traits_TB %>% 
-  select(Sqrt_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  select(Avg_LDMC,Genus_Species_Correct,Sp_Num) %>% 
   na.omit() %>% 
   mutate(Sp_Num_2=c(1:41))
 
 Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_Data_LDMC_1%>% 
-  select(Sqrt_LDMC) %>% 
+  select(Avg_LDMC) %>% 
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
@@ -12418,5 +12412,319 @@ anova(FK_PhotosyntheticPathway_2020_LMER_nodestock, type = 3)
 TB_PhotosyntheticPathway_2020_LMER_nodestock <- lmerTest::lmer(data = subset(CWM_Collected_Data_nodestock,year==2020&Site=="TB"), PhotosyntheticPathway_CWM_TF ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_PhotosyntheticPathway_2020_LMER_nodestock, type = 3)
 
+#### Paper Figure 3 and 4 (Functional Dispersion by drought) ####
+
+####Multivariate Functional Dispersion - Fort Keogh all years####
+Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=0.3)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=0.3, label = "Multivariate", size=20)
+
+#### Multivariate Functional Dispersion - Thunder Basin all years####
+Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=0.3)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=0.3, label = "Multivariate", size=20)
+
+####Height Functional Dispersion - Fort Keogh all years####
+Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Height", size=20)
+
+####Height Functional Dispersion - TB all years####
+Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Height", size=20)
+
+####percent_green Functional Dispersion - Fort Keogh all years####
+percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Percent Green", size=20)
+
+####percent_green Functional Dispersion - TB all years####
+percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Percent Green", size=20)
+
+#### Leaf Thickness Functional Dispersion - Fort Keogh all years####
+LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
+
+####Leaf Thickness Functional Dispersion - TB all years####
+LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
+
+#### LDMC Functional Dispersion - Fort Keogh all years####
+LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1, label = "LDMC", size=20)
+
+####LDMC Functional Dispersion - TB all years####
+LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=2.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=2.5, label = "LDMC", size=20)
+
+#### SLA Functional Dispersion - Fort Keogh all years####
+SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=2.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=2.5, label = "SLA", size=20)
+
+####SLA Functional Dispersion - TB all years####
+SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=2.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=2.5, label = "SLA", size=20)
+
+#### Area Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_Area_1<-Avg_Traits_FK %>% 
+  select(Avg_Area,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_Area<-Avg_Traits_FK_Data_Area_1 %>% 
+  select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Area) <- c(1:32)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Area<-Avg_Traits_FK_Data_Area_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Area <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_Area) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Area<-Species_Comp_FK_Area %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Area<-Species_Comp_FK_Wide_Area %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Area<-Species_Comp_FK_Wide_Area %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Area <- dbFD(Avg_Traits_FK_Data_Area, Species_Comp_FK_Wide_Data_Area,corr = "none")
 
 
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_Area_1<-Avg_Traits_TB %>% 
+  select(Avg_Area,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:37))
+
+Avg_Traits_TB_Data_Area<-Avg_Traits_TB_Data_Area_1 %>% 
+  select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Area) <- c(1:37)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Area<-Avg_Traits_TB_Data_Area_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Area <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_Area) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Area<-Species_Comp_TB_Area %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Area<-Species_Comp_TB_Wide_Area %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Area<-Species_Comp_TB_Wide_Area %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Area <- dbFD(Avg_Traits_TB_Data_Area, Species_Comp_TB_Wide_Data_Area,corr = "none")
+
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Area<-as.data.frame(FK_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Area)
+
+Functional_Diversity_TB_Area<-as.data.frame(TB_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Area)
+
+Functional_Diversity_Area<-Functional_Diversity_FK_Area %>% 
+  rbind(Functional_Diversity_TB_Area) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
+
+#### Area Functional Dispersion - Fort Keogh all years####
+Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
+
+#### Area Functional Dispersion - TB all years####
+Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=6, stroke =2)+
+  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=1.5)+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
