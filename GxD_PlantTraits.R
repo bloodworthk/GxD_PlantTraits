@@ -12430,7 +12430,7 @@ Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="FK"&year>=2019),
   annotate("text", x=20, y=0.3, label = "Multivariate", size=20)
 
 #### Multivariate Functional Dispersion - Thunder Basin all years####
-Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
@@ -12456,7 +12456,7 @@ Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height,Site=="FK"&year>=2019)
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Height", size=20)
 
 ####Height Functional Dispersion - TB all years####
@@ -12471,7 +12471,7 @@ Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height,Site=="TB"&year>=2019)
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Height", size=20)
 
 ####percent_green Functional Dispersion - Fort Keogh all years####
@@ -12486,7 +12486,7 @@ percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green,Site=="F
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Percent Green", size=20)
 
 ####percent_green Functional Dispersion - TB all years####
@@ -12501,7 +12501,7 @@ percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green,Site=="T
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Percent Green", size=20)
 
 #### Leaf Thickness Functional Dispersion - Fort Keogh all years####
@@ -12516,7 +12516,7 @@ LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Si
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
 
 ####Leaf Thickness Functional Dispersion - TB all years####
@@ -12531,7 +12531,7 @@ LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Si
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
 
 #### LDMC Functional Dispersion - Fort Keogh all years####
@@ -12546,7 +12546,7 @@ LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC,Site=="FK"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=1, label = "LDMC", size=20)
 
 ####LDMC Functional Dispersion - TB all years####
@@ -12561,7 +12561,7 @@ LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC,Site=="TB"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=2.5, label = "LDMC", size=20)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
@@ -12576,7 +12576,7 @@ SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA,Site=="FK"&year>=2019),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position ="none")+
   annotate("text", x=20, y=2.5, label = "SLA", size=20)
 
 ####SLA Functional Dispersion - TB all years####
@@ -12591,7 +12591,7 @@ SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA,Site=="TB"&year>=2019),aes(x
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=20, y=2.5, label = "SLA", size=20)
 
 #### Area Diversity Metrics ####
@@ -12715,7 +12715,7 @@ Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area,Site=="FK"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
 
 #### Area Functional Dispersion - TB all years####
@@ -12730,8 +12730,50 @@ Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area,Site=="TB"&year>=2019),aes
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
+
+###Functional Dispersion - Area Stats ####
+
+#Functional Dispersion (FDis) FK 18
+FK_18_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) TB 18
+TB_18_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_Area, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_Area, type = 3)
 
 #### Lifespan Diversity Metrics ####
 
@@ -12853,7 +12895,7 @@ Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan,Site=="FK"&year>=2
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
 
 #### Lifespan Functional Dispersion - TB all years####
@@ -12868,8 +12910,50 @@ Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan,Site=="TB"&year>=2
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
+
+###Functional Dispersion - Lifespan Stats ####
+
+#Functional Dispersion (FDis) FK 18
+FK_18_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) TB 18
+TB_18_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_Lifespan, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_Lifespan <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_Lifespan, type = 3)
 
 #### GrowthForm Diversity Metrics ####
 
@@ -12991,7 +13075,7 @@ GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="FK"&yea
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
 
 #### GrowthForm Functional Dispersion - TB all years####
@@ -13006,8 +13090,50 @@ GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="TB"&yea
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
   annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
+
+###Functional Dispersion - GrowthForm Stats ####
+
+#Functional Dispersion (FDis) FK 18
+FK_18_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2018&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_18_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) TB 18
+TB_18_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2018&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_18_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_GrowthForm, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_GrowthForm <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_GrowthForm, type = 3)
 
 #### Create graph of all years for FDis FK ####
 pushViewport(viewport(layout=grid.layout(3,3)))
@@ -13020,11 +13146,11 @@ print(SLA_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =3))
 print(Area_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(Lifespan_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(GrowthForm_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =3))
-#Save at 3000 x 4000  
+#Save at 4000 x 3000  
 
 #### Create graph of all years for FDis TB ####
 pushViewport(viewport(layout=grid.layout(3,3)))
-print(Multivariate_FDis_TN,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =1))
 print(Height_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 print(percent_green_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =3))
 print(LeafThickness_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =1))
@@ -13033,4 +13159,4 @@ print(SLA_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =3))
 print(Area_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =3))
-#Save at 3000 x 4000  
+#Save at 4000 x 3000  
