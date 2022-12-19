@@ -726,7 +726,7 @@ Leaf_Area_All<- Leaf_Area_FK_B1_HG %>%
 Aerial_Cover_2018_FK<-FK_SpComp_2018 %>% 
   filter(aerial_basal!="Basal")
 
-#Create Long dataframe from wide dataframe
+#Create Long dataframe from wide dataframe and fix species issues
 Long_Cov_2018_FK<-gather(Aerial_Cover_2018_FK,key="species","cover",18:117) %>% 
   dplyr::select(year,site,plot,added_total_excel,species,cover) %>% 
   filter(!species %in% c("Oenotherea.suffrutescens.1","STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","CRCE.LELU.Penstemon.sp","Oenothera.","Unknown..7.baby.guara.","UNKN8.basal.rosette.lancroiati","Unk..3.Basal.Rosette","Unk..3.soft.point.leaf.KW.photo","Unkn..10.small.linear.leaf.KW.photo","Oneothera.n.","Rock","Moss.Lichen.Bogr.overlap")) %>% 
@@ -992,14 +992,6 @@ ungroup() %>%
 #remove any species after the 90% threshold is met
 filter(Total_Percent<=93)
 
-#Trait_Species_Unique<-Species_Cover_90_all %>% 
-#select(-Relative_Cover,-Total_Percent,-plot,-year) %>% 
-#unique() 
-
-#save as a csv
-#write.csv(Trait_Species_Unique,"DxG_Plant_Traits/Trait_Species_FK_TB.csv", row.names = FALSE)
-
-
 #### Clean up trait data ####
 
 
@@ -1038,28 +1030,6 @@ Traits_Clean$Dry_Biomass_min_Leaf_g<-as.numeric(Traits_Clean$Dry_Biomass_min_Lea
 #remove SLA that is unusually big -- PLPA_TB_3_LG - make an NA
 Traits_Clean[524, "Total.Area"] <- NA
 
-
-#### Look at Trait Database Data and compare to species needed for this project ####
-#Database_Data<-Trait_Database %>% 
-#separate(species_matched,c("Genus","Species"), sep = " ")%>%
-#mutate(Genus_Species_Correct=paste(Genus,Species,sep = "."))
-
-#merge FK/TB traits with trait database
-#Ground_Database_Traits <-Trait_Species_Done %>% 
-# left_join(Database_Data)
-
-#### Look at differences in Trait Database Traits across community weighted means ####
-
-#Calculate CWM
-#CWM_Database_Data<- Species_Comp_RelCov_All %>% 
-# left_join(plot_layoutK) %>% 
-# left_join(Ground_Database_Traits) %>% 
-# group_by(block,plot,year,site)
-
-#calculate CWM using tidyr function, removing NAs for now until more data are collected
-#summarise(PhotosyntheticPathway_CWM=weighted.mean(photosynthetic_pathway,Relative_Cover,na.rm = T))
-
-#### Look at differences in collected traits for CWM 
 
 #Clean up leaf traits and calculate SLA and average traits by site
 Traits_Clean_2<-Traits_Clean %>% 
@@ -1103,25 +1073,14 @@ AverageTraits<-Traits_Clean_2%>%
     Avg_Area=mean(Total.Area,na.rm=T)
   ) %>% 
   ungroup() 
-  
-
-SM_data_Update<-SM_data %>% 
-  dplyr::select(Site,Year,Plot,Drought,Grazing,Avg_SM) %>% 
-  rename(site=Site) %>% 
-  rename(year=Year) %>% 
-  rename(rainfall_reduction=Drought) %>% 
-  rename(grazing_category=Grazing) %>% 
-  rename(plot=Plot) %>% 
-  mutate(plot=as.factor(plot))
 
 CWM_Collected_Data<- Species_Comp_RelCov_All %>% 
   left_join(plot_layoutK) %>% 
-  left_join(SM_data_Update) %>% 
   rename(Site=site) %>%
   filter(!is.na(Relative_Cover)) %>% 
   filter(Relative_Cover!=0) %>% 
   left_join(AverageTraits) %>%
-  group_by(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Avg_SM) %>% 
+  group_by(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment) %>% 
   #calculate CWM using tidyr function, removing NAs for now until more data are collected
   summarise(
     Height_CWM=weighted.mean(Avg_height_cm,Relative_Cover,na.rm = T),
@@ -1148,17 +1107,9 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
   mutate(Trtm=paste(Rainfall_reduction_cat,grazing_treatment,sep = "_")) %>% 
   mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
 
-#Counting # of each plot number in CWM_Collected_Data to make sure all data are represented
-#CWM_Collected_Data_Count<-CWM_Collected_Data %>% 
-#group_by(plot) %>% 
-#count()
+#### Trait Correlation Testing CWM ####
 
-#### Trait Correlation Testing ####
-
-#changing size of chart.correlation text on line 17 to cex = 2
-#trace("chart.Correlation", edit=T) 
-#using spearman test because data are not normally distributed
-#FK
+#Transform Data - FK
 CWM_Collected_Data_FK<-CWM_Collected_Data %>%
   filter(Site=="FK") %>% 
   mutate(Height_CWM_TF=sqrt(Height_CWM)) %>% 
@@ -1180,13 +1131,13 @@ CWM_Collected_Data_FK<-CWM_Collected_Data %>%
   mutate(Area_CWM_TF=sqrt(Area_CWM))
 
 #all correlations
-chart.Correlation(CWM_Collected_Data_FK[31:47],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[30:46],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
-#make chart correlation with just traits we discussed - FK
+#make chart correlation with just traits we discussed
 #transformed
-chart.Correlation(CWM_Collected_Data_FK[c(31,32,38,40,41,43,44,45,46,47)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[c(30,31,37,39,42,43,44,46)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 #not transformed
-chart.Correlation(CWM_Collected_Data_FK[c(11,12,18,20,21,23,24,25,26,27)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_FK[c(10,11,17,19,22,23,24,26)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #TB
 CWM_Collected_Data_TB<-CWM_Collected_Data %>%
@@ -1210,12 +1161,12 @@ CWM_Collected_Data_TB<-CWM_Collected_Data %>%
   mutate(Area_CWM_TF=sqrt(Area_CWM))
 
 #all correlations
-chart.Correlation(CWM_Collected_Data_TB[31:47],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[30:46],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #make chart correlation with just traits we discussed - TB
-chart.Correlation(CWM_Collected_Data_TB[c(31,32,38,40,41,43,44,45,46,47)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[c(30,31,37,39,42,43,44,46)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 #not transformed
-chart.Correlation(CWM_Collected_Data_TB[c(11,12,18,20,21,23,24,25,26,27)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(CWM_Collected_Data_TB[c(10,11,17,19,22,23,24,26)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 CWM_Collected_Data<-CWM_Collected_Data_FK %>% 
   rbind(CWM_Collected_Data_TB)
