@@ -6593,74 +6593,74 @@ print(PCA_TB_22,vp=viewport(layout.pos.row=5, layout.pos.col=2))
 ## FK ##
 #2018
 CWM_FK_18_Trait<-CWM_Collected_Data_FK_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_FK_18_Treatment<-CWM_Collected_Data_FK_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2019
 CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2020
 CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2021
 CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2022
 CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 ## TB ##
 #2018
 CWM_TB_18_Trait<-CWM_Collected_Data_TB_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_TB_18_Treatment<-CWM_Collected_Data_TB_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2019
 CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2020
 CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2021
 CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2022
 CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,-Height_CWM,-PercentGreen_CWM,-LeafThickness_CWM,-LDMC_CWM,-Biomass_CWM,-Avg_SLA_CWM)
+  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 
 # run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
@@ -6885,8 +6885,57 @@ anova(Dispersion_TB_22_graze)
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG) 
 
+#### SIMPER ####
 
+#Run a SIMPER test comparing data
+SIMPER_FK_18 <- with(CWM_FK_18_Treatment,simper(CWM_FK_18_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_FK_18)
 
+#Run a SIMPER test comparing data 
+SIMPER_FK_19 <- with(CWM_FK_19_Treatment,simper(CWM_FK_19_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_FK_19)
+
+#Run a SIMPER test comparing data 
+SIMPER_FK_20 <- with(CWM_FK_20_Treatment,simper(CWM_FK_20_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_FK_20)
+
+#Run a SIMPER test comparing data 
+SIMPER_FK_21 <- with(CWM_FK_21_Treatment,simper(CWM_FK_21_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_FK_21)
+
+#Run a SIMPER test comparing data 
+SIMPER_FK_22 <- with(CWM_FK_22_Treatment,simper(CWM_FK_22_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_FK_22)
+
+#Run a SIMPER test comparing data
+SIMPER_TB_18 <- with(CWM_TB_18_Treatment,simper(CWM_TB_18_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_TB_18)
+
+#Run a SIMPER test comparing data 
+SIMPER_TB_19 <- with(CWM_TB_19_Treatment,simper(CWM_TB_19_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_TB_19)
+
+#Run a SIMPER test comparing data 
+SIMPER_TB_20 <- with(CWM_TB_20_Treatment,simper(CWM_TB_20_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_TB_20)
+
+#Run a SIMPER test comparing data 
+SIMPER_TB_21 <- with(CWM_TB_21_Treatment,simper(CWM_TB_21_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_TB_21)
+
+#Run a SIMPER test comparing data 
+SIMPER_TB_22 <- with(CWM_TB_22_Treatment,simper(CWM_TB_22_Trait,Rainfall_reduction_cat))
+#Print out a summary of the results
+summary(SIMPER_TB_22)
 
 #### Multivariate Functional Diversity Calculations ####
 
