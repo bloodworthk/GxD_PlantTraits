@@ -13160,3 +13160,503 @@ print(Area_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =3))
 #Save at 4000 x 3000  
+
+#### Rerunning 2020 without destock - FDis ####
+
+##New table without destock data for running 2020 stats
+Functional_Diversity_nodestock<-Functional_Diversity %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_nodestock, type = 3)
+
+Functional_Diversity_height_nodestock<-Functional_Diversity_Height %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_height_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_height_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_height_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_height_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_height_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_height_nodestock, type = 3)
+
+Functional_Diversity_percent_green_nodestock<-Functional_Diversity_percent_green %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_percent_green_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_percent_green_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_percent_green_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_percent_green_nodestock, type = 3)
+
+Functional_Diversity_leaf_thickness_.mm._nodestock<-Functional_Diversity_leaf_thickness_.mm. %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_leaf_thickness_.mm._nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_leaf_thickness_.mm._nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_leaf_thickness_.mm._nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_leaf_thickness_.mm._nodestock, type = 3)
+
+Functional_Diversity_LDMC_nodestock<-Functional_Diversity_LDMC %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_LDMC_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_LDMC_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_LDMC_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_LDMC_nodestock, type = 3)
+
+Functional_Diversity_SLA_nodestock<-Functional_Diversity_SLA %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_SLA_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_SLA_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_SLA_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_SLA_nodestock, type = 3)
+
+Functional_Diversity_Area_nodestock<-Functional_Diversity_Area %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Area_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_Area_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Area_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Area_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_Area_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Area_nodestock, type = 3)
+
+Functional_Diversity_Lifespan_nodestock<-Functional_Diversity_Lifespan %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Lifespan_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Lifespan_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Lifespan_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Lifespan_nodestock, type = 3)
+
+Functional_Diversity_GrowthForm_nodestock<-Functional_Diversity_GrowthForm %>% 
+  filter(grazing_treatment!="destock")
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_GrowthForm_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_nodestock,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_GrowthForm_nodestock, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_GrowthForm_nodestock <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_nodestock,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_GrowthForm_nodestock, type = 3)
+
+
+#### Stats with 2018 as covariate - FDis ####
+
+#### Multivariate with 18 as covariate ####
+Functional_Diversity_2018<-Functional_Diversity %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_18<-Functional_Diversity %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_2018)
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_18 <- lmerTest::lmer(data = subset(Functional_Diversity_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_18, type = 3)
+
+#### percent_green with 18 as covariate ####
+Functional_Diversity_percent_green_2018<-Functional_Diversity_percent_green %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_percent_green_18<-Functional_Diversity_percent_green %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_percent_green_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_percent_green_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_percent_green_18 <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_percent_green_18, type = 3)
+
+#### Height with 18 as covariate ####
+Functional_Diversity_Height_2018<-Functional_Diversity_Height %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_Height_18<-Functional_Diversity_Height %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_Height_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_Height_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_Height_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Height_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_Height_18, type = 3)
+
+#### LDMC with 18 as covariate ####
+Functional_Diversity_LDMC_2018<-Functional_Diversity_LDMC %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_LDMC_18<-Functional_Diversity_LDMC %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_LDMC_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_LDMC_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_LDMC_18 <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_LDMC_18, type = 3)
+
+#### SLA with 18 as covariate ####
+Functional_Diversity_SLA_2018<-Functional_Diversity_SLA %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_SLA_18<-Functional_Diversity_SLA %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_SLA_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_SLA_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_SLA_18 <- lmerTest::lmer(data = subset(Functional_Diversity_SLA_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_SLA_18, type = 3)
+
+#### leaf_thickness_.mm. with 18 as covariate ####
+Functional_Diversity_leaf_thickness_.mm._2018<-Functional_Diversity_leaf_thickness_.mm. %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_leaf_thickness_.mm._18<-Functional_Diversity_leaf_thickness_.mm. %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_leaf_thickness_.mm._2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_leaf_thickness_.mm._18 <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm._18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_leaf_thickness_.mm._18, type = 3)
+
+#### Area with 18 as covariate ####
+Functional_Diversity_Area_2018<-Functional_Diversity_Area %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_Area_18<-Functional_Diversity_Area %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_Area_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_Area_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_Area_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Area_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_Area_18, type = 3)
+
+#### Lifespan with 18 as covariate ####
+Functional_Diversity_Lifespan_2018<-Functional_Diversity_Lifespan %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_Lifespan_18<-Functional_Diversity_Lifespan %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_Lifespan_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_Lifespan_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_Lifespan_18 <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_Lifespan_18, type = 3)
+
+#### GrowthForm with 18 as covariate ####
+Functional_Diversity_GrowthForm_2018<-Functional_Diversity_GrowthForm %>% 
+  filter(year==2018) %>% 
+  rename(FDis_18=FDis) %>% 
+  select(Site, plot,block,paddock,FDis_18)
+
+Functional_Diversity_GrowthForm_18<-Functional_Diversity_GrowthForm %>% 
+  filter(year!=2018) %>% 
+  left_join(Functional_Diversity_GrowthForm_2018)
+
+###Functional Dispersion
+
+#Functional Dispersion (FDis) FK 19
+FK_19_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_19_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) FK 20
+FK_20_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2020&Site=="FK"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_20_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) FK 21
+FK_21_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2021&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_21_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) FK 22
+FK_22_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2022&Site=="FK"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(FK_22_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) TB 19
+TB_19_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_19_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) TB 20
+TB_20_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2020&Site=="TB"), FDis ~ Grazing_2020*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_20_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) TB 21
+TB_21_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2021&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_21_FDis_LMER_GrowthForm_18, type = 3)
+
+#Functional Dispersion (FDis) TB 22
+TB_22_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
+anova(TB_22_FDis_LMER_GrowthForm_18, type = 3)
+
