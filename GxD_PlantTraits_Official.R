@@ -1488,3 +1488,1012 @@ summary(SIMPER_TB_21)
 SIMPER_TB_22 <- with(CWM_TB_22_Treatment,simper(CWM_TB_22_Trait,grazing_treatment))
 #Print out a summary of the results
 summary(SIMPER_TB_22)
+
+#### Single Trait Functional Metrics ####
+
+#### Height Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data_Height<-Avg_Traits_FK %>% 
+  select(Avg_height_cm) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Height) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Height<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Height<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_Height) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Height<-Species_Comp_FK_Height %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Height<-Species_Comp_FK_Wide_Height %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Height<-Species_Comp_FK_Wide_Height %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Height <- dbFD(Avg_Traits_FK_Data_Height, Species_Comp_FK_Wide_Data_Height,corr = "none")
+summary(FK_FunctionalDiversity_Height)
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_Height<-Avg_Traits_TB%>% 
+  select(Avg_height_cm) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Height) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Height<-Avg_Traits_TB %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Height<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_Height) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Height<-Species_Comp_TB_Height %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Height<-Species_Comp_TB_Wide_Height %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Height<-Species_Comp_TB_Wide_Height %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Height <- dbFD(Avg_Traits_TB_Data_Height, Species_Comp_TB_Wide_Data_Height,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Height<-as.data.frame(FK_FunctionalDiversity_Height) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Height)
+
+Functional_Diversity_TB_Height<-as.data.frame(TB_FunctionalDiversity_Height) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Height)
+
+Functional_Diversity_Height<-Functional_Diversity_FK_Height %>% 
+  rbind(Functional_Diversity_TB_Height) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_Height=FDis)
+
+#### percent_green Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data_percent_green<-Avg_Traits_FK %>% 
+  select(Avg_percent_green) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_percent_green) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_percent_green<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_percent_green<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_percent_green) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_percent_green<-Species_Comp_FK_percent_green %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_percent_green<-Species_Comp_FK_Wide_percent_green %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_percent_green<-Species_Comp_FK_Wide_percent_green %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_percent_green <- dbFD(Avg_Traits_FK_Data_percent_green, Species_Comp_FK_Wide_Data_percent_green,corr = "none")
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_percent_green<-Avg_Traits_TB%>% 
+  select(Avg_percent_green) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_percent_green) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_percent_green<-Avg_Traits_TB %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_percent_green<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_percent_green) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_percent_green<-Species_Comp_TB_percent_green %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_percent_green<-Species_Comp_TB_Wide_percent_green %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_percent_green<-Species_Comp_TB_Wide_percent_green %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_percent_green <- dbFD(Avg_Traits_TB_Data_percent_green, Species_Comp_TB_Wide_Data_percent_green,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_percent_green<-as.data.frame(FK_FunctionalDiversity_percent_green) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_percent_green)
+
+Functional_Diversity_TB_percent_green<-as.data.frame(TB_FunctionalDiversity_percent_green) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_percent_green)
+
+Functional_Diversity_percent_green<-Functional_Diversity_FK_percent_green %>% 
+  rbind(Functional_Diversity_TB_percent_green) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_Green=FDis)
+
+#### leaf_thickness_.mm. Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data_leaf_thickness_.mm._1<-Avg_Traits_FK %>% 
+  select(Avg_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_leaf_thickness_.mm.<-Avg_Traits_FK_Data_leaf_thickness_.mm._1 %>% 
+  select(Avg_leaf_thickness) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_leaf_thickness_.mm.) <- c(1:32)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_leaf_thickness_.mm.<-Avg_Traits_FK_Data_leaf_thickness_.mm._1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_leaf_thickness_.mm.<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_leaf_thickness_.mm.) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_leaf_thickness_.mm.<-Species_Comp_FK_leaf_thickness_.mm. %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_leaf_thickness_.mm.<-Species_Comp_FK_Wide_leaf_thickness_.mm. %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_leaf_thickness_.mm.<-Species_Comp_FK_Wide_leaf_thickness_.mm. %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_leaf_thickness_.mm. <- dbFD(Avg_Traits_FK_Data_leaf_thickness_.mm., Species_Comp_FK_Wide_Data_leaf_thickness_.mm.,corr = "none")
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_leaf_thickness_.mm._1<-Avg_Traits_TB %>% 
+  select(Avg_leaf_thickness,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:42))
+
+Avg_Traits_TB_Data_leaf_thickness_.mm.<-Avg_Traits_TB_Data_leaf_thickness_.mm._1%>% 
+  select(Avg_leaf_thickness) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_leaf_thickness_.mm.) <- c(1:42)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_leaf_thickness_.mm.<-Avg_Traits_TB_Data_leaf_thickness_.mm._1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_leaf_thickness_.mm.<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_leaf_thickness_.mm.) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Elymus.elymoides")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_leaf_thickness_.mm.<-Species_Comp_TB_leaf_thickness_.mm. %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_leaf_thickness_.mm.<-Species_Comp_TB_Wide_leaf_thickness_.mm. %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_leaf_thickness_.mm.<-Species_Comp_TB_Wide_leaf_thickness_.mm. %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_leaf_thickness_.mm. <- dbFD(Avg_Traits_TB_Data_leaf_thickness_.mm., Species_Comp_TB_Wide_Data_leaf_thickness_.mm.,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_leaf_thickness_.mm.<-as.data.frame(FK_FunctionalDiversity_leaf_thickness_.mm.) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_leaf_thickness_.mm.)
+
+Functional_Diversity_TB_leaf_thickness_.mm.<-as.data.frame(TB_FunctionalDiversity_leaf_thickness_.mm.) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_leaf_thickness_.mm.)
+
+Functional_Diversity_leaf_thickness_.mm.<-Functional_Diversity_FK_leaf_thickness_.mm. %>% 
+  rbind(Functional_Diversity_TB_leaf_thickness_.mm.) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_Thickness=FDis)
+
+#### LDMC Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data_LDMC_1<-Avg_Traits_FK %>% 
+  select(Avg_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:31))
+
+Avg_Traits_FK_Data_LDMC<-Avg_Traits_FK_Data_LDMC_1 %>% 
+  select(Avg_LDMC) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_LDMC) <- c(1:31)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_LDMC<-Avg_Traits_FK_Data_LDMC_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_LDMC<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_LDMC) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_LDMC<-Species_Comp_FK_LDMC %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_LDMC<-Species_Comp_FK_Wide_LDMC %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_LDMC<-Species_Comp_FK_Wide_LDMC %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_FK_Data_LDMC, Species_Comp_FK_Wide_Data_LDMC,corr = "none")
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_LDMC_1<-Avg_Traits_TB %>% 
+  select(Avg_LDMC,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:41))
+
+Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_Data_LDMC_1%>% 
+  select(Avg_LDMC) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_LDMC) <- c(1:41)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_LDMC<-Avg_Traits_TB_Data_LDMC_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_LDMC<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_LDMC) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Hedeoma.hispida" & Genus_Species_Correct!="Elymus.elymoides")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_LDMC<-Species_Comp_TB_LDMC %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_LDMC<-Species_Comp_TB_Wide_LDMC %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_LDMC<-Species_Comp_TB_Wide_LDMC %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_TB_Data_LDMC, Species_Comp_TB_Wide_Data_LDMC,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_LDMC<-as.data.frame(FK_FunctionalDiversity_LDMC) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_LDMC)
+
+Functional_Diversity_TB_LDMC<-as.data.frame(TB_FunctionalDiversity_LDMC) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_LDMC)
+
+Functional_Diversity_LDMC<-Functional_Diversity_FK_LDMC %>% 
+  rbind(Functional_Diversity_TB_LDMC) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_LDMC=FDis)
+
+#### SLA Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_SLA_1<-Avg_Traits_FK %>% 
+  select(Avg_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:31))
+
+Avg_Traits_FK_Data_SLA<-Avg_Traits_FK_Data_SLA_1 %>% 
+  select(Avg_SLA) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_SLA) <- c(1:31)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_SLA<-Avg_Traits_FK_Data_SLA_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_SLA<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_SLA) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="	
+Hedeoma.hispida" & Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_SLA<-Species_Comp_FK_SLA %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_SLA<-Species_Comp_FK_Wide_SLA %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_SLA<-Species_Comp_FK_Wide_SLA %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_SLA <- dbFD(Avg_Traits_FK_Data_SLA, Species_Comp_FK_Wide_Data_SLA,corr = "none")
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_SLA_1<-Avg_Traits_TB %>% 
+  select(Avg_SLA,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:36))
+
+Avg_Traits_TB_Data_SLA<-Avg_Traits_TB_Data_SLA_1 %>% 
+  select(Avg_SLA) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_SLA) <- c(1:36)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_SLA<-Avg_Traits_TB_Data_SLA_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_SLA<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_SLA) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>%
+  filter(Genus_Species_Correct!="	
+Aristida.purpurea" & Genus_Species_Correct!="Artemisia.frigida"& Genus_Species_Correct!="Artemisia.tridentata"& Genus_Species_Correct!="Bouteloua.gracilis"& Genus_Species_Correct!="Elymus.elymoides"& Genus_Species_Correct!="Gutierrezia.sarothrae"& Genus_Species_Correct!="Hedeoma.hispida")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_SLA<-Species_Comp_TB_SLA %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_SLA<-Species_Comp_TB_Wide_SLA %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_SLA<-Species_Comp_TB_Wide_SLA %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_SLA <- dbFD(Avg_Traits_TB_Data_SLA, Species_Comp_TB_Wide_Data_SLA,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_SLA<-as.data.frame(FK_FunctionalDiversity_SLA) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_SLA)
+
+Functional_Diversity_TB_SLA<-as.data.frame(TB_FunctionalDiversity_SLA) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_SLA)
+
+Functional_Diversity_SLA<-Functional_Diversity_FK_SLA %>% 
+  rbind(Functional_Diversity_TB_SLA) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_SLA=FDis)
+
+#### Leaf Area Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_Area_1<-Avg_Traits_FK %>% 
+  select(Avg_Area,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_Area<-Avg_Traits_FK_Data_Area_1 %>% 
+  select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Area) <- c(1:32)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Area<-Avg_Traits_FK_Data_Area_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Area <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_Area) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Area<-Species_Comp_FK_Area %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Area<-Species_Comp_FK_Wide_Area %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Area<-Species_Comp_FK_Wide_Area %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Area <- dbFD(Avg_Traits_FK_Data_Area, Species_Comp_FK_Wide_Data_Area,corr = "none")
+
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_Area_1<-Avg_Traits_TB %>% 
+  select(Avg_Area,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:37))
+
+Avg_Traits_TB_Data_Area<-Avg_Traits_TB_Data_Area_1 %>% 
+  select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Area) <- c(1:37)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Area<-Avg_Traits_TB_Data_Area_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Area <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_Area) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>%
+  filter(Genus_Species_Correct!="	
+Aristida.purpurea" & Genus_Species_Correct!="Artemisia.frigida"& Genus_Species_Correct!="Artemisia.tridentata"& Genus_Species_Correct!="Bouteloua.gracilis"& Genus_Species_Correct!="Elymus.elymoides"& Genus_Species_Correct!="Gutierrezia.sarothrae")
+
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Area<-Species_Comp_TB_Area %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Area<-Species_Comp_TB_Wide_Area %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Area<-Species_Comp_TB_Wide_Area %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Area <- dbFD(Avg_Traits_TB_Data_Area, Species_Comp_TB_Wide_Data_Area,corr = "none")
+
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Area<-as.data.frame(FK_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Area)
+
+Functional_Diversity_TB_Area<-as.data.frame(TB_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Area)
+
+Functional_Diversity_Area<-Functional_Diversity_FK_Area %>% 
+  rbind(Functional_Diversity_TB_Area) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_Area=FDis)
+
+#### Lifespan Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_Lifespan_1<-Avg_Traits_FK %>% 
+  select(Avg_Lifespan,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_Lifespan<-Avg_Traits_FK_Data_Lifespan_1 %>% 
+  select(Avg_Lifespan) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Lifespan) <- c(1:32)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Lifespan<-Avg_Traits_FK_Data_Lifespan_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Lifespan <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_Lifespan) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Lifespan<-Species_Comp_FK_Lifespan %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Lifespan<-Species_Comp_FK_Wide_Lifespan %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Lifespan<-Species_Comp_FK_Wide_Lifespan %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Lifespan <- dbFD(Avg_Traits_FK_Data_Lifespan, Species_Comp_FK_Wide_Data_Lifespan,corr = "none")
+
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_Lifespan_1<-Avg_Traits_TB %>% 
+  select(Avg_Lifespan,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:42))
+
+Avg_Traits_TB_Data_Lifespan<-Avg_Traits_TB_Data_Lifespan_1 %>% 
+  select(Avg_Lifespan) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Lifespan) <- c(1:42)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Lifespan<-Avg_Traits_TB_Data_Lifespan_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Lifespan <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_Lifespan) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>%
+  filter(Genus_Species_Correct!="Elymus.elymoides")
+
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Lifespan<-Species_Comp_TB_Lifespan %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Lifespan<-Species_Comp_TB_Wide_Lifespan %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Lifespan<-Species_Comp_TB_Wide_Lifespan %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Lifespan <- dbFD(Avg_Traits_TB_Data_Lifespan, Species_Comp_TB_Wide_Data_Lifespan,corr = "none")
+
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Lifespan<-as.data.frame(FK_FunctionalDiversity_Lifespan) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Lifespan)
+
+Functional_Diversity_TB_Lifespan<-as.data.frame(TB_FunctionalDiversity_Lifespan) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Lifespan)
+
+Functional_Diversity_Lifespan<-Functional_Diversity_FK_Lifespan %>% 
+  rbind(Functional_Diversity_TB_Lifespan) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_Lifespan=FDis)
+
+#### GrowthForm Diversity Metrics ####
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_FK_Data_GrowthForm_1<-Avg_Traits_FK %>% 
+  select(Avg_GrowthForm,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:32))
+
+Avg_Traits_FK_Data_GrowthForm<-Avg_Traits_FK_Data_GrowthForm_1 %>% 
+  select(Avg_GrowthForm) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_GrowthForm) <- c(1:32)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_GrowthForm<-Avg_Traits_FK_Data_GrowthForm_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_GrowthForm <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames_GrowthForm) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>% 
+  filter(Genus_Species_Correct!="Linum.rigidum")
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_GrowthForm<-Species_Comp_FK_GrowthForm %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_GrowthForm<-Species_Comp_FK_Wide_GrowthForm %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_GrowthForm<-Species_Comp_FK_Wide_GrowthForm %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_GrowthForm <- dbFD(Avg_Traits_FK_Data_GrowthForm, Species_Comp_FK_Wide_Data_GrowthForm,corr = "none")
+
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_GrowthForm_1<-Avg_Traits_TB %>% 
+  select(Avg_GrowthForm,Genus_Species_Correct,Sp_Num) %>% 
+  na.omit() %>% 
+  mutate(Sp_Num_2=c(1:42))
+
+Avg_Traits_TB_Data_GrowthForm<-Avg_Traits_TB_Data_GrowthForm_1 %>% 
+  select(Avg_GrowthForm) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_GrowthForm) <- c(1:42)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_GrowthForm<-Avg_Traits_TB_Data_GrowthForm_1 %>% 
+  select(Genus_Species_Correct,Sp_Num_2)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_GrowthForm <- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames_GrowthForm) %>% 
+  na.omit(Sp_Num_2) %>% 
+  mutate(ID=paste(year,site,plot,sep="_")) %>%
+  filter(Genus_Species_Correct!="Elymus.elymoides")
+
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_GrowthForm<-Species_Comp_TB_GrowthForm %>% 
+  select(Sp_Num_2,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num_2,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_GrowthForm<-Species_Comp_TB_Wide_GrowthForm %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_GrowthForm<-Species_Comp_TB_Wide_GrowthForm %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_GrowthForm <- dbFD(Avg_Traits_TB_Data_GrowthForm, Species_Comp_TB_Wide_Data_GrowthForm,corr = "none")
+
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_GrowthForm<-as.data.frame(FK_FunctionalDiversity_GrowthForm) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_GrowthForm)
+
+Functional_Diversity_TB_GrowthForm<-as.data.frame(TB_FunctionalDiversity_GrowthForm) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_GrowthForm)
+
+Functional_Diversity_GrowthForm<-Functional_Diversity_FK_GrowthForm %>% 
+  rbind(Functional_Diversity_TB_GrowthForm) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_GrowthForm=FDis)
+
+#### Multivariate Functional Diversity Calculations ####
+
+###FK
+#create dataframe from the raw trait data where we subset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_FK<-Traits_Clean_2 %>%
+  filter(Site=="FK") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_SLA=mean(SLA,na.rm=T),
+    Avg_Lifespan=mean(lifespan_binary, na.rm=T),
+    Avg_GrowthForm=mean(growth_form_binary, na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
+  ) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
+  ungroup()
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames<-Avg_Traits_FK %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide<-Species_Comp_FK %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data<-Species_Comp_FK_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData<-Species_Comp_FK_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity <- dbFD(Avg_Traits_FK_Data, Species_Comp_FK_Wide_Data,corr = "none")
+summary(FK_FunctionalDiversity)
+
+### TB
+##create dataframe from the raw trait data where wesubset TB data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_TB<-Traits_Clean_2 %>%
+  filter(Site=="TB") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_percent_green=mean(percent_green,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_SLA=mean(SLA,na.rm=T),
+    Avg_Lifespan=mean(lifespan_binary, na.rm=T),
+    Avg_GrowthForm=mean(growth_form_binary, na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  filter(!Genus_Species_Correct %in% c("Oenothera.suffrtescuns")) %>% 
+  mutate(Sp_Num=c(1:43))
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data<-Avg_Traits_TB %>% 
+  select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames<-Avg_Traits_TB %>% 
+  select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide<-Species_Comp_TB %>% 
+  select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data<-Species_Comp_TB_Wide %>% 
+  select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData<-Species_Comp_TB_Wide %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity <- dbFD(Avg_Traits_TB_Data, Species_Comp_TB_Wide_Data,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK<-as.data.frame(FK_FunctionalDiversity) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData)
+
+Functional_Diversity_TB<-as.data.frame(TB_FunctionalDiversity) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData)
+
+Functional_Diversity<-Functional_Diversity_FK %>% 
+  rbind(Functional_Diversity_TB) %>% 
+  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_All=FDis)
+
+#### Distribution and Covariance of Dispersion ####
+
+#make data frame with dispersion of all traits calculated above
+Functional_Diversity_All<-Functional_Diversity %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All) %>% 
+  left_join(Functional_Diversity_Height) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height) %>%
+  left_join(Functional_Diversity_percent_green) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height, FDis_Green) %>%
+  left_join(Functional_Diversity_leaf_thickness_.mm.) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness) %>%
+  left_join(Functional_Diversity_LDMC) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC) %>%
+  left_join(Functional_Diversity_SLA) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA) %>%
+  left_join(Functional_Diversity_Area) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area) %>%
+  left_join(Functional_Diversity_Lifespan) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan) %>% 
+left_join(Functional_Diversity_GrowthForm) %>% 
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm)
+
+Functional_Diversity_All_FK<-Functional_Diversity_All %>% 
+  filter(Site=="FK")
+
+Functional_Diversity_All_TB<-Functional_Diversity_All %>% 
+  filter(Site=="TB")
+  
+
+#not transformed - FK
+chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#not transformed -TB
+chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
