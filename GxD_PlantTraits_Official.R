@@ -2481,20 +2481,33 @@ Functional_Diversity_All<-Functional_Diversity %>%
   left_join(Functional_Diversity_Lifespan) %>% 
   select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan) %>% 
 left_join(Functional_Diversity_GrowthForm) %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm) %>% 
-  mutate()
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm)
 
 Functional_Diversity_All_FK<-Functional_Diversity_All %>% 
-  filter(Site=="FK")
+  filter(Site=="FK") %>% 
+  mutate(FDis_LDMC_TF=sqrt(FDis_LDMC)) %>% 
+  mutate(FDis_SLA_TF=sqrt(FDis_SLA)) %>% 
+  mutate(FDis_Lifespan_TF=exp(FDis_Lifespan))
 
 Functional_Diversity_All_TB<-Functional_Diversity_All %>% 
-  filter(Site=="TB")
+  filter(Site=="TB") %>% 
+  mutate(FDis_LDMC_TF=log(FDis_LDMC)) %>% 
+  mutate(FDis_SLA_TF=log(FDis_SLA)) %>% 
+  mutate(FDis_Area_TF=log(FDis_Area)) %>% 
+  mutate(FDis_Lifespan_TF=exp(FDis_Lifespan)) %>% 
+  mutate(FDis_GrowthForm_TF=sqrt(FDis_GrowthForm))
   
 
 #not transformed - FK
 chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
+#transformed - FK
+chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,18,19,15,20,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
 #not transformed -TB
 chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#transformed - TB
+chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,18,19,20,21,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
