@@ -2481,7 +2481,8 @@ Functional_Diversity_All<-Functional_Diversity %>%
   left_join(Functional_Diversity_Lifespan) %>% 
   select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan) %>% 
 left_join(Functional_Diversity_GrowthForm) %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm)
+  select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm) %>% 
+  mutate()
 
 Functional_Diversity_All_FK<-Functional_Diversity_All %>% 
   filter(Site=="FK")
