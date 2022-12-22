@@ -2523,6 +2523,7 @@ Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height,Site=="FK"&year>=2019)
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9))+
+  scale_y_continuous()
   annotate("text", x=20, y=1, label = "Height", size=20)
 
 ####Height Functional Dispersion - TB all years####
