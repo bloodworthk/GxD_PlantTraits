@@ -2511,9 +2511,17 @@ chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,13,14,15,16,17)],pch=
 chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,18,19,20,21,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 ####Height Functional Dispersion - Fort Keogh all years####
-Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+
+Functional_Diversity_Height_avg<-Functional_Diversity_Height %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
+Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -2523,11 +2531,12 @@ Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height,Site=="FK"&year>=2019)
   ylab("Functional Dispersion")+
   expand_limits(y=1)+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9))+
-  scale_y_continuous()
+  #BIGGER TEXT BUT NEEDS TO BE MORE SPACED OUT
+  guides(color = guide_legend(override.aes = list(size = 5)))+
   annotate("text", x=20, y=1, label = "Height", size=20)
 
 ####Height Functional Dispersion - TB all years####
-Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
+Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
@@ -2542,6 +2551,12 @@ Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height,Site=="TB"&year>=2019)
   annotate("text", x=20, y=1, label = "Height", size=20)
 
 ####percent_green Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_percent_green_avg<-Functional_Diversity_percent_green %>% 
+    group_by(Site, year, rainfall_reduction)%>%
+    summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+    mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+    ungroup()
+  
 percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2572,6 +2587,12 @@ percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green,Site=="T
   annotate("text", x=20, y=1, label = "Percent Green", size=20)
 
 #### Leaf Thickness Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_leaf_thickness_.mm._avg<-Functional_Diversity_leaf_thickness_.mm. %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2602,6 +2623,12 @@ LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Si
   annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
 
 #### LDMC Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_LDMC_avg<-Functional_Diversity_LDMC %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2632,6 +2659,12 @@ LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC,Site=="TB"&year>=2019),aes
   annotate("text", x=20, y=2.5, label = "LDMC", size=20)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_SLA_avg<-Functional_Diversity_SLA %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2663,6 +2696,12 @@ SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA,Site=="TB"&year>=2019),aes(x
 
 
 #### Area Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_Area_avg<-Functional_Diversity_Area %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2694,6 +2733,12 @@ Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area,Site=="TB"&year>=2019),aes
 
 
 #### Lifespan Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_Lifespan_avg<-Functional_Diversity_Lifespan %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2724,6 +2769,12 @@ Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan,Site=="TB"&year>=2
   annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
 
 #### GrowthForm Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_GrowthForm_avg<-Functional_Diversity_GrowthForm %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
@@ -2754,6 +2805,12 @@ GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="TB"&yea
   annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
 
 ####Multivariate Functional Dispersion - Fort Keogh all years####
+Functional_Diversity_avg<-Functional_Diversity %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
 Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=6, stroke =2)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
