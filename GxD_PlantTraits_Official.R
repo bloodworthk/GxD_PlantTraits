@@ -2519,36 +2519,34 @@ Functional_Diversity_Height_avg<-Functional_Diversity_Height %>%
   ungroup()
 
 Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=10, stroke =4)+
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9))+
-  #BIGGER TEXT BUT NEEDS TO BE MORE SPACED OUT
-  guides(color = guide_legend(override.aes = list(size = 5)))+
-  annotate("text", x=20, y=1, label = "Height", size=20)
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.84),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  expand_limits(y=c(0,1.25))+
+  annotate("text", x=6, y=1.25, label = "A. Height", size=20)
 
 ####Height Functional Dispersion - TB all years####
-Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
+  #theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9))+
-  annotate("text", x=20, y=1, label = "Height", size=20)
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.8),legend.key = element_rect(size=4), legend.key.size = unit(3.0, 'lines'))+
+  expand_limits(y=c(0,1))+
+  annotate("text", x=0, y=1, label = "A. Height", size=20)
 
 ####percent_green Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_percent_green_avg<-Functional_Diversity_percent_green %>% 
@@ -2557,34 +2555,34 @@ Functional_Diversity_percent_green_avg<-Functional_Diversity_percent_green %>%
     mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
     ungroup()
   
-percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1, label = "Percent Green", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=12, y=1.25, label = "B. Percent Green", size=20)
 
 ####percent_green Functional Dispersion - TB all years####
-percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +    
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1, label = "Percent Green", size=20)
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=0, y=1, label = "B. Percent Green", size=20)
 
 #### Leaf Thickness Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_leaf_thickness_.mm._avg<-Functional_Diversity_leaf_thickness_.mm. %>% 
@@ -2593,34 +2591,34 @@ Functional_Diversity_leaf_thickness_.mm._avg<-Functional_Diversity_leaf_thicknes
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=15, y=1.25, label = "C. Leaf Thickness", size=20)
 
 ####Leaf Thickness Functional Dispersion - TB all years####
-LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm.,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1, label = "Leaf Thickness", size=20)
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=0, y=1, label = "C. Leaf Thickness", size=20)
 
 #### LDMC Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_LDMC_avg<-Functional_Diversity_LDMC %>% 
@@ -2629,34 +2627,34 @@ Functional_Diversity_LDMC_avg<-Functional_Diversity_LDMC %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1, label = "LDMC", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=5, y=1.25, label = "D. LDMC", size=20)
 
 ####LDMC Functional Dispersion - TB all years####
-LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=2.5, label = "LDMC", size=20)
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=0, y=1, label = "D. LDMC", size=20)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_SLA_avg<-Functional_Diversity_SLA %>% 
@@ -2665,34 +2663,34 @@ Functional_Diversity_SLA_avg<-Functional_Diversity_SLA %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position ="none")+
-  annotate("text", x=20, y=2.5, label = "SLA", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position ="none")+
+  annotate("text", x=4, y=1.25, label = "E. SLA", size=20)
 
 ####SLA Functional Dispersion - TB all years####
-SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=2.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=2.5, label = "SLA", size=20)
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=0, y=1, label = "E. SLA", size=20)
 
 
 #### Area Functional Dispersion - Fort Keogh all years####
@@ -2702,34 +2700,34 @@ Functional_Diversity_Area_avg<-Functional_Diversity_Area %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=8, y=1.25, label = "F. Leaf Area", size=20)
 
 #### Area Functional Dispersion - TB all years####
-Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Leaf Area", size=20)
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=0, y=1, label = "F. Leaf Area", size=20)
 
 
 #### Lifespan Functional Dispersion - Fort Keogh all years####
@@ -2739,34 +2737,34 @@ Functional_Diversity_Lifespan_avg<-Functional_Diversity_Lifespan %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
+  expand_limits(y=c(0,1.25))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
+  annotate("text", x=8, y=1.25, label = "G. Lifespan", size=20)
 
 #### Lifespan Functional Dispersion - TB all years####
-Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
+  expand_limits(y=c(0,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
+  annotate("text", x=0, y=1, label = "G. Lifespan", size=20)
 
 #### GrowthForm Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_GrowthForm_avg<-Functional_Diversity_GrowthForm %>% 
@@ -2775,34 +2773,58 @@ Functional_Diversity_GrowthForm_avg<-Functional_Diversity_GrowthForm %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=11, y=1.25, label = "H. Growth Form", size=20)
 
 #### GrowthForm Functional Dispersion - TB all years####
-GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=1.5)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
+  expand_limits(y=c(0,1.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=0, y=1.25, label = "H. Growth Form", size=20)
+
+#### Create graph of all years for FDis FK ####
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(Height_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(percent_green_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LeafThickness_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LDMC_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(SLA_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(Area_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(Lifespan_FDis_FK,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(GrowthForm_FDis_FK,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 4000 x 4500  
+
+#### Create graph of all years for FDis TB ####
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(Height_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(percent_green_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LeafThickness_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LDMC_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(SLA_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(Area_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 4000 x 4500  
 
 ####Multivariate Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_avg<-Functional_Diversity %>% 
@@ -2811,60 +2833,40 @@ Functional_Diversity_avg<-Functional_Diversity %>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=0.3)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=0.3, label = "Multivariate", size=20)
+  expand_limits(y=c(0,0.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = c(0.9,0.9),legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines'))+
+  annotate("text", x=17, y=0.25, label = "A. Montana Site", size=20)
 
 #### Multivariate Functional Dispersion - Thunder Basin all years####
-Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
-  expand_limits(y=0.3)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=0.3, label = "Multivariate", size=20)
+  expand_limits(y=c(0,0.25))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=15, y=0.25, label = "B. Wyoming Site", size=20)
 
-#### Create graph of all years for FDis FK ####
-pushViewport(viewport(layout=grid.layout(3,3)))
-print(Height_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
-print(percent_green_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =2))
-print(LeafThickness_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =3))
-print(LDMC_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
-print(SLA_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =2))
-print(Area_FDis_FK,vp=viewport(layout.pos.row=2, layout.pos.col =3))
-print(Lifespan_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
-print(GrowthForm_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =2))
-print(Multivariate_FDis_FK,vp=viewport(layout.pos.row=3, layout.pos.col =3))
-#Save at 4000 x 3000  
-
-#### Create graph of all years for FDis TB ####
-pushViewport(viewport(layout=grid.layout(3,3)))
-print(Height_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =1))
-print(percent_green_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
-print(LeafThickness_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =3))
-print(LDMC_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =1))
-print(SLA_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
-print(Area_FDis_TB,vp=viewport(layout.pos.row=2, layout.pos.col =3))
-print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
-print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
-print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =3))
-#Save at 4000 x 3000  
+#### Create graph of multivariate FDis ####
+pushViewport(viewport(layout=grid.layout(1,2)))
+print(Multivariate_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+#save at 3500 x 2000
 
 #### Functional Dispersion Stats ####
 
