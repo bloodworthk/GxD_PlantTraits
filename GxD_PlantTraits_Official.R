@@ -20,6 +20,7 @@ library(emmeans)
 #install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
 library(tidyverse) 
+library(scales)
 
 
 #### Set Working Directory ####
@@ -567,266 +568,300 @@ CWM_Collected_Data<-CWM_Collected_Data_FK %>%
 
 #### Plot CWM data ####
 
+CWM_Collected_Data_avg<-CWM_Collected_Data %>% 
+  group_by(Site, year, rainfall_reduction)%>%
+  summarize(Height_CWM_Std=sd(Height_CWM),Height_CWM_Mean=mean(Height_CWM),Height_CWM_n=length(Height_CWM),
+            PercentGreen_CWM_Std=sd(PercentGreen_CWM),PercentGreen_CWM_Mean=mean(PercentGreen_CWM),PercentGreen_CWM_n=length(PercentGreen_CWM),
+            LeafThickness_CWM_Std=sd(LeafThickness_CWM),LeafThickness_CWM_Mean=mean(LeafThickness_CWM),LeafThickness_CWM_n=length(LeafThickness_CWM),
+            LDMC_CWM_Std=sd(LDMC_CWM),LDMC_CWM_Mean=mean(LDMC_CWM),LDMC_CWM_n=length(LDMC_CWM),
+            Avg_SLA_CWM_Std=sd(Avg_SLA_CWM),Avg_SLA_CWM_Mean=mean(Avg_SLA_CWM),Avg_SLA_CWM_n=length(Avg_SLA_CWM),
+            Area_CWM_Std=sd(Area_CWM),Area_CWM_Mean=mean(Area_CWM),Area_CWM_n=length(Area_CWM),
+            Lifespan_CWM_Std=sd(Lifespan_CWM),Lifespan_CWM_Mean=mean(Lifespan_CWM),Lifespan_CWM_n=length(Lifespan_CWM),
+            GrowthForm_CWM_Std=sd(GrowthForm_CWM),GrowthForm_CWM_Mean=mean(GrowthForm_CWM),GrowthForm_CWM_n=length(GrowthForm_CWM)
+            )%>%
+  mutate(Height_CWM_St_Error=Height_CWM_Std/sqrt(Height_CWM_n),
+         PercentGreen_CWM_St_Error=PercentGreen_CWM_Std/sqrt(PercentGreen_CWM_n),
+         LeafThickness_CWM_St_Error=LeafThickness_CWM_Std/sqrt(LeafThickness_CWM_n),
+         LDMC_CWM_St_Error=LDMC_CWM_Std/sqrt(LDMC_CWM_n),
+         Avg_SLA_CWM_St_Error=Avg_SLA_CWM_Std/sqrt(Avg_SLA_CWM_n),
+         Area_CWM_St_Error=Area_CWM_Std/sqrt(Area_CWM_n),
+         Lifespan_CWM_St_Error=Lifespan_CWM_Std/sqrt(Lifespan_CWM_n),
+         GrowthForm_CWM_St_Error=GrowthForm_CWM_Std/sqrt(GrowthForm_CWM_n)) %>% 
+  ungroup()
+
 
 #### CWM of Height ####
 
 #Fort Keogh all years
-Height_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Height_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=20)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
-  annotate("text", x=20, y=20, label = "Height", size=20)
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(10,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.80),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=10, y=20, label = "A. Height", size=20)
 
 #Thunder Basin all years
-Height_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Height_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=20)+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.75,0.80))+
-  annotate("text", x=20, y=20, label = "Height", size=20)
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.80),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=9, y=20, label = "A. Height", size=20)
 
 
 #### CWM of PercentGreen ####
 
 #Fort Keogh all years
-PercentGreen_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+PercentGreen_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=PercentGreen_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=PercentGreen_CWM_Mean-PercentGreen_CWM_St_Error,ymax=PercentGreen_CWM_Mean+PercentGreen_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=100)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(85,95))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=100, label = "Percent Green", size=20)
+  annotate("text", x=18, y=95, label = "B. Percent Green", size=20)
 
 # Thunder Basin all years
-PercentGreen_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=PercentGreen_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+PercentGreen_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=PercentGreen_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=PercentGreen_CWM_Mean-PercentGreen_CWM_St_Error,ymax=PercentGreen_CWM_Mean+PercentGreen_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=100)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(85,95))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=100, label = "Percent Green", size=20)
+  annotate("text", x=17, y=95, label = "B. Percent Green", size=20)
 
 
 ####CWM of LeafThickness ####
 
 #Fort Keogh all years
-LeafThickness_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafThickness_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=0.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.3,0.45))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=0.5, label = "Leaf Thickness", size=20)
+  annotate("text", x=20, y=0.45, label = "C. Leaf Thickness", size=20)
 
 #Thunder Basin all years
-LeafThickness_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafThickness_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=0.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.4))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=0.5, label = "Leaf Thickness", size=20)
+  annotate("text", x=20, y=0.4, label = "C. Leaf Thickness", size=20)
 
 
 ####CWM of LDMC ####
 
 #Fort Keogh all years
-LDMC_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LDMC_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=0.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.45))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=0.5, label = "LDMC", size=20)
+  annotate("text", x=30, y=0.45, label = "D. Leaf Dry Matter Content", size=20)
 
 # Thunder Basin all years
-LDMC_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LDMC_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=2)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.20,0.7))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=2, label = "LDMC", size=20)
+  annotate("text", x=27, y=0.7, label = "D. Leaf Dry Matter Content", size=20)
 
 #### CWM of Avg_SLA #### 
 
 #Fort Keogh all years
-Avg_SLA_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Avg_SLA_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Avg_SLA_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Avg_SLA_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Avg_SLA_CWM_Mean-Avg_SLA_CWM_St_Error,ymax=Avg_SLA_CWM_Mean+Avg_SLA_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels=comma) + 
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=2500)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,1500))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=2500, label = "SLA", size=20)
+  annotate("text", x=26, y=1500, label = "E. Specific Leaf Area", size=20)
 
 # Thunder Basin all years
-Avg_SLA_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Avg_SLA_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Avg_SLA_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Avg_SLA_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Avg_SLA_CWM_Mean-Avg_SLA_CWM_St_Error,ymax=Avg_SLA_CWM_Mean+Avg_SLA_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = comma)+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=2500)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,1500))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=2500, label = "SLA", size=20)
+  annotate("text", x=23, y=1500, label = "E. Specific Leaf Area", size=20)
 
 
 ####CWM of LeafArea ####
 
 #Fort Keogh all years
-LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=3)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,3))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=3, label = "Leaf Area", size=20)
+  annotate("text", x=12, y=3, label = "F. Leaf Area", size=20)
 
 #Thunder Basin all years
-LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=4)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,2.5))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
-  annotate("text", x=20, y=4, label = "Leaf Area", size=20)
+  annotate("text", x=12, y=2.5, label = "F. Leaf Area", size=20)
 
 ####CWM of Lifespan ####
 
 #Fort Keogh all years
-Lifespan_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Lifespan_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Lifespan_CWM_Mean-Lifespan_CWM_St_Error,ymax=Lifespan_CWM_Mean+Lifespan_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=1.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
+  annotate("text", x=13, y=1, label = "G. Lifespan", size=20)
 
 #Thunder Basin all years
-Lifespan_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+Lifespan_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=Lifespan_CWM_Mean-Lifespan_CWM_St_Error,ymax=Lifespan_CWM_Mean+Lifespan_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=1.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,1.25))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Lifespan", size=20)
+  annotate("text", x=10, y=1.25, label = "G. Lifespan", size=20)
 
 
 ####CWM of GrowthForm ####
 # Fort Keogh all years
-GrowthForm_FK_ALL<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+GrowthForm_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=GrowthForm_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=GrowthForm_CWM_Mean-GrowthForm_CWM_St_Error,ymax=GrowthForm_CWM_Mean+GrowthForm_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=1.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,1.5))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
+  annotate("text", x=16, y=1.5, label = "H. Growth Form", size=20)
 
 # Thunder Basin all years
-GrowthForm_TB_ALL<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=GrowthForm_CWM,color=as.factor(year),linetype=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=6, stroke =2)+
+GrowthForm_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=GrowthForm_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
   #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
-  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  geom_pointrange(aes(ymin=GrowthForm_CWM_Mean-GrowthForm_CWM_St_Error,ymax=GrowthForm_CWM_Mean+GrowthForm_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Community Weight Mean")+
-  expand_limits(y=1.5)+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
-  annotate("text", x=20, y=1.5, label = "Growth Form", size=20)
+  annotate("text", x=15, y=1.5, label = "H. Growth Form", size=20)
 
 #### Create graph of all years for CWM ####
 
@@ -840,7 +875,7 @@ print(Avg_SLA_FK_ALL,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(LeafArea_FK_ALL,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_FK_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_FK_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =2))
-#Save at 3000 x 4000  
+#Save at 3500 x 4000  
 
 #TB
 pushViewport(viewport(layout=grid.layout(4,2)))
@@ -852,7 +887,7 @@ print(Avg_SLA_TB_ALL,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(LeafArea_TB_ALL,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =2))
-#Save at 3000 x 4000  
+#Save at 3500 x 4000  
 
 #### CWM Data: Stats ####
 
