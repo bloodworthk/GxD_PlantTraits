@@ -13660,3 +13660,65 @@ anova(TB_21_FDis_LMER_GrowthForm_18, type = 3)
 TB_22_FDis_LMER_GrowthForm_18 <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm_18,year==2022&Site=="TB"), FDis ~ grazing_treatment*Rainfall_reduction_cat + FDis_18 + (1|block) + (1|block:paddock))
 anova(TB_22_FDis_LMER_GrowthForm_18, type = 3)
 
+
+#### compare 2018 to 2019 data ####
+
+#filtering out so that we only have 2018 data from TB that lines up with future plots
+Sp_18<-Species_Comp_RelCov_All %>% 
+  filter(year==2018 & site=="TB") %>% 
+  filter(plot!=1 & plot!=2 & plot!=3 & plot!=4& plot!=5 & plot!=6 & plot!=19 & plot!=20 & plot!=21 & plot!=22 & plot!=23 & plot!=24 & plot!=25 & plot!=26) %>%
+  rename(Relative_Cover_18=Relative_Cover) %>% 
+  select(-year)
+
+#filtering out so that we only have 2019 data from TB that lines up with 2018 plots
+Sp_19<-Species_Comp_RelCov_All %>% 
+  filter(year==2019 & site=="TB") %>% 
+  filter(plot!=1 & plot!=2 & plot!=3 & plot!=4& plot!=5 & plot!=6 & plot!=19 & plot!=20 & plot!=21 & plot!=22 & plot!=23 & plot!=24 & plot!=25 & plot!=26)%>%
+  rename(Relative_Cover_19=Relative_Cover) %>% 
+  select(-year)
+
+#merge dataframes together
+Sp_18_19_Dif_1<-Sp_19 %>% 
+  left_join(Sp_18) %>% 
+  replace(is.na(.), 0)
+
+Sp_18_19_Dif_2<-Sp_18 %>% 
+  left_join(Sp_19) %>% 
+  replace(is.na(.), 0)
+
+Sp_18_19_Dif_Species<Sp_18_19_Dif_1 %>% 
+  rbind(Sp_18_19_Dif_2) %>% 
+  select(-site,plot,)
+
+Sp_18_19_Dif<-Sp_18_19_Dif_1 %>% 
+  rbind(Sp_18_19_Dif_2) %>% 
+  unique() %>% 
+  mutate(Difference=Relative_Cover_19-Relative_Cover_18) %>% 
+  left_join(plot_layoutK) %>% 
+  select(site,plot,block,Genus_Species_Correct,Difference,grazing_treatment) %>% 
+  group_by(Genus_Species_Correct,grazing_treatment,block) %>% 
+  summarize(Difference_Std=sd(Difference),Difference_Mean=mean(Difference),Difference_n=length(Difference)) %>% 
+  mutate(Difference_St_Error=Difference_Std/sqrt(Difference_n)) %>% 
+  mutate(Lower=Difference_Mean-Difference_St_Error)%>% 
+  mutate(Upper=Difference_Mean+Difference_St_Error) %>% 
+  select(block,Genus_Species_Correct,grazing_treatment,Lower,Difference_Mean,Upper) %>% 
+  ungroup() 
+
+ggplot(subset(Sp_18_19_Dif,grazing_treatment=="stable"),aes(x=Difference_Mean, y=Genus_Species_Correct)) +
+  geom_vline(aes(xintercept = 0), size = .25, linetype = "solid") +
+  geom_errorbarh(aes(xmin=Lower,xmax=Upper), linewidth = .8, height = .2, color = "gray50")+
+  geom_point(size=4)+
+  facet_wrap(~block)
+
+ggplot(subset(Sp_18_19_Dif,grazing_treatment=="destock"),aes(x=Difference_Mean, y=Genus_Species_Correct)) +
+  geom_vline(aes(xintercept = 0), size = .25, linetype = "solid") +
+  geom_errorbarh(aes(xmin=Lower,xmax=Upper), linewidth = .8, height = .2, color = "gray50")+
+  geom_point(size=4)+
+  facet_wrap(~block)
+
+ggplot(subset(Sp_18_19_Dif,grazing_treatment=="heavy"),aes(x=Difference_Mean, y=Genus_Species_Correct)) +
+  geom_vline(aes(xintercept = 0), size = .25, linetype = "solid") +
+  geom_errorbarh(aes(xmin=Lower,xmax=Upper), linewidth = .8, height = .2, color = "gray50")+
+  geom_point(size=4)+
+  facet_wrap(~block)
+
