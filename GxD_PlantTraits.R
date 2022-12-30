@@ -13722,3 +13722,75 @@ ggplot(subset(Sp_18_19_Dif,grazing_treatment=="heavy"),aes(x=Difference_Mean, y=
   geom_point(size=4)+
   facet_wrap(~block)
 
+#### magnitude of significance from 2018 compared to 2022 #### 
+
+#2018 significance
+#height: grazing (2018: 2022)
+#leaf thickness: grazing (2018: 2021 , 2018:2022)
+
+CWM_Collected_Data_TB_18_nt<-CWM_Collected_Data %>% 
+  filter(Site=="TB",year==2018) %>% 
+  rename(Height_CWM_18=Height_CWM) %>% 
+  rename(LeafThickness_CWM_18=LeafThickness_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,Height_CWM_18,LeafThickness_CWM_18)
+
+CWM_Collected_Data_TB_21_nt<-CWM_Collected_Data %>% 
+  filter(Site=="TB",year==2021) %>% 
+  rename(LeafThickness_CWM_21=LeafThickness_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,LeafThickness_CWM_21)
+
+CWM_Collected_Data_TB_22_nt<-CWM_Collected_Data %>% 
+  filter(Site=="TB",year==2022) %>% 
+  rename(Height_CWM_22=Height_CWM) %>% 
+  rename(LeafThickness_CWM_22=LeafThickness_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,Height_CWM_22,LeafThickness_CWM_22)
+
+CWM_Collected_Data_TB_Sig<-CWM_Collected_Data_TB_18_nt %>% 
+  left_join(CWM_Collected_Data_TB_21_nt) %>% 
+  left_join(CWM_Collected_Data_TB_22_nt) 
+
+CWM_Collected_Data_TB_dif <-CWM_Collected_Data_TB_Sig %>% 
+  group_by(grazing_treatment) %>% 
+  summarise(Height_18=mean(Height_CWM_18),Height_22=mean(Height_CWM_22),Thickness_18=mean(LeafThickness_CWM_18),Thickness_21=mean(LeafThickness_CWM_21),Thickness_22=mean(LeafThickness_CWM_22)) %>% 
+  ungroup()
+  
+CWM_Differences_TB<-t(CWM_Collected_Data_TB_dif)
+  
+CWM_Differences_TB_df<-as.data.frame(CWM_Differences_TB) 
+
+colnames(CWM_Differences_TB_df) = c("destock", "heavy", "stable")
+
+CWM_Differences_TB_df<-rownames_to_column(CWM_Differences_TB_df, var = "rowname")
+
+CWM_Differences_TB_df= CWM_Differences_TB_df[-1,]
+
+CWM_Differences_TB_difference<-CWM_Differences_TB_df %>% 
+  group_by(rowname) %>% 
+  summarise(Stable_Heavy=as.numeric(stable)-as.numeric(heavy),Stable_Destock=as.numeric(stable)-as.numeric(destock),Heavy_Destock=as.numeric(heavy)-as.numeric(destock)) %>% 
+  ungroup()
+
+CWM_Differences_TB_difference_t<-t(CWM_Differences_TB_difference)
+
+colnames(CWM_Differences_TB_difference_t) = c("Height_18", "Height_22", "Thickness_18","Thickness_21","Thickness_22")
+
+CWM_Differences_TB_difference_t= CWM_Differences_TB_difference_t[-1,]
+
+CWM_Differences_TB_difference_t<-as.data.frame(CWM_Differences_TB_difference_t)
+
+CWM_Differences_TB_difference_t$Height_18<-as.numeric(CWM_Differences_TB_difference_t$Height_18)
+CWM_Differences_TB_difference_t$Height_22<-as.numeric(CWM_Differences_TB_difference_t$Height_22)
+CWM_Differences_TB_difference_t$Thickness_18<-as.numeric(CWM_Differences_TB_difference_t$Thickness_18)
+CWM_Differences_TB_difference_t$Thickness_21<-as.numeric(CWM_Differences_TB_difference_t$Thickness_21)
+CWM_Differences_TB_difference_t$Thickness_22<-as.numeric(CWM_Differences_TB_difference_t$Thickness_22)
+
+CWM_Differences_TB_difference_percent<-CWM_Differences_TB_difference_t %>% 
+  mutate(Mean_Height=(Height_18+Height_22)/2, Mean_Thickness_21=(Thickness_18+Thickness_21)/2, Mean_Thickness_22=(Thickness_18+Thickness_22)/2,Dif_Height=abs(Height_18-Height_22),Dif_Thickness_21=abs(Thickness_18-Thickness_21),Dif_Thickness_22=abs(Thickness_18-Thickness_22)) %>% 
+  mutate(Perc_Difference_Height=(Dif_Height/Mean_Height)*100,Perc_Difference_Thickness_21=(Dif_Thickness_21/Mean_Thickness_21)*100,Perc_Difference_Thickness_22=(Dif_Thickness_22/Mean_Thickness_22)*100) %>% 
+  select(Perc_Difference_Height,Perc_Difference_Thickness_21,Perc_Difference_Thickness_22)
+
+
+
+
+
+
+
