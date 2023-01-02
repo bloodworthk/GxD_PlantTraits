@@ -13722,7 +13722,7 @@ ggplot(subset(Sp_18_19_Dif,grazing_treatment=="heavy"),aes(x=Difference_Mean, y=
   geom_point(size=4)+
   facet_wrap(~block)
 
-#### magnitude of significance from 2018 compared to 2022 #### 
+#### TB magnitude of significance from 2018 compared to other years #### 
 
 #2018 significance
 #height: grazing (2018: 2022)
@@ -13790,7 +13790,81 @@ CWM_Differences_TB_difference_percent<-CWM_Differences_TB_difference_t %>%
 
 
 
+####FK magnitude of significance from 2018 compared to other years #### 
 
+#2018 significance
+#Percent green: drought (2018:2021)
+#Height: DxG (2018:2021)
+#SLA: Grazing (2018:2020)
+
+CWM_Collected_Data_FK_18_nt<-CWM_Collected_Data %>% 
+  filter(Site=="FK",year==2018) %>% 
+  rename(PercentGreen_CWM_18=PercentGreen_CWM) %>% 
+  rename(Height_CWM_18=Height_CWM) %>% 
+  rename(Avg_SLA_CWM_18=Avg_SLA_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,PercentGreen_CWM_18,Height_CWM_18,Avg_SLA_CWM_18)
+
+CWM_Collected_Data_FK_20_nt<-CWM_Collected_Data %>% 
+  filter(Site=="FK",year==2020) %>% 
+  rename(Avg_SLA_CWM_20=Avg_SLA_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,Avg_SLA_CWM_20)
+
+
+CWM_Collected_Data_FK_21_nt<-CWM_Collected_Data %>% 
+  filter(Site=="FK",year==2021) %>% 
+  rename(PercentGreen_CWM_21=PercentGreen_CWM) %>% 
+  rename(Height_CWM_21=Height_CWM) %>% 
+  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,PercentGreen_CWM_21,Height_CWM_21)
+
+
+CWM_Collected_Data_FK_Sig<-CWM_Collected_Data_FK_18_nt %>% 
+  left_join(CWM_Collected_Data_FK_20_nt) %>% 
+  left_join(CWM_Collected_Data_FK_21_nt)
+
+CWM_Collected_Data_FK_dif_D <-CWM_Collected_Data_FK_Sig %>% 
+  group_by(Rainfall_reduction_cat) %>% 
+  summarise(PercentGreen_CWM_18=mean(PercentGreen_CWM_18),PercentGreen_CWM_21=mean(PercentGreen_CWM_21)) %>% 
+  ungroup()
+
+CWM_Differences_FK_D<-t(CWM_Collected_Data_FK_dif_D)
+
+CWM_Differences_FK_df_D<-as.data.frame(CWM_Differences_FK_D) 
+
+colnames(CWM_Differences_FK_df_D) = c("zero", "twentyfive", "fifty", "seventyfive", "ninetynine")
+
+CWM_Differences_FK_df_D<-rownames_to_column(CWM_Differences_FK_df_D, var = "rowname")
+
+CWM_Differences_FK_df_D= CWM_Differences_FK_df_D[-1,]
+
+CWM_Differences_FK_difference_D<-CWM_Differences_FK_df_D %>% 
+  group_by(rowname) %>% 
+  summarise(Zero_TwentyFive=as.numeric(zero)-as.numeric(twentyfive),
+            Zero_Fifty=as.numeric(zero)-as.numeric(fifty),
+            Zero_Seventyfive=as.numeric(zero)-as.numeric(seventyfive),
+            Zero_Ninetynine=as.numeric(zero)-as.numeric(ninetynine),
+            twentyfive_Fifty=as.numeric(twentyfive)-as.numeric(fifty),
+            twentyfive_Seventyfive=as.numeric(twentyfive)-as.numeric(seventyfive),
+            twentyfive_Ninetynine=as.numeric(twentyfive)-as.numeric(ninetynine),
+            fifty_Seventyfive=as.numeric(fifty)-as.numeric(seventyfive),
+            fifty_Ninetynine=as.numeric(fifty)-as.numeric(ninetynine),
+            seventyfive_Ninetynine=as.numeric(seventyfive)-as.numeric(ninetynine)) %>% 
+  ungroup()
+
+CWM_Differences_FK_difference_t_D<-t(CWM_Differences_FK_difference_D)
+
+colnames(CWM_Differences_FK_difference_t_D) = c("PercentGreen_CWM_18", "PercentGreen_CWM_21")
+
+CWM_Differences_FK_difference_t_D= CWM_Differences_FK_difference_t_D[-1,]
+
+CWM_Differences_FK_difference_t_D<-as.data.frame(CWM_Differences_FK_difference_t_D)
+
+CWM_Differences_FK_difference_t_D$PercentGreen_CWM_18<-as.numeric(CWM_Differences_FK_difference_t_D$PercentGreen_CWM_18)
+CWM_Differences_FK_difference_t_D$PercentGreen_CWM_21<-as.numeric(CWM_Differences_FK_difference_t_D$PercentGreen_CWM_21)
+
+CWM_Differences_FK_difference_percent<-CWM_Differences_FK_difference_t %>% 
+  mutate(Mean_PercentGreen=(PercentGreen_CWM_18+PercentGreen_CWM_21)/2,Dif_PercentGreen_21=abs(PercentGreen_CWM_18-PercentGreen_CWM_21))%>% 
+  mutate(Perc_Difference_PercentGreen=(Dif_PercentGreen_21/Mean_PercentGreen)*100) %>% 
+  select(Perc_Difference_PercentGreen)
 
 
 
