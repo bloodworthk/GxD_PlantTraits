@@ -13797,25 +13797,24 @@ CWM_Differences_TB_difference_percent<-CWM_Differences_TB_difference_t %>%
 #Height: DxG (2018:2021)
 #SLA: Grazing (2018:2020)
 
+#Percent green: drought (2018:2021)
 CWM_Collected_Data_FK_18_nt<-CWM_Collected_Data %>% 
   filter(Site=="FK",year==2018) %>% 
   rename(PercentGreen_CWM_18=PercentGreen_CWM) %>% 
   rename(Height_CWM_18=Height_CWM) %>% 
   rename(Avg_SLA_CWM_18=Avg_SLA_CWM) %>% 
-  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,PercentGreen_CWM_18,Height_CWM_18,Avg_SLA_CWM_18)
+  select(Site,plot,block,paddock,grazing_treatment,Trtm,Rainfall_reduction_cat,PercentGreen_CWM_18,Height_CWM_18,Avg_SLA_CWM_18)
 
 CWM_Collected_Data_FK_20_nt<-CWM_Collected_Data %>% 
   filter(Site=="FK",year==2020) %>% 
   rename(Avg_SLA_CWM_20=Avg_SLA_CWM) %>% 
-  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,Avg_SLA_CWM_20)
-
+  select(Site,plot,block,paddock,grazing_treatment,Trtm,Rainfall_reduction_cat,Avg_SLA_CWM_20)
 
 CWM_Collected_Data_FK_21_nt<-CWM_Collected_Data %>% 
   filter(Site=="FK",year==2021) %>% 
   rename(PercentGreen_CWM_21=PercentGreen_CWM) %>% 
   rename(Height_CWM_21=Height_CWM) %>% 
-  select(Site,plot,block,paddock,grazing_treatment,Rainfall_reduction_cat,PercentGreen_CWM_21,Height_CWM_21)
-
+  select(Site,plot,block,paddock,grazing_treatment,Trtm,Rainfall_reduction_cat,PercentGreen_CWM_21,Height_CWM_21)
 
 CWM_Collected_Data_FK_Sig<-CWM_Collected_Data_FK_18_nt %>% 
   left_join(CWM_Collected_Data_FK_20_nt) %>% 
@@ -13866,5 +13865,41 @@ CWM_Differences_FK_difference_percent<-CWM_Differences_FK_difference_t %>%
   mutate(Perc_Difference_PercentGreen=(Dif_PercentGreen_21/Mean_PercentGreen)*100) %>% 
   select(Perc_Difference_PercentGreen)
 
+#SLA: Grazing (2018:2020)
+CWM_Collected_Data_FK_dif_G <-CWM_Collected_Data_FK_Sig %>% 
+  group_by(grazing_treatment) %>% 
+  summarise(Avg_SLA_CWM_18=mean(Avg_SLA_CWM_18),Avg_SLA_CWM_21=mean(Avg_SLA_CWM_20)) %>% 
+  ungroup()
+
+CWM_Differences_FK_G<-t(CWM_Collected_Data_FK_dif_G)
+
+CWM_Differences_FK_df_G<-as.data.frame(CWM_Differences_FK_G) 
+
+colnames(CWM_Differences_FK_df_G) = c("destock","heavy","stable")
+
+CWM_Differences_FK_df_G<-rownames_to_column(CWM_Differences_FK_df_G, var = "rowname")
+
+CWM_Differences_FK_df_G= CWM_Differences_FK_df_G[-1,]
+
+CWM_Differences_FK_difference_G<-CWM_Differences_FK_df_G %>% 
+  group_by(rowname) %>% 
+  summarise(Stable_Heavy=as.numeric(stable)-as.numeric(heavy),Stable_Destock=as.numeric(stable)-as.numeric(destock),Heavy_Destock=as.numeric(heavy)-as.numeric(destock)) %>% 
+  ungroup()
+
+CWM_Differences_FK_difference_t_G<-t(CWM_Differences_FK_difference_G)
+
+colnames(CWM_Differences_FK_difference_t_G) = c("Avg_SLA_CWM_18", "Avg_SLA_CWM_20")
+
+CWM_Differences_FK_difference_t_G= CWM_Differences_FK_difference_t_G[-1,]
+
+CWM_Differences_FK_difference_t_G<-as.data.frame(CWM_Differences_FK_difference_t_G)
+
+CWM_Differences_FK_difference_t_G$Avg_SLA_CWM_18<-as.numeric(CWM_Differences_FK_difference_t_G$Avg_SLA_CWM_18)
+CWM_Differences_FK_difference_t_G$Avg_SLA_CWM_20<-as.numeric(CWM_Differences_FK_difference_t_G$Avg_SLA_CWM_20)
+
+CWM_Differences_FK_difference_percent_G<-CWM_Differences_FK_difference_t_G %>% 
+  mutate(Mean_SLA=(Avg_SLA_CWM_18+Avg_SLA_CWM_20)/2,Dif_SLA_21=abs(Avg_SLA_CWM_18-Avg_SLA_CWM_20))%>% 
+  mutate(Perc_Difference_SLA=(Dif_SLA_21/Mean_SLA)*100) %>% 
+  select(Perc_Difference_SLA)
 
 
