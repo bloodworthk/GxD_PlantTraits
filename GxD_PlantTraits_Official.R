@@ -889,16 +889,100 @@ print(Lifespan_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 3500 x 4000  
 
-#### CWM Data: Stats ####
+#### CWM Data: Stats - FK ####
+
+### CWM Height FK Stats #### 
+
+#CWM of height for Fort Keogh 2019 - LMER
+FK_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2019_LMER, type = 3) 
+#drought (p=0.7322)
+
+#CWM of height for Fort Keogh 2020 - LMER
+FK_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2020_LMER, type = 3)
+#grazing (p=0.5728), drought (p=0.6149), grazing*drought(p=0.4262)
+
+#CWM of height for Fort Keogh 2021 - LMER
+FK_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2021_LMER, type = 3)
+#grazing (p=0.700141), drought (p=0.001267), grazing*drought(p=0.078206)
+#### post hoc comparing slopes of lines ####
+
+#CWM of height for Fort Keogh 2022 - LMER
+FK_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2022_LMER, type = 3)
+#grazing (p=0.84851), drought (p=0.02357), grazing*drought(p=0.47642)
+#### post hoc comparing slopes of lines ####
+
+### CWM Percent Green FK Stats #### 
+
+#CWM of PercentGreen for Fort Keogh 2019 - LMER
+FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2019_LMER, type = 3)
+#drought (p=0.8495)
+
+#CWM of PercentGreen for Fort Keogh 2020 - LMER
+FK_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2020_LMER, type = 3)
+#grazing (p=0.98790), drought (p=0.02319), grazing*drought(p=0.60878)
+#post hoc test for lmer test
+summary(glht(FK_PercentGreen_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+
+#CWM of PercentGreen for Fort Keogh 2021 - LMER
+FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2021_LMER, type = 3)
+#grazing (p=0.855253), drought (p=0.004181), grazing*drought(p=0.935394)
+#post hoc test for lmer test
+summary(glht(FK_PercentGreen_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH"))
+#no significance
+
+FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_PercentGreen_2022_LMER, type = 3)
+#grazing (p=0.3831), drought (p=0.6320), grazing*drought(p=0.7856)
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### CWM Data: Stats - TB ####
+
+### CWM Height FK Stats #### 
+
+#CWM of height for Thunder Basin 2019 - LMER
+TB_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2019_LMER, type = 3)
+#drought (p=0.5004)
+
+#CWM of height for Thunder Basin 2020 - LMER
+TB_Height_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2020_LMER, type = 3)
+#grazing (p=0.2952), drought (p=0.3705), grazing*drought(p=0.4519)
+
+#CWM of height for Thunder Basin 2021 - LMER
+TB_Height_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2021_LMER, type = 3)
+#grazing (p=0.1575), drought (p=0.3943), grazing*drought(p=0.7426)
+
+#CWM of height for Thunder Basin 2022 - LMER
+TB_Height_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2022_LMER, type = 3)
+#grazing (p=0.04332), drought (p=0.25238), grazing*drought(p=0.79070)
+#### post hoc comparing slopes of lines ####
+
 
 ### CWM Multivariate Space ####
 
 #Create seperate dataframes for each site and year for PCAs
-
-#FK
-CWM_Collected_Data_FK_18<-CWM_Collected_Data %>% 
-  filter(Site=="FK" & year==2018) %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2019)%>% 
@@ -917,10 +1001,6 @@ CWM_Collected_Data_FK_22<-CWM_Collected_Data %>%
   select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 #TB
-
-CWM_Collected_Data_TB_18<-CWM_Collected_Data %>% 
-  filter(Site=="TB" & year==2018) %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2019) %>% 
@@ -941,24 +1021,6 @@ CWM_Collected_Data_TB_21<-CWM_Collected_Data %>%
 CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2022)%>% 
   select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
-
-
-#### PCA for FK 2018 ####
-PCA_FK_18<-prcomp(CWM_Collected_Data_FK_18[,13:20],scale=TRUE)
-PCA_FK_18
-summary(PCA_FK_18)
-
-axes_FK_18 <- predict(PCA_FK_18, newdata = CWM_Collected_Data_FK_18)
-head(axes_FK_18, 4)
-
-#put PCA axes with site and plot #   
-PCA_FK_18_meta<-cbind(CWM_Collected_Data_FK_18,axes_FK_18)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
-
-#find contributions of CW traits to PCA axes #
-var_FK_18 <- get_pca_var(PCA_FK_18)
-var_FK_18
-head(var_FK_18$contrib, 13)
 
 #### PCA for FK 2019 ####
 PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,13:20],scale=TRUE)
