@@ -1073,14 +1073,6 @@ FK_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year=
 anova(FK_GrowthForm_2022_LMER, type = 3)
 #grazing (p=0.673), drought (p=0.715), grazing*drought(p=0.680)
 
-
-
-
-
-
-
-
-
 #### CWM Data: Stats - TB ####
 
 ### CWM Height FK Stats #### 
@@ -1245,12 +1237,25 @@ anova(TB_Lifespan_2022_LMER, type = 3)
 
 #### CWM Growth Form TB Stats ####  
 
+#CWM of GrowthForm for Thunder Basin 2019 - LMER
+TB_GrowthForm_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2019_LMER, type = 3)
+#drought (p=0.1187)
 
+#CWM of GrowthForm for Thunder Basin 2020 - LMER
+TB_GrowthForm_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), GrowthForm_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2020_LMER, type = 3)
+#grazing (p=0.1655), drought (p=0.6879), grazing*drought(p=0.6383)
 
+#CWM of GrowthForm for Thunder Basin 2021 - LMER
+TB_GrowthForm_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2021_LMER, type = 3)
+#grazing (p=0.5097), drought (p=0.6243), grazing*drought(p=0.8156)
 
-
-
-
+#CWM of GrowthForm for Thunder Basin 2022 - LMER
+TB_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_GrowthForm_2022_LMER, type = 3)
+#grazing (p=0.1108), drought (p=0.9357), grazing*drought(p=0.8443)
 
 
 ### CWM Multivariate Space ####
