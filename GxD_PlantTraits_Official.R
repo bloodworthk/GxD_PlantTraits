@@ -647,7 +647,7 @@ PercentGreen_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019)
 # Thunder Basin all years - significant in 2020 and 2022
 PercentGreen_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=PercentGreen_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
   geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=PercentGreen_CWM_Mean-PercentGreen_CWM_St_Error,ymax=PercentGreen_CWM_Mean+PercentGreen_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
@@ -714,7 +714,7 @@ LDMC_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=r
 # Thunder Basin all years - significant in 2020
 LDMC_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -765,7 +765,7 @@ Avg_SLA_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(
 #Fort Keogh all years - significant in 2020
 LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -781,7 +781,7 @@ LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes
 #Thunder Basin all years - significance in 2021
 LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -799,7 +799,7 @@ LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes
 #Fort Keogh all years - significant in 2022
 Lifespan_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=Lifespan_CWM_Mean-Lifespan_CWM_St_Error,ymax=Lifespan_CWM_Mean+Lifespan_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -927,6 +927,7 @@ anova(FK_PercentGreen_2021_LMER, type = 3)
 #grazing (p=0.833489), drought (p=0.002851), grazing*drought(p=0.868259)
 #### post hoc comparing slopes of lines ####
 
+#CWM of PercentGreen for Fort Keogh 2022 - LMER
 FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FK_PercentGreen_2022_LMER, type = 3)
 #grazing (p=0.3328), drought (p=0.6243), grazing*drought(p=0.7738)
@@ -1068,7 +1069,7 @@ anova(FK_GrowthForm_2022_LMER, type = 3)
 
 #### CWM Data: Stats - TB ####
 
-### CWM Height FK Stats #### 
+### CWM Height TB Stats #### 
 
 #CWM of height for Thunder Basin 2019 - LMER
 TB_Height_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
