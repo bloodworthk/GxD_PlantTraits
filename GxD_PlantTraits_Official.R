@@ -1257,7 +1257,7 @@ anova(TB_GrowthForm_2022_LMER, type = 3)
 
 ## CWM of Height 2021 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Height_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1270,7 +1270,7 @@ ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2021),aes(x=factor(grazing_tre
 
 ## CWM of SLA 2020 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2020),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Avg_SLA_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1285,7 +1285,7 @@ ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2020),aes(x=factor(grazing_tre
 
 ## CWM of Height 2022 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Height_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1298,7 +1298,7 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_tre
 
 ## CWM of % Green 2020 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2020),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=PercentGreen_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1312,7 +1312,7 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2020),aes(x=factor(grazing_tre
 
 ## CWM of % Green 2022 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=PercentGreen_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1326,7 +1326,7 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_tre
 
 ## CWM of LeafThickness 2021 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1339,7 +1339,7 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_tre
 
 ## CWM of LeafThickness 2022 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
@@ -1352,7 +1352,7 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_tre
 
 ## CWM of Leaf Area 2021 Grazing ##
 ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Area_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot()+
+  geom_boxplot(lwd=2)+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
   xlab("Grazing Treatment")+
