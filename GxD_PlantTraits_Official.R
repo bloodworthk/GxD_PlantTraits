@@ -19,6 +19,8 @@ library(FD)
 library(emmeans)
 #install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
+#install.packages("factoextra")
+library(factoextra)
 library(tidyverse) 
 library(scales)
 
@@ -1474,23 +1476,6 @@ var_FK_22 <- get_pca_var(PCA_FK_22)
 var_FK_22
 head(var_FK_22$contrib, 12)
 
-#### PCA for TB 2018 ####
-PCA_TB_18<-prcomp(CWM_Collected_Data_TB_18[,13:20],scale=TRUE)
-PCA_TB_18
-summary(PCA_TB_18)
-
-axes_TB_18 <- predict(PCA_TB_18, newdata = CWM_Collected_Data_TB_18)
-head(axes_TB_18, 4)
-
-#put PCA axes with site and plot #   
-PCA_TB_18_meta<-cbind(CWM_Collected_Data_TB_18,axes_TB_18)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
-
-#find contributions of CW traits to PCA axes #
-var_TB_18 <- get_pca_var(PCA_TB_18)
-var_TB_18
-head(var_TB_18$contrib, 13)
-
 #### PCA for TB 2019 ####
 PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,13:20],scale=TRUE)
 PCA_TB_19
@@ -1562,49 +1547,41 @@ head(var_TB_22$contrib, 12)
 #### PCA Graphs #### 
 
 #FK
-PCA_FK_18_G<-autoplot(PCA_FK_18, data=CWM_Collected_Data_FK_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
+PCA_FK_19<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
   theme(legend.position = c(0.1,0.9))
 
-PCA_FK_19_G<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
-PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_FK_21<-autoplot(PCA_FK_21, data=CWM_Collected_Data_FK_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
-PCA_FK_21<-autoplot(PCA_FK_21, data=CWM_Collected_Data_FK_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
-
-PCA_FK_22<-autoplot(PCA_FK_22, data=CWM_Collected_Data_FK_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_FK_22<-autoplot(PCA_FK_22, data=CWM_Collected_Data_FK_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
 #TB
-PCA_TB_18<-autoplot(PCA_TB_18, data=CWM_Collected_Data_TB_18, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
-PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
-PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_TB_21<-autoplot(PCA_TB_21, data=CWM_Collected_Data_TB_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
-PCA_TB_21<-autoplot(PCA_TB_21, data=CWM_Collected_Data_TB_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
-
-PCA_TB_22<-autoplot(PCA_TB_22, data=CWM_Collected_Data_TB_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=T, frame.colour="grazing_treatment")+
-  theme(legend.position = c(0.1,0.9))
+PCA_TB_22<-autoplot(PCA_TB_22, data=CWM_Collected_Data_TB_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position ="none")
 
 #Create graph of all years for PCAs
-pushViewport(viewport(layout=grid.layout(5,2)))
-print(PCA_FK_18,vp=viewport(layout.pos.row=1, layout.pos.col=1))
-print(PCA_FK_19,vp=viewport(layout.pos.row=2, layout.pos.col=1))
-print(PCA_FK_20,vp=viewport(layout.pos.row=3, layout.pos.col=1))
-print(PCA_FK_21,vp=viewport(layout.pos.row=4, layout.pos.col=1))
-print(PCA_FK_22,vp=viewport(layout.pos.row=5, layout.pos.col=1))
-print(PCA_TB_18,vp=viewport(layout.pos.row=1, layout.pos.col=2))
-print(PCA_TB_19,vp=viewport(layout.pos.row=2, layout.pos.col=2))
-print(PCA_TB_20,vp=viewport(layout.pos.row=3, layout.pos.col=2))
-print(PCA_TB_21,vp=viewport(layout.pos.row=4, layout.pos.col=2))
-print(PCA_TB_22,vp=viewport(layout.pos.row=5, layout.pos.col=2))
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(PCA_FK_19,vp=viewport(layout.pos.row=1, layout.pos.col=1))
+print(PCA_FK_20,vp=viewport(layout.pos.row=2, layout.pos.col=1))
+print(PCA_FK_21,vp=viewport(layout.pos.row=3, layout.pos.col=1))
+print(PCA_FK_22,vp=viewport(layout.pos.row=4, layout.pos.col=1))
+print(PCA_TB_19,vp=viewport(layout.pos.row=1, layout.pos.col=2))
+print(PCA_TB_20,vp=viewport(layout.pos.row=2, layout.pos.col=2))
+print(PCA_TB_21,vp=viewport(layout.pos.row=3, layout.pos.col=2))
+print(PCA_TB_22,vp=viewport(layout.pos.row=4, layout.pos.col=2))
 #Save at 2500 x 1500  
 
 #### PCA Stats ####
