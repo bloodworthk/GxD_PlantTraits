@@ -595,8 +595,8 @@ CWM_Collected_Data_avg<-CWM_Collected_Data %>%
 #Fort Keogh all years - significance for 2020 and 2021 drought 
 Height_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
   geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -799,7 +799,7 @@ LeafArea_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes
 #Fort Keogh all years - significant in 2022
 Lifespan_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Lifespan_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5,linetype="dashed")+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Lifespan_CWM_Mean-Lifespan_CWM_St_Error,ymax=Lifespan_CWM_Mean+Lifespan_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -1250,6 +1250,9 @@ anova(TB_GrowthForm_2021_LMER, type = 3)
 TB_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(TB_GrowthForm_2022_LMER, type = 3)
 #grazing (p=0.1108), drought (p=0.9357), grazing*drought(p=0.8443)
+
+#### Bar Graphs for Significant Grazing Treatments ####
+
 
 
 ### CWM Multivariate Space ####
