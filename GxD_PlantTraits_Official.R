@@ -373,6 +373,9 @@ Species_Comp_RelCov_All<-
   mutate(Genus_Species_Correct=ifelse(Genus_Species_3=="LEMO","Leucocrinum.montanum",ifelse(Genus_Species_3=="LOFO.1","Lomatium.foeniculaceum",ifelse(Genus_Species_3=="Oenotherea.suffrutescens.1","Oenothera.suffrutescens",ifelse(Genus_Species_3=="SCLA","Scorzonera.laciniata",ifelse(Genus_Species_3=="SCPA","Schedonnardus.paniculatus",ifelse(Genus_Species_3=="TROC","Tradescantia.occidentalis",ifelse(Genus_Species_3=="VINU","Viola.nuttallii",ifelse(Genus_Species_3=="PEAN","Penstamom.angus",ifelse(Genus_Species_3=="PHLO","Phlox.longifoli",ifelse(Genus_Species_3=="CHPR","Chenopudium.pratericola",ifelse(Genus_Species_3=="CRMI","Cryptans.minima",ifelse(Genus_Species_3=="DRNE","Draba.nemorosa",ifelse(Genus_Species_3=="MILI","Mirabilis.linearis",ifelse(Genus_Species_3=="OEAL","Oenothera.albicaulis",ifelse(Genus_Species_3=="OOMU","Oonopsis.multicaulis",Genus_Species_3)))))))))))))))) %>% 
   dplyr::select(-species,-Genus_Species,-Genus_Species_2,-Genus_Species_3)
 
+#### Save to file ####
+write.csv(Species_Comp_RelCov_All,"~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/Species_Comp_RelCov_All.csv") 
+
 
 #### Calculate top 90 % of each plot for each year ####
 
@@ -501,6 +504,10 @@ CWM_Collected_Data<- Species_Comp_RelCov_All %>%
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
   mutate(Trtm=paste(Rainfall_reduction_cat,grazing_treatment,sep = "_")) %>% 
   mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category))))
+
+
+#### save as csv file ####
+write.csv(CWM_Collected_Data, "~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/CWM_Collected_Data.csv", row.names=FALSE)
 
 #### Trait Correlation Testing CWM ####
 
