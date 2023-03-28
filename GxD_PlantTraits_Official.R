@@ -3408,25 +3408,149 @@ print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 
 #### Single Trait Functional Dispersion Stats ####
 
-### Single Trait FK Stats FDis #### 
+### Single Trait FK Stats FDis Height #### 
 
 #FDis for Fort Keogh 2019 Height - LMER
 FDis_Height_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Height_FK19_LMER, type = 3) 
+anova(FDis_Height_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 Height - LMER
-FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Height_FK20_LMER, type = 3) 
+FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Height_FK20_LMER, type = 3)  #Drought (p=0.01601)
 
 #FDis for Fort Keogh 2021 Height - LMER
-FDis_Height_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Height_FK21_LMER, type = 3) 
+FDis_Height_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK21_LMER, type = 3) #Drought (p=0.06012)
 
 #FDis for Fort Keogh 2022 Height - LMER
-FDis_Height_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Height_FK22_LMER, type = 3) 
+FDis_Height_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK22_LMER, type = 3) #Drought (p=0.008408)
 
+### Single Trait FK Stats FDis Percent Green #### 
 
+#FDis for Fort Keogh 2019 Percent Green - LMER
+FDis_percent_green_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK19_LMER, type = 3) #Drought (p=0.0009417)
+
+#FDis for Fort Keogh 2020 Percent Green - LMER
+FDis_percent_green_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK20_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2021 Percent Green - LMER
+FDis_percent_green_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 Percent Green - LMER
+FDis_percent_green_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK22_LMER, type = 3) #Drought (0.0008064)
+
+### Single Trait FK Stats FDis Leaf Thickness #### 
+
+#FDis for Fort Keogh 2019 Thickness - LMER
+FDis_leaf_thickness_.mm._FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK19_LMER, type = 3) #Drought (0.05319)
+
+#FDis for Fort Keogh 2020 Thickness - LMER
+FDis_leaf_thickness_.mm._FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 Thickness - LMER
+FDis_leaf_thickness_.mm._FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 Thickness - LMER
+FDis_leaf_thickness_.mm._FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK22_LMER, type = 3) #Drought(p=0.07467)
+
+### Single Trait FK Stats FDis LDMC #### 
+
+#FDis for Fort Keogh 2019 LDMC - LMER
+FDis_LDMC_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK19_LMER, type = 3) #drought (p=0.01629)
+
+#FDis for Fort Keogh 2020 LDMC - LMER
+FDis_LDMC_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 LDMC - LMER
+FDis_LDMC_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK21_LMER, type = 3) #Drought (p=0.000594)
+
+#FDis for Fort Keogh 2022 LDMC - LMER
+FDis_LDMC_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK22_LMER, type = 3) #Drought (p=0.001221)
+
+### Single Trait FK Stats FDis SLA #### 
+
+#FDis for Fort Keogh 2019 SLA - LMER
+FDis_SLA_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_SLA_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 SLA - LMER
+FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Height_FK20_LMER, type = 3) #Drought (p=0.01601)
+
+#FDis for Fort Keogh 2021 SLA - LMER
+FDis_SLA_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 SLA - LMER
+FDis_SLA_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_FK22_LMER, type = 3) #NS
+
+### Single Trait FK Stats FDis Leaf Area #### 
+
+#FDis for Fort Keogh 2019 Area - LMER
+FDis_Area_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_Area_FK19_LMER, type = 3) #Drought (p=0.05524)
+
+#FDis for Fort Keogh 2020 Area - LMER
+FDis_Area_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Area_FK20_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2021 Area - LMER
+FDis_Area_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_FK21_LMER, type = 3) #Drought (p=0.008576)
+
+#FDis for Fort Keogh 2022 Area - LMER
+FDis_Area_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_FK22_LMER, type = 3) #NS
+
+### Single Trait FK Stats FDis Lifespan #### 
+
+#FDis for Fort Keogh 2019 Lifespan - LMER
+FDis_Lifespan_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK19_LMER, type = 3) #Drought (p=0.0007058)
+
+#FDis for Fort Keogh 2020 Lifespan - LMER
+FDis_Lifespan_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK20_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2021 Lifespan - LMER
+FDis_Lifespan_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 Lifespan - LMER
+FDis_Lifespan_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK22_LMER, type = 3) #Drought (p=0.03159)
+
+### Single Trait FK Stats FDis Growth Form #### 
+
+#FDis for Fort Keogh 2019 GrowthForm - LMER
+FDis_GrowthForm_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK19_LMER, type = 3) #Drought (p=0.06167)
+
+#FDis for Fort Keogh 2020 GrowthForm - LMER
+FDis_GrowthForm_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK20_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2021 GrowthForm - LMER
+FDis_GrowthForm_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK21_LMER, type = 3) #Drought (0.003688)
+
+#FDis for Fort Keogh 2022 GrowthForm - LMER
+FDis_GrowthForm_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK22_LMER, type = 3) #NS
 
 ####Multivariate Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_avg<-Functional_Diversity %>% 
