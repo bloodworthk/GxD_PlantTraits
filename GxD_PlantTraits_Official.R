@@ -1561,11 +1561,11 @@ print(GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 
 CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2019)%>% 
-  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Trtm,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2020)%>% 
-  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2021)%>% 
@@ -1580,13 +1580,13 @@ CWM_Collected_Data_FK_22<-CWM_Collected_Data %>%
 CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2019) %>% 
   na.omit(Biomass_CWM)%>% 
-  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Trtm,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2020) %>% 
   na.omit(Biomass_CWM) %>% 
   na.omit(LDMC_CWM)%>% 
-  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2021) %>% 
@@ -1598,7 +1598,7 @@ CWM_Collected_Data_TB_22<-CWM_Collected_Data %>%
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 #### PCA for FK 2019 ####
-PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,14:21],scale=TRUE)
+PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,11:18],scale=TRUE)
 PCA_FK_19
 summary(PCA_FK_19)
 
@@ -1607,7 +1607,7 @@ head(axes_FK_19, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_19_meta<-cbind(CWM_Collected_Data_FK_19,axes_FK_19)%>%
-  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_19 <- get_pca_var(PCA_FK_19)
@@ -1616,7 +1616,7 @@ head(var_FK_19$contrib, 13)
 
 
 #### PCA for FK 2020 ####
-PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,14:21],scale=TRUE)
+PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,12:19],scale=TRUE)
 PCA_FK_20
 summary(PCA_FK_20)
 
@@ -1625,7 +1625,7 @@ head(axes_FK_20, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_20_meta<-cbind(CWM_Collected_Data_FK_20,axes_FK_20)%>%
-  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,Grazing_2020,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_20 <- get_pca_var(PCA_FK_20)
@@ -1667,7 +1667,7 @@ var_FK_22
 head(var_FK_22$contrib, 12)
 
 #### PCA for TB 2019 ####
-PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,14:21],scale=TRUE)
+PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,11:18],scale=TRUE)
 PCA_TB_19
 summary(PCA_TB_19)
 
@@ -1676,7 +1676,7 @@ head(axes_TB_19, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_19_meta<-cbind(CWM_Collected_Data_TB_19,axes_TB_19)%>%
-  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_19 <- get_pca_var(PCA_TB_19)
@@ -1684,7 +1684,7 @@ var_TB_19
 head(var_TB_19$contrib, 12)
 
 #### PCA for TB 2020 ####
-PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,14:21],scale=TRUE)
+PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,12:19],scale=TRUE)
 PCA_TB_20
 summary(PCA_TB_20)
 
@@ -1693,7 +1693,7 @@ head(axes_TB_20, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_20_meta<-cbind(CWM_Collected_Data_TB_20,axes_TB_20)%>%
-  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,Grazing_2020,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_20 <- get_pca_var(PCA_TB_20)
@@ -1737,27 +1737,26 @@ head(var_TB_22$contrib, 12)
 #### PCA Graphs #### 
 
 #FK
-PCA_FK_19<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
-  theme(legend.position = c(0.1,0.9))
+PCA_FK_19<-autoplot(PCA_FK_19, data=CWM_Collected_Data_FK_19, scale=0, loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)
 
-PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
-  theme(legend.position ="none")
+PCA_FK_20<-autoplot(PCA_FK_20, data=CWM_Collected_Data_FK_20, scale=0, colour="Grazing_2020", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position =c(0.1,0.9))
 
 PCA_FK_21<-autoplot(PCA_FK_21, data=CWM_Collected_Data_FK_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
-  theme(legend.position ="none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_FK_22<-autoplot(PCA_FK_22, data=CWM_Collected_Data_FK_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
   theme(legend.position ="none")
 
 #TB
-PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+PCA_TB_19<-autoplot(PCA_TB_19, data=CWM_Collected_Data_TB_19, scale=0, loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
   theme(legend.position ="none")
 
-PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
-  theme(legend.position ="none")
+PCA_TB_20<-autoplot(PCA_TB_20, data=CWM_Collected_Data_TB_20, scale=0, colour="Grazing_2020", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_21<-autoplot(PCA_TB_21, data=CWM_Collected_Data_TB_21, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
-  theme(legend.position ="none")
+  theme(legend.position = c(0.1,0.9))
 
 PCA_TB_22<-autoplot(PCA_TB_22, data=CWM_Collected_Data_TB_22, scale=0, colour="grazing_treatment", loadings=TRUE, loadings.colour="black", size=3, loadings.label=TRUE, loadings.label.colour="black", loadings.label.size=6, frame=F)+
   theme(legend.position ="none")
@@ -2076,7 +2075,7 @@ summary(SIMPER_TB_22)
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Data_Height<-Avg_Traits_FK %>% 
-  select(Avg_height_cm) %>% 
+  dplyr::select(Avg_height_cm) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
