@@ -21,6 +21,8 @@ library(emmeans)
 library(PerformanceAnalytics)
 #install.packages("factoextra")
 library(factoextra)
+#install.packages("multcomp")
+library(multcomp)
 library(tidyverse) 
 library(scales)
 
@@ -716,7 +718,6 @@ LDMC_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=r
 # Thunder Basin all years - significant in 2020
 LDMC_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -767,7 +768,7 @@ Avg_SLA_TB_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(
 #Fort Keogh all years - significant in 2020
 LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="solid")+
   geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -1253,117 +1254,306 @@ TB_GrowthForm_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year=
 anova(TB_GrowthForm_2022_LMER, type = 3)
 #grazing (p=0.1108), drought (p=0.9357), grazing*drought(p=0.8443)
 
-#### Bar Graphs for Significant Grazing Treatments ####
+#### Bar Graphs for Grazing ####
 
-#### Bar Graphs for FK ####
-
-## CWM of Height 2021 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Height_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+#### CWM of Height FK Grazing ####
+Height_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
   expand_limits(y=c(5,20))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=20, label = "2021", size=30)
-#save at 2000 x 1500
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=2, y=20, label = "A. Height", size=30)
 
-## CWM of SLA 2020 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="FK"&year==2020),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Avg_SLA_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+
+#### CWM of Height TB Grazing ####
+Height_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(100,1250))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=1250, label = "2020", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=2, y=20, label = "A. Height", size=30)
 
-#### Bar Graphs for TB ####
-
-## CWM of Height 2022 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Height_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+#### CWM of Percent Green FK Grazing ####
+Green_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=PercentGreen_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(0,20))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=20, label = "2022", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(80,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=4, y=100, label = "B. Percent Green", size=30)
 
-## CWM of % Green 2020 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2020),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=PercentGreen_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+
+#### CWM of Green TB Grazing ####
+Green_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=PercentGreen_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(85,95))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  scale_y_continuous(labels = label_number(accuracy = 1),breaks = c(85,86,87,88,89,90,91,92,93,94,95))+
-  annotate("text", x=0.65, y=95, label = "2020", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(80,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=4, y=100, label = "B. Percent Green", size=30)
 
-## CWM of % Green 2022 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=PercentGreen_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+#### CWM of Leaf Thickness FK Grazing ####
+Thickness_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(85,95))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  scale_y_continuous(labels = label_number(accuracy = 1),breaks = c(85,86,87,88,89,90,91,92,93,94,95))+
-  annotate("text", x=0.65, y=95, label = "2022", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=5, y=0.5, label = "C. Leaf Thickness", size=30)
 
-## CWM of LeafThickness 2021 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+
+#### CWM of Leaf Thickness TB Grazing ####
+Thickness_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(0.25,0.40))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=0.40, label = "2021", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=5, y=0.5, label = "C. Leaf Thickness", size=30)
 
-## CWM of LeafThickness 2022 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2022),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=LeafThickness_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+#### CWM of LDMC FK Grazing ####
+LDMC_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(0.25,0.40))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=0.40, label = "2022", size=30)
-#save at 2000 x 1500
+  expand_limits(y=c(0.2,0.6))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=5, y=0.6, label = "D. Leaf Dry Matter Content", size=30)
 
-## CWM of Leaf Area 2021 Grazing ##
-ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_treatment,level=c("destock","stable","heavy")),y=Area_CWM,color=factor(grazing_treatment))) +  
-  geom_boxplot(lwd=2)+
+
+#### CWM of LDMC TB Grazing ####
+LDMC_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Grazing Treatment")+
   ylab("Community Weighted Mean")+
-  expand_limits(y=c(0.5,2))+
+  expand_limits(y=c(0.2,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=5, y=1.5, label = "D. Leaf Dry Matter Content", size=30)
+
+#### CWM of SLA FK Grazing ####
+SLA_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Avg_SLA_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,2000))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=6, y=2500, label = "E. Specific Leaf Area", size=30)
+
+
+#### CWM of SLA TB Grazing ####
+SLA_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Avg_SLA_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,2000))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=6, y=2500, label = "E. Specific Leaf Area", size=30)
+
+#### CWM of Leaf Area FK Grazing ####
+LeafArea_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=4, y=4, label = "F. Leaf Area", size=30)
+
+
+#### CWM of Leaf Area TB Grazing ####
+LeafArea_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=4, y=4, label = "F. Leaf Area", size=30)
+
+#### CWM of Lifespan FK Grazing ####
+Lifespan_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Lifespan_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Year")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,1.5))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
-  scale_x_discrete(labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"))+
-  annotate("text", x=0.65, y=2, label = "2021", size=30)
-#save at 2000 x 1500
+  annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
+
+#### CWM of Lifespan TB Grazing ####
+Lifespan_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=Lifespan_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
+
+#### CWM of Growth Form FK Grazing ####
+GrowthForm_Grazing_FK<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=GrowthForm_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "H. Growth Form", size=30)
+
+#### CWM of Growth Form TB Grazing ####
+GrowthForm_Grazing_TB<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2019),aes(x=factor(year,level=c(2019,2020,2021,2022)),y=GrowthForm_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2018.5','2020.5'), xmax = c('2019.5','2021.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2019", "2020","2021","2022"), breaks = c("2019", "2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "H. Growth Form", size=30)
+
+#### Create graph of all years for CWM Grazing ####
+
+#FK
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(Height_Grazing_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Green_Grazing_FK,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Thickness_Grazing_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LDMC_Grazing_FK,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(SLA_Grazing_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(LeafArea_Grazing_FK,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(Lifespan_Grazing_FK,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(GrowthForm_Grazing_FK,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
+
+#TB
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(Height_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Green_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Thickness_Grazing_TB,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LDMC_Grazing_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(SLA_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(LeafArea_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(Lifespan_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
 
 ### CWM Multivariate Space ####
 
@@ -1371,44 +1561,44 @@ ggplot(subset(CWM_Collected_Data,Site=="TB"&year==2021),aes(x=factor(grazing_tre
 
 CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2019)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2020)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2021)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_FK_22<-CWM_Collected_Data %>% 
   filter(Site=="FK" & year==2022)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 #TB
 
 CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2019) %>% 
   na.omit(Biomass_CWM)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2020) %>% 
   na.omit(Biomass_CWM) %>% 
   na.omit(LDMC_CWM)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2021) %>% 
   filter(!is.na(Biomass_CWM))%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
   filter(Site=="TB" & year==2022)%>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020,Height_CWM_TF,PercentGreen_CWM_TF,LeafThickness_CWM_TF,LDMC_CWM_TF,Avg_SLA_CWM_TF,Lifespan_CWM_TF,GrowthForm_CWM_TF,Area_CWM_TF)
 
 #### PCA for FK 2019 ####
-PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,13:20],scale=TRUE)
+PCA_FK_19<-prcomp(CWM_Collected_Data_FK_19[,14:21],scale=TRUE)
 PCA_FK_19
 summary(PCA_FK_19)
 
@@ -1417,7 +1607,7 @@ head(axes_FK_19, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_19_meta<-cbind(CWM_Collected_Data_FK_19,axes_FK_19)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_19 <- get_pca_var(PCA_FK_19)
@@ -1426,7 +1616,7 @@ head(var_FK_19$contrib, 13)
 
 
 #### PCA for FK 2020 ####
-PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,13:20],scale=TRUE)
+PCA_FK_20<-prcomp(CWM_Collected_Data_FK_20[,14:21],scale=TRUE)
 PCA_FK_20
 summary(PCA_FK_20)
 
@@ -1435,7 +1625,7 @@ head(axes_FK_20, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_20_meta<-cbind(CWM_Collected_Data_FK_20,axes_FK_20)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,slope,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_20 <- get_pca_var(PCA_FK_20)
@@ -1443,7 +1633,7 @@ var_FK_20
 head(var_FK_20$contrib, 12)
 
 #### PCA for FK 2021 ####
-PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,13:20],scale=TRUE)
+PCA_FK_21<-prcomp(CWM_Collected_Data_FK_21[,14:21],scale=TRUE)
 PCA_FK_21
 summary(PCA_FK_21)
 
@@ -1452,7 +1642,7 @@ head(axes_FK_21, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_21_meta<-cbind(CWM_Collected_Data_FK_21,axes_FK_21)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_21 <- get_pca_var(PCA_FK_21)
@@ -1460,7 +1650,7 @@ var_FK_21
 head(var_FK_21$contrib, 12)
 
 #### PCA for FK 2022 ####
-PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,13:20],scale=TRUE)
+PCA_FK_22<-prcomp(CWM_Collected_Data_FK_22[,14:21],scale=TRUE)
 PCA_FK_22
 summary(PCA_FK_22)
 
@@ -1469,7 +1659,7 @@ head(axes_FK_22, 4)
 
 #put PCA axes with site and plot #   
 PCA_FK_22_meta<-cbind(CWM_Collected_Data_FK_22,axes_FK_22)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_FK_22 <- get_pca_var(PCA_FK_22)
@@ -1477,7 +1667,7 @@ var_FK_22
 head(var_FK_22$contrib, 12)
 
 #### PCA for TB 2019 ####
-PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,13:20],scale=TRUE)
+PCA_TB_19<-prcomp(CWM_Collected_Data_TB_19[,14:21],scale=TRUE)
 PCA_TB_19
 summary(PCA_TB_19)
 
@@ -1486,7 +1676,7 @@ head(axes_TB_19, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_19_meta<-cbind(CWM_Collected_Data_TB_19,axes_TB_19)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_19 <- get_pca_var(PCA_TB_19)
@@ -1494,7 +1684,7 @@ var_TB_19
 head(var_TB_19$contrib, 12)
 
 #### PCA for TB 2020 ####
-PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,13:20],scale=TRUE)
+PCA_TB_20<-prcomp(CWM_Collected_Data_TB_20[,14:21],scale=TRUE)
 PCA_TB_20
 summary(PCA_TB_20)
 
@@ -1503,7 +1693,7 @@ head(axes_TB_20, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_20_meta<-cbind(CWM_Collected_Data_TB_20,axes_TB_20)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_20 <- get_pca_var(PCA_TB_20)
@@ -1511,7 +1701,7 @@ var_TB_20
 head(var_TB_20$contrib, 12)
 
 #### PCA for TB 2021 ####
-PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,13:20],scale=TRUE)
+PCA_TB_21<-prcomp(CWM_Collected_Data_TB_21[,14:21],scale=TRUE)
 PCA_TB_21
 summary(PCA_TB_21)
 
@@ -1520,7 +1710,7 @@ head(axes_TB_21, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_21_meta<-cbind(CWM_Collected_Data_TB_21,axes_TB_21)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_21 <- get_pca_var(PCA_TB_21)
@@ -1528,7 +1718,7 @@ var_TB_21
 head(var_TB_21$contrib, 11)
 
 #### PCA for TB 2022 ####
-PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,13:20],scale=TRUE)
+PCA_TB_22<-prcomp(CWM_Collected_Data_TB_22[,14:21],scale=TRUE)
 PCA_TB_22
 summary(PCA_TB_22)
 
@@ -1537,7 +1727,7 @@ head(axes_TB_22, 4)
 
 #put PCA axes with site and plot #   
 PCA_TB_22_meta<-cbind(CWM_Collected_Data_TB_22,axes_TB_22)%>%
-  select(plot,block,paddock,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
+  dplyr::select(plot,block,paddock,slope,Rainfall_reduction_cat,grazing_treatment,Trtm,PC1,PC2)
 
 #find contributions of CW traits to PCA axes #
 var_TB_22 <- get_pca_var(PCA_TB_22)
@@ -1591,159 +1781,120 @@ print(PCA_TB_22,vp=viewport(layout.pos.row=4, layout.pos.col=2))
 
 ## FK ##
 
-#2018
-CWM_FK_18_Trait<-CWM_Collected_Data_FK_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) %>% 
-  mutate(LeafThickness_CWM_TF=1+LeafThickness_CWM_TF)
-
-CWM_FK_18_Treatment<-CWM_Collected_Data_FK_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2019
 CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) %>% 
+  dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) %>% 
   mutate(LeafThickness_CWM_TF=1+LeafThickness_CWM_TF)
 
 CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,paddock,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2020
 CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-slope,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=1+LeafThickness_CWM_TF)
 
 CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2021
 CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-slope,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=1+LeafThickness_CWM_TF)
 
 CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2022
 CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=1+LeafThickness_CWM_TF)
 
 CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 ## TB ##
 
-#2018
-CWM_TB_18_Trait<-CWM_Collected_Data_TB_18 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020) %>% 
-  mutate(LeafThickness_CWM_TF=2+LeafThickness_CWM_TF)
-
-CWM_TB_18_Treatment<-CWM_Collected_Data_TB_18 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
-
 #2019
 CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=2+LeafThickness_CWM_TF)
 
 CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2020
 CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=2+LeafThickness_CWM_TF)
 
 CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2021
 CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=2+LeafThickness_CWM_TF)
 
 CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #2022
 CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
-  select(-year,-Site,-plot,-block,-paddock,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-grazing_category,-grazing_treatment,-Rainfall_reduction_cat,-Trtm,-Grazing_2020)%>% 
   mutate(LeafThickness_CWM_TF=2+LeafThickness_CWM_TF)
 
 CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
-  select(year,Site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
+  dplyr::select(year,Site,plot,slope,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,Rainfall_reduction_cat,Trtm,Grazing_2020)
 
 #### PerMANOVA ####
 
 # run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
 
 ## FK ##
-#FK 2018
-PERMANOVA_FK_18 <-adonis2(CWM_FK_18_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_18_Treatment, 
-                          permutations = 1000, method = 'bray') 
-print(PERMANOVA_FK_18) 
-
 #FK 2019
-PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_19_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_FK_19) 
+print(PERMANOVA_FK_19) #N.S
 
 #FK 2020
-PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_FK_20_Treatment, 
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/slope), data = CWM_FK_20_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_FK_20)
+print(PERMANOVA_FK_20) 
 
 #FK 2021
-PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_21_Treatment, 
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_FK_21_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_FK_21)
+print(PERMANOVA_FK_21) 
 
 #FK 2022
-PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_FK_22_Treatment, 
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_FK_22_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_FK_22)
+print(PERMANOVA_FK_22) 
 
 ##TB##
-
-#TB 2018
-PERMANOVA_TB_18 <-adonis2(CWM_TB_18_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_18_Treatment, 
-                          permutations = 1000, method = 'bray') 
-print(PERMANOVA_TB_18) 
-
 #TB 2019
-PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_19_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_TB_19) 
+print(PERMANOVA_TB_19)  #NS
 
 #TB 2020
-PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/paddock), data = CWM_TB_20_Treatment, 
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat*Grazing_2020 + (1|block/slope), data = CWM_TB_20_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_TB_20)
+print(PERMANOVA_TB_20) #NS
 
 #TB 2021
-PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_21_Treatment, 
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_TB_21_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_TB_21)
+print(PERMANOVA_TB_21) #NS
 
 #TB 2022
-PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/paddock), data = CWM_TB_22_Treatment, 
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_TB_22_Treatment, 
                           permutations = 1000, method = 'bray') 
-print(PERMANOVA_TB_22)
+print(PERMANOVA_TB_22) #NS
 
 #### PermDISP ####
-
-# FK 2018
-#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
-BC_Distance_Matrix_FK_18 <- vegdist(CWM_FK_18_Trait)
-
-#drought
-#Run a dissimilarity matrix (PermDisp) comparing drought
-Dispersion_FK_18_drought <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_FK_18_drought) 
-
-#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
-Dispersion_FK_18_graze <- betadisper(BC_Distance_Matrix_FK_18,CWM_FK_18_Treatment$grazing_treatment)
-anova(Dispersion_FK_18_graze)
 
 # FK 2019
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
@@ -1811,23 +1962,6 @@ anova(Dispersion_FK_22_graze)
 Dispersion_FK_22_DxG <- betadisper(BC_Distance_Matrix_FK_22,CWM_FK_22_Treatment$Trtm)
 anova(Dispersion_FK_22_DxG)
 
-# TB 2018
-#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
-BC_Distance_Matrix_TB_18 <- vegdist(CWM_TB_18_Trait)
-
-#drought
-#Run a dissimilarity matrix (PermDisp) comparing drought
-Dispersion_TB_18_drought <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Rainfall_reduction_cat)
-anova(Dispersion_TB_18_drought) 
-
-#Run a dissimilarity matrix (PermDisp) comparing grazing treatment
-Dispersion_TB_18_graze <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$grazing_treatment)
-anova(Dispersion_TB_18_graze) 
-
-#Run a dissimilarity matrix (PermDisp) comparing grazing treatment*drought
-Dispersion_TB_18_DxG <- betadisper(BC_Distance_Matrix_TB_18,CWM_TB_18_Treatment$Trtm)
-anova(Dispersion_TB_18_DxG)
-
 # TB 2019
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_19 <- vegdist(CWM_TB_19_Trait)
@@ -1892,13 +2026,7 @@ anova(Dispersion_TB_22_graze)
 Dispersion_TB_22_DxG <- betadisper(BC_Distance_Matrix_TB_22,CWM_TB_22_Treatment$Trtm)
 anova(Dispersion_TB_22_DxG)
 
-#### SIMPER ####
-
-#Run a SIMPER test comparing data
-SIMPER_FK_18 <- with(CWM_FK_18_Treatment,simper(CWM_FK_18_Trait,grazing_treatment))
-#Print out a summary of the results
-summary(SIMPER_FK_18)
-
+#### Simper FK ####
 #no simper since there were no grazing treatments
 #Run a SIMPER test comparing data 
 #SIMPER_FK_19 <- with(CWM_FK_19_Treatment,simper(CWM_FK_19_Trait,Rainfall_reduction_cat))
@@ -1920,11 +2048,7 @@ SIMPER_FK_22 <- with(CWM_FK_22_Treatment,simper(CWM_FK_22_Trait,grazing_treatmen
 #Print out a summary of the results
 summary(SIMPER_FK_22)
 
-#Run a SIMPER test comparing data
-SIMPER_TB_18 <- with(CWM_TB_18_Treatment,simper(CWM_TB_18_Trait,grazing_treatment))
-#Print out a summary of the results
-summary(SIMPER_TB_18)
-
+#### Simper TB ####
 #no simper since there were no grazing treatments
 #Run a SIMPER test comparing data 
 #SIMPER_TB_19 <- with(CWM_TB_19_Treatment,simper(CWM_TB_19_Trait,Rainfall_reduction_cat))
@@ -3341,9 +3465,11 @@ anova(FK_Height_2019_LMER_slope, type = 3)
 FK_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2020_LMER_slope, type = 3)
 
+
 #CWM of height for Fort Keogh 2021 - LMER
 FK_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2021_LMER_slope, type = 3)
+
 
 #CWM of height for Fort Keogh 2022 - LMER
 FK_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
