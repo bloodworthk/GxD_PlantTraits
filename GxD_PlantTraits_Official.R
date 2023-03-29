@@ -3717,12 +3717,11 @@ Functional_Diversity_avg<-Functional_Diversity %>%
 
 Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=10, stroke =4)+
-  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
+  geom_smooth(data=subset(Functional_Diversity_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.25))+
@@ -3732,12 +3731,10 @@ Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=20
 #### Multivariate Functional Dispersion - Thunder Basin all years####
 Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=10, stroke =4)+
-  #geom_smooth(aes(linetype=as.factor(year)),method='lm', se=FALSE)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.25))+
@@ -3752,10 +3749,39 @@ print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 
 #### Multivariate Functional Dispersion Stats ####
 
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #Drought (p=0.000972)
 
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
 
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
 
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #Grazing (p=0.04979)
 
+### Thunder Basin 
+
+#FDis for Thunder Basin 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Thunder Basin 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #NS
+
+#FDis for Thunder Basin 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Thunder Basin 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #Grazing (p=0.02101)
 
 ##### CWM Stats with slope instead of paddock ####
 
