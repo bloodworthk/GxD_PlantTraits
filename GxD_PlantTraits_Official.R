@@ -3312,6 +3312,281 @@ print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 4000 x 4500  
 
+#### Bar Graphs for Grazing ####
+
+Functional_Diversity_Height_avg_G<-Functional_Diversity_Height %>% 
+  group_by(Site, year, grazing_treatment)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
+#### FDis of Height FK Grazing ####
+FDis_Height_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=1.5, label = "A. Height", size=30)
+
+
+#### FDis of Height TB Grazing ####
+FDis_Height_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=1.5, label = "A. Height", size=30)
+
+#### FDis of Percent Green FK Grazing ####
+FDis_Green_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "B. Percent Green", size=30)
+
+
+#### FDis of Green TB Grazing ####
+FDis_Green_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "B. Percent Green", size=30)
+
+#### FDis of Leaf Thickness FK Grazing ####
+FDis_Thickness_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=1.5, label = "C. Leaf Thickness", size=30)
+
+
+#### FDis of Leaf Thickness TB Grazing ####
+FDis_Thickness_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=1.5, label = "C. Leaf Thickness", size=30)
+
+#### FDis of LDMC FK Grazing ####
+FDis_LDMC_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=3, y=1.5, label = "D. Leaf Dry Matter Content", size=30)
+
+
+#### FDis of LDMC TB Grazing ####
+FDis_LDMC_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=3, y=1.5, label = "D. Leaf Dry Matter Content", size=30)
+
+#### FDis of SLA FK Grazing ####
+FDis_SLA_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=3, y=1.5, label = "E. Specific Leaf Area", size=30)
+
+
+#### FDis of SLA TB Grazing ####
+FDis_SLA_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=3, y=1.5, label = "E. Specific Leaf Area", size=30)
+
+#### FDis of Leaf Area FK Grazing ####
+FDis_LeafArea_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=1.5, label = "F. Leaf Area", size=30)
+
+
+#### FDis of Leaf Area TB Grazing ####
+FDis_LeafArea_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=1.5, label = "F. Leaf Area", size=30)
+
+#### FDis of Lifespan FK Grazing ####
+FDis_Lifespan_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Year")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
+
+#### FDis of Lifespan TB Grazing ####
+FDis_Lifespan_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
+
+#### FDis of Growth Form FK Grazing ####
+FDis_GrowthForm_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "H. Growth Form", size=30)
+
+#### FDis of Growth Form TB Grazing ####
+FDis_GrowthForm_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2, y=1.5, label = "H. Growth Form", size=30)
+
+#### Create graph of all years for FDis Grazing ####
+
+#FK
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(FDis_Height_Grazing_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(FDis_Green_Grazing_FK,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(FDis_Thickness_Grazing_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(FDis_LDMC_Grazing_FK,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(FDis_SLA_Grazing_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(FDis_LeafArea_Grazing_FK,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(FDis_Lifespan_Grazing_FK,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(FDis_GrowthForm_Grazing_FK,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
+
+#TB
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(FDis_Height_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(FDis_Green_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(FDis_Thickness_Grazing_TB,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(FDis_LDMC_Grazing_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(FDis_SLA_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(FDis_LeafArea_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(FDis_Lifespan_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(FDis_GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
+
 #### Single Trait Functional Dispersion Stats ####
 
 ### Single Trait FK Stats FDis Height #### 
