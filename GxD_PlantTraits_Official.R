@@ -1154,82 +1154,89 @@ print(Lifespan_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 3500 x 4000  
 
-##### CWM Stats with slope instead of paddock ####
+##### CWM Stats ####
 
 #CWM Data: Stats - FK#
 
 ### CWM Height FK Stats #### 
 
 #CWM of height for Fort Keogh 2019 - LMER
-FK_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2019_LMER_slope, type = 3) 
 
 #CWM of height for Fort Keogh 2020 - LMER
-FK_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Height_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2020_LMER_slope, type = 3)
 
 
 #CWM of height for Fort Keogh 2021 - LMER
-FK_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2021_LMER_slope, type = 3)
-
+summary(glht(FK_Height_2021_LMER_slope, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+      #75%-0% (p=0.002) , #75%-25% (p=0.0003)
 
 #CWM of height for Fort Keogh 2022 - LMER
-FK_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Height_2022_LMER_slope, type = 3)
+summary(glht(FK_Height_2022_LMER_slope, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+#50%-25% (p=0.0234) , #75%-25% (p=0.0134), #99%-25% (p=0.0209)
 
 ### CWM Percent Green FK Stats #### 
 
 #CWM of PercentGreen for Fort Keogh 2019 - LMER
-FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_PercentGreen_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_PercentGreen_2019_LMER, type = 3)
 
 #CWM of PercentGreen for Fort Keogh 2020 - LMER
-FK_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_PercentGreen_2020_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), PercentGreen_CWM_TF ~ Grazing_2020 *Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_PercentGreen_2020_LMER, type = 3)
+summary(glht(FK_PercentGreen_2020_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of PercentGreen for Fort Keogh 2021 - LMER
-FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_PercentGreen_2021_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_PercentGreen_2021_LMER, type = 3)
+summary(glht(FK_PercentGreen_2021_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of PercentGreen for Fort Keogh 2022 - LMER
-FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_PercentGreen_2022_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_PercentGreen_2022_LMER, type = 3)
 
 ### CWM Leaf Thickness FK Stats ####  
 
 #CWM of LeafThickness for Fort Keogh 2019 - LMER
-FK_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LeafThickness_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LeafThickness_2019_LMER <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LeafThickness_2019_LMER, type = 3)
 
 #CWM of LeafThickness for Fort Keogh 2020 - LMER
-FK_LeafThickness_2020_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LeafThickness_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LeafThickness_2020_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LeafThickness_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LeafThickness_2020_LMER_slope_slope, type = 3)
 
 #CWM of LeafThickness for Fort Keogh 2021 - LMER
-FK_LeafThickness_2021_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LeafThickness_2021_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LeafThickness_2021_LMER_slope_slope, type = 3)
 
 #CWM of LeafThickness for Fort Keogh 2022 - LMER
-FK_LeafThickness_2022_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LeafThickness_2022_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LeafThickness_2022_LMER_slope_slope, type = 3)
 
 #### CWM LDMC FK Stats ####
 
 #CWM of LDMC for Fort Keogh 2019 - LMER
-FK_LDMC_2019_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LDMC_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LDMC_2019_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LDMC_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LDMC_2019_LMER_slope_slope, type = 3)
 
 #CWM of LDMC for Fort Keogh 2020 - LMER
-FK_LDMC_2020_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LDMC_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2020_LMER_slope_slope, type = 3)
+FK_LDMC_2020_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), LDMC_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FK_LDMC_2020_LMER_slope_slope, type = 3) #grazing is marginally significant
 
 #CWM of LDMC for Fort Keogh 2021 - LMER
-FK_LDMC_2021_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LDMC_2021_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LDMC_2021_LMER_slope_slope, type = 3)
 
 #CWM of LDMC for Fort Keogh 2022 - LMER
-FK_LDMC_2022_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FK_LDMC_2022_LMER_slope_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_LDMC_2022_LMER_slope_slope, type = 3)
 
 #### CWM SLA FK Stats ####  
@@ -1241,6 +1248,8 @@ anova(FK_SLA_2019_LMER_slope, type = 3)
 #CWM of SLA for Fort Keogh 2020 - LMER
 FK_SLA_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Avg_SLA_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_SLA_2020_LMER_slope, type = 3)
+summary(glht(FK_SLA_2020_LMER_slope, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of SLA for Fort Keogh 2021 - LMER
 FK_SLA_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -1259,6 +1268,8 @@ anova(FK_Area_2019_LMER_slope, type = 3)
 #CWM of Area for Fort Keogh 2020 - LMER
 FK_Area_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), Area_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Area_2020_LMER_slope, type = 3)
+summary(glht(FK_Area_2020_LMER_slope, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+#marginal significance between 75%-0% and 75%-50%
 
 #CWM of Area for Fort Keogh 2021 - LMER
 FK_Area_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), Area_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -1285,6 +1296,8 @@ anova(FK_Lifespan_2021_LMER_slope, type = 3)
 #CWM of Lifespan for Fort Keogh 2022 - LMER
 FK_Lifespan_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), Lifespan_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FK_Lifespan_2022_LMER_slope, type = 3)
+summary(glht(FK_Lifespan_2022_LMER_slope, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+        #99%-0% (p=0.029) #99%-25% (p=0.029)
 
 #### CWM Growth Form FK Stats ####  
 
@@ -1309,73 +1322,92 @@ anova(FK_GrowthForm_2022_LMER_slope, type = 3)
 ### CWM Height TB Stats #### 
 
 #CWM of height for Thunder Basin 2019 - LMER
-TB_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_Height_2019_LMER_slope, type = 3)
 
 #CWM of height for Thunder Basin 2020 - LMER
-TB_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Height_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Height_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_Height_2020_LMER_slope, type = 3)
+summary(glht(TB_Height_2020_LMER_slope, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of height for Thunder Basin 2021 - LMER
-TB_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_Height_2021_LMER_slope, type = 3)
+summary(glht(TB_Height_2021_LMER_slope, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of height for Thunder Basin 2022 - LMER
-TB_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), Height_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_Height_2022_LMER_slope, type = 3)
+summary(glht(TB_Height_2022_LMER_slope, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 ### CWM Percent Green TB Stats #### 
 
 #CWM of PercentGreen for Thunder Basin 2019 - LMER
-TB_PercentGreen_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_PercentGreen_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_PercentGreen_2019_LMER_slope, type = 3)
 
 #CWM of PercentGreen for Thunder Basin 2020 - LMER
-TB_PercentGreen_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_PercentGreen_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), PercentGreen_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_PercentGreen_2020_LMER_slope, type = 3)
 
 #CWM of PercentGreen for Thunder Basin 2021 - LMER
-TB_PercentGreen_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_PercentGreen_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_PercentGreen_2021_LMER_slope, type = 3)
+summary(glht(TB_PercentGreen_2021_LMER_slope, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
+#NS
 
 #CWM of PercentGreen for Thunder Basin 2022 - LMER
-TB_PercentGreen_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_PercentGreen_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), PercentGreen_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_PercentGreen_2022_LMER_slope, type = 3)
+summary(glht(TB_PercentGreen_2022_LMER_slope, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
+          #heavy-destock (0.0169), #stable-destock (0.0596)
+summary(glht(TB_PercentGreen_2022_LMER_slope, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+          #NS
+
 
 ### CWM Leaf Thickness TB Stats ####  
 
 #CWM of LeafThickness for Thunder Basin 2019 - LMER
-TB_LeafThickness_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LeafThickness_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LeafThickness_2019_LMER_slope, type = 3)
 
 #CWM of LeafThickness for Thunder Basin 2020 - LMER
-TB_LeafThickness_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LeafThickness_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LeafThickness_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LeafThickness_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LeafThickness_2020_LMER_slope, type = 3)
+summary(glht(TB_LeafThickness_2020_LMER_slope, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) 
+      #medium-high (p=0.0495)
 
 #CWM of LeafThickness for Thunder Basin 2021 - LMER
-TB_LeafThickness_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LeafThickness_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LeafThickness_2021_LMER_slope, type = 3)
+summary(glht(TB_LeafThickness_2021_LMER_slope, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) 
+#marginal difference between stable-destock
 
 #CWM of LeafThickness for Thunder Basin 2022 - LMER
-TB_LeafThickness_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LeafThickness_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LeafThickness_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LeafThickness_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LeafThickness_2022_LMER_slope, type = 3)
+summary(glht(TB_LeafThickness_2022_LMER_slope, linfct = mcp(grazing_treatment= "Tukey")), test = adjusted(type = "BH")) 
+#heavy-destock (0.00989) , #stable-destock (p=0.00174)
 
 #### CWM LDMC TB Stats #### 
 
 #CWM of LDMC for TB 2019 - LMER
-TB_LDMC_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LDMC_CWM ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LDMC_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LDMC_CWM_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LDMC_2019_LMER_slope, type = 3)
 
 #CWM of LDMC for TB 2020 - LMER
-TB_LDMC_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LDMC_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), LDMC_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LDMC_2020_LMER_slope, type = 3)
 
 #CWM of LDMC for TB 2021 - LMER
-TB_LDMC_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LDMC_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LDMC_2021_LMER_slope, type = 3)
 
 #CWM of LDMC for TB 2022 - LMER
-TB_LDMC_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LDMC_CWM ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
+TB_LDMC_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), LDMC_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_LDMC_2022_LMER_slope, type = 3)
 
 #### CWM SLA TB Stats ####  
@@ -1387,6 +1419,8 @@ anova(TB_SLA_2019_LMER_slope, type = 3)
 #CWM of SLA for TB 2020 - LMER
 TB_SLA_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), Avg_SLA_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_SLA_2020_LMER_slope, type = 3)
+summary(glht(TB_SLA_2020_LMER_slope, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) 
+#ns
 
 #CWM of SLA for TB 2021 - LMER
 TB_SLA_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), Avg_SLA_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -1441,6 +1475,9 @@ anova(TB_GrowthForm_2019_LMER_slope, type = 3)
 #CWM of GrowthForm for Thunder Basin 2020 - LMER
 TB_GrowthForm_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), GrowthForm_CWM_TF ~ Grazing_2020*Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(TB_GrowthForm_2020_LMER_slope, type = 3)
+summary(glht(TB_GrowthForm_2020_LMER_slope, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) 
+#ns
+
 
 #CWM of GrowthForm for Thunder Basin 2021 - LMER
 TB_GrowthForm_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), GrowthForm_CWM_TF ~ grazing_treatment*Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -2962,7 +2999,9 @@ Functional_Diversity_All_FK<-Functional_Diversity_All %>%
   filter(Site=="FK") %>% 
   mutate(FDis_LDMC_TF=sqrt(FDis_LDMC)) %>% 
   mutate(FDis_SLA_TF=sqrt(FDis_SLA)) %>% 
-  mutate(FDis_Lifespan_TF=exp(FDis_Lifespan))
+  mutate(FDis_Area_TF=NA) %>% 
+  mutate(FDis_Lifespan_TF=exp(FDis_Lifespan))%>% 
+  mutate(FDis_GrowthForm_TF=NA)
 
 Functional_Diversity_All_TB<-Functional_Diversity_All %>% 
   filter(Site=="TB") %>% 
@@ -2971,7 +3010,14 @@ Functional_Diversity_All_TB<-Functional_Diversity_All %>%
   mutate(FDis_Area_TF=log(FDis_Area)) %>% 
   mutate(FDis_Lifespan_TF=exp(FDis_Lifespan)) %>% 
   mutate(FDis_GrowthForm_TF=sqrt(FDis_GrowthForm))
-  
+
+#combine FK and TB data together
+CWM_Collected_Data<-CWM_Collected_Data_FK %>% 
+  rbind(CWM_Collected_Data_TB)
+
+
+Functional_Diversity_All<-Functional_Diversity_All_FK %>% 
+  rbind(Functional_Diversity_All_TB)
 
 #not transformed - FK
 chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
