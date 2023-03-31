@@ -2091,7 +2091,7 @@ Functional_Diversity_TB_Height<-as.data.frame(TB_FunctionalDiversity_Height) %>%
 
 Functional_Diversity_Height<-Functional_Diversity_FK_Height %>% 
   rbind(Functional_Diversity_TB_Height) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2185,7 +2185,7 @@ Functional_Diversity_TB_percent_green<-as.data.frame(TB_FunctionalDiversity_perc
 
 Functional_Diversity_percent_green<-Functional_Diversity_FK_percent_green %>% 
   rbind(Functional_Diversity_TB_percent_green) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2291,7 +2291,7 @@ Functional_Diversity_TB_leaf_thickness_.mm.<-as.data.frame(TB_FunctionalDiversit
 
 Functional_Diversity_leaf_thickness_.mm.<-Functional_Diversity_FK_leaf_thickness_.mm. %>% 
   rbind(Functional_Diversity_TB_leaf_thickness_.mm.) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2398,7 +2398,7 @@ Functional_Diversity_TB_LDMC<-as.data.frame(TB_FunctionalDiversity_LDMC) %>%
 
 Functional_Diversity_LDMC<-Functional_Diversity_FK_LDMC %>% 
   rbind(Functional_Diversity_TB_LDMC) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2506,7 +2506,7 @@ Functional_Diversity_TB_SLA<-as.data.frame(TB_FunctionalDiversity_SLA) %>%
 
 Functional_Diversity_SLA<-Functional_Diversity_FK_SLA %>% 
   rbind(Functional_Diversity_TB_SLA) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2616,7 +2616,7 @@ Functional_Diversity_TB_Area<-as.data.frame(TB_FunctionalDiversity_Area) %>%
 
 Functional_Diversity_Area<-Functional_Diversity_FK_Area %>% 
   rbind(Functional_Diversity_TB_Area) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2725,7 +2725,7 @@ Functional_Diversity_TB_Lifespan<-as.data.frame(TB_FunctionalDiversity_Lifespan)
 
 Functional_Diversity_Lifespan<-Functional_Diversity_FK_Lifespan %>% 
   rbind(Functional_Diversity_TB_Lifespan) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2834,7 +2834,7 @@ Functional_Diversity_TB_GrowthForm<-as.data.frame(TB_FunctionalDiversity_GrowthF
 
 Functional_Diversity_GrowthForm<-Functional_Diversity_FK_GrowthForm %>% 
   rbind(Functional_Diversity_TB_GrowthForm) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2966,7 +2966,7 @@ Functional_Diversity_TB<-as.data.frame(TB_FunctionalDiversity) %>%
 
 Functional_Diversity<-Functional_Diversity_FK %>% 
   rbind(Functional_Diversity_TB) %>% 
-  separate(ID,c("year","Site","plot"), sep = "_") %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
   dplyr::select(-ID_Num) %>% 
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
@@ -2977,26 +2977,26 @@ Functional_Diversity<-Functional_Diversity_FK %>%
 
 #make data frame with dispersion of all traits calculated above
 Functional_Diversity_All<-Functional_Diversity %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All) %>% 
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All) %>% 
   left_join(Functional_Diversity_Height) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height) %>%
   left_join(Functional_Diversity_percent_green) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height, FDis_Green) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height, FDis_Green) %>%
   left_join(Functional_Diversity_leaf_thickness_.mm.) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness) %>%
   left_join(Functional_Diversity_LDMC) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC) %>%
   left_join(Functional_Diversity_SLA) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA) %>%
   left_join(Functional_Diversity_Area) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area) %>%
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area) %>%
   left_join(Functional_Diversity_Lifespan) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan) %>% 
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan) %>% 
 left_join(Functional_Diversity_GrowthForm) %>% 
-  dplyr::select(year,Site,plot,block,paddock,rainfall_reduction,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm)
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis_All,FDis_Height,FDis_Green, FDis_Thickness,FDis_LDMC,FDis_SLA,FDis_Area,FDis_Lifespan,FDis_GrowthForm)
 
 Functional_Diversity_All_FK<-Functional_Diversity_All %>% 
-  filter(Site=="FK") %>% 
+  filter(site=="FK") %>% 
   mutate(FDis_LDMC_TF=sqrt(FDis_LDMC)) %>% 
   mutate(FDis_SLA_TF=sqrt(FDis_SLA)) %>% 
   mutate(FDis_Area_TF=NA) %>% 
@@ -3004,47 +3004,42 @@ Functional_Diversity_All_FK<-Functional_Diversity_All %>%
   mutate(FDis_GrowthForm_TF=NA)
 
 Functional_Diversity_All_TB<-Functional_Diversity_All %>% 
-  filter(Site=="TB") %>% 
+  filter(site=="TB") %>% 
   mutate(FDis_LDMC_TF=log(FDis_LDMC)) %>% 
   mutate(FDis_SLA_TF=log(FDis_SLA)) %>% 
   mutate(FDis_Area_TF=log(FDis_Area)) %>% 
   mutate(FDis_Lifespan_TF=exp(FDis_Lifespan)) %>% 
   mutate(FDis_GrowthForm_TF=sqrt(FDis_GrowthForm))
 
-#combine FK and TB data together
-CWM_Collected_Data<-CWM_Collected_Data_FK %>% 
-  rbind(CWM_Collected_Data_TB)
-
-
 Functional_Diversity_All<-Functional_Diversity_All_FK %>% 
   rbind(Functional_Diversity_All_TB)
 
 #not transformed - FK
-chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(Functional_Diversity_All_FK[c(11,12,13,14,15,16,17,18,19)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #transformed - FK
-chart.Correlation(Functional_Diversity_All_FK[c(9,10,11,12,18,19,15,20,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(Functional_Diversity_All_FK[c(11,12,13,14,20,21,17,23,19)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #not transformed -TB
-chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,13,14,15,16,17)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(Functional_Diversity_All_TB[c(11,12,13,14,15,16,17,18,19)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 #transformed - TB
-chart.Correlation(Functional_Diversity_All_TB[c(9,10,11,12,18,19,20,21,22)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(Functional_Diversity_All_TB[c(11,12,13,14,20,21,22,23,24)],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 ####Height Functional Dispersion - Fort Keogh all years####
 
 Functional_Diversity_Height_avg<-Functional_Diversity_Height %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, Rainfall_reduction_cat)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
 ####Height Functional Dispersion - FK all years####
-Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke=6)+
-  geom_smooth(data=subset(Functional_Diversity_Height_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_Height_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_Height_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Height_avg,site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Height_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_Height_avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3057,10 +3052,10 @@ Height_FDis_FK<-ggplot(subset(Functional_Diversity_Height_avg,Site=="FK"&year>=2
   annotate("text", x=6, y=1.25, label = "A. Height", size=20)
 
 ####Height Functional Dispersion - TB all years####
-Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke=6)+
-  geom_smooth(data=subset(Functional_Diversity_Height_avg,Site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_Height_avg,Site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Height_avg,site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_Height_avg,site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3073,15 +3068,15 @@ Height_FDis_TB<-ggplot(subset(Functional_Diversity_Height_avg,Site=="TB"&year>=2
 
 ####percent_green Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_percent_green_avg<-Functional_Diversity_percent_green %>% 
-    group_by(Site, year, rainfall_reduction)%>%
+    group_by(site, year, rainfall_reduction)%>%
     summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
     mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
     ungroup()
   
-percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3093,10 +3088,10 @@ percent_green_FDis_FK<-ggplot(subset(Functional_Diversity_percent_green_avg,Site
   annotate("text", x=13, y=1, label = "B. Percent Green", size=20)
 
 ####percent_green Functional Dispersion - TB all years####
-percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,Site=="TB"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,Site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,site=="TB"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_percent_green_avg,site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3109,15 +3104,15 @@ percent_green_FDis_TB<-ggplot(subset(Functional_Diversity_percent_green_avg,Site
 
 #### Leaf Thickness Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_leaf_thickness_.mm._avg<-Functional_Diversity_leaf_thickness_.mm. %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_leaf_thickness_.mm._avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_leaf_thickness_.mm._avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3130,7 +3125,7 @@ LeafThickness_FDis_FK<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._av
   annotate("text", x=15, y=0.8, label = "C. Leaf Thickness", size=20)
 
 ####Leaf Thickness Functional Dispersion - TB all years####
-LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
@@ -3146,16 +3141,16 @@ LeafThickness_FDis_TB<-ggplot(subset(Functional_Diversity_leaf_thickness_.mm._av
 
 #### LDMC Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_LDMC_avg<-Functional_Diversity_LDMC %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3168,10 +3163,10 @@ LDMC_FDis_FK<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="FK"&year>=2019)
   annotate("text", x=23, y=0.8, label = "D. Leaf Dry Matter Content", size=20)
 
 ####LDMC Functional Dispersion - TB all years####
-LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,Site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,Site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_LDMC_avg,site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3185,14 +3180,14 @@ LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,Site=="TB"&year>=2019)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_SLA_avg<-Functional_Diversity_SLA %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_SLA_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_SLA_avg,site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3204,10 +3199,10 @@ SLA_FDis_FK<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="FK"&year>=2019),a
   annotate("text", x=18, y=1.2, label = "E. Specific Leaf Area", size=20)
 
 ####SLA Functional Dispersion - TB all years####
-SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_SLA_avg,Site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_SLA_avg,Site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_SLA_avg,site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_SLA_avg,site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3221,15 +3216,15 @@ SLA_FDis_TB<-ggplot(subset(Functional_Diversity_SLA_avg,Site=="TB"&year>=2019),a
 
 #### Area Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_Area_avg<-Functional_Diversity_Area %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_Area_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_Area_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3242,10 +3237,10 @@ Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area_avg,Site=="FK"&year>=2019)
   annotate("text", x=8, y=0.8, label = "F. Leaf Area", size=20)
 
 #### Area Functional Dispersion - TB all years####
-Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_Area_avg,Site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_Area_avg,Site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3260,15 +3255,15 @@ Area_FDis_TB<-ggplot(subset(Functional_Diversity_Area_avg,Site=="TB"&year>=2019)
 
 #### Lifespan Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_Lifespan_avg<-Functional_Diversity_Lifespan %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3281,11 +3276,11 @@ Lifespan_FDis_FK<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="FK"&yea
   annotate("text", x=8, y=1.25, label = "G. Lifespan", size=20)
 
 #### Lifespan Functional Dispersion - TB all years####
-Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,Site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,Site=="TB"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
-  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,Site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,site=="TB"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_Lifespan_avg,site=="TB"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3299,15 +3294,15 @@ Lifespan_FDis_TB<-ggplot(subset(Functional_Diversity_Lifespan_avg,Site=="TB"&yea
 
 #### GrowthForm Functional Dispersion - Fort Keogh all years####
 Functional_Diversity_GrowthForm_avg<-Functional_Diversity_GrowthForm %>% 
-  group_by(Site, year, rainfall_reduction)%>%
+  group_by(site, year, rainfall_reduction)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
-GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
-  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3320,9 +3315,9 @@ GrowthForm_FDis_FK<-ggplot(subset(Functional_Diversity_GrowthForm_avg,Site=="FK"
   annotate("text", x=12, y=1.25, label = "H. Growth Form", size=20)
 
 #### GrowthForm Functional Dispersion - TB all years####
-GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+GrowthForm_FDis_TB<-ggplot(subset(Functional_Diversity_GrowthForm_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,Site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_GrowthForm_avg,site=="TB"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3361,13 +3356,13 @@ print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #### Bar Graphs for Grazing ####
 
 Functional_Diversity_Height_avg_G<-Functional_Diversity_Height %>% 
-  group_by(Site, year, grazing_treatment)%>%
+  group_by(site, year, grazing_treatment)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
 #### FDis of Height FK Grazing ####
-FDis_Height_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Height_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3383,7 +3378,7 @@ FDis_Height_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=
 
 
 #### FDis of Height TB Grazing ####
-FDis_Height_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Height_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Height,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3398,7 +3393,7 @@ FDis_Height_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=
   annotate("text", x=1.5, y=1.5, label = "A. Height", size=30)
 
 #### FDis of Percent Green FK Grazing ####
-FDis_Green_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_Green_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3414,7 +3409,7 @@ FDis_Green_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2
 
 
 #### FDis of Green TB Grazing ####
-FDis_Green_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Green_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Green,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3429,7 +3424,7 @@ FDis_Green_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2
   annotate("text", x=2, y=1.5, label = "B. Percent Green", size=30)
 
 #### FDis of Leaf Thickness FK Grazing ####
-FDis_Thickness_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_Thickness_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3445,7 +3440,7 @@ FDis_Thickness_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&yea
 
 
 #### FDis of Leaf Thickness TB Grazing ####
-FDis_Thickness_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_Thickness_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Thickness,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3460,7 +3455,7 @@ FDis_Thickness_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&yea
   annotate("text", x=2.5, y=1.5, label = "C. Leaf Thickness", size=30)
 
 #### FDis of LDMC FK Grazing ####
-FDis_LDMC_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_LDMC_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3476,7 +3471,7 @@ FDis_LDMC_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=20
 
 
 #### FDis of LDMC TB Grazing ####
-FDis_LDMC_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_LDMC_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_LDMC,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3491,7 +3486,7 @@ FDis_LDMC_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=20
   annotate("text", x=3, y=1.5, label = "D. Leaf Dry Matter Content", size=30)
 
 #### FDis of SLA FK Grazing ####
-FDis_SLA_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_SLA_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3506,7 +3501,7 @@ FDis_SLA_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=202
 
 
 #### FDis of SLA TB Grazing ####
-FDis_SLA_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_SLA_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_SLA,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3520,7 +3515,7 @@ FDis_SLA_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=202
   annotate("text", x=3, y=1.5, label = "E. Specific Leaf Area", size=30)
 
 #### FDis of Leaf Area FK Grazing ####
-FDis_LeafArea_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_LeafArea_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3536,7 +3531,7 @@ FDis_LeafArea_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year
 
 
 #### FDis of Leaf Area TB Grazing ####
-FDis_LeafArea_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_LeafArea_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Area,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3551,7 +3546,7 @@ FDis_LeafArea_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year
   annotate("text", x=2.5, y=1.5, label = "F. Leaf Area", size=30)
 
 #### FDis of Lifespan FK Grazing ####
-FDis_Lifespan_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Lifespan_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3565,7 +3560,7 @@ FDis_Lifespan_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year
   annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
 
 #### FDis of Lifespan TB Grazing ####
-FDis_Lifespan_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Lifespan_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Lifespan,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3580,7 +3575,7 @@ FDis_Lifespan_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year
   annotate("text", x=2, y=1.5, label = "G. Lifespan", size=30)
 
 #### FDis of Growth Form FK Grazing ####
-FDis_GrowthForm_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_GrowthForm_Grazing_FK<-ggplot(subset(Functional_Diversity_All,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3594,7 +3589,7 @@ FDis_GrowthForm_Grazing_FK<-ggplot(subset(Functional_Diversity_All,Site=="FK"&ye
   annotate("text", x=2, y=1.5, label = "H. Growth Form", size=30)
 
 #### FDis of Growth Form TB Grazing ####
-FDis_GrowthForm_Grazing_TB<-ggplot(subset(Functional_Diversity_All,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+FDis_GrowthForm_Grazing_TB<-ggplot(subset(Functional_Diversity_All,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_GrowthForm,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3638,304 +3633,304 @@ print(FDis_GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2
 ### Single Trait FK Stats FDis Height #### 
 
 #FDis for Fort Keogh 2019 Height - LMER
-FDis_Height_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_Height_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_Height_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 Height - LMER
-FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_Height_FK20_LMER, type = 3)  #Drought (p=0.01601)
+FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_Height ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Height_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 Height - LMER
-FDis_Height_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Height_FK21_LMER, type = 3) #Drought (p=0.06012)
+FDis_Height_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 Height - LMER
-FDis_Height_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Height_FK22_LMER, type = 3) #Drought (p=0.008408)
+FDis_Height_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK22_LMER, type = 3) #NS
 
 ### Single Trait FK Stats FDis Percent Green #### 
 
 #FDis for Fort Keogh 2019 Percent Green - LMER
-FDis_percent_green_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_percent_green_FK19_LMER, type = 3) #Drought (p=0.0009417)
+FDis_percent_green_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Green ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK19_LMER, type = 3) #Drought (p=0.06766)
 
 #FDis for Fort Keogh 2020 Percent Green - LMER
-FDis_percent_green_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_percent_green_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_Green ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_percent_green_FK20_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2021 Percent Green - LMER
-FDis_percent_green_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_percent_green_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_percent_green_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 Percent Green - LMER
-FDis_percent_green_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_percent_green_FK22_LMER, type = 3) #Drought (0.0008064)
+FDis_percent_green_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_percent_green_FK22_LMER, type = 3) #Drought (0.07941)
 
 ### Single Trait FK Stats FDis Leaf Thickness #### 
 
 #FDis for Fort Keogh 2019 Thickness - LMER
-FDis_leaf_thickness_.mm._FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_leaf_thickness_.mm._FK19_LMER, type = 3) #Drought (0.05319)
+FDis_leaf_thickness_.mm._FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 Thickness - LMER
-FDis_leaf_thickness_.mm._FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_leaf_thickness_.mm._FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_leaf_thickness_.mm._FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 Thickness - LMER
-FDis_leaf_thickness_.mm._FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_leaf_thickness_.mm._FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_leaf_thickness_.mm._FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 Thickness - LMER
-FDis_leaf_thickness_.mm._FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_leaf_thickness_.mm._FK22_LMER, type = 3) #Drought(p=0.07467)
+FDis_leaf_thickness_.mm._FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._FK22_LMER, type = 3) #NS
 
 ### Single Trait FK Stats FDis LDMC #### 
 
 #FDis for Fort Keogh 2019 LDMC - LMER
-FDis_LDMC_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_LDMC_FK19_LMER, type = 3) #drought (p=0.01629)
+FDis_LDMC_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 LDMC - LMER
-FDis_LDMC_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_LDMC_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_LDMC_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 LDMC - LMER
-FDis_LDMC_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_LDMC_FK21_LMER, type = 3) #Drought (p=0.000594)
+FDis_LDMC_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 LDMC - LMER
-FDis_LDMC_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_LDMC_FK22_LMER, type = 3) #Drought (p=0.001221)
+FDis_LDMC_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK22_LMER, type = 3) #Drought (p=0.09669)
 
 ### Single Trait FK Stats FDis SLA #### 
 
 #FDis for Fort Keogh 2019 SLA - LMER
-FDis_SLA_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_SLA_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_SLA_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 SLA - LMER
-FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_Height_FK20_LMER, type = 3) #Drought (p=0.01601)
+FDis_Height_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Height_FK20_LMER, type = 3) #Drought (p=0.01225)
 
 #FDis for Fort Keogh 2021 SLA - LMER
-FDis_SLA_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_SLA_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_SLA_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 SLA - LMER
-FDis_SLA_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_SLA_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_SLA_FK22_LMER, type = 3) #NS
 
 ### Single Trait FK Stats FDis Leaf Area #### 
 
 #FDis for Fort Keogh 2019 Area - LMER
-FDis_Area_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Area_FK19_LMER, type = 3) #Drought (p=0.05524)
+FDis_Area_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_Area_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 Area - LMER
-FDis_Area_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_Area_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_Area ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_Area_FK20_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2021 Area - LMER
-FDis_Area_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Area_FK21_LMER, type = 3) #Drought (p=0.008576)
+FDis_Area_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_Area ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_FK21_LMER, type = 3) #Drought (p=0.06742)
 
 #FDis for Fort Keogh 2022 Area - LMER
-FDis_Area_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Area_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_Area ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Area_FK22_LMER, type = 3) #NS
 
 ### Single Trait FK Stats FDis Lifespan #### 
 
 #FDis for Fort Keogh 2019 Lifespan - LMER
-FDis_Lifespan_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Lifespan_FK19_LMER, type = 3) #Drought (p=0.0007058)
+FDis_Lifespan_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK19_LMER, type = 3) #Drought (p=0.06743)
 
 #FDis for Fort Keogh 2020 Lifespan - LMER
-FDis_Lifespan_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_Lifespan_FK20_LMER, type = 3) #NS
+FDis_Lifespan_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK20_LMER, type = 3) #Drought (p=0.0959)
 
 #FDis for Fort Keogh 2021 Lifespan - LMER
-FDis_Lifespan_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Lifespan_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Lifespan_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 Lifespan - LMER
-FDis_Lifespan_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Lifespan_FK22_LMER, type = 3) #Drought (p=0.03159)
+FDis_Lifespan_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK22_LMER, type = 3) #NS
 
 ### Single Trait FK Stats FDis Growth Form #### 
 
 #FDis for Thunder Basin 2019 GrowthForm - LMER
-FDis_GrowthForm_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_GrowthForm_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_FK19_LMER, type = 3) #Drought (p=0.06167)
 
 #FDis for Thunder Basin 2020 GrowthForm - LMER
-FDis_GrowthForm_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_GrowthForm_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_FK20_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2021 GrowthForm - LMER
-FDis_GrowthForm_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_GrowthForm_FK21_LMER, type = 3) #Drought (0.003688)
+FDis_GrowthForm_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 GrowthForm - LMER
-FDis_GrowthForm_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_GrowthForm_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_FK22_LMER, type = 3) #NS
 
 ### Single Trait TB Stats FDis Height #### 
 
 #FDis for Thunder Basin 2019 Height - LMER
-FDis_Height_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_Height_TB19_LMER, type = 3) #Drought (0.06006)
+FDis_Height_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_Height_TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 Height - LMER
-FDis_Height_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_Height_TB20_LMER, type = 3)  #NS
+FDis_Height_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_Height ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_Height_TB20_LMER, type = 3)  #Grazing (p=0.003726)
 
 #FDis for Thunder Basin 2021 Height - LMER
-FDis_Height_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Height_TB21_LMER, type = 3) #Drought (p=0.01994), Grazing (p=0.03412)
+FDis_Height_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_TB21_LMER, type = 3) #Grazing (p=0.04587)
 
 #FDis for Thunder Basin 2022 Height - LMER
-FDis_Height_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_Height_TB22_LMER, type = 3) #Grazing (p=0.005728)
+FDis_Height_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_TB22_LMER, type = 3) #Grazing (p=0.01032)
 
 ### Single Trait TB Stats FDis Percent Green #### 
 
 #FDis for Thunder Basin 2019 Percent Green - LMER
-FDis_percent_green_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_percent_green_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Green ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_percent_green_TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 Percent Green - LMER
-FDis_percent_green_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_percent_green_TB20_LMER, type = 3) #Drought (p=0.07752)
+FDis_percent_green_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_Green ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_percent_green_TB20_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2021 Percent Green - LMER
-FDis_percent_green_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_percent_green_TB21_LMER, type = 3) #Grazing (p=0.02004)
+FDis_percent_green_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_percent_green_TB21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 Percent Green - LMER
-FDis_percent_green_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_percent_green,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_percent_green_TB22_LMER, type = 3) #Drought (0.0054038), grazing (p=0.0006934)
+FDis_percent_green_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_percent_green_TB22_LMER, type = 3) # grazing (p=0.01323)
 
 ### Single Trait TB Stats FDis Leaf Thickness #### 
 
 #FDis for Thunder Basin 2019 Thickness - LMER
-FDis_leaf_thickness_.mm._TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_leaf_thickness_.mm._TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_leaf_thickness_.mm._TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 Thickness - LMER
-FDis_leaf_thickness_.mm._TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
-anova(FDis_leaf_thickness_.mm._TB20_LMER, type = 3)  #NS
+FDis_leaf_thickness_.mm._TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._TB20_LMER, type = 3)  #FGrazing (p=0.08078)
 
 #FDis for Thunder Basin 2021 Thickness - LMER
-FDis_leaf_thickness_.mm._TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_leaf_thickness_.mm._TB21_LMER, type = 3) #Grazing (p=0.05074)
+FDis_leaf_thickness_.mm._TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._TB21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 Thickness - LMER
-FDis_leaf_thickness_.mm._TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_leaf_thickness_.mm.,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
-anova(FDis_leaf_thickness_.mm._TB22_LMER, type = 3) #Grazing (p=0.05074)
-
+FDis_leaf_thickness_.mm._TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_leaf_thickness_.mm._TB22_LMER, type = 3) #NS
+### STOPPED HERE ###
 ### Single Trait TB Stats FDis LDMC #### 
 
 #FDis for Thunder Basin 2019 LDMC - LMER
-FDis_LDMC_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_LDMC_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_LDMC_TB19_LMER, type = 3) #drought (p=0.02066)
 
 #FDis for Thunder Basin 2020 LDMC - LMER
-FDis_LDMC_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_LDMC_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_LDMC_TB20_LMER, type = 3)  #NS
 
 #FDis for Thunder Basin 2021 LDMC - LMER
-FDis_LDMC_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_LDMC_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_LDMC_TB21_LMER, type = 3) #Drought (p=0.004334)
 
 #FDis for Thunder Basin 2022 LDMC - LMER
-FDis_LDMC_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_LDMC_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_LDMC_TB22_LMER, type = 3) #NS
 
 ### Single Trait TB Stats FDis SLA #### 
 
 #FDis for Thunder Basin 2019 SLA - LMER
-FDis_SLA_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_SLA_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_SLA_TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 SLA - LMER
-FDis_Height_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_Height_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_Height_TB20_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2021 SLA - LMER
-FDis_SLA_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_SLA_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_SLA_TB21_LMER, type = 3) #Drought (p=0.01767)
 
 #FDis for Thunder Basin 2022 SLA - LMER
-FDis_SLA_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_SLA_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_SLA_TB22_LMER, type = 3) #Drought (p=0.015916), Grazing (p=0.001568)
 
 ### Single Trait TB Stats FDis Leaf Area #### 
 
 #FDis for Thunder Basin 2019 Area - LMER
-FDis_Area_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_Area_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_Area_TB19_LMER, type = 3) #Drought (p=0.001128)
 
 #FDis for Thunder Basin 2020 Area - LMER
-FDis_Area_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_Area_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_Area_TB20_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2021 Area - LMER
-FDis_Area_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Area_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Area_TB21_LMER, type = 3) #Drought (p=0.008818)
 
 #FDis for Thunder Basin 2022 Area - LMER
-FDis_Area_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Area_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Area_TB22_LMER, type = 3) #Grazing (0.06519)
 
 ### Single Trait TB Stats FDis Lifespan #### 
 
 #FDis for Thunder Basin 2019 Lifespan - LMER
-FDis_Lifespan_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_Lifespan_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_Lifespan_TB19_LMER, type = 3) #Drought (p=0.07152)
 
 #FDis for Thunder Basin 2020 Lifespan - LMER
-FDis_Lifespan_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_Lifespan_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_Lifespan_TB20_LMER, type = 3) #Drought (p=0.03684)
 
 #FDis for Thunder Basin 2021 Lifespan - LMER
-FDis_Lifespan_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Lifespan_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Lifespan_TB21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 Lifespan - LMER
-FDis_Lifespan_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Lifespan,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_Lifespan_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_Lifespan_TB22_LMER, type = 3) #Drought (p=0.03159)
 
 ### Single Trait TB Stats FDis Growth Form #### 
 
 #FDis for Thunder Basin 2019 GrowthForm - LMER
-FDis_GrowthForm_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_GrowthForm_TB19_LMER, type = 3) #Drought (p=0.0825)
+FDis_GrowthForm_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 GrowthForm - LMER
-FDis_GrowthForm_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_GrowthForm_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2020&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_TB20_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2021 GrowthForm - LMER
-FDis_GrowthForm_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_GrowthForm_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2021&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_TB21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 GrowthForm - LMER
-FDis_GrowthForm_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_GrowthForm,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_GrowthForm_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2022&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_GrowthForm_TB22_LMER, type = 3) #NS
 
 ####Multivariate Functional Dispersion - Fort Keogh all years####
 
 Functional_Diversity_avg<-Functional_Diversity %>% 
-  group_by(Site, year, rainfall_reduction,grazing_treatment)%>%
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
   summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
   mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
   ungroup()
 
 #Drought x FDis
-Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=10, stroke =4)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
-  geom_smooth(data=subset(Functional_Diversity_avg,Site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
+  geom_smooth(data=subset(Functional_Diversity_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
@@ -3946,7 +3941,7 @@ Multivariate_FDis_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=20
   annotate("text", x=17, y=0.25, label = "A. Montana Site", size=20)
 
 #### Multivariate Functional Dispersion - Thunder Basin all years####
-Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Multivariate_FDis_TB<-ggplot(subset(Functional_Diversity_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=10, stroke =4)+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
@@ -3967,7 +3962,7 @@ print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 
 #Grazing x FDis
 #### CWM of Leaf Area TB Grazing ####
-FDis_Grazing_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Grazing_FK<-ggplot(subset(Functional_Diversity_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -3982,7 +3977,7 @@ FDis_Grazing_FK<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2020),a
   annotate("text", x=2.5, y=0.25, label = "A. Montana Site", size=30)
 
 #### Multivariate Functional Dispersion - Thunder Basin all years####
-FDis_Grazing_TB<-ggplot(subset(Functional_Diversity_avg,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+FDis_Grazing_TB<-ggplot(subset(Functional_Diversity_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
   annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
@@ -4005,19 +4000,19 @@ print(FDis_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 #### Multivariate Functional Dispersion Stats ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_FK19_LMER, type = 3) #Drought (p=0.000972)
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_FK22_LMER, type = 3) #Grazing (p=0.04979)
 #post hoc test for lmer test on drought
 summary(glht(FDis_FK22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
@@ -4026,19 +4021,19 @@ summary(glht(FDis_FK22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = 
 ### Thunder Basin 
 
 #FDis for Thunder Basin 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&Site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&Site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Thunder Basin 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&Site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
 anova(FDis_TB22_LMER, type = 3) #Grazing (p=0.02101)
 #post hoc test for lmer test on drought
 summary(glht(FDis_TB22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
