@@ -4064,3 +4064,263 @@ anova(FDis_TB22_LMER, type = 3) #Grazing (p=0.02101)
 #post hoc test for lmer test on drought
 summary(glht(FDis_TB22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
 
+
+#### 2018 & 2019 Data with Grazing - CWM ####
+
+#CWM of height for, Fort Keogh 2018 - LMER
+FK_Height_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Height_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Height_2018_LMER_CHECK, type = 3) #grazing (0.03598)
+
+#CWM of height for Fort Keogh 2019 - LMER
+FK_Height_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Height_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Height_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of Green for Fort Keogh 2018 - LMER
+FK_PercentGreen_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_PercentGreen_2018_LMER_CHECK, type = 3) #drought (0.01511)
+
+#CWM of Green for Fort Keogh 2019 - LMER
+FK_PercentGreen_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_PercentGreen_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of thickness for Fort Keogh 2018 - LMER
+FK_LeafThickness_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_LeafThickness_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of thickness for Fort Keogh 2019 - LMER
+FK_LeafThickness_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_LeafThickness_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of LDMC for Fort Keogh 2018 - LMER
+FK_LDMC_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), LDMC_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_LDMC_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of LDMC for Fort Keogh 2019 - LMER
+FK_LDMC_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), LDMC_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_LDMC_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of SLA for Fort Keogh 2018 - LMER
+FK_SLA_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_SLA_2018_LMER_CHECK, type = 3) #grazing (p=0.08565)
+
+#CWM of SLA for Fort Keogh 2019 - LMER
+FK_SLA_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_SLA_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of Area for Fort Keogh 2018 - LMER
+FK_Area_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Area_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Area_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of area for Fort Keogh 2019 - LMER
+FK_Area_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Area_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Area_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of Lifespan for Fort Keogh 2018 - LMER
+FK_Lifespan_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), Lifespan_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Lifespan_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of Lifespan  for Fort Keogh 2019 - LMER
+FK_Lifespan_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), Lifespan_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_Lifespan_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of GrowthForm for Fort Keogh 2018 - LMER
+FK_GrowthForm_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="FK"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_GrowthForm_2018_LMER_CHECK, type = 3) #drought (0.09796)
+
+#CWM of GrowthForm for Fort Keogh 2019 - LMER
+FK_GrowthForm_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_GrowthForm_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of height for, Thunder Basin 2018 - LMER
+TB_Height_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Height_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Height_2018_LMER_CHECK, type = 3) #grazing (0.00276)
+
+#CWM of height for Thunder Basin 2019 - LMER
+TB_Height_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Height_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Height_2019_LMER_CHECK, type = 3) #grazing (0.0006692)
+
+#CWM of Green for Thunder Basin 2018 - LMER
+TB_PercentGreen_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_PercentGreen_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of Green for Thunder Basin 2019 - LMER
+TB_PercentGreen_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), PercentGreen_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_PercentGreen_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of thickness for Thunder Basin 2018 - LMER
+TB_LeafThickness_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_LeafThickness_2018_LMER_CHECK, type = 3) #grazing (5x10-6)
+
+#CWM of thickness for Thunder Basin 2019 - LMER
+TB_LeafThickness_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LeafThickness_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_LeafThickness_2019_LMER_CHECK, type = 3) #grazing (8.3x10-5)
+
+#CWM of LDMC for Thunder Basin 2018 - LMER
+TB_LDMC_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), LDMC_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_LDMC_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of LDMC for Thunder Basin 2019 - LMER
+TB_LDMC_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), LDMC_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_LDMC_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of SLA for Thunder Basin 2018 - LMER
+TB_SLA_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_SLA_2018_LMER_CHECK, type = 3) #grazing (p=0.008989)
+
+#CWM of SLA for Thunder Basin 2019 - LMER
+TB_SLA_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Avg_SLA_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_SLA_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of Area for Thunder Basin 2018 - LMER
+TB_Area_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Area_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Area_2018_LMER_CHECK, type = 3) #ns
+
+#CWM of area for Thunder Basin 2019 - LMER
+TB_Area_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Area_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Area_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of Lifespan for Thunder Basin 2018 - LMER
+TB_Lifespan_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), Lifespan_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Lifespan_2018_LMER_CHECK, type = 3) #grazing (0.03742)
+
+#CWM of Lifespan  for Thunder Basin 2019 - LMER
+TB_Lifespan_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), Lifespan_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_Lifespan_2019_LMER_CHECK, type = 3) #ns
+
+#CWM of GrowthForm for Thunder Basin 2018 - LMER
+TB_GrowthForm_2018_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2018&Site=="TB"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_GrowthForm_2018_LMER_CHECK, type = 3) #grazing (0.0003849)
+
+#CWM of GrowthForm for Thunder Basin 2019 - LMER
+TB_GrowthForm_2019_LMER_CHECK <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), GrowthForm_CWM_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_GrowthForm_2019_LMER_CHECK, type = 3) #grazing (0.004832)
+
+#### 2018 & 2019 Data with Grazing - FDis ####
+
+#FDis for Fort Keogh 2018 Height - LMER
+FDis_Height_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 Height - LMER
+FDis_Height_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2018 Green - LMER
+FDis_Green_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Green_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 Green - LMER
+FDis_Green_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Green_FK19_LMER_CHECK, type = 3) #drought (0.07025)
+
+#FDis for Fort Keogh 2018 Thickness - LMER
+FDis_Thickness_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Thickness_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 Thickness - LMER
+FDis_Thickness_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Thickness_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2018 _LDMC_TF - LMER
+FDis__LDMC_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis__LDMC_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 _LDMC_TF - LMER
+FDis_LDMC_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2018 _SLA_TF - LMER
+FDis_SLA_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 _SLA_TF - LMER
+FDis_SLA_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2018 _Area_TF - LMER
+FDis_Area_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_Area ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 _Area_TF - LMER
+FDis_Area_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Area ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2018 FDis_Lifespan_TF - LMER
+FDis_Lifespan_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 FDis_Lifespan_TF - LMER
+FDis_Lifespan_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_FK19_LMER_CHECK, type = 3) #drought (0.05084), #grazing (0.02650)
+
+#FDis for Fort Keogh 2018 _GrowthForm_TF - LMER
+FDis_GrowthForm_FK18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK18_LMER_CHECK, type = 3) #NS
+
+#FDis for Fort Keogh 2019 _GrowthForm_TF - LMER
+FDis_GrowthForm_FK19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="FK"), FDis_GrowthForm ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_FK19_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2018 Height - LMER
+FDis_Height_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_TB18_LMER_CHECK, type = 3) #Grazing (0.00116)
+
+#FDis for Thunder Basin 2019 Height - LMER
+FDis_Height_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Height ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Height_TB19_LMER_CHECK, type = 3) #Grazing (0.003442)
+
+#FDis for Thunder Basin 2018 Green - LMER
+FDis_Green_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Green_TB18_LMER_CHECK, type = 3) #Grazing (0.0007559)
+
+#FDis for Thunder Basin 2019 Green - LMER
+FDis_Green_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Green ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Green_TB19_LMER_CHECK, type = 3) #ns
+
+#FDis for Thunder Basin 2018 Thickness - LMER
+FDis_Thickness_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Thickness_TB18_LMER_CHECK, type = 3) #grazing (0.03642) , #DxG(0.02554)
+
+#FDis for Thunder Basin 2019 Thickness - LMER
+FDis_Thickness_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Thickness ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Thickness_TB19_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2018 _LDMC_TF - LMER
+FDis__LDMC_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis__LDMC_TB18_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2019 _LDMC_TF - LMER
+FDis_LDMC_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_LDMC_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_LDMC_TB19_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2018 _SLA_TF - LMER
+FDis_SLA_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_TB18_LMER_CHECK, type = 3) #grazing (0.008203)
+
+#FDis for Thunder Basin 2019 _SLA_TF - LMER
+FDis_SLA_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_SLA_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_SLA_TB19_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2018 _Area_TF - LMER
+FDis_Area_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_TB18_LMER_CHECK, type = 3) #DxG(0.0586)
+
+#FDis for Thunder Basin 2019 _Area_TF - LMER
+FDis_Area_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Area_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Area_TB19_LMER_CHECK, type = 3) #NS
+
+#FDis for Thunder Basin 2018 FDis_Lifespan_TF - LMER
+FDis_Lifespan_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_TB18_LMER_CHECK, type = 3) #grazing (0.06769)
+
+#FDis for Thunder Basin 2019 FDis_Lifespan_TF - LMER
+FDis_Lifespan_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_Lifespan_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_Lifespan_TB19_LMER_CHECK, type = 3) #grazing(0.05811)
+
+#FDis for Thunder Basin 2018 _GrowthForm_TF - LMER
+FDis_GrowthForm_TB18_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2018&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_TB18_LMER_CHECK, type = 3) #grazing (0.0001979)
+
+#FDis for Thunder Basin 2019 _GrowthForm_TF - LMER
+FDis_GrowthForm_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diversity_All,year==2019&site=="TB"), FDis_GrowthForm_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_GrowthForm_TB19_LMER_CHECK, type = 3) #Grazing (0.02606)
