@@ -4163,6 +4163,10 @@ print(FDis_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
 
 #### Multivariate Functional Dispersion Stats ####
 
+#FDis for Fort Keogh 2018 - LMER
+FDis_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK18_LMER, type = 3) #NS
+
 #FDis for Fort Keogh 2019 - LMER
 FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_FK19_LMER, type = 3) #Drought (p=0.06858)
@@ -4184,6 +4188,10 @@ anova(FDis_FK22_LMER, type = 3) #NS
 
 
 ### Thunder Basin 
+
+#FDis for Fort Keogh 2018 - LMER
+FDis_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB18_LMER, type = 3) #NS
 
 #FDis for Thunder Basin 2019 - LMER
 FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -4213,6 +4221,143 @@ summary(glht(FDis_TB22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = 
 
 #adjust grazing p-value (5)
 p.adjust(0.01044, method = "BH", n=5) #0.0522
+
+#### Multivariate Functional Richness Stats ####
+
+#FRic for Fort Keogh 2018 - LMER
+FRic_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="FK"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_FK18_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2019 - LMER
+FRic_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_FK19_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2020 - LMER
+FRic_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FRic ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FRic_FK20_LMER, type = 3)  #NS
+
+#FRic for Fort Keogh 2021 - LMER
+FRic_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FRic ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_FK21_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2022 - LMER
+FRic_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FRic ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_FK22_LMER, type = 3) #NS
+
+
+### Thunder Basin 
+
+#FRic for Thunder Basin 2018 - LMER
+FRic_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="TB"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_TB18_LMER, type = 3) #NS
+
+#FRic for Thunder Basin 2019 - LMER
+FRic_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), FRic ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_TB19_LMER, type = 3) #NS
+
+#FRic for Thunder Basin 2020 - LMER
+FRic_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), FRic ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FRic_TB20_LMER, type = 3)  #Grazing (p=0.005486)
+summary(glht(FRic_TB20_LMER, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) #medium and high are significantly different
+
+#FRic for Thunder Basin 2021 - LMER
+FRic_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FRic ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_TB21_LMER, type = 3) #grazing (0.04517)
+summary(glht(FRic_TB21_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #ns
+
+#FRic for Thunder Basin 2022 - LMER
+FRic_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FRic ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_TB22_LMER, type = 3) #NS
+
+#### Multivariate Functional Evenness Stats ####
+
+#FEve for Fort Keogh 2018 - LMER
+FEve_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_FK18_LMER, type = 3) #NS
+
+#FEve for Fort Keogh 2019 - LMER
+FEve_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_FK19_LMER, type = 3) #NS
+
+#FEve for Fort Keogh 2020 - LMER
+FEve_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FEve ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FEve_FK20_LMER, type = 3)  #NS
+
+#FEve for Fort Keogh 2021 - LMER
+FEve_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_FK21_LMER, type = 3) #Grazing (0.066)
+
+#FEve for Fort Keogh 2022 - LMER
+FEve_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_FK22_LMER, type = 3) #Drought (0.022), grazing (0.09)
+
+
+### Thunder Basin 
+
+#FEve for Thunder Basin 2018 - LMER
+FEve_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_TB18_LMER, type = 3) #NS
+
+#FEve for Thunder Basin 2019 - LMER
+FEve_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_TB19_LMER, type = 3) #NS
+
+#FEve for Thunder Basin 2020 - LMER
+FEve_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), FEve ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FEve_TB20_LMER, type = 3)  #NS
+
+#FEve for Thunder Basin 2021 - LMER
+FEve_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_TB21_LMER, type = 3) #DxG (0.01591)
+
+#FEve for Thunder Basin 2022 - LMER
+FEve_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_TB22_LMER, type = 3) #NS
+
+#### Multivariate Functional Diversity Stats ####
+
+#FDiv for Fort Keogh 2018 - LMER
+FDiv_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_FK18_LMER, type = 3) #NS
+
+#FDiv for Fort Keogh 2019 - LMER
+FDiv_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_FK19_LMER, type = 3) #NS
+
+#FDiv for Fort Keogh 2020 - LMER
+FDiv_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FDiv ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDiv_FK20_LMER, type = 3)  #NS
+
+#FDiv for Fort Keogh 2021 - LMER
+FDiv_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_FK21_LMER, type = 3) #Drought (0.047)
+
+#FDiv for Fort Keogh 2022 - LMER
+FDiv_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_FK22_LMER, type = 3) #NS
+
+
+### Thunder Basin 
+
+#FDiv for Thunder Basin 2018 - LMER
+FDiv_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2018&site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_TB18_LMER, type = 3) #NS
+
+#FDiv for Thunder Basin 2019 - LMER
+FDiv_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_TB19_LMER, type = 3) #NS
+
+#FDiv for Thunder Basin 2020 - LMER
+FDiv_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), FDiv ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDiv_TB20_LMER, type = 3)  #Drought (0.039)
+
+#FDiv for Thunder Basin 2021 - LMER
+FDiv_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_TB21_LMER, type = 3) #Drought (0.037) and DxG (0.02)
+
+#FDiv for Thunder Basin 2022 - LMER
+FDiv_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_TB22_LMER, type = 3) #NS
 
 #### 2018 & 2019 Data with Grazing - CWM ####
 
