@@ -4237,7 +4237,7 @@ FDis_Grazing_FK<-ggplot(subset(Functional_Dispersion_avg,site=="FK"&year>=2020),
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
   #scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Grazing Treatment")+
-  ylab("Community Weighted Mean")+
+  ylab("Functional Dispersion")+
   expand_limits(y=c(0.05,0.25))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.95)) #+
   #annotate("text", x=2.5, y=0.25, label = "A. Montana Site", size=30)
@@ -4252,7 +4252,7 @@ FDis_Grazing_TB<-ggplot(subset(Functional_Dispersion_avg,site=="TB"&year>=2020),
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
   #scale_y_continuous(labels = label_number(accuracy = 0.001))+
   xlab("Grazing Treatment")+
-  ylab("Community Weighted Mean")+
+  ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.2))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")#+
   #annotate("text", x=2.5, y=0.25, label = "B. Wyoming Site", size=30)
