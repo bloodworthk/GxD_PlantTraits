@@ -596,7 +596,7 @@ CWM_Collected_Data_avg<-CWM_Collected_Data %>%
 
 #### CWM of Height ####
 
-#Fort Keogh all yearst 
+#Fort Keogh all years
 Height_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
   geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
@@ -885,6 +885,158 @@ print(Lifespan_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 3500 x 4000  
 
+
+#### Create graph of all years for CWM: 4 Traits!! ####
+
+#### CWM of Height ####
+
+#Fort Keogh all years
+Height_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_alpha_manual(values=c(0,1,1,0))+
+  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(10,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.7,0.70),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=10, y=20, label = "A. Height", size=20)
+
+#Thunder Basin all years - not significant for any drought
+Height_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.7,0.70),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=9, y=20, label = "A. Height", size=20)
+
+####CWM of LeafThickness ####
+
+#Fort Keogh all years - no significance
+LeafThickness_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.3,0.45))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=20, y=0.45, label = "C. Leaf Thickness", size=20)
+
+#Thunder Basin all years - no significance
+LeafThickness_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=20, y=0.4, label = "C. Leaf Thickness", size=20)
+
+
+####CWM of LDMC ####
+
+#Fort Keogh all years - no significance 
+LDMC_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.45))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=30, y=0.45, label = "D. Leaf Dry Matter Content", size=20)
+
+# Thunder Basin all years - significant in 2020
+LDMC_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.20,0.7))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=27, y=0.7, label = "D. Leaf Dry Matter Content", size=20)
+
+####CWM of LeafArea ####
+
+#Fort Keogh all years - significant in 2020
+LeafArea_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="solid")+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,3))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=12, y=3, label = "F. Leaf Area", size=20)
+
+#Thunder Basin all years - significance in 2021
+LeafArea_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5,linetype="dashed")+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,2.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=12, y=2.5, label = "F. Leaf Area", size=20)
+
+#FK
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_FK_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(LeafThickness_FK_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_FK_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_FK_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 2000 x 1500 
+
+#TB
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_TB_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(LeafThickness_TB_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_TB_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_TB_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 2000 x 1500  
+
 #### Bar Graphs for Grazing ####
 
 #### CWM of Height FK Grazing ####
@@ -1152,6 +1304,150 @@ print(SLA_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(LeafArea_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
+
+#### Create graph of all years for CWM Grazing -4 traits! ####
+
+## CWM of Height FK Grazing ##
+Height_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=20, label = "A. Height", size=30)
+
+
+## CWM of Height TB Grazing ##
+Height_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=20, label = "A. Height", size=30)
+
+## CWM of Leaf Thickness FK Grazing ##
+Thickness_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=0.5, label = "C. Leaf Thickness", size=30)
+
+
+## CWM of Leaf Thickness TB Grazing ##
+Thickness_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=0.5, label = "C. Leaf Thickness", size=30)
+
+## CWM of LDMC FK Grazing ##
+LDMC_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.2,0.6))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=3, y=0.6, label = "D. Leaf Dry Matter Content", size=30)
+
+
+## CWM of LDMC TB Grazing ##
+LDMC_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.2,0.6))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=3, y=0.6, label = "D. Leaf Dry Matter Content", size=30)
+
+## CWM of Leaf Area FK Grazing ##
+LeafArea_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2.5, y=4, label = "F. Leaf Area", size=30)
+
+
+## CWM of Leaf Area TB Grazing ##
+LeafArea_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2.5, y=4, label = "F. Leaf Area", size=30)
+
+
+#FK
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_Grazing_FK_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Thickness_Grazing_FK_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_Grazing_FK_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_Grazing_FK_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+
+#Save at 3500 x 4000  
+
+#TB
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_Grazing_TB_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Thickness_Grazing_TB_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_Grazing_TB_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_Grazing_TB_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3500 x 4000  
 
 ##### CWM Stats ####
@@ -1878,7 +2174,7 @@ PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatme
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_21) 
 #adjust grazing p-value
-p.adjust(0.09091, method = "BH", n=9) #0.81
+p.adjust(0.07992, method = "BH", n=5) #0.3886
 
 #FK 2022
 PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_FK_22_Treatment, 
@@ -1906,7 +2202,7 @@ PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatme
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_22) #grazing (0.01299)
 #adjust grazing p-value
-p.adjust(0.01299, method = "BH", n=5) #0.11691
+p.adjust(0.01299, method = "BH", n=5) #0.06495
 
 #### PermDISP ####
 
@@ -3246,7 +3542,7 @@ LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,site=="TB"&year>=2019)
   ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.8))+
   scale_y_continuous(labels = label_number(accuracy = 0.01))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  #theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=1, y=0.8, label = "D. Leaf Dry Matter Content", size=20)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
@@ -3415,6 +3711,8 @@ print(Area_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 4000 x 4500  
+
+
 
 #### Bar Graphs for Grazing ####
 
@@ -4115,6 +4413,15 @@ Multivariate_FDis_TB<-ggplot(subset(Functional_Dispersion_avg,site=="TB"&year>=2
   expand_limits(y=c(0,0.25))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = c(0.2,0.9)) #+
   #annotate("text", x=15, y=0.25, label = "B. Wyoming Site", size=20)
+
+
+####Multivariate Functional Richness - Fort Keogh all years####
+
+Functional_Richness_avg<-Functional_Diversity %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FRic_Std=sd(FRic),FRic_Mean=mean(FRic),FRic_n=length(FRic))%>%
+  mutate(FRic_St_Error=FRic_Std/sqrt(FRic_n)) %>% 
+  ungroup()
 
 #Drought x FRic
 Multivariate_FRic_FK<-ggplot(subset(Functional_Richness_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FRic_Mean,color=as.factor(year),shape=as.factor(year))) +  
