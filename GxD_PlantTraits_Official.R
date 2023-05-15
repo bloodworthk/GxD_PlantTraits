@@ -596,7 +596,7 @@ CWM_Collected_Data_avg<-CWM_Collected_Data %>%
 
 #### CWM of Height ####
 
-#Fort Keogh all yearst 
+#Fort Keogh all years
 Height_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
   geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
@@ -885,6 +885,158 @@ print(Lifespan_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_TB_ALL,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 3500 x 4000  
 
+
+#### Create graph of all years for CWM: 4 Traits!! ####
+
+#### CWM of Height ####
+
+#Fort Keogh all years
+Height_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_alpha_manual(values=c(0,1,1,0))+
+  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(10,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.7,0.70),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=10, y=20, label = "A. Height", size=20)
+
+#Thunder Basin all years - not significant for any drought
+Height_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Height_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=Height_CWM_Mean-Height_CWM_St_Error,ymax=Height_CWM_Mean+Height_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.7,0.70),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=9, y=20, label = "A. Height", size=20)
+
+####CWM of LeafThickness ####
+
+#Fort Keogh all years - no significance
+LeafThickness_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.3,0.45))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=20, y=0.45, label = "C. Leaf Thickness", size=20)
+
+#Thunder Basin all years - no significance
+LeafThickness_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LeafThickness_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LeafThickness_CWM_Mean-LeafThickness_CWM_St_Error,ymax=LeafThickness_CWM_Mean+LeafThickness_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=20, y=0.4, label = "C. Leaf Thickness", size=20)
+
+
+####CWM of LDMC ####
+
+#Fort Keogh all years - no significance 
+LDMC_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.45))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=30, y=0.45, label = "D. Leaf Dry Matter Content", size=20)
+
+# Thunder Basin all years - significant in 2020
+LDMC_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=LDMC_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=LDMC_CWM_Mean-LDMC_CWM_St_Error,ymax=LDMC_CWM_Mean+LDMC_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.20,0.7))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=27, y=0.7, label = "D. Leaf Dry Matter Content", size=20)
+
+####CWM of LeafArea ####
+
+#Fort Keogh all years - significant in 2020
+LeafArea_FK_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="solid")+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,3))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=12, y=3, label = "F. Leaf Area", size=20)
+
+#Thunder Basin all years - significance in 2021
+LeafArea_TB_ALL_4<-ggplot(subset(CWM_Collected_Data_avg,Site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Area_CWM_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5,linetype="dashed")+
+  geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(1,2.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=12, y=2.5, label = "F. Leaf Area", size=20)
+
+#FK
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_FK_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(LeafThickness_FK_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_FK_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_FK_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 2000 x 1500 
+
+#TB
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_TB_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(LeafThickness_TB_ALL_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_TB_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_TB_ALL_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+#Save at 2000 x 1500  
+
 #### Bar Graphs for Grazing ####
 
 #### CWM of Height FK Grazing ####
@@ -1152,6 +1304,150 @@ print(SLA_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =1))
 print(LeafArea_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#Save at 3500 x 4000  
+
+#### Create graph of all years for CWM Grazing -4 traits! ####
+
+## CWM of Height FK Grazing ##
+Height_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=20, label = "A. Height", size=30)
+
+
+## CWM of Height TB Grazing ##
+Height_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Height_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=30), legend.key.size = unit(7.0, 'lines'))+
+  annotate("text", x=1.5, y=20, label = "A. Height", size=30)
+
+## CWM of Leaf Thickness FK Grazing ##
+Thickness_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=0.5, label = "C. Leaf Thickness", size=30)
+
+
+## CWM of Leaf Thickness TB Grazing ##
+Thickness_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LeafThickness_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.25,0.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  annotate("text", x=2.5, y=0.5, label = "C. Leaf Thickness", size=30)
+
+## CWM of LDMC FK Grazing ##
+LDMC_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.2,0.6))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=3, y=0.6, label = "D. Leaf Dry Matter Content", size=30)
+
+
+## CWM of LDMC TB Grazing ##
+LDMC_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=LDMC_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy"))))+
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.2,0.6))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=3, y=0.6, label = "D. Leaf Dry Matter Content", size=30)
+
+## CWM of Leaf Area FK Grazing ##
+LeafArea_Grazing_FK_4<-ggplot(subset(CWM_Collected_Data,Site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2.5, y=4, label = "F. Leaf Area", size=30)
+
+
+## CWM of Leaf Area TB Grazing ##
+LeafArea_Grazing_TB_4<-ggplot(subset(CWM_Collected_Data,Site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Area_CWM,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.5,4))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=2.5, y=4, label = "F. Leaf Area", size=30)
+
+
+#FK
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_Grazing_FK_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Thickness_Grazing_FK_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_Grazing_FK_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_Grazing_FK_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+
+#Save at 3500 x 4000  
+
+#TB
+pushViewport(viewport(layout=grid.layout(2,2)))
+print(Height_Grazing_TB_4,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Thickness_Grazing_TB_4,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(LDMC_Grazing_TB_4,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(LeafArea_Grazing_TB_4,vp=viewport(layout.pos.row=2, layout.pos.col =2))
 #Save at 3500 x 4000  
 
 ##### CWM Stats ####
@@ -1878,7 +2174,7 @@ PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat*grazing_treatme
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_21) 
 #adjust grazing p-value
-p.adjust(0.09091, method = "BH", n=9) #0.81
+p.adjust(0.07992, method = "BH", n=5) #0.3886
 
 #FK 2022
 PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat*grazing_treatment + (1|block/slope), data = CWM_FK_22_Treatment, 
@@ -1906,7 +2202,7 @@ PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat*grazing_treatme
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_22) #grazing (0.01299)
 #adjust grazing p-value
-p.adjust(0.01299, method = "BH", n=5) #0.11691
+p.adjust(0.01299, method = "BH", n=5) #0.06495
 
 #### PermDISP ####
 
@@ -3246,7 +3542,7 @@ LDMC_FDis_TB<-ggplot(subset(Functional_Diversity_LDMC_avg,site=="TB"&year>=2019)
   ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.8))+
   scale_y_continuous(labels = label_number(accuracy = 0.01))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
+  #theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")+
   annotate("text", x=1, y=0.8, label = "D. Leaf Dry Matter Content", size=20)
 
 #### SLA Functional Dispersion - Fort Keogh all years####
@@ -3415,6 +3711,8 @@ print(Area_FDis_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
 print(Lifespan_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =1))
 print(GrowthForm_FDis_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
 #Save at 4000 x 4500  
+
+
 
 #### Bar Graphs for Grazing ####
 
@@ -4115,6 +4413,15 @@ Multivariate_FDis_TB<-ggplot(subset(Functional_Dispersion_avg,site=="TB"&year>=2
   expand_limits(y=c(0,0.25))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = c(0.2,0.9)) #+
   #annotate("text", x=15, y=0.25, label = "B. Wyoming Site", size=20)
+
+
+####Multivariate Functional Richness - Fort Keogh all years####
+
+Functional_Richness_avg<-Functional_Diversity %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FRic_Std=sd(FRic),FRic_Mean=mean(FRic),FRic_n=length(FRic))%>%
+  mutate(FRic_St_Error=FRic_Std/sqrt(FRic_n)) %>% 
+  ungroup()
 
 #Drought x FRic
 Multivariate_FRic_FK<-ggplot(subset(Functional_Richness_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FRic_Mean,color=as.factor(year),shape=as.factor(year))) +  
@@ -4874,3 +5181,638 @@ FDis_GrowthForm_TB19_LMER_CHECK <- lmerTest::lmer(data = subset(Functional_Diver
 anova(FDis_GrowthForm_TB19_LMER_CHECK, type = 3) #Grazing (0.02606)
 #adjust grazing p-value
 p.adjust(0.02606, method = "BH", n=9) #0.23454
+
+
+#### Multivariate Functional Diversity Calculations ####
+
+###FK
+#create dataframe from the raw trait data where we subset FK data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_FK_4<-Traits_Clean_2 %>%
+  filter(Site=="FK") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
+  ) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
+  ungroup()
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Data_4<-Avg_Traits_FK_4 %>% 
+  dplyr::select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_4) <- c(1:33)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_4<-Avg_Traits_FK_4 %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_4<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  left_join(Avg_Traits_FK_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_4<-Species_Comp_FK_4 %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_4<-Species_Comp_FK_Wide_4 %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_4<-Species_Comp_FK_Wide_4 %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_4 <- dbFD(Avg_Traits_FK_Data_4, Species_Comp_FK_Wide_Data_4,corr = "none")
+summary(FK_FunctionalDiversity_4)
+
+### TB
+##create dataframe from the raw trait data where wesubset TB data and then average across blocks, paddocks. then add species numbers 1-33 to assign to each species for future identification and analysis 
+Avg_Traits_TB_4<-Traits_Clean_2 %>%
+  filter(Site=="TB") %>% 
+  group_by(Site,Genus_Species_Correct) %>% 
+  summarise(
+    Avg_height_cm=mean(height_cm,na.rm=T),
+    Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
+    Avg_LDMC=mean(LDMC,na.rm=T),
+    Avg_Area=mean(Total.Area, na.rm=T)
+  ) %>% 
+  ungroup() %>% 
+  filter(!Genus_Species_Correct %in% c("Oenothera.suffrtescuns")) %>% 
+  mutate(Sp_Num=c(1:43))
+
+#Create a matrix with just average trait data removing all identifiers
+Avg_Traits_TB_Data_4<-Avg_Traits_TB_4 %>% 
+  dplyr::select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
+  as.matrix()
+
+#make row names 1-44 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_4) <- c(1:43)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_4<-Avg_Traits_TB_4 %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num)
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_4<- Species_Comp_RelCov_All %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  left_join(Avg_Traits_TB_SpNames) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_4<-Species_Comp_TB_4 %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_4<-Species_Comp_TB_Wide_4 %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_4<-Species_Comp_TB_Wide_4 %>% 
+  mutate(ID_Num=c(1:270)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_4 <- dbFD(Avg_Traits_TB_Data_4, Species_Comp_TB_Wide_Data_4,corr = "none")
+
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_4<-as.data.frame(FK_FunctionalDiversity_4) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_4)
+
+Functional_Diversity_TB_4<-as.data.frame(TB_FunctionalDiversity_4) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_4)
+
+Functional_Diversity_4<-Functional_Diversity_FK_4 %>% 
+  rbind(Functional_Diversity_TB_4) %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
+  dplyr::select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(Grazing_2020=ifelse(grazing_category=="MMMMM","medium",ifelse(grazing_category=="HHMMM","high",ifelse(grazing_category=="MLLMM","medium",grazing_category)))) %>% 
+  mutate(FDis_All=FDis)
+
+#### Distribution and Covariance of Dispersion ####
+
+#make data frame with dispersion of all traits calculated above
+Functional_Diversity_All_4<-Functional_Diversity_4 %>% 
+  dplyr::select(year,site,plot,block,paddock,slope,rainfall_reduction,Rainfall_reduction_cat,grazing_treatment,Grazing_2020,FDis,FRic,FEve,FDiv)
+
+Functional_Diversity_All_FK_4<-Functional_Diversity_All_4 %>% 
+  filter(site=="FK") %>% 
+  mutate(FRic_TF=log(FRic)) 
+
+Functional_Diversity_All_TB_4<-Functional_Diversity_All_4 %>% 
+  filter(site=="TB") %>% 
+  mutate(FRic_TF=log(FRic)) 
+
+Functional_Diversity_All_4<-Functional_Diversity_All_FK_4 %>% 
+  rbind(Functional_Diversity_All_TB_4)
+
+#not transformed - FK
+chart.Correlation(Functional_Diversity_All_FK_4[c(11,15,13,14)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+#transformed - TB
+chart.Correlation(Functional_Diversity_All_TB_4[c(11,15,13,14)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
+#### Multivariate Functional Dispersion Stats ####
+
+#FDis for Fort Keogh 2018 - LMER
+FDis_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK18_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="FK"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="FK"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #NS
+
+
+### Thunder Basin 
+
+#FDis for Fort Keogh 2018 - LMER
+FDis_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB18_LMER, type = 3) #NS
+
+#FDis for Thunder Basin 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="TB"), FDis ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Thunder Basin 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="TB"), FDis ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #Grazing (p=0.004822)
+#adjust grazing p-value
+p.adjust(0.01034, method = "BH", n=9) #0.09396
+summary(glht(FDis_TB20_LMER, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) #NS
+
+#adjust grazing p-value (5)
+p.adjust(0.01034, method = "BH", n=5) #0.052
+
+#FDis for Thunder Basin 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Thunder Basin 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="TB"), FDis ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #Grazing (p=0.01044)
+#adjust grazing p-value
+p.adjust(0.01044, method = "BH", n=9) #0.09396
+#post hoc test for lmer test on drought
+summary(glht(FDis_TB22_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
+
+#adjust grazing p-value (5)
+p.adjust(0.01044, method = "BH", n=5) #0.0522
+
+#### Multivariate Functional Richness Stats ####
+
+#FRic for Fort Keogh 2018 - LMER
+FRic_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="FK"), FRic_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_FK18_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2019 - LMER
+FRic_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="FK"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_FK19_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2020 - LMER
+FRic_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="FK"), FRic_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FRic_FK20_LMER, type = 3)  #NS
+
+#FRic for Fort Keogh 2021 - LMER
+FRic_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="FK"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_FK21_LMER, type = 3) #NS
+
+#FRic for Fort Keogh 2022 - LMER
+FRic_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="FK"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_FK22_LMER, type = 3) #NS
+
+
+### Thunder Basin 
+
+#FRic for Thunder Basin 2018 - LMER
+FRic_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="TB"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_TB18_LMER, type = 3) #NS
+
+#FRic for Thunder Basin 2019 - LMER
+FRic_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="TB"), FRic_TF ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FRic_TB19_LMER, type = 3) #NS
+
+#FRic for Thunder Basin 2020 - LMER
+FRic_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="TB"), FRic_TF ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FRic_TB20_LMER, type = 3)  #Grazing (p=0.005486)
+summary(glht(FRic_TB20_LMER, linfct = mcp(Grazing_2020 = "Tukey")), test = adjusted(type = "BH")) #medium and high are significantly different
+
+#FRic for Thunder Basin 2021 - LMER
+FRic_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="TB"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_TB21_LMER, type = 3) #grazing (0.04517)
+summary(glht(FRic_TB21_LMER, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #ns
+
+#FRic for Thunder Basin 2022 - LMER
+FRic_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="TB"), FRic_TF ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FRic_TB22_LMER, type = 3) #NS
+
+
+#### Multivariate Functional Evenness Stats ####
+
+#FEve for Fort Keogh 2018 - LMER
+FEve_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="FK"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_FK18_LMER, type = 3) #NS
+
+#FEve for Fort Keogh 2019 - LMER
+FEve_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="FK"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_FK19_LMER, type = 3) #NS
+
+#FEve for Fort Keogh 2020 - LMER
+FEve_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="FK"), FEve ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FEve_FK20_LMER, type = 3)  #NS
+
+#FEve for Fort Keogh 2021 - LMER
+FEve_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="FK"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_FK21_LMER, type = 3) #Grazing (0.066)
+
+#FEve for Fort Keogh 2022 - LMER
+FEve_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="FK"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_FK22_LMER, type = 3) #Drought (0.022), grazing (0.09)
+
+
+### Thunder Basin 
+
+#FEve for Thunder Basin 2018 - LMER
+FEve_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="TB"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_TB18_LMER, type = 3) #NS
+
+#FEve for Thunder Basin 2019 - LMER
+FEve_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="TB"), FEve ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FEve_TB19_LMER, type = 3) #NS
+
+#FEve for Thunder Basin 2020 - LMER
+FEve_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="TB"), FEve ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FEve_TB20_LMER, type = 3)  #NS
+
+#FEve for Thunder Basin 2021 - LMER
+FEve_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="TB"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_TB21_LMER, type = 3) #DxG (0.01591)
+
+#FEve for Thunder Basin 2022 - LMER
+FEve_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="TB"), FEve ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FEve_TB22_LMER, type = 3) #NS
+
+#### Multivariate Functional Diversity Stats ####
+
+#FDiv for Fort Keogh 2018 - LMER
+FDiv_FK18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_FK18_LMER, type = 3) #NS
+
+#FDiv for Fort Keogh 2019 - LMER
+FDiv_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="FK"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_FK19_LMER, type = 3) #NS
+
+#FDiv for Fort Keogh 2020 - LMER
+FDiv_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="FK"), FDiv ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDiv_FK20_LMER, type = 3)  #NS
+
+#FDiv for Fort Keogh 2021 - LMER
+FDiv_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="FK"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_FK21_LMER, type = 3) #Drought (0.047)
+
+#FDiv for Fort Keogh 2022 - LMER
+FDiv_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="FK"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_FK22_LMER, type = 3) #NS
+
+
+### Thunder Basin 
+
+#FDiv for Thunder Basin 2018 - LMER
+FDiv_TB18_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2018&site=="TB"), FDiv ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDiv_TB18_LMER, type = 3) #NS
+
+#FDiv for Thunder Basin 2019 - LMER
+FDiv_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2019&site=="TB"), FDiv ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDiv_TB19_LMER, type = 3) #NS
+
+#FDiv for Thunder Basin 2020 - LMER
+FDiv_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2020&site=="TB"), FDiv ~ Rainfall_reduction_cat*Grazing_2020 + (1|block) + (1|block:slope))
+anova(FDiv_TB20_LMER, type = 3)  #Drought (0.039)
+
+#FDiv for Thunder Basin 2021 - LMER
+FDiv_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2021&site=="TB"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_TB21_LMER, type = 3) #Drought (0.037) and DxG (0.02)
+
+#FDiv for Thunder Basin 2022 - LMER
+FDiv_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_All_4,year==2022&site=="TB"), FDiv ~ Rainfall_reduction_cat*grazing_treatment + (1|block) + (1|block:slope))
+anova(FDiv_TB22_LMER, type = 3) #NS
+
+####Multivariate Functional Dispersion - Fort Keogh all years####
+
+Functional_Dispersion_avg<-Functional_Diversity_4 %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FDis_Std=sd(FDis),FDis_Mean=mean(FDis),FDis_n=length(FDis))%>%
+  mutate(FDis_St_Error=FDis_Std/sqrt(FDis_n)) %>% 
+  ungroup()
+
+#Drought x FDis
+Multivariate_FDis_FK<-ggplot(subset(Functional_Dispersion_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
+  #geom_smooth(data=subset(Functional_Dispersion_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="dashed")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,0.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none",legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines')) #+
+#annotate("text", x=17, y=0.25, label = "A. Montana Site", size=20)
+
+#### Multivariate Functional Dispersion - Thunder Basin all years####
+Multivariate_FDis_TB<-ggplot(subset(Functional_Dispersion_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 2)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,0.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = c(0.2,0.9)) #+
+#annotate("text", x=15, y=0.25, label = "B. Wyoming Site", size=20)
+
+
+####Multivariate Functional Richness - Fort Keogh all years####
+
+Functional_Richness_avg<-Functional_Diversity_4 %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FRic_Std=sd(FRic),FRic_Mean=mean(FRic),FRic_n=length(FRic))%>%
+  mutate(FRic_St_Error=FRic_Std/sqrt(FRic_n)) %>% 
+  ungroup()
+
+#Drought x FRic
+Multivariate_FRic_FK<-ggplot(subset(Functional_Richness_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FRic_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FRic_Mean-FRic_St_Error,ymax=FRic_Mean+FRic_St_Error),linewidth = 2)+
+  geom_smooth(data=subset(Functional_Richness_avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Richness")+
+  expand_limits(y=c(0,1e-06))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none",legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines')) #+
+#annotate("text", x=17, y=8e-06, label = "A. FRic Montana Site", size=20)
+
+#### Multivariate Functional Richness - Thunder Basin all years####
+Multivariate_FRic_TB<-ggplot(subset(Functional_Richness_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FRic_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FRic_Mean-FRic_St_Error,ymax=FRic_Mean+FRic_St_Error),linewidth = 2)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Richness")+
+  expand_limits(y=c(0,0.05))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none") #+
+#annotate("text", x=15, y=0.05, label = "B. Wyoming Site", size=20)
+
+####Multivariate Functional Evenness - Fort Keogh all years####
+
+Functional_Evenness_avg<-Functional_Diversity_4 %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FEve_Std=sd(FEve),FEve_Mean=mean(FEve),FEve_n=length(FEve))%>%
+  mutate(FEve_St_Error=FEve_Std/sqrt(FEve_n)) %>% 
+  ungroup()
+
+#Drought x FEve
+Multivariate_FEve_FK<-ggplot(subset(Functional_Evenness_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FEve_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FEve_Mean-FEve_St_Error,ymax=FEve_Mean+FEve_St_Error),linewidth = 2)+
+  #geom_smooth(data=subset(Functional_Evenness_avg,site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Evenness")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none",legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines')) #+
+#annotate("text", x=17, y=8e-06, label = "A. FEve Montana Site", size=20)
+
+#### Multivariate Functional Evenness - Thunder Basin all years####
+Multivariate_FEve_TB<-ggplot(subset(Functional_Evenness_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FEve_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FEve_Mean-FEve_St_Error,ymax=FEve_Mean+FEve_St_Error),linewidth = 2)+
+  geom_smooth(data=subset(Functional_Evenness_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="darkgreen",size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Evenness")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none") #+
+#annotate("text", x=15, y=0.05, label = "B. Wyoming Site", size=20)
+
+####Multivariate Functional Diversity - Fort Keogh all years####
+
+Functional_Diversity_avg<-Functional_Diversity_4 %>% 
+  group_by(site, year, rainfall_reduction,grazing_treatment)%>%
+  summarize(FDiv_Std=sd(FDiv),FDiv_Mean=mean(FDiv),FDiv_n=length(FDiv))%>%
+  mutate(FDiv_St_Error=FDiv_Std/sqrt(FDiv_n)) %>% 
+  ungroup()
+
+#Drought x FDiv
+Multivariate_FDiv_FK<-ggplot(subset(Functional_Diversity_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDiv_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FDiv_Mean-FDiv_St_Error,ymax=FDiv_Mean+FDiv_St_Error),linewidth = 2)+
+  #geom_smooth(data=subset(Functional_Diversity_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Diversity")+
+  expand_limits(y=c(0.5,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none",legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines')) #+
+#annotate("text", x=17, y=8e-06, label = "A. FDiv Montana Site", size=20)
+
+#### Multivariate Functional Diversity - Thunder Basin all years####
+Multivariate_FDiv_TB<-ggplot(subset(Functional_Diversity_avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=FDiv_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=10, stroke =4)+
+  geom_pointrange(aes(ymin=FDiv_Mean-FDiv_St_Error,ymax=FDiv_Mean+FDiv_St_Error),linewidth = 2)+
+  #geom_smooth(data=subset(Functional_Diversity_avg,site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5)+
+  #geom_smooth(data=subset(Functional_Diversity_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Functional Diversity")+
+  expand_limits(y=c(0.5,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")#+
+#annotate("text", x=15, y=0.05, label = "B. Wyoming Site", size=20)
+
+#### Create graph of multivariate ALL drought ####
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(Multivariate_FDis_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(Multivariate_FDis_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(Multivariate_FRic_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(Multivariate_FRic_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(Multivariate_FEve_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(Multivariate_FEve_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(Multivariate_FDiv_FK,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(Multivariate_FDiv_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#save at 3500 x 2000
+
+
+#### Multivariate Dispersion Richness - Grazing Fort Keogh all years####
+FDis_Grazing_FK<-ggplot(subset(Functional_Dispersion_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0.05,0.25))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.95)) #+
+#annotate("text", x=2.5, y=0.25, label = "A. Montana Site", size=30)
+
+#### Multivariate Dispersion Richness - Grazing Thunder Basin all years####
+FDis_Grazing_TB<-ggplot(subset(Functional_Dispersion_avg,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDis_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Dispersion")+
+  expand_limits(y=c(0,0.2))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")#+
+#annotate("text", x=2.5, y=0.25, label = "B. Wyoming Site", size=30)
+
+#### Multivariate Functional Richness - Grazing Fort Keogh all years####
+FRic_Grazing_FK<-ggplot(subset(Functional_Richness_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FRic_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Richness")+
+  expand_limits(y=c(0,5e-06))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none") #+
+#annotate("text", x=2.5, y=5e-06, label = "A. Montana Site", size=30)
+
+#### Multivariate Functional Richness - Grazing Thunder Basin all years####
+FRic_Grazing_TB<-ggplot(subset(Functional_Richness_avg,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FRic_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0,0.04))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")#+
+#annotate("text", x=2.5, y=5e-06, label = "B. Wyoming Site", size=30)
+
+#### Multivariate Functional Evenness - Grazing Fort Keogh all years####
+FEve_Grazing_FK<-ggplot(subset(Functional_Evenness_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FEve_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Evenness")+
+  expand_limits(y=c(0.2,0.8))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none") #+
+#annotate("text", x=2.5, y=5e-06, label = "A. Montana Site", size=30)
+
+#### Multivariate Functional Evenness - Grazing Thunder Basin all years####
+FEve_Grazing_TB<-ggplot(subset(Functional_Evenness_avg,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FEve_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.2,0.8))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")#+
+#annotate("text", x=2.5, y=5e-06, label = "B. Wyoming Site", size=30)
+
+
+#### Multivariate Functional Diversity - Grazing Fort Keogh all years####
+FDiv_Grazing_FK<-ggplot(subset(Functional_Diversity_avg,site=="FK"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDiv_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Functional Diversity")+
+  expand_limits(y=c(0.4,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none") #+
+#annotate("text", x=2.5, y=5e-06, label = "A. Montana Site", size=30)
+
+#### Multivariate Functional Diversity - Grazing Thunder Basin all years####
+FDiv_Grazing_TB<-ggplot(subset(Functional_Diversity_avg,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=FDiv_Mean,color=factor(grazing_treatment,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  #annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'),ymin=-Inf, ymax=Inf, alpha=0.2, fill="white")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment")+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"))+
+  #scale_y_continuous(labels = label_number(accuracy = 0.001))+
+  xlab("Grazing Treatment")+
+  ylab("Community Weighted Mean")+
+  expand_limits(y=c(0.4,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")#+
+#annotate("text", x=2.5, y=5e-06, label = "B. Wyoming Site", size=30)
+
+#### Create graph of multivariate ALL grazing ####
+pushViewport(viewport(layout=grid.layout(4,2)))
+print(FDis_Grazing_FK,vp=viewport(layout.pos.row=1, layout.pos.col =1))
+print(FDis_Grazing_TB,vp=viewport(layout.pos.row=1, layout.pos.col =2))
+print(FRic_Grazing_FK,vp=viewport(layout.pos.row=2, layout.pos.col =1))
+print(FRic_Grazing_TB,vp=viewport(layout.pos.row=2, layout.pos.col =2))
+print(FEve_Grazing_FK,vp=viewport(layout.pos.row=3, layout.pos.col =1))
+print(FEve_Grazing_TB,vp=viewport(layout.pos.row=3, layout.pos.col =2))
+print(FDiv_Grazing_FK,vp=viewport(layout.pos.row=4, layout.pos.col =1))
+print(FDiv_Grazing_TB,vp=viewport(layout.pos.row=4, layout.pos.col =2))
+#save at 3500 x 2000
