@@ -57,10 +57,10 @@ Relative_Cover_2018_FK$plot<-as.factor(Relative_Cover_2018_FK$plot)
 # get dataframe with just aerial total cover per plot
 Total_Cover_2019_FK<-FK_SpComp_2019 %>%
   #only keep added total
-  filter(genus_species=="Added_Total") %>% 
-  select(-c(genus_species,basal_cover,symbol)) %>% 
-  rename(Total_Cover=aerial_cover)
-
+  filter(genus_species!="Added_Total" & genus_species!="Estimated_Total" & genus_species!="Rock" & genus_species!="Litter" & genus_species!="Bare Ground" & genus_species!="overlap" & genus_species!="Overlap" & genus_species!="opuntia_pads" & genus_species!="Dung" & genus_species!="Lichen" & genus_species!="Moss" & genus_species!="Mushroom") %>% 
+  group_by(site,block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T)) %>% 
+  ungroup() 
 
 #make dataframe with necessary information for relative cover calculation
 Species_Cover_2019_FK<-FK_SpComp_2019 %>% 
@@ -69,9 +69,9 @@ Species_Cover_2019_FK<-FK_SpComp_2019 %>%
   filter(genus_species!="") %>% 
   filter(!genus_species %in% c("Added_Total","Estimated_Total" ,"Rock","Litter", "Bare Ground","overlap","Overlap", "Dung","ASER_Like_Woody","Lichen","Moss", "silver_stuff_unk3", "Skinny_leaf_fuzzy_bottom","oenothera?_basal_rossette","dead_mustard_unk","oenothera?_basal_rossetta","Oenothera_waxy_leaves","Basal_rosette","Mushroom","opuntia_pads")) %>% 
   rename(Species_Cover="aerial_cover") %>% 
-  dplyr::select(-c(observers,date,basal_cover)) %>% 
+  dplyr::select(-c(observers,date,basal_cover,notes)) %>% 
   filter(!is.na(Species_Cover)) %>% 
-  filter(Species_Cover!="0")
+  filter(Species_Cover!="0") 
 
 ##### stopped here ##### - isssues with added total - look at excel sheet
 #Calculate Relative Cover
@@ -81,9 +81,8 @@ Relative_Cover_2019_FK<-Species_Cover_2019_FK%>%
   #Add Total_Cover data into the Relative_Cover data sheet
   left_join(Total_Cover_2019_FK)%>%
   #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
-  mutate(Relative_Cover=(Species_Cover/Total_Cover)*100) %>% 
-  dplyr::select(-Species_Cover,-basal_cover,-Total_Cover) %>% 
-  mutate(Relative_Cover=replace_na(Relative_Cover,0)) %>% 
+  mutate(Relative_Cover=(Species_Cover/Total_Cover_Aerial)*100) %>%  #check 
+  dplyr::select(-Species_Cover,-Total_Cover_Aerial) %>%  
   mutate(year=2019)  %>% 
   rename(species="genus_species") %>% 
   dplyr::select(year,site,plot,species,Relative_Cover)
