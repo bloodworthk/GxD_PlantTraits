@@ -769,13 +769,13 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
 #FK: richness and drought
 #Fort Keogh all years
 Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_point(size=14, stroke =6)+ #2019 2021
+  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","cadetblue","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_alpha_manual(values=c(0,1,1,0))+
   #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_y_continuous(labels = label_number(accuracy = 0.01))+
@@ -783,7 +783,7 @@ Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
   ylab("Plant Species Richness")+
   expand_limits(y=c(0,20))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.25),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
-  annotate("text", x=28, y=20, label = "A. MT Aerial Richness", size=20)
+  annotate("text", x=20, y=20, label = "A. Montana Site", size=20)
 
 #FThunder Basin all years
 Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
@@ -793,7 +793,7 @@ Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","cadetblue","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_alpha_manual(values=c(0,1,1,0))+
   #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_y_continuous(labels = label_number(accuracy = 0.01))+
@@ -801,7 +801,7 @@ Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
   ylab("Plant Species Richness")+
   expand_limits(y=c(0,20))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=28, y=20, label = "B. WY Aerial Richness", size=20)
+  annotate("text", x=20,y=20, label = "B. Wyoming Site", size=20)
 
 #### Create RichnessxDrought Figure ####
 Richness_FK_ALL_Aerial_Drought+
@@ -821,8 +821,8 @@ Richness_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"
   xlab("Grazing Treatment")+
   ylab("Plant Species Richness")+
   expand_limits(y=c(0,30))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
-  annotate("text", x=2.8, y=29, label = "C. MT Aerial Richness", size=30)
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=2.2, y=29, label = "C. Montana Site", size=30)
 
 ## TB Grazing ##
 Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=richness_fig,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
@@ -837,7 +837,7 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
   ylab("Plant Species Richness")+
   expand_limits(y=c(0,30))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=2.8, y=29, label = "D. WY Aerial Richness", size=30)
+  annotate("text", x=2.2, y=29, label = "D. Wyoming Site", size=30)
 
 #### Create RichnessXGrazing Figure ####
 
