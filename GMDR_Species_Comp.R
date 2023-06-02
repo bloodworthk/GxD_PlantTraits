@@ -5,6 +5,10 @@
 
 #### Load Libraries ####
 library(tidyverse) 
+#install.packages("codyn")
+library(codyn)
+library(olsrr)
+library(car)
 
 #### Set Working Directory ####
 #Bloodworth - Mac
@@ -422,4 +426,598 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
                               Genus_Species_3))))))))))))))))))))))))))))))))))))))))))))
                                                                     
                                                                     
-                             
+#### Calculate Community Metrics ####
+# uses codyn package and finds shannon's diversity 
+
+#FK Diversity
+Diversity_FK_Aerial <- community_diversity(df = subset(Species_Comp_RelCov_Clean, site == "FK" & aerial_basal=="Aerial"),
+                                  time.var = "year",
+                                  replicate.var = "plot",
+                                  abundance.var = "Relative_Cover") %>% 
+  mutate(site="FK")
+Diversity_FK_Basal <- community_diversity(df = subset(Species_Comp_RelCov_Clean, site == "FK" & aerial_basal=="Basal"),
+                                           time.var = "year",
+                                           replicate.var = "plot",
+                                           abundance.var = "Relative_Cover")  %>% 
+  mutate(site="FK")
+#TB Diversity
+Diversity_TB_Aerial <- community_diversity(df = subset(Species_Comp_RelCov_Clean, site == "TB" & aerial_basal=="Aerial"),
+                                           time.var = "year",
+                                           replicate.var = "plot",
+                                           abundance.var = "Relative_Cover")  %>% 
+  mutate(site="TB")
+Diversity_TB_Basal <- community_diversity(df = subset(Species_Comp_RelCov_Clean, site == "TB" & aerial_basal=="Basal"),
+                                          time.var = "year",
+                                          replicate.var = "plot",
+                                          abundance.var = "Relative_Cover")%>% 
+  mutate(site="TB") 
+#Merge Site Data-  aerial
+Diversity_Aerial<-Diversity_FK_Aerial %>% 
+  full_join(Diversity_TB_Aerial)
+
+#Merge Site Data - basal
+Diversity_Basal<-Diversity_FK_Basal %>% 
+  full_join(Diversity_TB_Basal)
+
+#FK Community Structure
+#FK Diversity
+Structure_FK_Aerial <- community_structure(df = subset(Species_Comp_RelCov_Clean, site == "FK" & aerial_basal=="Aerial"),
+                                           time.var = "year",
+                                           replicate.var = "plot",
+                                           abundance.var = "Relative_Cover",
+                                           metric = "Evar")  %>% 
+  mutate(site="FK")
+Structure_FK_Basal <- community_structure(df = subset(Species_Comp_RelCov_Clean, site == "FK" & aerial_basal=="Basal"),
+                                          time.var = "year",
+                                          replicate.var = "plot",
+                                          abundance.var = "Relative_Cover",
+                                          metric = "Evar")   %>% 
+  mutate(site="FK")
+#TB Community Structure
+Structure_TB_Aerial <- community_structure(df = subset(Species_Comp_RelCov_Clean, site == "TB" & aerial_basal=="Aerial"),
+                                           time.var = "year",
+                                           replicate.var = "plot",
+                                           abundance.var = "Relative_Cover",
+                                           metric = "Evar")   %>% 
+  mutate(site="TB")
+Structure_TB_Basal <- community_structure(df = subset(Species_Comp_RelCov_Clean, site == "TB" & aerial_basal=="Basal"),
+                                          time.var = "year",
+                                          replicate.var = "plot",
+                                          abundance.var = "Relative_Cover",
+                                           metric = "Evar")  %>% 
+  mutate(site="TB")   
+
+#Merge Site Data-  aerial
+Structure_Aerial<-Structure_FK_Aerial %>% 
+  full_join(Structure_TB_Aerial)
+
+#Merge Site Data - basal
+Structure_Basal<-Structure_FK_Basal %>% 
+  full_join(Structure_TB_Basal)
+
+#join the datasets
+CommunityMetrics_Aerial <- Diversity_Aerial %>%
+  full_join(Structure_Aerial) %>% 
+  full_join(plot_layoutK) %>%
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(livestock_util_2019 = as.factor(livestock_util_2019)) %>%
+  mutate(livestock_util_2020 = as.factor(livestock_util_2020)) %>% 
+  mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
+  select(year,site,block,slope,plot,rainfall_reduction,grazing_treatment,livestock_util_2019,richness,Shannon,Evar)
+
+CommunityMetrics_Basal <- Diversity_Basal %>%
+  full_join(Structure_Basal) %>% 
+  full_join(plot_layoutK) %>%
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(livestock_util_2019 = as.factor(livestock_util_2019)) %>%
+  mutate(livestock_util_2020 = as.factor(livestock_util_2020)) %>% 
+  mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
+  select(year,site,block,slope,plot,rainfall_reduction,grazing_treatment,livestock_util_2019,richness,Shannon,Evar)
+
+#### Check for Normality ####
+
+####still need to check for homoscedacity but levene test can't be used with quantitative explanatory variables 
+
+#### Normality: Fort Keogh Aerial + Basal - Richness ####
+#FK - Aerial - Richness: 2018 
+#non transformed data
+Norm_FK_18_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Richness_Ar) 
+ols_test_normality(Norm_FK_18_Richness_Ar) #normal
+
+#FK - Aerial - Richness: 2019 
+#non transformed data
+Norm_FK_19_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Richness_Ar) 
+ols_test_normality(Norm_FK_19_Richness_Ar) #normal
+
+#FK - Aerial - Richness: 2020
+#non transformed data
+Norm_FK_20_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Richness_Ar) 
+ols_test_normality(Norm_FK_20_Richness_Ar) #normal
+
+#FK - Aerial - Richness: 2021
+#non transformed data
+Norm_FK_21_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Richness_Ar) 
+ols_test_normality(Norm_FK_21_Richness_Ar) #normal
+
+#FK - Aerial - Richness: 2022
+#non transformed data
+Norm_FK_22_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Richness_Ar) 
+ols_test_normality(Norm_FK_22_Richness_Ar) #normal
+
+#FK - Basal - Richness: 2018 
+#non transformed data
+Norm_FK_18_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Richness_Ba) 
+ols_test_normality(Norm_FK_18_Richness_Ba) #normal
+
+#FK - Basal - Richness: 2019 
+#non transformed data
+Norm_FK_19_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), richness  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Richness_Ba) 
+ols_test_normality(Norm_FK_19_Richness_Ba) #normal
+
+#FK - Basal - Richness: 2020
+#non transformed data
+Norm_FK_20_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), richness  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Richness_Ba) 
+ols_test_normality(Norm_FK_20_Richness_Ba) #normal
+
+#FK - Basal - Richness: 2021
+#non transformed data
+Norm_FK_21_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Richness_Ba) 
+ols_test_normality(Norm_FK_21_Richness_Ba) #normal
+
+#FK - Basal - Richness: 2022
+#non transformed data
+Norm_FK_22_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Richness_Ba) 
+ols_test_normality(Norm_FK_22_Richness_Ba) #normal
+
+#### Normality: Thunder Basin Aerial + Basal - Richness ####
+#TB - Aerial - Richness: 2018 
+#non transformed data
+Norm_TB_18_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Richness_Ar) 
+ols_test_normality(Norm_TB_18_Richness_Ar) #normal
+
+#TB - Aerial - Richness: 2019 
+#non transformed data
+Norm_TB_19_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Richness_Ar) 
+ols_test_normality(Norm_TB_19_Richness_Ar) #not normal
+
+#TB - Aerial - Richness: 2020
+#non transformed data
+Norm_TB_20_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Richness_Ar) 
+ols_test_normality(Norm_TB_20_Richness_Ar) #normal
+
+#TB - Aerial - Richness: 2021
+#non transformed data
+Norm_TB_21_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Richness_Ar) 
+ols_test_normality(Norm_TB_21_Richness_Ar) #normal
+
+#TB - Aerial - Richness: 2022
+#non transformed data
+Norm_TB_22_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Richness_Ar) 
+ols_test_normality(Norm_TB_22_Richness_Ar) #normal
+
+#TB - Basal - Richness: 2018 
+#non transformed data
+Norm_TB_18_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Richness_Ba) 
+ols_test_normality(Norm_TB_18_Richness_Ba) #normal
+
+#TB - Basal - Richness: 2019 
+#non transformed data
+Norm_TB_19_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), richness  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Richness_Ba) 
+ols_test_normality(Norm_TB_19_Richness_Ba) #not normal
+
+
+#TB - Basal - Richness: 2020
+#non transformed data
+Norm_TB_20_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), richness  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Richness_Ba) 
+ols_test_normality(Norm_TB_20_Richness_Ba) #normal
+
+#TB - Basal - Richness: 2021
+#non transformed data
+Norm_TB_21_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Richness_Ba) 
+ols_test_normality(Norm_TB_21_Richness_Ba) #normal
+
+#TB - Basal - Richness: 2022
+#non transformed data
+Norm_TB_22_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), richness  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Richness_Ba) 
+ols_test_normality(Norm_TB_22_Richness_Ba) #normal
+
+#### Stats: Aerial Richness: FK ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Richness, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Richness, type = 3) #p=0.007433
+
+#FK 2020 - droughtxgrazing
+FK_20_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Richness, type = 3) #drought (p=0.0662)
+
+#FK 2021- droughtxgrazing
+FK_21_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Richness, type = 3) #drought (p=0.04036)
+
+#FK 2022- droughtxgrazing
+FK_22_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Richness, type = 3) #NS
+
+#### Stats: Aerial Richness: TB ####
+
+#TB 2018 - checking drought and grazing
+TB_18_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Richness, type = 3) #NS
+
+#TB 2019 - just drought
+TB_19_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Richness, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Richness, type = 3) #NS
+
+#TB 2021- droughtxgrazing
+TB_21_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Richness, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Richness, type = 3) #NS
+
+#### Normality: Fort Keogh Aerial + Basal - Evar ####
+#FK - Aerial - Evar: 2018 
+#non transformed data
+Norm_FK_18_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Evar_Ar) 
+ols_test_normality(Norm_FK_18_Evar_Ar) #normal
+
+#FK - Aerial - Evar: 2019 
+#non transformed data
+Norm_FK_19_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Evar_Ar) 
+ols_test_normality(Norm_FK_19_Evar_Ar) #not normal
+
+#FK - Aerial - Evar: 2020
+#non transformed data
+Norm_FK_20_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Evar_Ar) 
+ols_test_normality(Norm_FK_20_Evar_Ar) #normal
+
+#FK - Aerial - Evar: 2021
+#non transformed data
+Norm_FK_21_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Evar_Ar) 
+ols_test_normality(Norm_FK_21_Evar_Ar) #normal
+
+#FK - Aerial - Evar: 2022
+#non transformed data
+Norm_FK_22_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Evar_Ar) 
+ols_test_normality(Norm_FK_22_Evar_Ar) #normal
+
+#FK - Basal - Evar: 2018 
+#non transformed data
+Norm_FK_18_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Evar_Ba) 
+ols_test_normality(Norm_FK_18_Evar_Ba) #normal
+
+#FK - Basal - Evar: 2019 
+#non transformed data
+Norm_FK_19_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Evar  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Evar_Ba) 
+ols_test_normality(Norm_FK_19_Evar_Ba) #normal
+
+#FK - Basal - Evar: 2020
+#non transformed data
+Norm_FK_20_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Evar  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Evar_Ba) 
+ols_test_normality(Norm_FK_20_Evar_Ba) #normal
+
+#FK - Basal - Evar: 2021
+#non transformed data
+Norm_FK_21_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Evar_Ba) 
+ols_test_normality(Norm_FK_21_Evar_Ba) #normal
+
+#FK - Basal - Evar: 2022
+#non transformed data
+Norm_FK_22_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Evar_Ba) 
+ols_test_normality(Norm_FK_22_Evar_Ba) #normal
+
+#### Normality: Thunder Basin Aerial + Basal - Evar ####
+#TB - Aerial - Evar: 2018 
+#non transformed data
+Norm_TB_18_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Evar_Ar) 
+ols_test_normality(Norm_TB_18_Evar_Ar) #normal
+
+#TB - Aerial - Evar: 2019 
+#non transformed data
+Norm_TB_19_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Evar_Ar) 
+ols_test_normality(Norm_TB_19_Evar_Ar) #normal
+
+#TB - Aerial - Evar: 2020
+#non transformed data
+Norm_TB_20_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Evar_Ar) 
+ols_test_normality(Norm_TB_20_Evar_Ar) #normal
+
+#TB - Aerial - Evar: 2021
+#non transformed data
+Norm_TB_21_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Evar_Ar) 
+ols_test_normality(Norm_TB_21_Evar_Ar) #normal
+
+#TB - Aerial - Evar: 2022
+#non transformed data
+Norm_TB_22_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Evar_Ar) 
+ols_test_normality(Norm_TB_22_Evar_Ar) #not normal
+
+#TB - Basal - Evar: 2018 
+#non transformed data
+Norm_TB_18_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Evar_Ba) 
+ols_test_normality(Norm_TB_18_Evar_Ba) #normal
+
+#TB - Basal - Evar: 2019 
+#non transformed data
+Norm_TB_19_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Evar  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Evar_Ba) 
+ols_test_normality(Norm_TB_19_Evar_Ba) #not normal
+
+
+#TB - Basal - Evar: 2020
+#non transformed data
+Norm_TB_20_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Evar  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Evar_Ba) 
+ols_test_normality(Norm_TB_20_Evar_Ba) #not normal
+
+#TB - Basal - Evar: 2021
+#non transformed data
+Norm_TB_21_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Evar_Ba) 
+ols_test_normality(Norm_TB_21_Evar_Ba) #normal
+
+#TB - Basal - Evar: 2022
+#non transformed data
+Norm_TB_22_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Evar_Ba) 
+ols_test_normality(Norm_TB_22_Evar_Ba) #not normal
+
+
+#### Stats: Aerial Evar: FK ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Evar, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Evar, type = 3) #NS
+
+#FK 2020 - droughtxgrazing
+FK_20_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Evar, type = 3) #NS
+
+#FK 2021- droughtxgrazing
+FK_21_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Evar, type = 3) #drought (p=0.006575), grazing (p=0.088628)
+
+#FK 2022- droughtxgrazing
+FK_22_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Evar, type = 3) #grazing (0.007961), interaction (0.080160)
+
+#### Stats: Aerial Evar: TB ####
+
+#TB 2018 - checking drought and grazing
+TB_18_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Evar, type = 3) #NS
+
+#TB 2019 - just drought
+TB_19_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Evar, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Evar, type = 3) #grazing (0.02589)
+
+#TB 2021- droughtxgrazing
+TB_21_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Evar, type = 3) #drought (0.003804)
+
+#TB 2022- droughtxgrazing
+TB_22_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Evar, type = 3) #NS
+
+
+#### Normality: Fort Keogh Aerial + Basal - Shannon ####
+#FK - Aerial - Shannon: 2018 
+#non transformed data
+Norm_FK_18_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Shannon_Ar) 
+ols_test_normality(Norm_FK_18_Shannon_Ar) #normal
+
+#FK - Aerial - Shannon: 2019 
+#non transformed data
+Norm_FK_19_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Shannon_Ar) 
+ols_test_normality(Norm_FK_19_Shannon_Ar) #normal
+
+#FK - Aerial - Shannon: 2020
+#non transformed data
+Norm_FK_20_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Shannon_Ar) 
+ols_test_normality(Norm_FK_20_Shannon_Ar) #not normal
+
+#FK - Aerial - Shannon: 2021
+#non transformed data
+Norm_FK_21_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Shannon_Ar) 
+ols_test_normality(Norm_FK_21_Shannon_Ar) #normalish
+
+#FK - Aerial - Shannon: 2022
+#non transformed data
+Norm_FK_22_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Shannon_Ar) 
+ols_test_normality(Norm_FK_22_Shannon_Ar) #normal
+
+#FK - Basal - Shannon: 2018 
+#non transformed data
+Norm_FK_18_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_Shannon_Ba) 
+ols_test_normality(Norm_FK_18_Shannon_Ba) #normal
+
+#FK - Basal - Shannon: 2019 
+#non transformed data
+Norm_FK_19_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Shannon  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Shannon_Ba) 
+ols_test_normality(Norm_FK_19_Shannon_Ba) #normalish
+
+#FK - Basal - Shannon: 2020
+#non transformed data
+Norm_FK_20_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Shannon  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Shannon_Ba) 
+ols_test_normality(Norm_FK_20_Shannon_Ba) #normal
+
+#FK - Basal - Shannon: 2021
+#non transformed data
+Norm_FK_21_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Shannon_Ba) 
+ols_test_normality(Norm_FK_21_Shannon_Ba) #not normal
+
+#FK - Basal - Shannon: 2022
+#non transformed data
+Norm_FK_22_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_Shannon_Ba) 
+ols_test_normality(Norm_FK_22_Shannon_Ba) #normal
+
+#### Normality: Thunder Basin Aerial + Basal - Shannon ####
+#TB - Aerial - Shannon: 2018 
+#non transformed data
+Norm_TB_18_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Shannon_Ar) 
+ols_test_normality(Norm_TB_18_Shannon_Ar) #not normal
+
+#TB - Aerial - Shannon: 2019 
+#non transformed data
+Norm_TB_19_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Shannon_Ar) 
+ols_test_normality(Norm_TB_19_Shannon_Ar) #normal
+
+#TB - Aerial - Shannon: 2020
+#non transformed data
+Norm_TB_20_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Shannon_Ar) 
+ols_test_normality(Norm_TB_20_Shannon_Ar) #normal
+
+#TB - Aerial - Shannon: 2021
+#non transformed data
+Norm_TB_21_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Shannon_Ar) 
+ols_test_normality(Norm_TB_21_Shannon_Ar) #normal
+
+#TB - Aerial - Shannon: 2022
+#non transformed data
+Norm_TB_22_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Shannon_Ar) 
+ols_test_normality(Norm_TB_22_Shannon_Ar) #normal
+
+#TB - Basal - Shannon: 2018 
+#non transformed data
+Norm_TB_18_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Shannon_Ba) 
+ols_test_normality(Norm_TB_18_Shannon_Ba) #normal
+
+#TB - Basal - Shannon: 2019 
+#non transformed data
+Norm_TB_19_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Shannon  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Shannon_Ba) 
+ols_test_normality(Norm_TB_19_Shannon_Ba) # normal
+
+
+#TB - Basal - Shannon: 2020
+#non transformed data
+Norm_TB_20_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Shannon  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_Shannon_Ba) 
+ols_test_normality(Norm_TB_20_Shannon_Ba) #normal
+
+#TB - Basal - Shannon: 2021
+#non transformed data
+Norm_TB_21_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_Shannon_Ba) 
+ols_test_normality(Norm_TB_21_Shannon_Ba) #normal
+
+#TB - Basal - Shannon: 2022
+#non transformed data
+Norm_TB_22_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Shannon_Ba) 
+ols_test_normality(Norm_TB_22_Shannon_Ba) #not normal
+
+
+#### Stats: Aerial Shannon: FK ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Shannon, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Shannon, type = 3) #drought (0.008147)
+
+#FK 2020 - droughtxgrazing
+FK_20_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Shannon, type = 3) #Grazing (0.09032)
+
+#FK 2021- droughtxgrazing
+FK_21_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Shannon, type = 3) #NS
+
+#FK 2022- droughtxgrazing
+FK_22_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Shannon, type = 3) #grazing (0.01847)
+
+#### Stats: Aerial Shannon: TB ####
+
+#TB 2018 - checking drought and grazing
+TB_18_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Shannon, type = 3) #grazing (0.008932)
+
+#TB 2019 - just drought
+TB_19_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Shannon, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Shannon, type = 3) #grazing (0.01341)
+
+#TB 2021- droughtxgrazing
+TB_21_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Shannon, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Shannon, type = 3) #grazing (0.0308)
