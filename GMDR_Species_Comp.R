@@ -818,10 +818,10 @@ Richness_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
+  xlab("Year")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,30))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  expand_limits(y=c(0,20))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = c(0.15,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
   annotate("text", x=2.2, y=29, label = "C. Montana Site", size=30)
 
 ## TB Grazing ##
@@ -833,10 +833,10 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
   scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
+  xlab("Year")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,30))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  expand_limits(y=c(0,20))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "NONE")+
   annotate("text", x=2.2, y=29, label = "D. Wyoming Site", size=30)
 
 #### Create RichnessXGrazing Figure ####
@@ -845,6 +845,14 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
   Richness_TB_ALL_Aerial_Grazing+
   plot_layout(ncol = 1,nrow = 2)
 #Save at 2000x2000
+
+#### Create GMDR Bullitin Figure ####
+Richness_FK_ALL_Aerial_Drought+
+  Richness_FK_ALL_Aerial_Grazing+
+  Richness_TB_ALL_Aerial_Drought+
+  Richness_TB_ALL_Aerial_Grazing+
+  plot_layout(ncol = 2,nrow = 2)
+#save at 3000x2000
 
 #### Normality: Fort Keogh Aerial + Basal - Evar ####
 #FK - Aerial - Evar: 2018 
