@@ -641,49 +641,92 @@ Norm_TB_22_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 
 ols_plot_resid_hist(Norm_TB_22_Richness_Ba) 
 ols_test_normality(Norm_TB_22_Richness_Ba) #normal
 
-#### Stats: Aerial Richness: FK ####
+#### Stats: Fort Keogh Aerial + Basal - Richness ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_18_Richness, type = 3) #NS
+FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Richness_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Richness, type = 3) #p=0.007433
+FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Richness_Aerial, type = 3) #p=0.007433
 
 #FK 2020 - droughtxgrazing
-FK_20_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Richness, type = 3) #drought (p=0.0662)
+FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Richness_Aerial, type = 3) #drought (p=0.0662)
 
 #FK 2021- droughtxgrazing
-FK_21_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Richness, type = 3) #drought (p=0.04036)
+FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Richness_Aerial, type = 3) #drought (p=0.04036)
 
 #FK 2022- droughtxgrazing
-FK_22_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Richness, type = 3) #NS
+FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Richness_Aerial, type = 3) #NS
 
-#### Stats: Aerial Richness: TB ####
+#Basal 
+#FK 2018 - checking drought and grazing
+FK_18_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Richness_Basal, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Richness_Basal, type = 3) #p=0.007433
+
+#FK 2020 - droughtxgrazing
+FK_20_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Richness_Basal, type = 3) #drought (p=0.0662)
+
+#FK 2021- droughtxgrazing
+FK_21_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Richness_Basal, type = 3) #drought (p=0.04036)
+
+#FK 2022- droughtxgrazing
+FK_22_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Richness_Basal, type = 3) #NS
+
+#### Stats: Thunder Basin Aerial + Basal - Richness  ####
 
 #TB 2018 - checking drought and grazing
-TB_18_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_18_Richness, type = 3) #NS
+TB_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Richness_Aerial, type = 3) #NS
 
 #TB 2019 - just drought
-TB_19_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(TB_19_Richness, type = 3) #NS
+TB_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Richness_Aerial, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
-TB_20_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Richness, type = 3) #NS
+TB_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Richness_Aerial, type = 3) #NS
 
 #TB 2021- droughtxgrazing
-TB_21_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_21_Richness, type = 3) #NS
+TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Richness_Aerial, type = 3) #NS
 
 #TB 2022- droughtxgrazing
-TB_22_Richness <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Richness, type = 3) #NS
+TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Richness_Aerial, type = 3) #NS
+
+#Basal#
+
+#TB 2018 - checking drought and grazing
+TB_18_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Richness_Basal, type = 3) #NS
+
+#TB 2019 - just drought
+TB_19_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Richness_Basal, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Richness_Basal, type = 3) #NS
+
+#TB 2021- droughtxgrazing
+TB_21_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Richness_Basal, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Richness_Basal, type = 3) #NS
 
 #### Normality: Fort Keogh Aerial + Basal - Evar ####
 #FK - Aerial - Evar: 2018 
@@ -809,49 +852,91 @@ ols_plot_resid_hist(Norm_TB_22_Evar_Ba)
 ols_test_normality(Norm_TB_22_Evar_Ba) #not normal
 
 
-#### Stats: Aerial Evar: FK ####
+#### Stats: Fort Keogh Aerial + Basal - Evar ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_18_Evar, type = 3) #NS
+FK_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Evar_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Evar, type = 3) #NS
+FK_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Evar_Aerial, type = 3) #NS
 
 #FK 2020 - droughtxgrazing
-FK_20_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Evar, type = 3) #NS
+FK_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Evar_Aerial, type = 3) #NS
 
 #FK 2021- droughtxgrazing
-FK_21_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Evar, type = 3) #drought (p=0.006575), grazing (p=0.088628)
+FK_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Evar_Aerial, type = 3) #drought (p=0.006575), grazing (p=0.088628)
 
 #FK 2022- droughtxgrazing
-FK_22_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Evar, type = 3) #grazing (0.007961), interaction (0.080160)
+FK_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Evar_Aerial, type = 3) #grazing (0.007961), interaction (0.080160)
 
-#### Stats: Aerial Evar: TB ####
+#Basal
+#FK 2018 - checking drought and grazing
+FK_18_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Evar_Basal, type = 3) #grazing (0.07809)
+
+#FK 2019 - just drought
+FK_19_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Evar_Basal, type = 3) #NS
+
+#FK 2020 - droughtxgrazing
+FK_20_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Evar_Basal, type = 3) #NS
+
+#FK 2021- droughtxgrazing
+FK_21_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Evar_Basal, type = 3) #drought (p=0.0002416)
+
+#FK 2022- droughtxgrazing
+FK_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Evar_Basal, type = 3) #Drought(0.02057)
+
+#### Stats:  Thunder Basin Aerial + Basal - Evar ####
 
 #TB 2018 - checking drought and grazing
-TB_18_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_18_Evar, type = 3) #NS
+TB_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Evar_Aerial, type = 3) #NS
 
 #TB 2019 - just drought
-TB_19_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(TB_19_Evar, type = 3) #NS
+TB_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Evar_Aerial, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
-TB_20_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Evar, type = 3) #grazing (0.02589)
+TB_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Evar_Aerial, type = 3) #grazing (0.02589)
 
 #TB 2021- droughtxgrazing
-TB_21_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_21_Evar, type = 3) #drought (0.003804)
+TB_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Evar_Aerial, type = 3) #drought (0.003804)
 
 #TB 2022- droughtxgrazing
-TB_22_Evar <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Evar, type = 3) #NS
+TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Evar_Aerial, type = 3) #NS
+
+#basal
+#TB 2018 - checking drought and grazing
+TB_18_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Evar_Basal, type = 3) #NS
+
+#TB 2019 - just drought
+TB_19_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Evar_Basal, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Evar_Basal, type = 3) #grazing (0.02589)
+
+#TB 2021- droughtxgrazing
+TB_21_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Evar_Basal, type = 3) #drought (0.08525)
+
+#TB 2022- droughtxgrazing
+TB_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Evar_Basal, type = 3) #grazing (0.005449)
 
 
 #### Normality: Fort Keogh Aerial + Basal - Shannon ####
@@ -978,46 +1063,88 @@ ols_plot_resid_hist(Norm_TB_22_Shannon_Ba)
 ols_test_normality(Norm_TB_22_Shannon_Ba) #not normal
 
 
-#### Stats: Aerial Shannon: FK ####
+#### Stats: Fort Keogh Aerial + Basal - Shannon's ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_18_Shannon, type = 3) #NS
+FK_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Shannon_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Shannon, type = 3) #drought (0.008147)
+FK_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Shannon_Aerial, type = 3) #drought (0.008147)
 
 #FK 2020 - droughtxgrazing
-FK_20_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Shannon, type = 3) #Grazing (0.09032)
+FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Shannon_Aerial, type = 3) #Grazing (0.09032)
 
 #FK 2021- droughtxgrazing
-FK_21_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Shannon, type = 3) #NS
+FK_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Shannon_Aerial, type = 3) #NS
 
 #FK 2022- droughtxgrazing
-FK_22_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Shannon, type = 3) #grazing (0.01847)
+FK_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Shannon_Aerial, type = 3) #grazing (0.01847)
 
-#### Stats: Aerial Shannon: TB ####
+#basal
+#FK 2018 - checking drought and grazing
+FK_18_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Shannon_Basal, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Shannon_Basal, type = 3) #drought (0.0006638)
+
+#FK 2020 - droughtxgrazing
+FK_20_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Shannon_Basal, type = 3) #drought (0.06), grazing (0.062)
+
+#FK 2021- droughtxgrazing
+FK_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Shannon_Basal, type = 3) #NS
+
+#FK 2022- droughtxgrazing
+FK_22_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Shannon_Basal, type = 3) #grazing (0.008034), interaction (0.054988)
+
+#### Stats: Thunder  Basin Aerial + Basal - Shannon's####
 
 #TB 2018 - checking drought and grazing
-TB_18_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_18_Shannon, type = 3) #grazing (0.008932)
+TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Shannon_Aerial, type = 3) #grazing (0.008932)
 
 #TB 2019 - just drought
-TB_19_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(TB_19_Shannon, type = 3) #NS
+TB_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Shannon_Aerial, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
-TB_20_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Shannon, type = 3) #grazing (0.01341)
+TB_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Shannon_Aerial, type = 3) #grazing (0.01341)
 
 #TB 2021- droughtxgrazing
-TB_21_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_21_Shannon, type = 3) #NS
+TB_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Shannon_Aerial, type = 3) #NS
 
 #TB 2022- droughtxgrazing
-TB_22_Shannon <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Shannon, type = 3) #grazing (0.0308)
+TB_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Shannon_Aerial, type = 3) #grazing (0.0308)
+
+#basal
+#TB 2018 - checking drought and grazing
+TB_18_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Shannon_Basal, type = 3) #grazing (0.002954)
+
+#TB 2019 - just drought
+TB_19_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Shannon_Basal, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Shannon_Basal, type = 3) #grazing (0.04664)
+
+#TB 2021- droughtxgrazing
+TB_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Shannon_Basal, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Shannon_Basal, type = 3) #grazing (0.02883)
