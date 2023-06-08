@@ -766,6 +766,10 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
          Evar_St_Error=Evar_Std/sqrt(Evar_n)) %>% 
   ungroup()
 
+#color palettes
+droughtColor <- c('#6baed6', '#6baed6', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603') #from 0 to 99 ##change this to be blue at 0 to red at 99
+grazingColor <- c('#ABDEFF', '#469BEC', '#6D882B') #from HHMMM to MMMMM to MLLMM
+
 #FK: richness and drought
 #Fort Keogh all years
 Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
@@ -815,7 +819,7 @@ Richness_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -830,7 +834,7 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
