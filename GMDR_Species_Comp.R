@@ -10,6 +10,7 @@ library(codyn)
 library(olsrr)
 library(car)
 library(patchwork)
+library(vegan)
 
 #### Set Working Directory ####
 #Bloodworth - Mac
@@ -435,7 +436,9 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
                        ifelse(Genus_Species_3=="Unknown1.2021.no.sp.name.datasheet" ,"NoName.UNKWN37",
                        ifelse(Genus_Species_3=="CHLE","CHLE.UNKWN38",
                        ifelse(Genus_Species_3=="DECA","DECA.UNKWN39",
-                              Genus_Species_3))))))))))))))))))))))))))))))))))))))))))))
+                              Genus_Species_3)))))))))))))))))))))))))))))))))))))))))))) %>% 
+  select(year,site,plot,aerial_basal,Genus_Species,Relative_Cover) %>% 
+  unique()
                                                                     
                                                                     
 #### Calculate Community Metrics ####
@@ -616,7 +619,7 @@ ols_test_normality(Norm_TB_18_Richness_Ar) #normal
 #non transformed data
 Norm_TB_19_Richness_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness  ~ rainfall_reduction)
 ols_plot_resid_hist(Norm_TB_19_Richness_Ar) 
-ols_test_normality(Norm_TB_19_Richness_Ar) #not normal
+ols_test_normality(Norm_TB_19_Richness_Ar) #non transformed is best option
 
 #TB - Aerial - Richness: 2020
 #non transformed data
@@ -646,7 +649,7 @@ ols_test_normality(Norm_TB_18_Richness_Ba) #normal
 #non transformed data
 Norm_TB_19_Richness_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), richness  ~ rainfall_reduction)
 ols_plot_resid_hist(Norm_TB_19_Richness_Ba) 
-ols_test_normality(Norm_TB_19_Richness_Ba) #not normal
+ols_test_normality(Norm_TB_19_Richness_Ba) #non transformeed is best option
 
 
 #TB - Basal - Richness: 2020
@@ -871,6 +874,13 @@ Norm_FK_19_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & s
 ols_plot_resid_hist(Norm_FK_19_Evar_Ar) 
 ols_test_normality(Norm_FK_19_Evar_Ar) #not normal
 
+CommunityMetrics_Aerial<-CommunityMetrics_Aerial %>% 
+  mutate(Evar_FK_19_TF=1/sqrt(Evar))
+
+Norm_FK_19_Evar_Ar_TF <- lm(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar_FK_19_TF  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_Evar_Ar_TF) 
+ols_test_normality(Norm_FK_19_Evar_Ar_TF) #1/sqrt works best
+
 #FK - Aerial - Evar: 2020
 #non transformed data
 Norm_FK_20_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar  ~ rainfall_reduction*livestock_util_2019)
@@ -950,6 +960,15 @@ Norm_TB_22_Evar_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & s
 ols_plot_resid_hist(Norm_TB_22_Evar_Ar) 
 ols_test_normality(Norm_TB_22_Evar_Ar) #not normal
 
+
+CommunityMetrics_Aerial<-CommunityMetrics_Aerial %>% 
+  mutate(Evar_TB_22_TF=1/sqrt(Evar))
+
+Norm_TB_22_Evar_Ar_TF <- lm(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar_TB_22_TF  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_22_Evar_Ar_TF) 
+ols_test_normality(Norm_TB_22_Evar_Ar_TF) #1/sqrt works best
+
+
 #TB - Basal - Evar: 2018 
 #non transformed data
 Norm_TB_18_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Evar  ~ rainfall_reduction*grazing_treatment)
@@ -962,12 +981,26 @@ Norm_TB_19_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & si
 ols_plot_resid_hist(Norm_TB_19_Evar_Ba) 
 ols_test_normality(Norm_TB_19_Evar_Ba) #not normal
 
+CommunityMetrics_Basal<-CommunityMetrics_Basal %>% 
+  mutate(Evar_TB_19_TF=sqrt(Evar))
+
+Norm_TB_19_Evar_Ba_TF <- lm(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Evar_TB_19_TF  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_Evar_Ba_TF) 
+ols_test_normality(Norm_TB_19_Evar_Ba_TF) #sqrt works best
+
 
 #TB - Basal - Evar: 2020
 #non transformed data
 Norm_TB_20_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Evar  ~ rainfall_reduction*livestock_util_2019)
 ols_plot_resid_hist(Norm_TB_20_Evar_Ba) 
 ols_test_normality(Norm_TB_20_Evar_Ba) #not normal
+
+CommunityMetrics_Basal<-CommunityMetrics_Basal %>% 
+  mutate(Evar_TB_20_TF=sqrt(Evar))
+
+Norm_TB_20_Evar_Ba_TF <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Evar_TB_20_TF  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_20_Evar_Ba_TF) 
+ols_test_normality(Norm_TB_20_Evar_Ba_TF) #sqrt works best
 
 #TB - Basal - Evar: 2021
 #non transformed data
@@ -981,6 +1014,13 @@ Norm_TB_22_Evar_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & si
 ols_plot_resid_hist(Norm_TB_22_Evar_Ba) 
 ols_test_normality(Norm_TB_22_Evar_Ba) #not normal
 
+CommunityMetrics_Basal<-CommunityMetrics_Basal %>% 
+  mutate(Evar_TB_22_TF=1/sqrt(Evar))
+
+Norm_TB_22_Evar_Ba_TF <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Evar_TB_22_TF  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_22_Evar_Ba_TF) 
+ols_test_normality(Norm_TB_22_Evar_Ba_TF) #1/sqrt works best
+
 
 #### Stats: Fort Keogh Aerial + Basal - Evar ####
 
@@ -989,7 +1029,7 @@ FK_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year 
 anova(FK_18_Evar_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar_FK_19_TF ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_19_Evar_Aerial, type = 3) #NS
 
 #FK 2020 - droughtxgrazing
@@ -1044,7 +1084,7 @@ TB_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year 
 anova(TB_21_Evar_Aerial, type = 3) #drought (0.003804)
 
 #TB 2022- droughtxgrazing
-TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Evar_Aerial, type = 3) #NS
 
 #basal
@@ -1053,11 +1093,11 @@ TB_18_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year ==
 anova(TB_18_Evar_Basal, type = 3) #NS
 
 #TB 2019 - just drought
-TB_19_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_19_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Evar_TB_19_TF ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_19_Evar_Basal, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
-TB_20_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+TB_20_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Evar_TB_20_TF ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
 anova(TB_20_Evar_Basal, type = 3) #grazing (0.02589)
 
 #TB 2021- droughtxgrazing
@@ -1065,7 +1105,7 @@ TB_21_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year ==
 anova(TB_21_Evar_Basal, type = 3) #drought (0.08525)
 
 #TB 2022- droughtxgrazing
-TB_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Evar_Basal, type = 3) #grazing (0.005449)
 
 #### Figure: Aerial Evenness ####
@@ -1170,6 +1210,13 @@ Norm_FK_20_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 
 ols_plot_resid_hist(Norm_FK_20_Shannon_Ar) 
 ols_test_normality(Norm_FK_20_Shannon_Ar) #not normal
 
+CommunityMetrics_Aerial<- CommunityMetrics_Aerial %>% 
+  mutate(Shannon_20_FK_TF=exp(Shannon))
+
+Norm_FK_20_Shannon_Ar_TF <- lm(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_Shannon_Ar_TF) 
+ols_test_normality(Norm_FK_20_Shannon_Ar_TF) #best with exponential transformation
+
 #FK - Aerial - Shannon: 2021
 #non transformed data
 Norm_FK_21_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
@@ -1206,6 +1253,13 @@ Norm_FK_21_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2021 &
 ols_plot_resid_hist(Norm_FK_21_Shannon_Ba) 
 ols_test_normality(Norm_FK_21_Shannon_Ba) #not normal
 
+CommunityMetrics_Basal<- CommunityMetrics_Basal %>% 
+  mutate(Shannon_21_FK_TF=exp(Shannon))
+
+Norm_FK_21_Shannon_Ba_TF <- lm(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon_21_FK_TF  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_Shannon_Ba_TF) 
+ols_test_normality(Norm_FK_21_Shannon_Ba_TF) #exponential is best transformation
+
 #FK - Basal - Shannon: 2022
 #non transformed data
 Norm_FK_22_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
@@ -1218,6 +1272,13 @@ ols_test_normality(Norm_FK_22_Shannon_Ba) #normal
 Norm_TB_18_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon  ~ rainfall_reduction*grazing_treatment)
 ols_plot_resid_hist(Norm_TB_18_Shannon_Ar) 
 ols_test_normality(Norm_TB_18_Shannon_Ar) #not normal
+
+CommunityMetrics_Aerial<- CommunityMetrics_Aerial %>% 
+  mutate(Shannon_18_TB_TF=exp(Shannon))
+
+Norm_TB_18_Shannon_Ar_TF <- lm(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon_18_TB_TF  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_Shannon_Ar_TF) 
+ols_test_normality(Norm_TB_18_Shannon_Ar_TF) #exponential is best transformation
 
 #TB - Aerial - Shannon: 2019 
 #non transformed data
@@ -1255,7 +1316,6 @@ Norm_TB_19_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2019 &
 ols_plot_resid_hist(Norm_TB_19_Shannon_Ba) 
 ols_test_normality(Norm_TB_19_Shannon_Ba) # normal
 
-
 #TB - Basal - Shannon: 2020
 #non transformed data
 Norm_TB_20_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Shannon  ~ rainfall_reduction*livestock_util_2019)
@@ -1274,10 +1334,17 @@ Norm_TB_22_Shannon_Ba <- lm(data = subset(CommunityMetrics_Basal, year == 2022 &
 ols_plot_resid_hist(Norm_TB_22_Shannon_Ba) 
 ols_test_normality(Norm_TB_22_Shannon_Ba) #not normal
 
+CommunityMetrics_Basal<- CommunityMetrics_Basal %>% 
+  mutate(Shannon_22_TB_TF=exp(Shannon))
+
+Norm_TB_22_Shannon_Ar_TF <- lm(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Shannon_22_TB_TF  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_Shannon_Ar_TF) 
+ols_test_normality(Norm_TB_22_Shannon_Ar_TF) #exponential is best transformation
+
 
 #### Stats: Fort Keogh Aerial + Basal - Shannon's ####
 
-#FK 2018 - checking drought and grazing
+#FK 2018 - 543checking drought and grazing
 FK_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_18_Shannon_Aerial, type = 3) #NS
 
@@ -1286,7 +1353,7 @@ FK_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, ye
 anova(FK_19_Shannon_Aerial, type = 3) #drought (0.008147)
 
 #FK 2020 - droughtxgrazing
-FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
 anova(FK_20_Shannon_Aerial, type = 3) #Grazing (0.09032)
 
 #FK 2021- droughtxgrazing
@@ -1311,7 +1378,7 @@ FK_20_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year
 anova(FK_20_Shannon_Basal, type = 3) #drought (0.06), grazing (0.062)
 
 #FK 2021- droughtxgrazing
-FK_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+FK_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon_21_FK_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_21_Shannon_Basal, type = 3) #NS
 
 #FK 2022- droughtxgrazing
@@ -1321,7 +1388,7 @@ anova(FK_22_Shannon_Basal, type = 3) #grazing (0.008034), interaction (0.054988)
 #### Stats: Thunder  Basin Aerial + Basal - Shannon's####
 
 #TB 2018 - checking drought and grazing
-TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon_18_TB_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_18_Shannon_Aerial, type = 3) #grazing (0.008932)
 
 #TB 2019 - just drought
@@ -1358,7 +1425,7 @@ TB_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year
 anova(TB_21_Shannon_Basal, type = 3) #NS
 
 #TB 2022- droughtxgrazing
-TB_22_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_22_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Shannon_22_TB_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Shannon_Basal, type = 3) #grazing (0.02883)
 
 #### Figure: Aerial Diversity ####
@@ -1442,4 +1509,208 @@ Shannon_FK_ALL_Aerial_Grazing+
   Shannon_TB_ALL_Aerial_Grazing+
   plot_layout(ncol = 1,nrow = 2)
 #Save at 2000x2000
+
+
+#### NMDS ####
+
+#Create wide relative cover dataframe
+RelCov_Clean<-Species_Comp_RelCov_Clean %>% 
+  full_join(plot_layoutK) %>%
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  #create column that has all grazing treatments in it for a given year
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
+  spread(key=Genus_Species,value=Relative_Cover, fill=0) 
+
+#### Bray Curtis FK Aerial 2018 ####
+
+#Species Comp FK: Aerial 2018
+Wide_FK_AR_18<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Aerial" & year=="2018") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Aerial 
+BC_FK_AR_18<-metaMDS(Wide_FK_AR_18[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_AR_18 <- envfit(BC_FK_AR_18, Wide_FK_AR_18, permutations = 999,na.rm=T)
+head(intrinsics_FK_AR_18)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_AR_18 <- 1:nrow(Wide_FK_AR_18)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_18 <- Wide_FK_AR_18[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_AR_18 = data.frame(MDS1 = BC_FK_AR_18$points[,1], MDS2 = BC_FK_AR_18$points[,2],group=BC_Meta_Data_FK_AR_18$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_AR_18 <- cbind(BC_Meta_Data_FK_AR_18,BC_NMDS_FK_AR_18)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_AR_18<-ordiellipse(BC_FK_AR_18, BC_Meta_Data_FK_AR_18$Yr_Dr_Gr, display = "sites",
+                               kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_AR_18 <- data.frame()
+
+#Use the vegan ellipse function to make ellipses           
+veganCovEllipse<-function (cov, center = c(0, 0), scale = 1, npoints = 100)
+{
+  theta <- (0:npoints) * 2 * pi/npoints
+  Circle <- cbind(cos(theta), sin(theta))
+  t(center + scale * t(Circle %*% chol(cov)))
+}
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_AR_18$group)){
+  BC_Ellipses_FK_AR_18 <- rbind(BC_Ellipses_FK_AR_18, cbind(as.data.frame(with(BC_NMDS_FK_AR_18[BC_NMDS_FK_AR_18$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_18[[g]]$cov,BC_Ord_Ellipses_FK_AR_18[[g]]$center,BC_Ord_Ellipses_FK_AR_18[[g]]$scale)))
+                                              ,group=g))
+}
+
+#### Bray Curtis FK Aerial 2019 ####
+
+#Species Comp FK: Aerial 2019
+Wide_FK_AR_19<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Aerial" & year=="2019") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Aerial 
+BC_FK_AR_19<-metaMDS(Wide_FK_AR_19[,16:152])
+#look at species significance driving NMDS 
+intrinsics_FK_AR_19 <- envfit(BC_FK_AR_19, Wide_FK_AR_19, permutations = 999,na.rm=T)
+head(intrinsics_FK_AR_19)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_AR_19 <- 1:nrow(Wide_FK_AR_19)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_19 <- Wide_FK_AR_19[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_AR_19 = data.frame(MDS1 = BC_FK_AR_19$points[,1], MDS2 = BC_FK_AR_19$points[,2],group=BC_Meta_Data_FK_AR_19$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_AR_19 <- cbind(BC_Meta_Data_FK_AR_19,BC_NMDS_FK_AR_19)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_AR_19<-ordiellipse(BC_FK_AR_19, BC_Meta_Data_FK_AR_19$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_AR_19 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_AR_19$group)){
+  BC_Ellipses_FK_AR_19 <- rbind(BC_Ellipses_FK_AR_19, cbind(as.data.frame(with(BC_NMDS_FK_AR_19[BC_NMDS_FK_AR_19$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_19[[g]]$cov,BC_Ord_Ellipses_FK_AR_19[[g]]$center,BC_Ord_Ellipses_FK_AR_19[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Aerial 2020 ####
+
+#Species Comp FK: Aerial 2020
+Wide_FK_AR_20<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Aerial" & year=="2020") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Aerial 
+BC_FK_AR_20<-metaMDS(Wide_FK_AR_20[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_AR_20 <- envfit(BC_FK_AR_20, Wide_FK_AR_20, permutations = 999,na.rm=T)
+head(intrinsics_FK_AR_20)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_AR_20 <- 1:nrow(Wide_FK_AR_20)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_20 <- Wide_FK_AR_20[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_AR_20 = data.frame(MDS1 = BC_FK_AR_20$points[,1], MDS2 = BC_FK_AR_20$points[,2],group=BC_Meta_Data_FK_AR_20$Yr_Dr_Gr_20)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_AR_20 <- cbind(BC_Meta_Data_FK_AR_20,BC_NMDS_FK_AR_20)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_AR_20<-ordiellipse(BC_FK_AR_20, BC_Meta_Data_FK_AR_20$Yr_Dr_Gr_20, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_AR_20 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_AR_20$group)){
+  BC_Ellipses_FK_AR_20 <- rbind(BC_Ellipses_FK_AR_20, cbind(as.data.frame(with(BC_NMDS_FK_AR_20[BC_NMDS_FK_AR_20$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_20[[g]]$cov,BC_Ord_Ellipses_FK_AR_20[[g]]$center,BC_Ord_Ellipses_FK_AR_20[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Aerial 2021 ####
+
+#Species Comp FK: Aerial 2021
+Wide_FK_AR_21<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Aerial" & year=="2021") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Aerial 
+BC_FK_AR_21<-metaMDS(Wide_FK_AR_21[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_AR_21 <- envfit(BC_FK_AR_21, Wide_FK_AR_21, permutations = 999,na.rm=T)
+head(intrinsics_FK_AR_21)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_AR_21 <- 1:nrow(Wide_FK_AR_21)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_21 <- Wide_FK_AR_21[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_AR_21 = data.frame(MDS1 = BC_FK_AR_21$points[,1], MDS2 = BC_FK_AR_21$points[,2],group=BC_Meta_Data_FK_AR_21$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_AR_21 <- cbind(BC_Meta_Data_FK_AR_21,BC_NMDS_FK_AR_21)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_AR_21<-ordiellipse(BC_FK_AR_21, BC_Meta_Data_FK_AR_21$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_AR_21 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_AR_21$group)){
+  BC_Ellipses_FK_AR_21 <- rbind(BC_Ellipses_FK_AR_21, cbind(as.data.frame(with(BC_NMDS_FK_AR_21[BC_NMDS_FK_AR_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_21[[g]]$cov,BC_Ord_Ellipses_FK_AR_21[[g]]$center,BC_Ord_Ellipses_FK_AR_21[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Aerial 2022 ####
+
+#Species Comp FK: Aerial 2022
+Wide_FK_AR_22<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Aerial" & year=="2022") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Aerial 
+BC_FK_AR_22<-metaMDS(Wide_FK_AR_22[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_AR_22 <- envfit(BC_FK_AR_22, Wide_FK_AR_22, permutations = 999,na.rm=T)
+head(intrinsics_FK_AR_22)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_AR_22 <- 1:nrow(Wide_FK_AR_22)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_22 <- Wide_FK_AR_22[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_AR_22 = data.frame(MDS1 = BC_FK_AR_22$points[,1], MDS2 = BC_FK_AR_22$points[,2],group=BC_Meta_Data_FK_AR_22$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_AR_22 <- cbind(BC_Meta_Data_FK_AR_22,BC_NMDS_FK_AR_22)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_AR_22<-ordiellipse(BC_FK_AR_22, BC_Meta_Data_FK_AR_22$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_AR_22 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_AR_22$group)){
+  BC_Ellipses_FK_AR_22 <- rbind(BC_Ellipses_FK_AR_22, cbind(as.data.frame(with(BC_NMDS_FK_AR_22[BC_NMDS_FK_AR_22$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_22[[g]]$cov,BC_Ord_Ellipses_FK_AR_22[[g]]$center,BC_Ord_Ellipses_FK_AR_22[[g]]$scale)))
+                                                            ,group=g))
+}
 
