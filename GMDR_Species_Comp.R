@@ -1714,3 +1714,567 @@ for(g in unique(BC_NMDS_FK_AR_22$group)){
                                                             ,group=g))
 }
 
+
+#### Bray Curtis FK Basal 2018 ####
+
+#Species Comp FK: Basal 2018
+Wide_FK_BA_18<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Basal" & year=="2018") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Basal 
+BC_FK_BA_18<-metaMDS(Wide_FK_BA_18[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_BA_18 <- envfit(BC_FK_BA_18, Wide_FK_BA_18, permutations = 999,na.rm=T)
+head(intrinsics_FK_BA_18)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_BA_18 <- 1:nrow(Wide_FK_BA_18)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_BA_18 <- Wide_FK_BA_18[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_BA_18 = data.frame(MDS1 = BC_FK_BA_18$points[,1], MDS2 = BC_FK_BA_18$points[,2],group=BC_Meta_Data_FK_BA_18$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_BA_18 <- cbind(BC_Meta_Data_FK_BA_18,BC_NMDS_FK_BA_18)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_BA_18<-ordiellipse(BC_FK_BA_18, BC_Meta_Data_FK_BA_18$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_BA_18 <- data.frame()
+
+
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_BA_18$group)){
+  BC_Ellipses_FK_BA_18 <- rbind(BC_Ellipses_FK_BA_18, cbind(as.data.frame(with(BC_NMDS_FK_BA_18[BC_NMDS_FK_BA_18$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_BA_18[[g]]$cov,BC_Ord_Ellipses_FK_BA_18[[g]]$center,BC_Ord_Ellipses_FK_BA_18[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Basal 2019 ####
+
+#Species Comp FK: Basal 2019
+Wide_FK_BA_19<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Basal" & year=="2019") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Basal 
+BC_FK_BA_19<-metaMDS(Wide_FK_BA_19[,16:152])
+#look at species significance driving NMDS 
+intrinsics_FK_BA_19 <- envfit(BC_FK_BA_19, Wide_FK_BA_19, permutations = 999,na.rm=T)
+head(intrinsics_FK_BA_19)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_BA_19 <- 1:nrow(Wide_FK_BA_19)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_BA_19 <- Wide_FK_BA_19[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_BA_19 = data.frame(MDS1 = BC_FK_BA_19$points[,1], MDS2 = BC_FK_BA_19$points[,2],group=BC_Meta_Data_FK_BA_19$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_BA_19 <- cbind(BC_Meta_Data_FK_BA_19,BC_NMDS_FK_BA_19)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_BA_19<-ordiellipse(BC_FK_BA_19, BC_Meta_Data_FK_BA_19$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_BA_19 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_BA_19$group)){
+  BC_Ellipses_FK_BA_19 <- rbind(BC_Ellipses_FK_BA_19, cbind(as.data.frame(with(BC_NMDS_FK_BA_19[BC_NMDS_FK_BA_19$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_BA_19[[g]]$cov,BC_Ord_Ellipses_FK_BA_19[[g]]$center,BC_Ord_Ellipses_FK_BA_19[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Basal 2020 ####
+
+#Species Comp FK: Basal 2020
+Wide_FK_BA_20<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Basal" & year=="2020") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Basal 
+BC_FK_BA_20<-metaMDS(Wide_FK_BA_20[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_BA_20 <- envfit(BC_FK_BA_20, Wide_FK_BA_20, permutations = 999,na.rm=T)
+head(intrinsics_FK_BA_20)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_BA_20 <- 1:nrow(Wide_FK_BA_20)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_BA_20 <- Wide_FK_BA_20[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_BA_20 = data.frame(MDS1 = BC_FK_BA_20$points[,1], MDS2 = BC_FK_BA_20$points[,2],group=BC_Meta_Data_FK_BA_20$Yr_Dr_Gr_20)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_BA_20 <- cbind(BC_Meta_Data_FK_BA_20,BC_NMDS_FK_BA_20)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_BA_20<-ordiellipse(BC_FK_BA_20, BC_Meta_Data_FK_BA_20$Yr_Dr_Gr_20, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_BA_20 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_BA_20$group)){
+  BC_Ellipses_FK_BA_20 <- rbind(BC_Ellipses_FK_BA_20, cbind(as.data.frame(with(BC_NMDS_FK_BA_20[BC_NMDS_FK_BA_20$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_BA_20[[g]]$cov,BC_Ord_Ellipses_FK_BA_20[[g]]$center,BC_Ord_Ellipses_FK_BA_20[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Basal 2021 ####
+
+#Species Comp FK: Basal 2021
+Wide_FK_BA_21<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Basal" & year=="2021") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Basal 
+BC_FK_BA_21<-metaMDS(Wide_FK_BA_21[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_BA_21 <- envfit(BC_FK_BA_21, Wide_FK_BA_21, permutations = 999,na.rm=T)
+head(intrinsics_FK_BA_21)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_BA_21 <- 1:nrow(Wide_FK_BA_21)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_BA_21 <- Wide_FK_BA_21[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_BA_21 = data.frame(MDS1 = BC_FK_BA_21$points[,1], MDS2 = BC_FK_BA_21$points[,2],group=BC_Meta_Data_FK_BA_21$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_BA_21 <- cbind(BC_Meta_Data_FK_BA_21,BC_NMDS_FK_BA_21)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_BA_21<-ordiellipse(BC_FK_BA_21, BC_Meta_Data_FK_BA_21$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_BA_21 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_BA_21$group)){
+  BC_Ellipses_FK_BA_21 <- rbind(BC_Ellipses_FK_BA_21, cbind(as.data.frame(with(BC_NMDS_FK_BA_21[BC_NMDS_FK_BA_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_BA_21[[g]]$cov,BC_Ord_Ellipses_FK_BA_21[[g]]$center,BC_Ord_Ellipses_FK_BA_21[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis FK Basal 2022 ####
+
+#Species Comp FK: Basal 2022
+Wide_FK_BA_22<-RelCov_Clean%>%
+  filter(site=="FK" & aerial_basal=="Basal" & year=="2022") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp FK: Basal 
+BC_FK_BA_22<-metaMDS(Wide_FK_BA_22[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_FK_BA_22 <- envfit(BC_FK_BA_22, Wide_FK_BA_22, permutations = 999,na.rm=T)
+head(intrinsics_FK_BA_22)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_FK_BA_22 <- 1:nrow(Wide_FK_BA_22)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_BA_22 <- Wide_FK_BA_22[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_FK_BA_22 = data.frame(MDS1 = BC_FK_BA_22$points[,1], MDS2 = BC_FK_BA_22$points[,2],group=BC_Meta_Data_FK_BA_22$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_FK_BA_22 <- cbind(BC_Meta_Data_FK_BA_22,BC_NMDS_FK_BA_22)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_FK_BA_22<-ordiellipse(BC_FK_BA_22, BC_Meta_Data_FK_BA_22$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_FK_BA_22 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_FK_BA_22$group)){
+  BC_Ellipses_FK_BA_22 <- rbind(BC_Ellipses_FK_BA_22, cbind(as.data.frame(with(BC_NMDS_FK_BA_22[BC_NMDS_FK_BA_22$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_BA_22[[g]]$cov,BC_Ord_Ellipses_FK_BA_22[[g]]$center,BC_Ord_Ellipses_FK_BA_22[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Aerial 2018 ####
+
+#Species Comp TB: Aerial 2018
+Wide_TB_AR_18<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Aerial" & year=="2018") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Aerial 
+BC_TB_AR_18<-metaMDS(Wide_TB_AR_18[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_AR_18 <- envfit(BC_TB_AR_18, Wide_TB_AR_18, permutations = 999,na.rm=T)
+head(intrinsics_TB_AR_18)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_AR_18 <- 1:nrow(Wide_TB_AR_18)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_18 <- Wide_TB_AR_18[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_AR_18 = data.frame(MDS1 = BC_TB_AR_18$points[,1], MDS2 = BC_TB_AR_18$points[,2],group=BC_Meta_Data_TB_AR_18$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_AR_18 <- cbind(BC_Meta_Data_TB_AR_18,BC_NMDS_TB_AR_18)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_AR_18<-ordiellipse(BC_TB_AR_18, BC_Meta_Data_TB_AR_18$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_AR_18 <- data.frame()
+
+
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_AR_18$group)){
+  BC_Ellipses_TB_AR_18 <- rbind(BC_Ellipses_TB_AR_18, cbind(as.data.frame(with(BC_NMDS_TB_AR_18[BC_NMDS_TB_AR_18$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_AR_18[[g]]$cov,BC_Ord_Ellipses_TB_AR_18[[g]]$center,BC_Ord_Ellipses_TB_AR_18[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Aerial 2019 ####
+
+#Species Comp TB: Aerial 2019
+Wide_TB_AR_19<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Aerial" & year=="2019") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Aerial 
+BC_TB_AR_19<-metaMDS(Wide_TB_AR_19[,16:152])
+#look at species significance driving NMDS 
+intrinsics_TB_AR_19 <- envfit(BC_TB_AR_19, Wide_TB_AR_19, permutations = 999,na.rm=T)
+head(intrinsics_TB_AR_19)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_AR_19 <- 1:nrow(Wide_TB_AR_19)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_19 <- Wide_TB_AR_19[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_AR_19 = data.frame(MDS1 = BC_TB_AR_19$points[,1], MDS2 = BC_TB_AR_19$points[,2],group=BC_Meta_Data_TB_AR_19$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_AR_19 <- cbind(BC_Meta_Data_TB_AR_19,BC_NMDS_TB_AR_19)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_AR_19<-ordiellipse(BC_TB_AR_19, BC_Meta_Data_TB_AR_19$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_AR_19 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_AR_19$group)){
+  BC_Ellipses_TB_AR_19 <- rbind(BC_Ellipses_TB_AR_19, cbind(as.data.frame(with(BC_NMDS_TB_AR_19[BC_NMDS_TB_AR_19$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_AR_19[[g]]$cov,BC_Ord_Ellipses_TB_AR_19[[g]]$center,BC_Ord_Ellipses_TB_AR_19[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Aerial 2020 ####
+
+#Species Comp TB: Aerial 2020
+Wide_TB_AR_20<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Aerial" & year=="2020") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Aerial 
+BC_TB_AR_20<-metaMDS(Wide_TB_AR_20[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_AR_20 <- envfit(BC_TB_AR_20, Wide_TB_AR_20, permutations = 999,na.rm=T)
+head(intrinsics_TB_AR_20)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_AR_20 <- 1:nrow(Wide_TB_AR_20)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_20 <- Wide_TB_AR_20[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_AR_20 = data.frame(MDS1 = BC_TB_AR_20$points[,1], MDS2 = BC_TB_AR_20$points[,2],group=BC_Meta_Data_TB_AR_20$Yr_Dr_Gr_20)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_AR_20 <- cbind(BC_Meta_Data_TB_AR_20,BC_NMDS_TB_AR_20)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_AR_20<-ordiellipse(BC_TB_AR_20, BC_Meta_Data_TB_AR_20$Yr_Dr_Gr_20, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_AR_20 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_AR_20$group)){
+  BC_Ellipses_TB_AR_20 <- rbind(BC_Ellipses_TB_AR_20, cbind(as.data.frame(with(BC_NMDS_TB_AR_20[BC_NMDS_TB_AR_20$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_AR_20[[g]]$cov,BC_Ord_Ellipses_TB_AR_20[[g]]$center,BC_Ord_Ellipses_TB_AR_20[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Aerial 2021 ####
+
+#Species Comp TB: Aerial 2021
+Wide_TB_AR_21<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Aerial" & year=="2021") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Aerial 
+BC_TB_AR_21<-metaMDS(Wide_TB_AR_21[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_AR_21 <- envfit(BC_TB_AR_21, Wide_TB_AR_21, permutations = 999,na.rm=T)
+head(intrinsics_TB_AR_21)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_AR_21 <- 1:nrow(Wide_TB_AR_21)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_21 <- Wide_TB_AR_21[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_AR_21 = data.frame(MDS1 = BC_TB_AR_21$points[,1], MDS2 = BC_TB_AR_21$points[,2],group=BC_Meta_Data_TB_AR_21$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_AR_21 <- cbind(BC_Meta_Data_TB_AR_21,BC_NMDS_TB_AR_21)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_AR_21<-ordiellipse(BC_TB_AR_21, BC_Meta_Data_TB_AR_21$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_AR_21 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_AR_21$group)){
+  BC_Ellipses_TB_AR_21 <- rbind(BC_Ellipses_TB_AR_21, cbind(as.data.frame(with(BC_NMDS_TB_AR_21[BC_NMDS_TB_AR_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_AR_21[[g]]$cov,BC_Ord_Ellipses_TB_AR_21[[g]]$center,BC_Ord_Ellipses_TB_AR_21[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Aerial 2022 ####
+
+#Species Comp TB: Aerial 2022
+Wide_TB_AR_22<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Aerial" & year=="2022") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Aerial 
+BC_TB_AR_22<-metaMDS(Wide_TB_AR_22[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_AR_22 <- envfit(BC_TB_AR_22, Wide_TB_AR_22, permutations = 999,na.rm=T)
+head(intrinsics_TB_AR_22)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_AR_22 <- 1:nrow(Wide_TB_AR_22)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_22 <- Wide_TB_AR_22[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_AR_22 = data.frame(MDS1 = BC_TB_AR_22$points[,1], MDS2 = BC_TB_AR_22$points[,2],group=BC_Meta_Data_TB_AR_22$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_AR_22 <- cbind(BC_Meta_Data_TB_AR_22,BC_NMDS_TB_AR_22)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_AR_22<-ordiellipse(BC_TB_AR_22, BC_Meta_Data_TB_AR_22$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_AR_22 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_AR_22$group)){
+  BC_Ellipses_TB_AR_22 <- rbind(BC_Ellipses_TB_AR_22, cbind(as.data.frame(with(BC_NMDS_TB_AR_22[BC_NMDS_TB_AR_22$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_AR_22[[g]]$cov,BC_Ord_Ellipses_TB_AR_22[[g]]$center,BC_Ord_Ellipses_TB_AR_22[[g]]$scale)))
+                                                            ,group=g))
+}
+
+
+#### Bray Curtis TB Basal 2018 ####
+
+#Species Comp TB: Basal 2018
+Wide_TB_BA_18<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Basal" & year=="2018") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Basal 
+BC_TB_BA_18<-metaMDS(Wide_TB_BA_18[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_BA_18 <- envfit(BC_TB_BA_18, Wide_TB_BA_18, permutations = 999,na.rm=T)
+head(intrinsics_TB_BA_18)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_BA_18 <- 1:nrow(Wide_TB_BA_18)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_BA_18 <- Wide_TB_BA_18[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_BA_18 = data.frame(MDS1 = BC_TB_BA_18$points[,1], MDS2 = BC_TB_BA_18$points[,2],group=BC_Meta_Data_TB_BA_18$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_BA_18 <- cbind(BC_Meta_Data_TB_BA_18,BC_NMDS_TB_BA_18)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_BA_18<-ordiellipse(BC_TB_BA_18, BC_Meta_Data_TB_BA_18$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_BA_18 <- data.frame()
+
+
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_BA_18$group)){
+  BC_Ellipses_TB_BA_18 <- rbind(BC_Ellipses_TB_BA_18, cbind(as.data.frame(with(BC_NMDS_TB_BA_18[BC_NMDS_TB_BA_18$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_BA_18[[g]]$cov,BC_Ord_Ellipses_TB_BA_18[[g]]$center,BC_Ord_Ellipses_TB_BA_18[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Basal 2019 ####
+
+#Species Comp TB: Basal 2019
+Wide_TB_BA_19<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Basal" & year=="2019") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Basal 
+BC_TB_BA_19<-metaMDS(Wide_TB_BA_19[,16:152])
+#look at species significance driving NMDS 
+intrinsics_TB_BA_19 <- envfit(BC_TB_BA_19, Wide_TB_BA_19, permutations = 999,na.rm=T)
+head(intrinsics_TB_BA_19)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_BA_19 <- 1:nrow(Wide_TB_BA_19)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_BA_19 <- Wide_TB_BA_19[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_BA_19 = data.frame(MDS1 = BC_TB_BA_19$points[,1], MDS2 = BC_TB_BA_19$points[,2],group=BC_Meta_Data_TB_BA_19$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_BA_19 <- cbind(BC_Meta_Data_TB_BA_19,BC_NMDS_TB_BA_19)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_BA_19<-ordiellipse(BC_TB_BA_19, BC_Meta_Data_TB_BA_19$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_BA_19 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_BA_19$group)){
+  BC_Ellipses_TB_BA_19 <- rbind(BC_Ellipses_TB_BA_19, cbind(as.data.frame(with(BC_NMDS_TB_BA_19[BC_NMDS_TB_BA_19$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_BA_19[[g]]$cov,BC_Ord_Ellipses_TB_BA_19[[g]]$center,BC_Ord_Ellipses_TB_BA_19[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Basal 2020 ####
+
+#Species Comp TB: Basal 2020
+Wide_TB_BA_20<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Basal" & year=="2020") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Basal 
+BC_TB_BA_20<-metaMDS(Wide_TB_BA_20[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_BA_20 <- envfit(BC_TB_BA_20, Wide_TB_BA_20, permutations = 999,na.rm=T)
+head(intrinsics_TB_BA_20)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_BA_20 <- 1:nrow(Wide_TB_BA_20)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_BA_20 <- Wide_TB_BA_20[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_BA_20 = data.frame(MDS1 = BC_TB_BA_20$points[,1], MDS2 = BC_TB_BA_20$points[,2],group=BC_Meta_Data_TB_BA_20$Yr_Dr_Gr_20)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_BA_20 <- cbind(BC_Meta_Data_TB_BA_20,BC_NMDS_TB_BA_20)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_BA_20<-ordiellipse(BC_TB_BA_20, BC_Meta_Data_TB_BA_20$Yr_Dr_Gr_20, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_BA_20 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_BA_20$group)){
+  BC_Ellipses_TB_BA_20 <- rbind(BC_Ellipses_TB_BA_20, cbind(as.data.frame(with(BC_NMDS_TB_BA_20[BC_NMDS_TB_BA_20$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_BA_20[[g]]$cov,BC_Ord_Ellipses_TB_BA_20[[g]]$center,BC_Ord_Ellipses_TB_BA_20[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Basal 2021 ####
+
+#Species Comp TB: Basal 2021
+Wide_TB_BA_21<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Basal" & year=="2021") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Basal 
+BC_TB_BA_21<-metaMDS(Wide_TB_BA_21[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_BA_21 <- envfit(BC_TB_BA_21, Wide_TB_BA_21, permutations = 999,na.rm=T)
+head(intrinsics_TB_BA_21)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_BA_21 <- 1:nrow(Wide_TB_BA_21)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_BA_21 <- Wide_TB_BA_21[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_BA_21 = data.frame(MDS1 = BC_TB_BA_21$points[,1], MDS2 = BC_TB_BA_21$points[,2],group=BC_Meta_Data_TB_BA_21$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_BA_21 <- cbind(BC_Meta_Data_TB_BA_21,BC_NMDS_TB_BA_21)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_BA_21<-ordiellipse(BC_TB_BA_21, BC_Meta_Data_TB_BA_21$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_BA_21 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_BA_21$group)){
+  BC_Ellipses_TB_BA_21 <- rbind(BC_Ellipses_TB_BA_21, cbind(as.data.frame(with(BC_NMDS_TB_BA_21[BC_NMDS_TB_BA_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_BA_21[[g]]$cov,BC_Ord_Ellipses_TB_BA_21[[g]]$center,BC_Ord_Ellipses_TB_BA_21[[g]]$scale)))
+                                                            ,group=g))
+}
+
+#### Bray Curtis TB Basal 2022 ####
+
+#Species Comp TB: Basal 2022
+Wide_TB_BA_22<-RelCov_Clean%>%
+  filter(site=="TB" & aerial_basal=="Basal" & year=="2022") 
+
+#### Make new data frame called BC_Data and run an NMDS for each grouping
+
+#Species Comp TB: Basal 
+BC_TB_BA_22<-metaMDS(Wide_TB_BA_22[,16:152])
+#look at species signiciance driving NMDS 
+intrinsics_TB_BA_22 <- envfit(BC_TB_BA_22, Wide_TB_BA_22, permutations = 999,na.rm=T)
+head(intrinsics_TB_BA_22)
+#Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
+sites_TB_BA_22 <- 1:nrow(Wide_TB_BA_22)
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_BA_22 <- Wide_TB_BA_22[,1:15] %>% 
+  mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
+  mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+
+
+## Create NMDS numbers Graph ##
+#Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
+BC_NMDS_TB_BA_22 = data.frame(MDS1 = BC_TB_BA_22$points[,1], MDS2 = BC_TB_BA_22$points[,2],group=BC_Meta_Data_TB_BA_22$Yr_Dr_Gr)
+#Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
+BC_Graph_TB_BA_22 <- cbind(BC_Meta_Data_TB_BA_22,BC_NMDS_TB_BA_22)
+#Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
+BC_Ord_Ellipses_TB_BA_22<-ordiellipse(BC_TB_BA_22, BC_Meta_Data_TB_BA_22$Yr_Dr_Gr, display = "sites",
+                                      kind = "se", conf = 0.95, label = T)
+#Make a new empty data frame called BC_Ellipses                
+BC_Ellipses_TB_BA_22 <- data.frame()
+#Generate ellipses points - switched levels for unique - not sure if it's stil correct but it looks right
+for(g in unique(BC_NMDS_TB_BA_22$group)){
+  BC_Ellipses_TB_BA_22 <- rbind(BC_Ellipses_TB_BA_22, cbind(as.data.frame(with(BC_NMDS_TB_BA_22[BC_NMDS_TB_BA_22$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_TB_BA_22[[g]]$cov,BC_Ord_Ellipses_TB_BA_22[[g]]$center,BC_Ord_Ellipses_TB_BA_22[[g]]$scale)))
+                                                            ,group=g))
+}
+
+
