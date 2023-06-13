@@ -1344,7 +1344,7 @@ ols_test_normality(Norm_TB_22_Shannon_Ar_TF) #exponential is best transformation
 
 #### Stats: Fort Keogh Aerial + Basal - Shannon's ####
 
-#FK 2018 - 543checking drought and grazing
+#FK 2018 - checking drought and grazing
 FK_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_18_Shannon_Aerial, type = 3) #NS
 
@@ -2278,3 +2278,685 @@ for(g in unique(BC_NMDS_TB_BA_22$group)){
 }
 
 
+#### PERMANOVA FK Aerial 2018 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_AR_18 <- Wide_FK_AR_18[,16:ncol(Wide_FK_AR_18)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_AR_18 <- Wide_FK_AR_18[,1:15]
+
+Environment_Matrix_FK_AR_18$block=as.numeric(Environment_Matrix_FK_AR_18$block)
+Environment_Matrix_FK_AR_18$slope=as.numeric(Environment_Matrix_FK_AR_18$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_AR_18 <- adonis2(formula = Species_Matrix_FK_AR_18~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_18,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_AR_18) #NS
+
+#### PERMDISP FK Aerial 2018 ####
+
+FK_AR_18<-Wide_FK_AR_18 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_AR_18 <- vegdist(Species_Matrix_FK_AR_18)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_AR_18_Dr <- betadisper(BC_Distance_Matrix_FK_AR_18,FK_AR_18$rainfall_reduction)
+permutest(Dispersion_FK_AR_18_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_AR_18_GR <- betadisper(BC_Distance_Matrix_FK_AR_18,FK_AR_18$grazing_treatment)
+permutest(Dispersion_FK_AR_18_GR,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_AR_18_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_18,FK_AR_18$Dr_Gr)
+permutest(Dispersion_FK_AR_18_GR,pairwise = T, permutations = 999) #ns
+
+
+#### PERMANOVA FK Aerial 2019 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_AR_19 <- Wide_FK_AR_19[,16:ncol(Wide_FK_AR_19)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_AR_19 <- Wide_FK_AR_19[,1:15]
+
+Environment_Matrix_FK_AR_19$block=as.numeric(Environment_Matrix_FK_AR_19$block)
+Environment_Matrix_FK_AR_19$slope=as.numeric(Environment_Matrix_FK_AR_19$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_AR_19 <- adonis2(formula = Species_Matrix_FK_AR_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_19,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_AR_19) #NS
+
+#### PERMDISP FK Aerial 2019 ####
+
+FK_AR_19<-Wide_FK_AR_19 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_AR_19 <- vegdist(Species_Matrix_FK_AR_19)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_AR_19_Dr <- betadisper(BC_Distance_Matrix_FK_AR_19,FK_AR_19$rainfall_reduction)
+permutest(Dispersion_FK_AR_19_Dr,pairwise = T, permutations = 999) 
+
+#### PERMANOVA FK Aerial 2020 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_AR_20 <- Wide_FK_AR_20[,16:ncol(Wide_FK_AR_20)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_AR_20 <- Wide_FK_AR_20[,1:15]
+
+Environment_Matrix_FK_AR_20$block=as.numeric(Environment_Matrix_FK_AR_20$block)
+Environment_Matrix_FK_AR_20$slope=as.numeric(Environment_Matrix_FK_AR_20$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_AR_20 <- adonis2(formula = Species_Matrix_FK_AR_20~rainfall_reduction*livestock_util_2019 + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_20,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_AR_20) #NS
+
+#### PERMDISP FK Aerial 2020 ####
+
+FK_AR_20<-Wide_FK_AR_20 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_AR_20 <- vegdist(Species_Matrix_FK_AR_20)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_AR_20_Dr <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$rainfall_reduction)
+permutest(Dispersion_FK_AR_20_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_AR_20_GR <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$livestock_util_2019)
+permutest(Dispersion_FK_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_AR_20_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$Dr_Gr19)
+permutest(Dispersion_FK_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#### PERMANOVA FK Aerial 2021 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_AR_21 <- Wide_FK_AR_21[,16:ncol(Wide_FK_AR_21)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_AR_21 <- Wide_FK_AR_21[,1:15]
+
+Environment_Matrix_FK_AR_21$block=as.numeric(Environment_Matrix_FK_AR_21$block)
+Environment_Matrix_FK_AR_21$slope=as.numeric(Environment_Matrix_FK_AR_21$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_AR_21 <- adonis2(formula = Species_Matrix_FK_AR_21~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_21,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_AR_21) #drought (0.02)
+
+#### PERMDISP FK Aerial 2021 ####
+
+FK_AR_21<-Wide_FK_AR_21 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_AR_21 <- vegdist(Species_Matrix_FK_AR_21)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_AR_21_Dr <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$rainfall_reduction)
+permutest(Dispersion_FK_AR_21_Dr,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_AR_21_GR <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$grazing_treatment)
+permutest(Dispersion_FK_AR_21_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_AR_21_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$Dr_Gr)
+permutest(Dispersion_FK_AR_21_GR,pairwise = T, permutations = 999)  #ns
+
+
+#### PERMANOVA FK Aerial 2022 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_AR_22 <- Wide_FK_AR_22[,16:ncol(Wide_FK_AR_22)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_AR_22 <- Wide_FK_AR_22[,1:15]
+
+Environment_Matrix_FK_AR_22$block=as.numeric(Environment_Matrix_FK_AR_22$block)
+Environment_Matrix_FK_AR_22$slope=as.numeric(Environment_Matrix_FK_AR_22$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_22,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_AR_22) #drought (0.004)
+
+#### PERMDISP FK Aerial 2022 ####
+
+FK_AR_22<-Wide_FK_AR_22 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_AR_22 <- vegdist(Species_Matrix_FK_AR_22)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_AR_22_Dr <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$rainfall_reduction)
+permutest(Dispersion_FK_AR_22_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_AR_22_GR <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$grazing_treatment)
+permutest(Dispersion_FK_AR_22_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$Dr_Gr)
+permutest(Dispersion_FK_AR_22_GR,pairwise = T, permutations = 999)  #ns
+
+
+#### PERMANOVA FK Basal 2018 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_BA_18 <- Wide_FK_BA_18[,16:ncol(Wide_FK_BA_18)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_BA_18 <- Wide_FK_BA_18[,1:15]
+
+Environment_Matrix_FK_BA_18$block=as.numeric(Environment_Matrix_FK_BA_18$block)
+Environment_Matrix_FK_BA_18$slope=as.numeric(Environment_Matrix_FK_BA_18$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_BA_18 <- adonis2(formula = Species_Matrix_FK_BA_18~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_BA_18,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_BA_18) #NS
+
+#### PERMDISP FK Basal 2018 ####
+
+FK_BA_18<-Wide_FK_BA_18 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_BA_18 <- vegdist(Species_Matrix_FK_BA_18)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_BA_18_Dr <- betadisper(BC_Distance_Matrix_FK_BA_18,FK_BA_18$rainfall_reduction)
+permutest(Dispersion_FK_BA_18_Dr,pairwise = T, permutations = 999)  #NS
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_BA_18_GR <- betadisper(BC_Distance_Matrix_FK_BA_18,FK_BA_18$grazing_treatment)
+permutest(Dispersion_FK_BA_18_GR,pairwise = T, permutations = 999)  #NS
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_BA_18_DR_GR <- betadisper(BC_Distance_Matrix_FK_BA_18,FK_BA_18$Dr_Gr)
+permutest(Dispersion_FK_BA_18_GR,pairwise = T, permutations = 999)  #NS
+
+
+#### PERMANOVA FK Basal 2019 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_BA_19 <- Wide_FK_BA_19[,16:ncol(Wide_FK_BA_19)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_BA_19 <- Wide_FK_BA_19[,1:15]
+
+Environment_Matrix_FK_BA_19$block=as.numeric(Environment_Matrix_FK_BA_19$block)
+Environment_Matrix_FK_BA_19$slope=as.numeric(Environment_Matrix_FK_BA_19$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_BA_19 <- adonis2(formula = Species_Matrix_FK_BA_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_BA_19,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_BA_19) #NS
+
+#### PERMDISP FK Basal 2019 ####
+
+FK_BA_19<-Wide_FK_BA_19 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_BA_19 <- vegdist(Species_Matrix_FK_BA_19)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_BA_19_Dr <- betadisper(BC_Distance_Matrix_FK_BA_19,FK_BA_19$rainfall_reduction)
+permutest(Dispersion_FK_BA_19_Dr,pairwise = T, permutations = 999) #NS
+
+#### PERMANOVA FK Basal 2020 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_BA_20 <- Wide_FK_BA_20[,16:ncol(Wide_FK_BA_20)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_BA_20 <- Wide_FK_BA_20[,1:15]
+
+Environment_Matrix_FK_BA_20$block=as.numeric(Environment_Matrix_FK_BA_20$block)
+Environment_Matrix_FK_BA_20$slope=as.numeric(Environment_Matrix_FK_BA_20$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_BA_20 <- adonis2(formula = Species_Matrix_FK_BA_20~rainfall_reduction*livestock_util_2019 + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_BA_20,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_BA_20) #NS
+
+#### PERMDISP FK Basal 2020 ####
+
+FK_BA_20<-Wide_FK_BA_20 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_BA_20 <- vegdist(Species_Matrix_FK_BA_20)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_BA_20_Dr <- betadisper(BC_Distance_Matrix_FK_BA_20,FK_BA_20$rainfall_reduction)
+permutest(Dispersion_FK_BA_20_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_BA_20_GR <- betadisper(BC_Distance_Matrix_FK_BA_20,FK_BA_20$livestock_util_2019)
+permutest(Dispersion_FK_BA_20_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_BA_20_DR_GR <- betadisper(BC_Distance_Matrix_FK_BA_20,FK_BA_20$Dr_Gr19)
+permutest(Dispersion_FK_BA_20_GR,pairwise = T, permutations = 999)  #ns
+
+#### PERMANOVA FK Basal 2021 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_BA_21 <- Wide_FK_BA_21[,16:ncol(Wide_FK_BA_21)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_BA_21 <- Wide_FK_BA_21[,1:15]
+
+Environment_Matrix_FK_BA_21$block=as.numeric(Environment_Matrix_FK_BA_21$block)
+Environment_Matrix_FK_BA_21$slope=as.numeric(Environment_Matrix_FK_BA_21$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_BA_21 <- adonis2(formula = Species_Matrix_FK_BA_21~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_BA_21,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_BA_21) #drought (0.008)
+
+#### PERMDISP FK Basal 2021 ####
+
+FK_BA_21<-Wide_FK_BA_21 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilBAity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_BA_21 <- vegdist(Species_Matrix_FK_BA_21)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_BA_21_Dr <- betadisper(BC_Distance_Matrix_FK_BA_21,FK_BA_21$rainfall_reduction)
+permutest(Dispersion_FK_BA_21_Dr,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_BA_21_GR <- betadisper(BC_Distance_Matrix_FK_BA_21,FK_BA_21$grazing_treatment)
+permutest(Dispersion_FK_BA_21_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_BA_21_DR_GR <- betadisper(BC_Distance_Matrix_FK_BA_21,FK_BA_21$Dr_Gr)
+permutest(Dispersion_FK_BA_21_GR,pairwise = T, permutations = 999)  #ns
+
+
+#### PERMANOVA FK Basal 2022 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_FK_BA_22 <- Wide_FK_BA_22[,16:ncol(Wide_FK_BA_22)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_FK_BA_22 <- Wide_FK_BA_22[,1:15]
+
+Environment_Matrix_FK_BA_22$block=as.numeric(Environment_Matrix_FK_BA_22$block)
+Environment_Matrix_FK_BA_22$slope=as.numeric(Environment_Matrix_FK_BA_22$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_FK_BA_22 <- adonis2(formula = Species_Matrix_FK_BA_22~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_BA_22,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_BA_22) #drought (0.001)
+
+#### PERMDISP FK Basal 2022 ####
+
+FK_BA_22<-Wide_FK_BA_22 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilBAity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_BA_22 <- vegdist(Species_Matrix_FK_BA_22)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_FK_BA_22_Dr <- betadisper(BC_Distance_Matrix_FK_BA_22,FK_BA_22$rainfall_reduction)
+permutest(Dispersion_FK_BA_22_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_BA_22_GR <- betadisper(BC_Distance_Matrix_FK_BA_22,FK_BA_22$grazing_treatment)
+permutest(Dispersion_FK_BA_22_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_BA_22_DR_GR <- betadisper(BC_Distance_Matrix_FK_BA_22,FK_BA_22$Dr_Gr)
+permutest(Dispersion_FK_BA_22_GR,pairwise = T, permutations = 999)  #ns
+
+#### PERMANOVA TB Aerial 2018 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_AR_18 <- Wide_TB_AR_18[,16:ncol(Wide_TB_AR_18)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_AR_18 <- Wide_TB_AR_18[,1:15]
+
+Environment_Matrix_TB_AR_18$block=as.numeric(Environment_Matrix_TB_AR_18$block)
+Environment_Matrix_TB_AR_18$slope=as.numeric(Environment_Matrix_TB_AR_18$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_AR_18 <- adonis2(formula = Species_Matrix_TB_AR_18~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_18,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_AR_18) #grazing (0.002)
+
+#### PERMDISP TB Aerial 2018 ####
+
+TB_AR_18<-Wide_TB_AR_18 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_AR_18 <- vegdist(Species_Matrix_TB_AR_18)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_AR_18_Dr <- betadisper(BC_Distance_Matrix_TB_AR_18,TB_AR_18$rainfall_reduction)
+permutest(Dispersion_TB_AR_18_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_AR_18_GR <- betadisper(BC_Distance_Matrix_TB_AR_18,TB_AR_18$grazing_treatment)
+permutest(Dispersion_TB_AR_18_GR,pairwise = T, permutations = 999)  #grazing (0.002)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_AR_18_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_18,TB_AR_18$Dr_Gr)
+permutest(Dispersion_TB_AR_18_GR,pairwise = T, permutations = 999)  #DxG (0.001)
+
+
+#### PERMANOVA TB Aerial 2019 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_AR_19 <- Wide_TB_AR_19[,16:ncol(Wide_TB_AR_19)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_AR_19 <- Wide_TB_AR_19[,1:15]
+
+Environment_Matrix_TB_AR_19$block=as.numeric(Environment_Matrix_TB_AR_19$block)
+Environment_Matrix_TB_AR_19$slope=as.numeric(Environment_Matrix_TB_AR_19$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_AR_19 <- adonis2(formula = Species_Matrix_TB_AR_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_19,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_AR_19) #NS
+
+#### PERMDISP TB Aerial 2019 ####
+
+TB_AR_19<-Wide_TB_AR_19 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_AR_19 <- vegdist(Species_Matrix_TB_AR_19)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_AR_19_Dr <- betadisper(BC_Distance_Matrix_TB_AR_19,TB_AR_19$rainfall_reduction)
+permutest(Dispersion_TB_AR_19_Dr,pairwise = T, permutations = 999) #ns
+
+
+#### PERMANOVA TB Aerial 2020 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_AR_20 <- Wide_TB_AR_20[,16:ncol(Wide_TB_AR_20)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_AR_20 <- Wide_TB_AR_20[,1:15]
+
+Environment_Matrix_TB_AR_20$block=as.numeric(Environment_Matrix_TB_AR_20$block)
+Environment_Matrix_TB_AR_20$slope=as.numeric(Environment_Matrix_TB_AR_20$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_AR_20 <- adonis2(formula = Species_Matrix_TB_AR_20~rainfall_reduction*livestock_util_2019 + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_20,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_AR_20) #NS
+
+#### PERMDISP TB Aerial 2020 ####
+
+TB_AR_20<-Wide_TB_AR_20 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_AR_20 <- vegdist(Species_Matrix_TB_AR_20)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_AR_20_Dr <- betadisper(BC_Distance_Matrix_TB_AR_20,TB_AR_20$rainfall_reduction)
+permutest(Dispersion_TB_AR_20_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_AR_20_GR <- betadisper(BC_Distance_Matrix_TB_AR_20,TB_AR_20$livestock_util_2019)
+permutest(Dispersion_TB_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_AR_20_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_20,TB_AR_20$Dr_Gr19)
+permutest(Dispersion_TB_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#### PERMANOVA TB Aerial 2021 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_AR_21 <- Wide_TB_AR_21[,16:ncol(Wide_TB_AR_21)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_AR_21 <- Wide_TB_AR_21[,1:15]
+
+Environment_Matrix_TB_AR_21$block=as.numeric(Environment_Matrix_TB_AR_21$block)
+Environment_Matrix_TB_AR_21$slope=as.numeric(Environment_Matrix_TB_AR_21$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_AR_21 <- adonis2(formula = Species_Matrix_TB_AR_21~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_21,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_AR_21) #grazing (0.019)
+
+#### PERMDISP TB Aerial 2021 ####
+
+TB_AR_21<-Wide_TB_AR_21 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_AR_21 <- vegdist(Species_Matrix_TB_AR_21)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_AR_21_Dr <- betadisper(BC_Distance_Matrix_TB_AR_21,TB_AR_21$rainfall_reduction)
+permutest(Dispersion_TB_AR_21_Dr,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_AR_21_GR <- betadisper(BC_Distance_Matrix_TB_AR_21,TB_AR_21$grazing_treatment)
+permutest(Dispersion_TB_AR_21_GR,pairwise = T, permutations = 999)  #0.025
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_AR_21_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_21,TB_AR_21$Dr_Gr)
+permutest(Dispersion_TB_AR_21_GR,pairwise = T, permutations = 999)  #0.017
+
+
+#### PERMANOVA TB Aerial 2022 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_AR_22 <- Wide_TB_AR_22[,16:ncol(Wide_TB_AR_22)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_AR_22 <- Wide_TB_AR_22[,1:15]
+
+Environment_Matrix_TB_AR_22$block=as.numeric(Environment_Matrix_TB_AR_22$block)
+Environment_Matrix_TB_AR_22$slope=as.numeric(Environment_Matrix_TB_AR_22$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_AR_22 <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_22,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_AR_22) #grazing (0.002)
+
+#### PERMDISP TB Aerial 2022 ####
+
+TB_AR_22<-Wide_TB_AR_22 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_AR_22 <- vegdist(Species_Matrix_TB_AR_22)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_AR_22_Dr <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$rainfall_reduction)
+permutest(Dispersion_TB_AR_22_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_AR_22_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$grazing_treatment)
+permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.006
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$Dr_Gr)
+permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.003
+
+
+#### PERMANOVA TB Basal 2018 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_BA_18 <- Wide_TB_BA_18[,16:ncol(Wide_TB_BA_18)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_BA_18 <- Wide_TB_BA_18[,1:15]
+
+Environment_Matrix_TB_BA_18$block=as.numeric(Environment_Matrix_TB_BA_18$block)
+Environment_Matrix_TB_BA_18$slope=as.numeric(Environment_Matrix_TB_BA_18$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_BA_18 <- adonis2(formula = Species_Matrix_TB_BA_18~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_BA_18,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_BA_18) #grazing (0.001)
+
+#### PERMDISP TB Basal 2018 ####
+
+TB_BA_18<-Wide_TB_BA_18 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_BA_18 <- vegdist(Species_Matrix_TB_BA_18)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_BA_18_Dr <- betadisper(BC_Distance_Matrix_TB_BA_18,TB_BA_18$rainfall_reduction)
+permutest(Dispersion_TB_BA_18_Dr,pairwise = T, permutations = 999)  #NS
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_BA_18_GR <- betadisper(BC_Distance_Matrix_TB_BA_18,TB_BA_18$grazing_treatment)
+permutest(Dispersion_TB_BA_18_GR,pairwise = T, permutations = 999)  #0.001
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_BA_18_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_18,TB_BA_18$Dr_Gr)
+permutest(Dispersion_TB_BA_18_GR,pairwise = T, permutations = 999)  #0.001
+
+
+#### PERMANOVA TB Basal 2019 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_BA_19 <- Wide_TB_BA_19[,16:ncol(Wide_TB_BA_19)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_BA_19 <- Wide_TB_BA_19[,1:15]
+
+Environment_Matrix_TB_BA_19$block=as.numeric(Environment_Matrix_TB_BA_19$block)
+Environment_Matrix_TB_BA_19$slope=as.numeric(Environment_Matrix_TB_BA_19$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_BA_19 <- adonis2(formula = Species_Matrix_TB_BA_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_BA_19,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_BA_19) #NS
+
+#### PERMDISP TB Basal 2019 ####
+
+TB_BA_19<-Wide_TB_BA_19 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_BA_19 <- vegdist(Species_Matrix_TB_BA_19)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_BA_19_Dr <- betadisper(BC_Distance_Matrix_TB_BA_19,TB_BA_19$rainfall_reduction)
+permutest(Dispersion_TB_BA_19_Dr,pairwise = T, permutations = 999) #NS
+
+#### PERMANOVA TB Basal 2020 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_BA_20 <- Wide_TB_BA_20[,16:ncol(Wide_TB_BA_20)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_BA_20 <- Wide_TB_BA_20[,1:15]
+
+Environment_Matrix_TB_BA_20$block=as.numeric(Environment_Matrix_TB_BA_20$block)
+Environment_Matrix_TB_BA_20$slope=as.numeric(Environment_Matrix_TB_BA_20$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_BA_20 <- adonis2(formula = Species_Matrix_TB_BA_20~rainfall_reduction*livestock_util_2019 + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_BA_20,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_BA_20) #NS
+
+#### PERMDISP TB Basal 2020 ####
+
+TB_BA_20<-Wide_TB_BA_20 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_BA_20 <- vegdist(Species_Matrix_TB_BA_20)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_BA_20_Dr <- betadisper(BC_Distance_Matrix_TB_BA_20,TB_BA_20$rainfall_reduction)
+permutest(Dispersion_TB_BA_20_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_BA_20_GR <- betadisper(BC_Distance_Matrix_TB_BA_20,TB_BA_20$livestock_util_2019)
+permutest(Dispersion_TB_BA_20_GR,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_BA_20_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_20,TB_BA_20$Dr_Gr19)
+permutest(Dispersion_TB_BA_20_GR,pairwise = T, permutations = 999)  #ns
+
+#### PERMANOVA TB Basal 2021 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_BA_21 <- Wide_TB_BA_21[,16:ncol(Wide_TB_BA_21)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_BA_21 <- Wide_TB_BA_21[,1:15]
+
+Environment_Matrix_TB_BA_21$block=as.numeric(Environment_Matrix_TB_BA_21$block)
+Environment_Matrix_TB_BA_21$slope=as.numeric(Environment_Matrix_TB_BA_21$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_BA_21 <- adonis2(formula = Species_Matrix_TB_BA_21~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_BA_21,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_BA_21) #grazing (0.016)
+
+ #### PERMDISP TB Basal 2021 ####
+
+TB_BA_21<-Wide_TB_BA_21 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilBAity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_BA_21 <- vegdist(Species_Matrix_TB_BA_21)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_BA_21_Dr <- betadisper(BC_Distance_Matrix_TB_BA_21,TB_BA_21$rainfall_reduction)
+permutest(Dispersion_TB_BA_21_Dr,pairwise = T, permutations = 999)  #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_BA_21_GR <- betadisper(BC_Distance_Matrix_TB_BA_21,TB_BA_21$grazing_treatment)
+permutest(Dispersion_TB_BA_21_GR,pairwise = T, permutations = 999)  #0.02
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_BA_21_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_21,TB_BA_21$Dr_Gr)
+permutest(Dispersion_TB_BA_21_GR,pairwise = T, permutations = 999)  #0.021
+
+
+#### PERMANOVA TB Basal 2022 ####
+
+#Make a new dataframe with the data from Wide_Relative_Cover all columns
+Species_Matrix_TB_BA_22 <- Wide_TB_BA_22[,16:ncol(Wide_TB_BA_22)] %>% 
+  select_if(colSums(.) != 0)
+#Make a new dataframe with data from Wide_Relative_Cover columns 1-3
+Environment_Matrix_TB_BA_22 <- Wide_TB_BA_22[,1:15]
+
+Environment_Matrix_TB_BA_22$block=as.numeric(Environment_Matrix_TB_BA_22$block)
+Environment_Matrix_TB_BA_22$slope=as.numeric(Environment_Matrix_TB_BA_22$slope)
+
+#run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
+PerMANOVA_TB_BA_22 <- adonis2(formula = Species_Matrix_TB_BA_22~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_BA_22,permutations = 999, method = "bray",type=3)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_BA_22) #gazing (0.003)
+
+#### PERMDISP TB Basal 2022 ####
+
+TB_BA_22<-Wide_TB_BA_22 %>% 
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+
+#Make a new dataframe and calculate the dissimilBAity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_BA_22 <- vegdist(Species_Matrix_TB_BA_22)
+#Run a dissimilarity matrix (PermDisp) comparing drought
+Dispersion_TB_BA_22_Dr <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$rainfall_reduction)
+permutest(Dispersion_TB_BA_22_Dr,pairwise = T, permutations = 999) #ns
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_BA_22_GR <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$grazing_treatment)
+permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.001
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_BA_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$Dr_Gr)
+permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.002
