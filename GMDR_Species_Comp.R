@@ -46,6 +46,9 @@ plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>%
   dplyr::select(site,block,paddock,plot,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021)
 plot_layoutK$plot<-as.factor(plot_layoutK$plot)
 
+#Read in functional group data
+Functional_Group<-read.csv("RelCov_FunctionalGroups.csv")
+
 #### Clean Up Species Comp Data and Calculate Relative Cover ####
 
 #### FK - 2018 - Relative Cover ####
@@ -393,7 +396,7 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
                           ifelse(Genus_Species_2=="Oenothera.suffruticosa","Oenothera.suffrutescens",
                                  Genus_Species_2)))))))))))))))) %>% 
   #Give unknowns more cohesive name
-  mutate(Genus_Species=ifelse(Genus_Species_3=="Antennaria.KW.pic.unknown","Antennaria.UNKWN1",
+  mutate(Genus_Species_4=ifelse(Genus_Species_3=="Antennaria.KW.pic.unknown","Antennaria.UNKWN1",
                        ifelse(Genus_Species_3=="Antennaria.spp.unknown","Antennaria.UNKWN2",
                        ifelse(Genus_Species_3=="Artemisia.look.alike.no.smell.KW.pic.unknown","Artemisia.UNKWN3",
                        ifelse(Genus_Species_3=="ASER.Like.Woody","ASER.UNKWN4",
@@ -435,11 +438,21 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
                        ifelse(Genus_Species_3=="Unknown..7.baby.guara.","BabyGuara.UNKWN36",
                        ifelse(Genus_Species_3=="Unknown1.2021.no.sp.name.datasheet" ,"NoName.UNKWN37",
                        ifelse(Genus_Species_3=="CHLE","CHLE.UNKWN38",
-                       ifelse(Genus_Species_3=="DECA","DECA.UNKWN39",
-                              Genus_Species_3)))))))))))))))))))))))))))))))))))))))))))) %>% 
+                       ifelse(Genus_Species_3=="DECA","Daleac.andida",
+                       ifelse(Genus_Species_3=="Chamaesyce.nutans","Oenothera.nutans",
+                       ifelse(Genus_Species_3=="Pediomelum.esculentum","Psoralea.esculenta",
+                       ifelse(Genus_Species_3=="Phlox.longifoli","Phlox.longifolia",
+                       ifelse(Genus_Species_3=="Penstamom.angus","Penstemon.angustifolius",
+                       ifelse(Genus_Species_3=="Oenothera.suffrutescens","Oenotherea.suffrutescens",
+                       ifelse(Genus_Species_3=="Oenothera.nutans","Oenothera.nuttallii",
+                              Genus_Species_3)))))))))))))))))))))))))))))))))))))))))))))))))) %>% 
+  mutate(Genus_Species=ifelse(Genus_Species_4=="Cryptans.minima","Cryptantha.minima",   
+                       ifelse(Genus_Species_4=="Chenopudium.pratericola","Chenopodium.pratericola",
+                       ifelse(Genus_Species_4=="Coryphanthus.vivipara","Coryphantha.vivipara",
+                              Genus_Species_4)))) %>% 
   select(year,site,plot,aerial_basal,Genus_Species,Relative_Cover) %>% 
   unique()
-                                                                    
+             
                                                                     
 #### Calculate Community Metrics ####
 # uses codyn package and finds shannon's diversity 
@@ -2960,3 +2973,13 @@ permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.001
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_TB_BA_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$Dr_Gr)
 permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.002
+
+
+#### Relative Cover of Functional Group ####
+
+RelCov_FunctionalGroups<-Species_Comp_RelCov_Clean %>% 
+  left_join(Functional_Group)
+
+write.csv(RelCov_FunctionalGroups,"RelCov_FunctionalGroups.csv")
+
+
