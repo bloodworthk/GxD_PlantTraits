@@ -4830,3 +4830,333 @@ TB_22_C3_A_Ba <- lmerTest::lmer(data = subset(RelCov_C3_A, year == 2022 & site==
 anova(TB_22_C3_A_Ba, type = 3)  #drought (0.04), grazing (0.0004)
 
 
+#### Normality: FK C3-As ####
+
+RelCov_BOGR<-FG_RelCov %>% 
+  filter(Genus_Species=="Bouteloua.gracilis"  )
+
+#FK - Aerial - Relative_Cover: 2018 
+#non transformed data
+Norm_FK_18_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "FK"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_FK_18_RelCov_BOGR_Ar) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_18_FK_AR=log(Relative_Cover))
+
+Norm_FK_18_RelCov_BOGR_Ar_TF <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "FK"& aerial_basal=="Aerial"), RelCov_18_FK_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_FK_18_RelCov_BOGR_Ar_TF) #normal
+
+#FK - Aerial - Relative_Cover: 2019 
+#non transformed data
+Norm_FK_19_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "FK"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_FK_19_RelCov_BOGR_Ar) #
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_19_FK_AR=log10(Relative_Cover))
+
+Norm_FK_19_RelCov_BOGR_Ar_TF <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "FK"& aerial_basal=="Aerial"), RelCov_19_FK_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_19_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_FK_19_RelCov_BOGR_Ar_TF) #normal
+
+
+#FK - Aerial - Relative_Cover: 2020 
+#non transformed data
+Norm_FK_20_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "FK"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_FK_20_RelCov_BOGR_Ar) #
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_20_FK_AR=log10(Relative_Cover))
+
+Norm_FK_20_RelCov_BOGR_Ar_TF <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "FK"& aerial_basal=="Aerial"), RelCov_20_FK_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_20_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_FK_20_RelCov_BOGR_Ar_TF) #normal
+
+#FK - Aerial - Relative_Cover: 2021 
+#non transformed data
+Norm_FK_21_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "FK"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_FK_21_RelCov_BOGR_Ar) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_21_FK_AR=log10(Relative_Cover))
+
+Norm_FK_21_RelCov_BOGR_Ar_TF  <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "FK"& aerial_basal=="Aerial"), RelCov_21_FK_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_FK_21_RelCov_BOGR_Ar_TF) #normal
+
+#FK - Aerial - Relative_Cover: 2022 
+#non transformed data
+Norm_FK_22_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "FK"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_FK_22_RelCov_BOGR_Ar) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_22_FK_AR=log10(Relative_Cover))
+
+Norm_FK_22_RelCov_BOGR_Ar_TF  <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "FK"& aerial_basal=="Aerial"), RelCov_22_FK_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_FK_22_RelCov_BOGR_Ar_TF) #normal
+
+#FK - Basal - Relative_Cover: 2018 
+#non transformed data
+Norm_FK_18_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "FK"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_FK_18_RelCov_BOGR_Ba) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_18_FK_Ba=1/sqrt(Relative_Cover))
+
+Norm_FK_18_RelCov_BOGR_Ba_TF <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "FK"& aerial_basal=="Basal"), RelCov_18_FK_Ba  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_18_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_FK_18_RelCov_BOGR_Ba_TF) #still not normal but better
+
+#FK - Basal - Relative_Cover: 2019 
+#non transformed data
+Norm_FK_19_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "FK"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_FK_19_RelCov_BOGR_Ba) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_19_FK_Ba=log10(Relative_Cover))
+
+Norm_FK_19_RelCov_BOGR_Ba_TF <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "FK"& aerial_basal=="Basal"), RelCov_19_FK_Ba  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_FK_19_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_FK_19_RelCov_BOGR_Ba_TF) #not normal but better
+
+
+#FK - Basal - Relative_Cover: 2020 
+#non transformed data
+Norm_FK_20_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "FK"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_FK_20_RelCov_BOGR_Ba) 
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_20_FK_Ba=asin(Relative_Cover))
+
+Norm_FK_20_RelCov_BOGR_Ba_TF <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "FK"& aerial_basal=="Basal"), RelCov_20_FK_Ba  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_FK_20_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_FK_20_RelCov_BOGR_Ba_TF) ##normal
+
+#FK - Basal - Relative_Cover: 2021 
+#non transformed data
+Norm_FK_21_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "FK"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_FK_21_RelCov_BOGR_Ba) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_21_FK_Ba=log10(Relative_Cover))
+
+Norm_FK_21_RelCov_BOGR_Ba_TF  <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "FK"& aerial_basal=="Basal"), RelCov_21_FK_Ba  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_21_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_FK_21_RelCov_BOGR_Ba_TF) #normal
+
+#FK - Basal - Relative_Cover: 2022 
+#non transformed data
+Norm_FK_22_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "FK"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_FK_22_RelCov_BOGR_Ba) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_22_FK_Ba=1/sqrt(Relative_Cover))
+
+Norm_FK_22_RelCov_BOGR_Ba_TF  <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "FK"& aerial_basal=="Basal"), RelCov_22_FK_Ba  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_FK_22_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_FK_22_RelCov_BOGR_Ba_TF) #normal
+
+
+#### Stats: FK BOGRs ####
+
+#FK 2018 - checking drought and grazing
+FK_18_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2018 & site== "FK" & aerial_basal=="Aerial"), RelCov_18_FK_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_BOGR_Ar, type = 3) #ns
+
+#FK 2019 - just drought
+FK_19_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2019 & site== "FK" & aerial_basal=="Aerial"), RelCov_19_FK_AR ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_BOGR_Ar, type = 3) #drought (0.02)
+
+#FK 2020 - droughtxgrazing
+FK_20_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2020 & site== "FK" & aerial_basal=="Aerial"), RelCov_20_FK_AR ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_BOGR_Ar, type = 3) #ns
+
+#FK 2021- droughtxgrazing
+FK_21_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2021 & site== "FK" & aerial_basal=="Aerial"), RelCov_21_FK_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_BOGR_Ar, type = 3) #ns
+
+#FK 2022- droughtxgrazing
+FK_22_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2022 & site== "FK" & aerial_basal=="Aerial"), RelCov_22_FK_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_BOGR_Ar, type = 3) #ns
+
+#Basal 
+#FK 2018 - checking drought and grazing
+FK_18_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2018 & site== "FK" & aerial_basal=="Basal"), RelCov_18_FK_Ba ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_BOGR_Ba, type = 3) #ns
+
+#FK 2019 - just drought
+FK_19_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2019 & site== "FK" & aerial_basal=="Basal"), RelCov_19_FK_Ba ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_BOGR_Ba, type = 3) #drought (0.01)
+
+#FK 2020 - droughtxgrazing
+FK_20_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2020 & site== "FK" & aerial_basal=="Basal"), RelCov_20_FK_Ba ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_BOGR_Ba, type = 3) #ns
+
+#FK 2021- droughtxgrazing
+FK_21_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2021 & site== "FK" & aerial_basal=="Basal"), RelCov_21_FK_Ba ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_BOGR_Ba, type = 3) #ns
+
+#FK 2022- droughtxgrazing
+FK_22_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2022 & site== "FK" & aerial_basal=="Basal"), RelCov_22_FK_Ba ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_BOGR_Ba, type = 3)  #ns
+
+#### Normality: TB BOGR ####
+
+#TB - Aerial - Relative_Cover: 2018 
+#non transformed data
+Norm_TB_18_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "TB"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_TB_18_RelCov_BOGR_Ar) #normal
+
+#TB - Aerial - Relative_Cover: 2019 
+#non transformed data
+Norm_TB_19_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "TB"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_TB_19_RelCov_BOGR_Ar) #
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_19_TB_AR=sqrt(Relative_Cover))
+
+Norm_TB_19_RelCov_BOGR_Ar_TF <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "TB"& aerial_basal=="Aerial"), RelCov_19_TB_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_19_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_TB_19_RelCov_BOGR_Ar_TF) #normal
+
+
+#TB - Aerial - Relative_Cover: 2020 
+#non transformed data
+Norm_TB_20_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "TB"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_TB_20_RelCov_BOGR_Ar) #
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_20_TB_AR=asin(Relative_Cover))
+
+Norm_TB_20_RelCov_BOGR_Ar_TF <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "TB"& aerial_basal=="Aerial"), RelCov_20_TB_AR  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_20_RelCov_BOGR_Ar_TF) 
+ols_test_normality(Norm_TB_20_RelCov_BOGR_Ar_TF) #normal
+
+#TB - Aerial - Relative_Cover: 2021 
+#non transformed data
+Norm_TB_21_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "TB"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_TB_21_RelCov_BOGR_Ar) #normal
+
+#TB - Aerial - Relative_Cover: 2022 
+#non transformed data
+Norm_TB_22_RelCov_BOGR_Ar <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "TB"& aerial_basal=="Aerial"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_RelCov_BOGR_Ar) 
+ols_test_normality(Norm_TB_22_RelCov_BOGR_Ar) #normal
+
+#TB - Basal - Relative_Cover: 2018 
+#non transformed data
+Norm_TB_18_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2018 & site== "TB"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_18_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_TB_18_RelCov_BOGR_Ba) #normal
+
+#TB - Basal - Relative_Cover: 2019 
+#non transformed data
+Norm_TB_19_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "TB"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_TB_19_RelCov_BOGR_Ba) #right skewed
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_19_TB_Ba=1/log10(Relative_Cover))
+
+Norm_TB_19_RelCov_BOGR_Ba_TF <- lm(data = subset(RelCov_BOGR, year == 2019 & site== "TB"& aerial_basal=="Basal"), RelCov_19_TB_Ba  ~ rainfall_reduction)
+ols_plot_resid_hist(Norm_TB_19_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_TB_19_RelCov_BOGR_Ba_TF) #not normal but better
+
+
+#TB - Basal - Relative_Cover: 2020 
+#non transformed data
+Norm_TB_20_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "TB"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_TB_20_RelCov_BOGR_Ba) #not transformed is best
+
+#Transform Data
+RelCov_BOGR<-RelCov_BOGR %>% 
+  mutate(RelCov_20_TB_Ba=asin(Relative_Cover))
+
+Norm_TB_20_RelCov_BOGR_Ba_TF <- lm(data = subset(RelCov_BOGR, year == 2020 & site== "TB"& aerial_basal=="Basal"), RelCov_20_TB_Ba  ~ rainfall_reduction*livestock_util_2019)
+ols_plot_resid_hist(Norm_TB_20_RelCov_BOGR_Ba_TF) 
+ols_test_normality(Norm_TB_20_RelCov_BOGR_Ba_TF) #not normal but better
+
+#TB - Basal - Relative_Cover: 2021 
+#non transformed data
+Norm_TB_21_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2021 & site== "TB"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_21_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_TB_21_RelCov_BOGR_Ba) #normal
+
+#TB - Basal - Relative_Cover: 2022 
+#non transformed data
+Norm_TB_22_RelCov_BOGR_Ba <- lm(data = subset(RelCov_BOGR, year == 2022 & site== "TB"& aerial_basal=="Basal"), Relative_Cover  ~ rainfall_reduction*grazing_treatment)
+ols_plot_resid_hist(Norm_TB_22_RelCov_BOGR_Ba) 
+ols_test_normality(Norm_TB_22_RelCov_BOGR_Ba) #normal
+
+
+#### Stats: TB BOGRs ####
+
+#TB 2018 - checking drought and grazing
+TB_18_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2018 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_BOGR_Ar, type = 3) #grazing (0.003)
+
+#TB 2019 - just drought
+TB_19_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2019 & site== "TB" & aerial_basal=="Aerial"), RelCov_19_TB_AR ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_BOGR_Ar, type = 3) #ns
+
+#TB 2020 - droughtxgrazing
+TB_20_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2020 & site== "TB" & aerial_basal=="Aerial"), RelCov_20_TB_AR ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_BOGR_Ar, type = 3) #grazing (0.03)
+
+#TB 2021- droughtxgrazing
+TB_21_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2021 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_BOGR_Ar, type = 3) #ns
+
+#TB 2022- droughtxgrazing
+TB_22_BOGR_Ar <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_BOGR_Ar, type = 3) #grazing (0.0009)
+
+#Basal 
+#TB 2018 - checking drought and grazing
+TB_18_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2018 & site== "TB" & aerial_basal=="Basal"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_BOGR_Ba, type = 3) #grazing (0.00757)
+
+#TB 2019 - just drought
+TB_19_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2019 & site== "TB" & aerial_basal=="Basal"), RelCov_19_TB_Ba ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_BOGR_Ba, type = 3) #ns
+
+#TB 2020 - droughtxgrazing
+TB_20_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2020 & site== "TB" & aerial_basal=="Basal"), RelCov_20_TB_Ba ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_BOGR_Ba, type = 3) #ns
+
+#TB 2021- droughtxgrazing
+TB_21_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2021 & site== "TB" & aerial_basal=="Basal"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_BOGR_Ba, type = 3) #ns
+
+#TB 2022- droughtxgrazing
+TB_22_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2022 & site== "TB" & aerial_basal=="Basal"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_BOGR_Ba, type = 3)  #grazing (0.002)
