@@ -6130,3 +6130,102 @@ ggplot(data=subset(Rank_Abundance_Grazing, site=="TB" & year>=2020&rank<=20), ae
   expand_limits(y=100)+
   facet_grid(grazing_treatment_fig2 ~ year)
 #save at 1500 x 1000
+
+
+
+#### Relative Cover Stats ####
+
+#### Stats: Fort Keogh Aerial + Basal - Relative_Cover's ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Relative_Cover_Aerial, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Relative_Cover_Aerial, type = 3) #ns
+
+#FK 2020 - droughtxgrazing
+FK_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Relative_Cover_Aerial, type = 3) #ns
+
+
+#FK 2021- droughtxgrazing
+FK_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Relative_Cover_Aerial, type = 3) #NS
+
+#FK 2022- droughtxgrazing
+FK_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Relative_Cover_Aerial, type = 3) #ns
+
+#FK 2023- droughtxgrazing
+FK_23_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_23_Relative_Cover_Aerial, type = 3) #NS
+
+#basal
+#FK 2018 - checking drought and grazing
+FK_18_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Relative_Cover_Basal, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Relative_Cover_Basal, type = 3) #ns
+
+#FK 2020 - droughtxgrazing
+FK_20_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Relative_Cover_Basal, type = 3) #ns
+
+#FK 2021- droughtxgrazing
+FK_21_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Relative_Cover_Basal, type = 3) #NS
+
+#FK 2022- droughtxgrazing
+FK_22_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Relative_Cover_Basal, type = 3) ns
+
+#FK 2023- droughtxgrazing
+FK_23_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_23_Relative_Cover_Basal, type = 3) #NS
+
+#### Stats: Thunder  Basin Aerial + Basal - Relative_Cover's####
+
+#TB 2018 - checking drought and grazing
+TB_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Relative_Cover_Aerial, type = 3) #ns
+
+#TB 2019 - just drought
+TB_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Relative_Cover_Aerial, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Relative_Cover_Aerial, type = 3) #ns
+
+#TB 2021- droughtxgrazing
+TB_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Relative_Cover_Aerial, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Relative_Cover_Aerial, type = 3) #ns
+
+#basal
+#TB 2018 - checking drought and grazing
+TB_18_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Relative_Cover_Basal, type = 3) #ns
+
+#TB 2019 - just drought
+TB_19_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Relative_Cover_Basal, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Relative_Cover_Basal, type = 3) #ns
+
+#TB 2021- droughtxgrazing
+TB_21_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Relative_Cover_Basal, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Relative_Cover_Basal, type = 3) #ns
