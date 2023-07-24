@@ -6229,3 +6229,5 @@ anova(TB_21_Relative_Cover_Basal, type = 3) #NS
 #TB 2022- droughtxgrazing
 TB_22_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Relative_Cover_Basal, type = 3) #ns
+
+
