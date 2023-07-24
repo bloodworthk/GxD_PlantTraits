@@ -11,10 +11,14 @@ library(olsrr)
 library(car)
 library(patchwork)
 library(vegan)
+library(multcomp)
 
 #### Set Working Directory ####
 #Bloodworth - Mac
 setwd("~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data")
+
+#Bloodworth - PC
+setwd("/Users/kjbloodw/Box/Projects/Dissertation/Data")
 
 #### Set ggplot base ####
 #Set ggplot2 theme to black and white
@@ -853,26 +857,29 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
 droughtColor <- c('#6baed6', '#6baed6', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603') #from 0 to 99 ##change this to be blue at 0 to red at 99
 grazingColor <- c('#ABDEFF', '#469BEC', '#6D882B') #from HHMMM to MMMMM to MLLMM
 
+# The palette with grey:
+cbPalette <- c("#492900", "#A36B2B", "#7C9693","#89CFD4", "#2686A0")
+
+palette<-c("#a6611a","#dfc27d","#737373","#80cdc1","#018571")
+
 #FK: richness and drought
 #Fort Keogh all years
 Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+ #2019 2021
-  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2019), method='lm', se=FALSE,color="darkslateblue",size=5)+
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","cadetblue","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   #scale_alpha_manual(values=c(0,1,1,0))+
   #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,20))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.25),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  expand_limits(y=c(5,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
   annotate("text", x=20, y=20, label = "A. Montana Site", size=20)
 
-#FThunder Basin all years
+#Thunder Basin all years
 Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
   #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
@@ -880,13 +887,13 @@ Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","cadetblue","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_alpha_manual(values=c(0,1,1,0))+
   #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   #scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,20))+
+  expand_limits(y=c(5,20))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
   annotate("text", x=20,y=20, label = "B. Wyoming Site", size=20)
 
@@ -907,9 +914,9 @@ Richness_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,20))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = c(0.15,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
-  annotate("text", x=2.2, y=29, label = "C. Montana Site", size=30)
+  expand_limits(y=c(0,30))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=2.1, y=28, label = "A. Montana Site", size=30)
 
 ## TB Grazing ##
 Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=richness_fig,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
@@ -922,9 +929,9 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
   ylab("Plant Species Richness")+
-  expand_limits(y=c(0,20))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=2.2, y=29, label = "D. Wyoming Site", size=30)
+  expand_limits(y=c(0,30))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=2.1, y=28, label = "B. Wyoming Site", size=30)
 
 #### Create RichnessXGrazing Figure ####
 
@@ -1139,7 +1146,10 @@ p.adjust(0.00692, method = "BH", n=5) #0.0346
 FK_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_22_Evar_Aerial, type = 3) #grazing (0.007961)
 #adjust drought p-value
-p.adjust(0.007961, method = "BH", n=5) #0.098
+p.adjust(0.007961, method = "BH", n=5) #0.040
+#post hoc test for lmer test on grazing
+summary(glht(FK_22_Evar_Aerial, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
+
 
 #FK 2023- droughtxgrazing
 FK_23_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -1199,7 +1209,10 @@ p.adjust(0.003804, method = "BH", n=5) #0.01902
 
 #TB 2022- droughtxgrazing
 TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Evar_Aerial, type = 3) #NS
+anova(TB_22_Evar_Aerial, type = 3) #0.03817
+#adjust drought p-value
+p.adjust(0.03817, method = "BH", n=5) #0.19085
+
 
 #basal
 #TB 2018 - checking drought and grazing
@@ -1226,44 +1239,37 @@ anova(TB_22_Evar_Basal, type = 3) #grazing (0.005449)
 #adjust drought p-value
 p.adjust(0.001243, method = "BH", n=5) #0.006215
 
-#### Figure: Aerial Evenness ####
+#### Figure: Aerial - Evenness ####
 
-#FK: Evar and drought
+#FK: Evenness and drought
 #Fort Keogh all years
 Evar_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Evar_Mean,color=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_point(size=14, stroke =6)+ #2019 2021
   geom_pointrange(aes(ymin=Evar_Mean-Evar_St_Error,ymax=Evar_Mean+Evar_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2021)), method='lm', se=FALSE,size=5,linetype="solid")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_alpha_manual(values=c(0,1,1,0))+
-  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Evenness")+
   expand_limits(y=c(0,0.6))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.2),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
-  annotate("text", x=29, y=0.6, label = "A. MT Aerial Evenness", size=20)
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=21, y=0.6, label = "A. Montana Site", size=20)
 
 #Thunder Basin all years
 Evar_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Evar_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Evar_Mean-Evar_St_Error,ymax=Evar_Mean+Evar_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2021)), method='lm', se=FALSE,size=5,linetype="solid")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_alpha_manual(values=c(0,1,1,0))+
-  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Evenness")+
   expand_limits(y=c(0,0.6))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=29, y=0.6, label = "B. WY Aerial Evenness", size=20)
+  annotate("text", x=21,y=0.6, label = "B. Wyoming Site", size=20)
+
 
 #### Create EvarxDrought Figure ####
 Evar_FK_ALL_Aerial_Drought+
@@ -1277,14 +1283,14 @@ Evar_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"&yea
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
-  ylab("Plant Species Diveristy")+
-  expand_limits(y=c(0,4))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
-  annotate("text", x=2.8, y=3.9, label = "C. MT Aerial Evenness", size=30)
+  xlab("Year")+
+  ylab("Plant Species Evenness")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=2.2, y=0.95, label = "A. Montana Site", size=30)
 
 ## TB Grazing ##
 Evar_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Evar_fig,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
@@ -1292,14 +1298,14 @@ Evar_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&yea
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
+  xlab("Year")+
   ylab("Plant Species Evenness")+
-  expand_limits(y=c(0,4))+
+  expand_limits(y=c(0,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=2.8, y=3.9, label = "D. WY Aerial Evenness", size=30)
+  annotate("text", x=2.2, y=0.95, label = "B. Wyoming Site", size=30)
 
 #### Create EvarXGrazing Figure ####
 
@@ -1486,7 +1492,7 @@ p.adjust(0.007922 , method = "BH", n=5) #0.03961
 
 #FK 2020 - droughtxgrazing
 FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Shannon_Aerial, type = 3) #Grazing (0.09032)
+anova(FK_20_Shannon_Aerial, type = 3) 
 #adjust drought p-value
 p.adjust(0.04908 , method = "BH", n=5) #0.2454
 #adjust grazing p-value
@@ -1594,44 +1600,36 @@ anova(TB_22_Shannon_Basal, type = 3) #grazing (0.02883)
 #adjust grazing p-value
 p.adjust(0.02474, method = "BH", n=5) #0.1237
 
-#### Figure: Aerial Diversity ####
+#### Figure: Aerial - Diversity ####
 
-#FK: Shannon and drought
+#FK: Shannon's Diversity and drought
 #Fort Keogh all years
 Shannon_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Shannon_Mean,color=as.factor(year),shape=as.factor(year))) +  
-  geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
+  geom_point(size=14, stroke =6)+ #2019 2021
   geom_pointrange(aes(ymin=Shannon_Mean-Shannon_St_Error,ymax=Shannon_Mean+Shannon_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2019)), method='lm', se=FALSE,size=5,linetype="solid")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_alpha_manual(values=c(0,1,1,0))+
-  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Plant Species Diversity")+
-  expand_limits(y=c(0,4))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.89,0.77),legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
-  annotate("text", x=28, y=4, label = "A. MT Aerial Diversity", size=20)
+  ylab("Shannon's Diversity")+
+  expand_limits(y=c(1,2.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  annotate("text", x=21, y=2.5, label = "A. Montana Site", size=20)
 
 #Thunder Basin all years
 Shannon_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Shannon_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Shannon_Mean-Shannon_St_Error,ymax=Shannon_Mean+Shannon_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_alpha_manual(values=c(0,1,1,0))+
-  #scale_linetype_manual(values=c("clear","solid","solid","clear"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  #scale_y_continuous(labels = label_number(accuracy = 0.01))+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
   xlab("Rainfall Reduction (%)")+
-  ylab("Plant Species Diversity")+
-  expand_limits(y=c(0,4))+
+  ylab("Shannon's Diversity")+
+  expand_limits(y=c(1,2.5))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=28, y=4, label = "B. WY Aerial Diversity", size=20)
+  annotate("text", x=21,y=2.5, label = "B. Wyoming Site", size=20)
+
 
 #### Create ShannonxDrought Figure ####
 Shannon_FK_ALL_Aerial_Drought+
@@ -1645,14 +1643,14 @@ Shannon_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"&
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
-  ylab("Plant Species Diveristy")+
-  expand_limits(y=c(0,4))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.9,0.9),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
-  annotate("text", x=2.8, y=3.9, label = "C. MT Aerial Diversity", size=30)
+  xlab("Year")+
+  ylab("Shannon's Diversity")+
+  expand_limits(y=c(0,3))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = c(0.1,0.1),legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=2.2, y=2.8, label = "A. Montana Site", size=30)
 
 ## TB Grazing ##
 Shannon_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&year>=2020),aes(x=factor(year,level=c(2020,2021,2022)),y=Shannon_fig,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
@@ -1660,14 +1658,14 @@ Shannon_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c("chocolate1","chocolate3","chocolate4"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
-  xlab("Grazing Treatment")+
-  ylab("Plant Species Diversity")+
-  expand_limits(y=c(0,4))+
+  xlab("Year")+
+  ylab("Shannon's Diversity")+
+  expand_limits(y=c(0,3))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
-  annotate("text", x=2.8, y=3.9, label = "D. WY Aerial Diversity", size=30)
+  annotate("text", x=2.2, y=2.8, label = "B. Wyoming Site", size=30)
 
 #### Create ShannonXGrazing Figure ####
 
@@ -3691,10 +3689,12 @@ TB_19_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2019 & site==
 anova(TB_19_Forb_Ar, type = 3) #ns
 
 #TB 2020 - droughtxgrazing
+RelCov_Forb$livestock_util_2019<-as.factor(RelCov_Forb$livestock_util_2019)
 TB_20_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2020 & site== "TB" & aerial_basal=="Aerial"), RelCov_20_TB_AR ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
 anova(TB_20_Forb_Ar, type = 3) #grazing (0.007)
 #adjust grazing p-value
 p.adjust(0.007383 , method = "BH", n=5) #0.0369
+
 
 #TB 2021- droughtxgrazing
 TB_21_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2021 & site== "TB" & aerial_basal=="Aerial"), RelCov_21_TB_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -5603,3 +5603,530 @@ TB_22_BOGR_Ba <- lmerTest::lmer(data = subset(RelCov_BOGR, year == 2022 & site==
 anova(TB_22_BOGR_Ba, type = 3)  #grazing (0.002)
 #adjust grazing p-value
 p.adjust(0.002376, method = "BH", n=5) #0.01188
+
+#### Figure: Functional Group Cover ####
+
+#make dataframe with averages
+
+RelCov_Avg<-FG_RelCov %>% 
+  filter(aerial_basal=="Aerial") %>% 
+  na.omit(Functional_Group) %>% 
+  mutate(Relative_Cover=Relative_Cover*100) %>% 
+  group_by(year,site, Functional_Group,rainfall_reduction) %>% 
+  summarize(FG_Std=sd(Relative_Cover),FG_Mean=mean(Relative_Cover),FG_n=length(Relative_Cover)) %>% 
+  mutate(FG_St_Error=FG_Std/sqrt(FG_n)) %>% 
+  ungroup()
+
+
+FG_RelCov_Gr<-FG_RelCov %>% 
+  filter(aerial_basal=="Aerial") %>% 
+  na.omit(Functional_Group) %>% 
+  mutate(Relative_Cover=Relative_Cover*100) %>%
+mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
+  mutate(grazing_treatment_fig2=ifelse(grazing_treatment_fig=="destock",1,ifelse(grazing_treatment_fig=="stable",2,ifelse(grazing_treatment_fig=="heavy",3,grazing_treatment_fig)))) %>% 
+  group_by(year,site, Functional_Group,rainfall_reduction, grazing_treatment_fig2) 
+
+FG_RelCov_Gr_Avg<- FG_RelCov_Gr %>% 
+  group_by(year,site, Functional_Group,grazing_treatment_fig2) %>% 
+  summarize(FG_Std=sd(Relative_Cover),FG_Mean=mean(Relative_Cover),FG_n=length(Relative_Cover)) %>% 
+  mutate(FG_St_Error=FG_Std/sqrt(FG_n)) %>% 
+  ungroup()
+  
+  
+FG_RelCov_DrGr<-FG_RelCov %>% 
+  filter(aerial_basal=="Aerial") %>% 
+  na.omit(Functional_Group) %>% 
+  mutate(Relative_Cover=Relative_Cover*100) %>% 
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,"Pregrazing",grazing_treatment))))) %>% 
+  summarize(FG_Std=sd(Relative_Cover),FG_Mean=mean(Relative_Cover),FG_n=length(Relative_Cover)) %>% 
+  mutate(FG_St_Error=FG_Std/sqrt(FG_n)) %>% 
+  ungroup()
+
+#All Sites - All Functional Groups - Drought all years
+ggplot(subset(RelCov_Avg,year>=2019),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+ #2019 2021
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  #geom_smooth(data=(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2019)), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Cover (%)")+
+  expand_limits(y=c(1,2.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "top",legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  #annotate("text", x=21, y=40, label = "A. Montana Site", size=20)+
+  facet_grid(site ~ Functional_Group,scales="free")
+
+#All Sites - All Functional Groups - Drought All Years
+ggplot(subset(RelCov_Avg,year>=2019),aes(x=factor(rainfall_reduction),y=FG_Mean, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
+  geom_bar(stat="identity")+
+  scale_fill_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  scale_color_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Cover (%)")+
+  expand_limits(y=c(0,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55))+
+  facet_grid(site ~ year,scales="free")
+
+#All Sites - All Functional Groups - Grazing All Years
+ggplot(subset(FG_RelCov_Gr_Avg,year>=2020),aes(x=factor(grazing_treatment_fig2),y=FG_Mean, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
+  geom_bar(stat="identity")+
+  scale_fill_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  scale_color_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  scale_x_discrete(labels=c("1"="Destock","2"="Stable","3"="Heavy"))+
+  xlab("Grazing Treatment")+
+  ylab("Cover (%)")+
+  expand_limits(y=c(0,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55))+
+  facet_grid(site ~ year,scales="free")
+
+
+#### Figure: Forb Cover ####
+
+#Fort Keogh Forbs all years
+Forb_FK_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="FK"&year>=2019&Functional_Group=="Forb"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(RelCov_Avg,site=="FK"&year==2021&Functional_Group=="Forb")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Forb Cover (%)")+
+  expand_limits(y=c(0,10))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position ="top")+
+  annotate("text", x=21,y=10, label = "A. Montana Site", size=20)
+
+#Thunder Basin Forbs all years
+Forb_TB_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="TB"&year>=2019&Functional_Group=="Forb"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(RelCov_Avg,site=="TB"&year==2021&Functional_Group=="Forb")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Forb Cover (%)")+
+  expand_limits(y=c(0,5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=21,y=5, label = "B. Wyoming Site", size=20)
+
+
+#### Create ForbxDrought Figure ####
+Forb_FK_ALL_Aerial_Drought+
+  Forb_TB_ALL_Aerial_Drought+
+  plot_layout(ncol = 1,nrow = 2)
+#save at 1500x2000
+
+## FK Grazing ##
+Forb_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Functional_Group=="Forb"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("Forb Cover (%)")+
+  expand_limits(y=c(0,30))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=3, y=28, label = "A. Montana Site", size=30)
+
+## TB Grazing ##
+Forb_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Functional_Group=="Forb"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("Forb Cover (%)")+
+  expand_limits(y=c(0,20))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=3, y=18, label = "B. Wyoming Site", size=30)
+
+#### Create ForbXGrazing Figure ####
+
+Forb_FK_ALL_Aerial_Grazing+
+  Forb_TB_ALL_Aerial_Grazing+
+  plot_layout(ncol = 1,nrow = 2)
+#Save at 1500x2000
+
+#All Sites - Forb Cover DxG
+ggplot(subset(FG_RelCov_DrGr,year>=2019 & Functional_Group=="Forb"),aes(x=rainfall_reduction,y=FG_Mean,color=factor(grazing_treatment_fig,level=c("Pregrazing","destock","stable","heavy")),shape=factor(grazing_treatment_fig,level=c("Pregrazing","destock","stable","heavy")))) +
+  geom_point(size=14, stroke =6)+ #2019 2021
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  geom_smooth(method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(18,15,16,17),labels = c("Pre-Treatment","Destock", "Stable","Heavy"), breaks = c("Pregrazing","destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=c('grey30','#6D882B','#469BEC',"#ABDEFF"),labels = c("Pre-Treatment","Destock", "Stable","Heavy"), breaks = c("Pregrazing","destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  xlab("Rainfall Reduction (%)")+
+  ylab("Forb Cover (%)")+
+  expand_limits(y=c(1,2.5))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "top",legend.key = element_rect(size=20), legend.key.size = unit(5.0, 'lines'))+
+  #annotate("text", x=21, y=40, label = "A. Montana Site", size=20)+
+  facet_grid(site ~ year)
+
+#### Figure: C3-A Cover ####
+
+#Fort Keogh C3-As all years
+C3A_FK_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="FK"&year>=2019&Functional_Group=="C3-A"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  #geom_smooth(data=(subset(RelCov_Avg,site=="FK"&year==2021&Functional_Group=="C3-A")), method='lm', se=FALSE,size=5,linetype="solid")+
+  #geom_smooth(data=(subset(RelCov_Avg,site=="FK"&year==2022&Functional_Group=="C3-A")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("C3-A Cover (%)")+
+  expand_limits(y=c(0,50))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position ="top")+
+  annotate("text", x=21,y=50, label = "A. Montana Site", size=20)
+
+#Thunder Basin C3-As all years
+C3A_TB_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="TB"&year>=2019&Functional_Group=="C3-A"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  #geom_smooth(data=(subset(RelCov_Avg,site=="TB"&year==2021&Functional_Group=="C3-A")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("C3-A Cover (%)")+
+  expand_limits(y=c(0,50))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=21,y=50, label = "B. Wyoming Site", size=20)
+
+
+#### Create C3-AxDrought Figure ####
+C3A_FK_ALL_Aerial_Drought+
+  C3A_TB_ALL_Aerial_Drought+
+  plot_layout(ncol = 1,nrow = 2)
+#save at 1500x2000
+
+## FK Grazing ##
+C3A_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Functional_Group=="C3-A"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("C3-A Cover (%)")+
+  expand_limits(y=c(0,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=3, y=100, label = "A. Montana Site", size=30)
+
+## TB Grazing ##
+C3A_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Functional_Group=="C3-A"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("C3-A Cover (%)")+
+  expand_limits(y=c(0,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=3, y=100, label = "B. Wyoming Site", size=30)
+
+#### Create C3-AXGrazing Figure ####
+
+C3A_FK_ALL_Aerial_Grazing+
+  C3A_TB_ALL_Aerial_Grazing+
+  plot_layout(ncol = 1,nrow = 2)
+#Save at 1500x2000
+
+
+#### Figure: C4-P Cover ####
+
+#Fort Keogh C4-Ps all years
+C4P_FK_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="FK"&year>=2019&Functional_Group=="C4-P"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  geom_smooth(data=(subset(RelCov_Avg,site=="FK"&year==2019&Functional_Group=="C4-P")), method='lm', se=FALSE,size=5,linetype="solid")+
+  #geom_smooth(data=(subset(RelCov_Avg,site=="FK"&year==2022&Functional_Group=="C4-P")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("C4-P Cover (%)")+
+  expand_limits(y=c(0,15))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position ="top")+
+  annotate("text", x=21,y=15, label = "A. Montana Site", size=20)
+
+#Thunder Basin C4-Ps all years
+C4P_TB_ALL_Aerial_Drought<-ggplot(subset(RelCov_Avg,site=="TB"&year>=2019&Functional_Group=="C4-P"),aes(x=rainfall_reduction,y=FG_Mean,color=as.factor(year),shape=as.factor(year))) +  
+  geom_point(size=14, stroke =6)+
+  geom_pointrange(aes(ymin=FG_Mean-FG_St_Error,ymax=FG_Mean+FG_St_Error),linewidth = 4)+
+  #geom_smooth(data=(subset(RelCov_Avg,site=="TB"&year==2021&Functional_Group=="C4-P")), method='lm', se=FALSE,size=5,linetype="solid")+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
+  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  xlab("Rainfall Reduction (%)")+
+  ylab("C4-P Cover (%)")+
+  expand_limits(y=c(0,70))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=21,y=70, label = "B. Wyoming Site", size=20)
+
+
+#### Create C4-PxDrought Figure ####
+C4P_FK_ALL_Aerial_Drought+
+  C4P_TB_ALL_Aerial_Drought+
+  plot_layout(ncol = 1,nrow = 2)
+#save at 1500x2000
+
+## FK Grazing ##
+C4P_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Functional_Group=="C4-P"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("C4-P Cover (%)")+
+  expand_limits(y=c(0,40))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=40), legend.key.size = unit(10.0, 'lines'))+
+  annotate("text", x=3, y=40, label = "A. Montana Site", size=30)
+
+## TB Grazing ##
+C4P_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Functional_Group=="C4-P"),aes(x=factor(year,level=c(2020,2021,2022)),y=Relative_Cover,color=factor(grazing_treatment_fig,level=c("destock","stable","heavy")))) +
+  annotate('rect', xmin = c('2019.5','2021.5'), xmax = c('2020.5','2022.5'), 
+           ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
+  geom_boxplot(lwd=2,position=position_dodge(2))+
+  theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
+  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
+  #scale_y_continuous(labels = label_number(accuracy = 0.1))+
+  xlab("Year")+
+  ylab("C4-P Cover (%)")+
+  expand_limits(y=c(0,100))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "NONE")+
+  annotate("text", x=3, y=100, label = "B. Wyoming Site", size=30)
+
+#### Create C4P XGrazing Figure ####
+
+C4P_FK_ALL_Aerial_Grazing+
+  C4P_TB_ALL_Aerial_Grazing+
+  plot_layout(ncol = 1,nrow = 2)
+#Save at 1500x2000
+
+
+#### Rank Abundance Curves Drought ####
+
+Rank_Abundance_Drought <- FG_RelCov  %>%
+  filter(aerial_basal=="Aerial") %>% 
+  na.omit(Functional_Group) %>% 
+  mutate(Relative_Cover=Relative_Cover*100) %>% 
+  group_by(year,site,rainfall_reduction,Genus_Species,Native_Introduced,Annual_Perennial,Functional_Group) %>% 
+  summarize(avg_cover=mean(Relative_Cover))%>%
+  ungroup()%>%
+  arrange(site,year,rainfall_reduction, -avg_cover)%>%
+  mutate(site.year.drought=paste(site,year,rainfall_reduction,sep=".")) %>% 
+  group_by(site.year.drought)%>%
+  mutate(rank=seq_along(site.year.drought))%>%
+  ungroup()
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  theme(legend.position = "none")+
+  facet_grid(rainfall_reduction ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(rainfall_reduction ~ year)
+
+#RAC colored based on Native/Non Native
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(rainfall_reduction ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(rainfall_reduction ~ year)
+#save at 1500 x 1000
+
+#RAC colored based on Functional Group
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Functional_Group,shape=Functional_Group),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(rainfall_reduction ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Functional_Group,shape=Functional_Group),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(rainfall_reduction ~ year)
+#save at 1500 x 1000
+
+#### Rank Abundance Curves Grazing ####
+
+Rank_Abundance_Grazing <- FG_RelCov  %>%
+  filter(aerial_basal=="Aerial") %>% 
+  na.omit(Functional_Group) %>% 
+  mutate(Relative_Cover=Relative_Cover*100) %>% 
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
+  mutate(grazing_treatment_fig2=ifelse(grazing_treatment_fig=="destock",1,ifelse(grazing_treatment_fig=="stable",2,ifelse(grazing_treatment_fig=="heavy",3,grazing_treatment_fig)))) %>% 
+  group_by(year,site,grazing_treatment_fig2,Genus_Species,Native_Introduced,Annual_Perennial,Functional_Group) %>% 
+  summarize(avg_cover=mean(Relative_Cover))%>%
+  ungroup()%>%
+  arrange(site,year,grazing_treatment_fig2, -avg_cover)%>%
+  mutate(site.year.grazing=paste(site,year,grazing_treatment_fig2,sep=".")) %>% 
+  group_by(site.year.grazing)%>%
+  mutate(rank=seq_along(site.year.grazing))%>%
+  ungroup()
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="FK" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  theme(legend.position = "none")+
+  facet_grid(grazing_treatment_fig2 ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="TB" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  theme(legend.position = "none")+
+  facet_grid(grazing_treatment_fig2 ~ year)
+
+#RAC colored based on Native/Non Native
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="FK" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(grazing_treatment_fig2 ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="TB" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(grazing_treatment_fig2 ~ year)
+#save at 1500 x 1000
+
+#RAC colored based on Functional Group
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="FK" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Functional_Group,shape=Functional_Group),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(grazing_treatment_fig2 ~ year)
+#save at 1500 x 1000
+
+ggplot(data=subset(Rank_Abundance_Grazing, site=="TB" & year>=2020&rank<=20), aes(x=rank, y=avg_cover)) +
+  geom_line() +
+  geom_point(aes(color=Functional_Group,shape=Functional_Group),size=3) +
+  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
+  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
+  xlab('') +
+  ylab('Relative Cover (%)') +
+  # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
+  # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
+  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  expand_limits(y=100)+
+  facet_grid(grazing_treatment_fig2 ~ year)
+#save at 1500 x 1000
