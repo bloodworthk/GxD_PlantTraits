@@ -34,6 +34,13 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 #### Read in Data ####
 #All data have previously been cleaned and saved in GMDR_SpeciesComp_Cleaning.R
 Species_Comp_RelCov_Clean<-read.csv("Species_Comp_RelCov_Clean.csv")
+Species_Comp_RelCov_Clean$plot<-as.factor(Species_Comp_RelCov_Clean$plot)
+
+#Species_Comp_RelCov_Clean was then combined with Functional Groups and saved
+RelCov_FunctionalGroups<-read.csv("RelCov_FunctionalGroups.csv") %>% 
+  dplyr::select(-X)
+RelCov_FunctionalGroups$plot<-as.factor(RelCov_FunctionalGroups$plot)
+
 
 #Read in Plot Data
 plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>% 
@@ -109,9 +116,6 @@ Structure_Aerial<-Structure_FK_Aerial %>%
 Structure_Basal<-Structure_FK_Basal %>% 
   full_join(Structure_TB_Basal)
 
-Diversity_Aerial$plot<-as.factor(Diversity_Aerial$plot)
-Structure_Aerial$plot<-as.factor(Structure_Aerial$plot)
-
 #join the datasets
 CommunityMetrics_Aerial <- Diversity_Aerial %>%
   full_join(Structure_Aerial) %>% 
@@ -128,9 +132,6 @@ CommunityMetrics_Aerial <- Diversity_Aerial %>%
   mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
   mutate(grazing_treatment_fig = as.factor(grazing_treatment_fig)) %>%
   dplyr::select(year,site,block,slope,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig, livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
-
-Diversity_Basal$plot<-as.factor(Diversity_Basal$plot)
-Structure_Basal$plot<-as.factor(Structure_Basal$plot)
 
 CommunityMetrics_Basal <- Diversity_Basal %>%
   full_join(Structure_Basal) %>% 
@@ -295,7 +296,7 @@ anova(FK_18_Richness_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
 FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Richness_Aerial, type = 3) #p=0.007433
+anova(FK_19_Richness_Aerial, type = 3)
 #adjust drought p-value
 p.adjust(0.02089, method = "BH", n=5) #0.10445
 
@@ -402,14 +403,12 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
          Evar_St_Error=Evar_Std/sqrt(Evar_n)) %>% 
   ungroup()
 
-#color palettes
-droughtColor <- c('#6baed6', '#6baed6', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603') #from 0 to 99 ##change this to be blue at 0 to red at 99
-grazingColor <- c('#ABDEFF', '#469BEC', '#6D882B') #from HHMMM to MMMMM to MLLMM
 
-# The palette with grey:
+#Grazing Palette
+grazingColor <- c("#8A9A5B", "#4C6444","#3E341F") #from HHMMM to MMMMM to MLLMM
+
+# Drought palette with grey:
 cbPalette <- c("#492900", "#A36B2B", "#7C9693","#89CFD4", "#2686A0")
-
-palette<-c("#a6611a","#dfc27d","#737373","#80cdc1","#018571")
 
 #FK: richness and drought
 #Fort Keogh all years
@@ -458,7 +457,7 @@ Richness_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -473,7 +472,7 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -488,14 +487,6 @@ Richness_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"
   Richness_TB_ALL_Aerial_Grazing+
   plot_layout(ncol = 1,nrow = 2)
 #Save at 2000x2000
-
-#### Create GMDR Bullitin Figure ####
-Richness_FK_ALL_Aerial_Drought+
-  Richness_FK_ALL_Aerial_Grazing+
-  Richness_TB_ALL_Aerial_Drought+
-  Richness_TB_ALL_Aerial_Grazing+
-  plot_layout(ncol = 2,nrow = 2)
-#save at 3000x2000
 
 #### Normality: Fort Keogh Aerial + Basal - Evar ####
 #FK - Aerial - Evar: 2018 
@@ -832,7 +823,7 @@ Evar_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"&yea
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -847,7 +838,7 @@ Evar_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&yea
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -1192,7 +1183,7 @@ Shannon_FK_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="FK"&
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -1207,7 +1198,7 @@ Shannon_TB_ALL_Aerial_Grazing<-ggplot(subset(CommunityMetrics_Aerial,site=="TB"&
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -1227,12 +1218,14 @@ Shannon_FK_ALL_Aerial_Grazing+
 #### NMDS ####
 
 #Create wide relative cover dataframe
-RelCov_Clean<-Species_Comp_RelCov_Clean %>% 
+RelCov_Clean<-RelCov_FunctionalGroups %>%
+  dplyr::select(-c(Common.Name,Native_Introduced,Functional_Group,Annual_Perennial)) %>% 
   full_join(plot_layoutK) %>%
+  unique() %>% 
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
-  spread(key=Genus_Species,value=Relative_Cover, fill=0) %>% 
+  spread(key=Genus_Species,value=Relative_Cover, fill=0) 
   
 
 #### Bray Curtis FK Aerial 2018 ####
@@ -1291,7 +1284,7 @@ Wide_FK_AR_19<-RelCov_Clean%>%
 #### Make new data frame called BC_Data and run an NMDS for each grouping
 
 #Species Comp FK: Aerial 
-BC_FK_AR_19<-metaMDS(Wide_FK_AR_19[,16:153])
+BC_FK_AR_19<-metaMDS(Wide_FK_AR_19[,16:152])
 #look at species significance driving NMDS 
 intrinsics_FK_AR_19 <- envfit(BC_FK_AR_19, Wide_FK_AR_19, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_19)
@@ -1447,7 +1440,7 @@ Wide_FK_AR_23<-RelCov_Clean%>%
 #### Make new data frame called BC_Data and run an NMDS for each grouping
 
 #Species Comp FK: Aerial 
-BC_FK_AR_23<-metaMDS(Wide_FK_AR_23[,16:153])
+BC_FK_AR_23<-metaMDS(Wide_FK_AR_23[,16:152])
 #look at species signiciance driving NMDS 
 intrinsics_FK_AR_23 <- envfit(BC_FK_AR_23, Wide_FK_AR_23, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_23)
@@ -1679,7 +1672,7 @@ Wide_FK_BA_23<-RelCov_Clean%>%
 #### Make new data frame called BC_Data and run an NMDS for each grouping
 
 #Species Comp FK: Basal 
-BC_FK_BA_23<-metaMDS(Wide_FK_BA_23[,16:153])
+BC_FK_BA_23<-metaMDS(Wide_FK_BA_23[,16:152])
 #look at species signiciance driving NMDS 
 intrinsics_FK_BA_23 <- envfit(BC_FK_BA_23, Wide_FK_BA_23, permutations = 999,na.rm=T)
 head(intrinsics_FK_BA_23)
@@ -2702,13 +2695,13 @@ permutest(Dispersion_TB_AR_22_Dr,pairwise = T, permutations = 999) #ns
 Dispersion_TB_AR_22_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$grazing_treatment)
 permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.006
 #adjust drought p-value
-p.adjust(0.004, method = "BH", n=5) #0.02
+p.adjust(0.001, method = "BH", n=5) #0.02
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_TB_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$Dr_Gr)
 permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.003
 #adjust drought p-value
-p.adjust(0.001, method = "BH", n=5) #0.005
+p.adjust(0.004, method = "BH", n=5) #0.005
 
 
 #### PERMANOVA TB Basal 2018 ####
@@ -2891,7 +2884,7 @@ permutest(Dispersion_TB_BA_22_Dr,pairwise = T, permutations = 999) #ns
 Dispersion_TB_BA_22_GR <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$grazing_treatment)
 permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.001
 #adjust drought p-value
-p.adjust(0.001, method = "BH", n=5) #0.005
+p.adjust(0.002, method = "BH", n=5) #0.005
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_TB_BA_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_BA_22,TB_BA_22$Dr_Gr)
@@ -2900,9 +2893,41 @@ permutest(Dispersion_TB_BA_22_GR,pairwise = T, permutations = 999)  #0.002
 p.adjust(0.003, method = "BH", n=5) #0.015
 
 
+#### NMDS Figure ####
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+ggplot(data = BC_NMDS_Graph, aes(MDS1,MDS2, shape = group,color=group,linetype=group))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  geom_path(data = BC_Ellipses, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21,24),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"), breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","thistle2","darkorange4","deepskyblue4"),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"),breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"),breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
+  #make the text size of the legend titles 28
+  theme(legend.key = element_rect(size=3), legend.key.size = unit(1,"centimeters"),legend.position="bottom")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-1.63, y=0.8, label="d. 2020 Arthropods",size=20)
+#expand_limits(y=1)
+#export at 1500x1400
+
+
 #### Relative Cover of Functional Group ####
 
-FG_RelCov<-Functional_Group_RelCov %>% 
+FG_RelCov<-RelCov_FunctionalGroups %>% 
   left_join(plot_layoutK) %>% 
   mutate(Relative_Cover=Relative_Cover/100)
 
@@ -5303,7 +5328,7 @@ Forb_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Fun
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -5318,7 +5343,7 @@ Forb_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Fun
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -5393,7 +5418,7 @@ C3A_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Func
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -5408,7 +5433,7 @@ C3A_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Func
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -5469,7 +5494,7 @@ C4P_FK_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="FK"&year>=2019&Func
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
@@ -5484,7 +5509,7 @@ C4P_TB_ALL_Aerial_Grazing<-ggplot(subset(FG_RelCov_Gr,site=="TB"&year>=2019&Func
            ymin=-Inf, ymax=Inf, alpha=0.2, fill="grey")+
   geom_boxplot(lwd=2,position=position_dodge(2))+
   theme(legend.key.height = unit(1, 'cm'),legend.key.width= unit(2, 'cm'))+
-  scale_color_manual(values=c('#6D882B','#469BEC',"#ABDEFF"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
   scale_x_discrete(labels = c("2020","2021","2022"), breaks = c("2020","2021","2022"),drop = FALSE)+
   #scale_y_continuous(labels = label_number(accuracy = 0.1))+
   xlab("Year")+
