@@ -1215,7 +1215,7 @@ Shannon_FK_ALL_Aerial_Grazing+
 #Save at 2000x2000
 
 
-#### NMDS ####
+#### Bray Curtis ####
 
 #Create wide relative cover dataframe
 RelCov_Clean<-RelCov_FunctionalGroups %>%
@@ -1226,6 +1226,8 @@ RelCov_Clean<-RelCov_FunctionalGroups %>%
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
   spread(key=Genus_Species,value=Relative_Cover, fill=0) 
+
+
   
 
 #### Bray Curtis FK Aerial 2018 ####
@@ -1246,7 +1248,7 @@ sites_FK_AR_18 <- 1:nrow(Wide_FK_AR_18)
 #Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
 BC_Meta_Data_FK_AR_18 <- Wide_FK_AR_18[,1:15] %>% 
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
-  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+  mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep=".")) 
 
 
 ## Create NMDS numbers Graph ##
@@ -1274,6 +1276,7 @@ for(g in unique(BC_NMDS_FK_AR_18$group)){
   BC_Ellipses_FK_AR_18 <- rbind(BC_Ellipses_FK_AR_18, cbind(as.data.frame(with(BC_NMDS_FK_AR_18[BC_NMDS_FK_AR_18$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_18[[g]]$cov,BC_Ord_Ellipses_FK_AR_18[[g]]$center,BC_Ord_Ellipses_FK_AR_18[[g]]$scale)))
                                               ,group=g))
 }
+
 
 #### Bray Curtis FK Aerial 2019 ####
 
@@ -1314,6 +1317,9 @@ for(g in unique(BC_NMDS_FK_AR_19$group)){
                                                             ,group=g))
 }
 
+BC_Ellipses_FK_AR_19 <- BC_Ellipses_FK_AR_19 %>% 
+  full_join(BC_Meta_Data_FK_AR_19)
+
 #### Bray Curtis FK Aerial 2020 ####
 
 #Species Comp FK: Aerial 2020
@@ -1353,6 +1359,11 @@ for(g in unique(BC_NMDS_FK_AR_20$group)){
                                                             ,group=g))
 }
 
+
+BC_Ellipses_FK_AR_20_graph <- BC_Ellipses_FK_AR_20 %>% 
+ separate(col=group,into=c("year","rainfall_reduction","grazing_treatment"),sep=".")
+
+
 #### Bray Curtis FK Aerial 2021 ####
 
 #Species Comp FK: Aerial 2021
@@ -1391,6 +1402,8 @@ for(g in unique(BC_NMDS_FK_AR_21$group)){
   BC_Ellipses_FK_AR_21 <- rbind(BC_Ellipses_FK_AR_21, cbind(as.data.frame(with(BC_NMDS_FK_AR_21[BC_NMDS_FK_AR_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_21[[g]]$cov,BC_Ord_Ellipses_FK_AR_21[[g]]$center,BC_Ord_Ellipses_FK_AR_21[[g]]$scale)))
                                                             ,group=g))
 }
+
+BC_Ellipses_FK_AR_21_graph <- as.data.frame(BC_Ellipses_FK_AR_21) 
 
 #### Bray Curtis FK Aerial 2022 ####
 
@@ -2896,22 +2909,22 @@ p.adjust(0.003, method = "BH", n=5) #0.015
 #### NMDS Figure ####
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
-ggplot(data = BC_NMDS_Graph, aes(MDS1,MDS2, shape = group,color=group,linetype=group))+
+FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  geom_path(data = BC_Ellipses, aes(x=NMDS1, y=NMDS2), size=4)+
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
   guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
   #change order of legend
   #Use different shapes 
-  scale_shape_manual(values=c(15,16,17,22,21,24),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"), breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","thistle2","darkorange4","deepskyblue4"),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"),breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
-  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "No Grazing - Sweep Net", "Low Grazing - Sweep Net","High Grazing - Sweep Net","No Grazing - D-Vac","Low Grazing - D-Vac", "High Grazing - D-Vac"),breaks = c("0.S","1.S","2.S","0.D","1.D","2.D"),name="")+
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
   #make the text size of the legend titles 28
-  theme(legend.key = element_rect(size=3), legend.key.size = unit(1,"centimeters"),legend.position="bottom")+
+  theme(legend.position="none")+
   #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
   #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
   #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
@@ -2919,10 +2932,453 @@ ggplot(data = BC_NMDS_Graph, aes(MDS1,MDS2, shape = group,color=group,linetype=g
   #Label the x-axis "NMDS1" and the y-axis "NMDS2"
   xlab("NMDS1")+
   ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-1.63, y=0.8, label="d. 2020 Arthropods",size=20)
-#expand_limits(y=1)
-#export at 1500x1400
+  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+
+FK_AR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+    expand_limits(y=c(-1,1),x=c(-1,1))+
+    theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+    annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
+
+FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+
+FK_AR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+
+#### Create FK:NMDS Drought Figure ####
+
+FK_AR_20_NMDS+
+  FK_AR_21_NMDS+
+  FK_AR_22_NMDS+
+  FK_AR_23_NMDS+
+  plot_layout(ncol = 2,nrow = 2)
+#Save at 2000x1700
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+
+TB_AR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
+
+TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+
+TB_AR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+
+#### Create TB:NMDS Drought Figure ####
+
+TB_AR_20_NMDS+
+  TB_AR_21_NMDS+
+  TB_AR_22_NMDS+
+  #TB_AR_23_NMDS+
+  plot_layout(ncol = 2,nrow = 2)
+#Save at 2000x1700
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+FK_AR_GR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+
+FK_AR_GR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
+
+FK_AR_GR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+
+FK_AR_GR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23,aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+
+#### Create FK:NMDS Grazing Figure ####
+
+FK_AR_GR_20_NMDS+
+  FK_AR_GR_21_NMDS+
+  FK_AR_GR_22_NMDS+
+  FK_AR_GR_23_NMDS+
+  plot_layout(ncol = 2,nrow = 2)
+#Save at 2000x1700
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+TB_AR_GR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+
+TB_AR_GR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
+
+TB_AR_GR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+
+TB_AR_GR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_color_manual(values=grazingColor,labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  scale_linetype_manual(values=c("solid","twodash","dotted"),labels = c("Destock", "Stable","Heavy"), breaks = c("destock","stable","heavy"),name="Grazing Treatment",drop = FALSE)+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+
+#### Create TB:NMDS Grazing Figure####
+
+TB_AR_GR_20_NMDS+
+  TB_AR_GR_21_NMDS+
+  TB_AR_GR_22_NMDS+
+  #TB_AR_23_NMDS+
+  plot_layout(ncol = 2,nrow = 2)
+#Save at 2000x1700
 
 
 #### Relative Cover of Functional Group ####
