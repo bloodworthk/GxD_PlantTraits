@@ -405,7 +405,7 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
 
 
 #Grazing Palette
-grazingColor <- c("#8A9A5B", "#4C6444","#3E341F") #from HHMMM to MMMMM to MLLMM
+grazingColor <- c("#8A9A5B", "#4C6444","#3E341F") #from MLLMM to MMMMM to HHMMM 
 
 # Drought palette with grey:
 cbPalette <- c("#492900", "#A36B2B", "#7C9693","#89CFD4", "#2686A0")
