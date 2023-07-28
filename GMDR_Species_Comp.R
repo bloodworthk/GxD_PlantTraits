@@ -12,6 +12,7 @@ library(car)
 library(patchwork)
 library(vegan)
 library(multcomp)
+library(pairwiseAdonis)
 
 #### Set Working Directory ####
 #Bloodworth - Mac
@@ -1285,11 +1286,10 @@ Wide_FK_AR_19<-RelCov_Clean%>%
   filter(site=="FK" & aerial_basal=="Aerial" & year=="2019") 
 
 #### Make new data frame called BC_Data and run an NMDS for each grouping
-
-#Species Comp FK: Aerial 
 BC_FK_AR_19<-metaMDS(Wide_FK_AR_19[,16:152])
+
 #look at species significance driving NMDS 
-intrinsics_FK_AR_19 <- envfit(BC_FK_AR_19, Wide_FK_AR_19, permutations = 999,na.rm=T)
+intrinsics_FK_AR_19 <- envfit(BC_FK_AR_19, Wide_FK_AR_19, permutations = 999,na.rm=T, drop=T)
 head(intrinsics_FK_AR_19)
 #Make a data frame called sites with 1 column and same number of rows that is in Wide Order weight
 sites_FK_AR_19 <- 1:nrow(Wide_FK_AR_19)
@@ -1316,9 +1316,6 @@ for(g in unique(BC_NMDS_FK_AR_19$group)){
   BC_Ellipses_FK_AR_19 <- rbind(BC_Ellipses_FK_AR_19, cbind(as.data.frame(with(BC_NMDS_FK_AR_19[BC_NMDS_FK_AR_19$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_19[[g]]$cov,BC_Ord_Ellipses_FK_AR_19[[g]]$center,BC_Ord_Ellipses_FK_AR_19[[g]]$scale)))
                                                             ,group=g))
 }
-
-BC_Ellipses_FK_AR_19 <- BC_Ellipses_FK_AR_19 %>% 
-  full_join(BC_Meta_Data_FK_AR_19)
 
 #### Bray Curtis FK Aerial 2020 ####
 
@@ -1358,11 +1355,6 @@ for(g in unique(BC_NMDS_FK_AR_20$group)){
   BC_Ellipses_FK_AR_20 <- rbind(BC_Ellipses_FK_AR_20, cbind(as.data.frame(with(BC_NMDS_FK_AR_20[BC_NMDS_FK_AR_20$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_20[[g]]$cov,BC_Ord_Ellipses_FK_AR_20[[g]]$center,BC_Ord_Ellipses_FK_AR_20[[g]]$scale)))
                                                             ,group=g))
 }
-
-
-BC_Ellipses_FK_AR_20_graph <- BC_Ellipses_FK_AR_20 %>% 
- separate(col=group,into=c("year","rainfall_reduction","grazing_treatment"),sep=".")
-
 
 #### Bray Curtis FK Aerial 2021 ####
 
@@ -2255,6 +2247,9 @@ PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reducti
 print(PerMANOVA_FK_AR_22) #drought (0.004)
 #adjust drought p-value
 p.adjust(0.002, method = "BH", n=5) #0.01
+#pairwise test
+Posthoc_FK_AR_22<-pairwise.adonis(Species_Matrix_FK_AR_22,factors=Environment_Matrix_FK_AR_22$rainfall_reduction, p.adjust.m = "BH")
+Posthoc_FK_AR_22 #0-99 drought is siginificant (0.02)
 
 #### PERMDISP FK Aerial 2022 ####
 
@@ -2292,6 +2287,10 @@ PerMANOVA_FK_AR_23 <- adonis2(formula = Species_Matrix_FK_AR_23~rainfall_reducti
 print(PerMANOVA_FK_AR_23) #drought (0.001)
 #adjust drought p-value
 p.adjust(0.001, method = "BH", n=5) #0.005
+#pairwise test
+Posthoc_FK_AR_23<-pairwise.adonis(Species_Matrix_FK_AR_23,factors=Environment_Matrix_FK_AR_23$rainfall_reduction, p.adjust.m = "BH")
+Posthoc_FK_AR_23 #0-99 drought is significant (0.01), 25-99 is significant (0.015)
+
 
 #### PERMDISP FK Aerial 2023 ####
 
@@ -2544,6 +2543,10 @@ PerMANOVA_TB_AR_18 <- adonis2(formula = Species_Matrix_TB_AR_18~rainfall_reducti
 print(PerMANOVA_TB_AR_18) #grazing (0.002)
 #adjust drought p-value
 p.adjust(0.001, method = "BH", n=5) #0.005
+#pairwise test
+Posthoc_TB_AR_18_Graze<-pairwise.adonis(Species_Matrix_FK_AR_18,factors=Environment_Matrix_FK_AR_18$grazing_treatment, p.adjust.m = "BH")
+Posthoc_TB_AR_18_Graze #ns
+
 
 #### PERMDISP TB Aerial 2018 ####
 
@@ -2692,6 +2695,10 @@ PerMANOVA_TB_AR_22 <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reducti
 print(PerMANOVA_TB_AR_22) #grazing (0.002)
 #adjust drought p-value
 p.adjust(0.002, method = "BH", n=5) #0.01
+#pairwise test
+Posthoc_TB_AR_22_Graze<-pairwise.adonis(Species_Matrix_TB_AR_22,factors=Environment_Matrix_TB_AR_22$grazing_treatment, p.adjust.m = "BH")
+Posthoc_TB_AR_22_Graze #heavy vs destock (p=0.03), destock vs stable (p=0.003)
+
 
 #### PERMDISP TB Aerial 2022 ####
 
