@@ -122,11 +122,12 @@ CommunityMetrics_Aerial <- Diversity_Aerial %>%
   full_join(Structure_Aerial) %>% 
   full_join(plot_layoutK) %>%
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
   #average across 2 controls in each block
-  group_by(year,site,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
-  summarize(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  group_by(year,site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
   ungroup() %>% 
-  #create column that has all grazing treatments in it for a given year
+#create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
   #create a column for graphing grazing shannons,richness, and evar without 2019 data
   mutate(richness_fig=ifelse(year==2019,NA,richness)) %>% 
@@ -143,8 +144,10 @@ CommunityMetrics_Basal <- Diversity_Basal %>%
   full_join(plot_layoutK) %>%
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
   #average across 2 controls in each block
-  group_by(year,site,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
-  summarize(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
+  #average across 2 controls in each block
+  group_by(year,site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
   ungroup() %>% 
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
@@ -1203,7 +1206,6 @@ RelCov_Clean1<-RelCov_FunctionalGroups %>%
   unique() %>% 
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
   dplyr::group_by(year,site,block,paddock,aerial_basal,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,Genus_Species,Relative_Cover) %>% 
-  mutate(plot=as.numeric(plot),slope=as.numeric(slope)) %>% 
   ungroup() %>% 
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
@@ -1212,10 +1214,12 @@ RelCov_Clean1<-RelCov_FunctionalGroups %>%
 
 RelCov_Clean<-RelCov_Clean1 %>% 
   #average across 2 controls in each block
-  group_by(year,site,aerial_basal,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig) %>%
-  mutate(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope))) %>% 
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
+  #average across 2 controls in each block
+  group_by(year,site,plot,aerial_basal,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig) %>% 
+  mutate(slope=mean(as.numeric(slope))) %>%
   ungroup() %>% 
-  group_by(year,site,plot,aerial_basal,block,paddock,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig) %>%
+  group_by(year,site,plot,slope,aerial_basal,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig)  %>%
   summarise_at(vars(1:137),mean) %>% 
   ungroup() 
 
@@ -2082,6 +2086,7 @@ for(g in unique(BC_NMDS_TB_BA_22$group)){
 }
 
 
+
 #### PERMANOVA FK Aerial 2018 ####
 
 #Make a new dataframe with the data from Wide_Relative_Cover all columns
@@ -2101,7 +2106,11 @@ print(PerMANOVA_FK_AR_18) #NS
 #### PERMDISP FK Aerial 2018 ####
 
 FK_AR_18<-Wide_FK_AR_18 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_18)) 
+
+FK_AR_18$observation=as.factor(FK_AR_18$observation)
+
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_18 <- vegdist(Species_Matrix_FK_AR_18)
@@ -2116,6 +2125,48 @@ permutest(Dispersion_FK_AR_18_GR,pairwise = T, permutations = 999) #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_FK_AR_18_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_18,FK_AR_18$Dr_Gr)
 permutest(Dispersion_FK_AR_18_GR,pairwise = T, permutations = 999) #ns
+
+
+#### Distance to Centroids FK Aerial 2018 ####
+
+Plot_Info_FK_AR_Ob1<-FK_AR_18 %>% 
+  rename(Observation1=observation) %>% 
+  rename(plot1=plot) %>% 
+  rename(slope1=slope) %>% 
+  rename(block1=block) %>% 
+  rename(paddock1=paddock) %>% 
+  rename(rainfall_reduction1=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig1=grazing_treatment_fig) %>% 
+  dplyr::select(Observation1, plot1,slope1,block1,paddock1,rainfall_reduction1,grazing_treatment_fig1)
+
+Plot_Info_FK_AR_Ob2<-FK_AR_18 %>% 
+  rename(Observation2=observation) %>% 
+  rename(plot2=plot) %>% 
+  rename(slope2=slope) %>% 
+  rename(block2=block) %>% 
+  rename(paddock2=paddock) %>% 
+  rename(rainfall_reduction2=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig2=grazing_treatment_fig) %>% 
+  dplyr::select(Observation2, plot2,slope2,block2,paddock2,rainfall_reduction2,grazing_treatment_fig2)
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_18 <- as.matrix(BC_Distance_Matrix_FK_AR_18)
+
+BC_DisDF_FK_AR_18<-as.data.frame.table(BC_DisMat_FK_AR_18 ) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99")) %>% 
+  mutate(year="2018") 
+  
+  
 
 
 #### PERMANOVA FK Aerial 2019 ####
@@ -2137,13 +2188,32 @@ print(PerMANOVA_FK_AR_19) #NS
 #### PERMDISP FK Aerial 2019 ####
 
 FK_AR_19<-Wide_FK_AR_19 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_19))
+FK_AR_19$observation=as.factor(FK_AR_19$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_19 <- vegdist(Species_Matrix_FK_AR_19)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_19_Dr <- betadisper(BC_Distance_Matrix_FK_AR_19,FK_AR_19$rainfall_reduction)
 permutest(Dispersion_FK_AR_19_Dr,pairwise = T, permutations = 999) 
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_19 <- as.matrix(BC_Distance_Matrix_FK_AR_19)
+
+BC_DisDF_FK_AR_19<-as.data.frame.table(BC_DisMat_FK_AR_19) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2019") 
 
 #### PERMANOVA FK Aerial 2020 ####
 
@@ -2165,7 +2235,11 @@ print(PerMANOVA_FK_AR_20) #NS
 
 FK_AR_20<-Wide_FK_AR_20 %>% 
   mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
-  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_20))
+
+FK_AR_20$observation=as.factor(FK_AR_20$observation)
+
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_20 <- vegdist(Species_Matrix_FK_AR_20)
@@ -2180,6 +2254,23 @@ permutest(Dispersion_FK_AR_20_GR,pairwise = T, permutations = 999)  #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_FK_AR_20_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$Dr_Gr19)
 permutest(Dispersion_FK_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_20 <- as.matrix(BC_Distance_Matrix_FK_AR_20)
+
+BC_DisDF_FK_AR_20<-as.data.frame.table(BC_DisMat_FK_AR_20) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2020") 
 
 #### PERMANOVA FK Aerial 2021 ####
 
@@ -2203,7 +2294,10 @@ p.adjust(0.029, method = "BH", n=5) #ns
 #### PERMDISP FK Aerial 2021 ####
 
 FK_AR_21<-Wide_FK_AR_21 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))%>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_21))
+
+FK_AR_21$observation=as.factor(FK_AR_21$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_21 <- vegdist(Species_Matrix_FK_AR_21)
@@ -2218,6 +2312,23 @@ permutest(Dispersion_FK_AR_21_GR,pairwise = T, permutations = 999)  #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_FK_AR_21_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$Dr_Gr)
 permutest(Dispersion_FK_AR_21_GR,pairwise = T, permutations = 999)  #ns
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_21 <- as.matrix(BC_Distance_Matrix_FK_AR_21)
+
+BC_DisDF_FK_AR_21<-as.data.frame.table(BC_DisMat_FK_AR_21) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2021") 
 
 
 #### PERMANOVA FK Aerial 2022 ####
@@ -2244,7 +2355,11 @@ Posthoc_FK_AR_22 #0-99 drought is siginificant (0.03)
 #### PERMDISP FK Aerial 2022 ####
 
 FK_AR_22<-Wide_FK_AR_22 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))%>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_22))
+
+FK_AR_22$observation=as.factor(FK_AR_22$observation)
+
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_22 <- vegdist(Species_Matrix_FK_AR_22)
@@ -2259,6 +2374,23 @@ permutest(Dispersion_FK_AR_22_GR,pairwise = T, permutations = 999)  #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_FK_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$Dr_Gr)
 permutest(Dispersion_FK_AR_22_GR,pairwise = T, permutations = 999)  #ns
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_22 <- as.matrix(BC_Distance_Matrix_FK_AR_22)
+
+BC_DisDF_FK_AR_22<-as.data.frame.table(BC_DisMat_FK_AR_22) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2022") 
 
 #### PERMANOVA FK Aerial 2023 ####
 
@@ -2285,7 +2417,10 @@ Posthoc_FK_AR_23 #0-99 drought is significant (0.03), 25-99 is significant (0.03
 #### PERMDISP FK Aerial 2023 ####
 
 FK_AR_23<-Wide_FK_AR_23 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))%>% 
+  cbind("observation"=1:nrow(Wide_FK_AR_23))
+
+FK_AR_23$observation=as.factor(FK_AR_23$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_FK_AR_23 <- vegdist(Species_Matrix_FK_AR_23)
@@ -2300,6 +2435,23 @@ permutest(Dispersion_FK_AR_23_GR,pairwise = T, permutations = 999)  #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_FK_AR_23_DR_GR <- betadisper(BC_Distance_Matrix_FK_AR_23,FK_AR_23$Dr_Gr)
 permutest(Dispersion_FK_AR_23_GR,pairwise = T, permutations = 999)  #ns
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_FK_AR_23 <- as.matrix(BC_Distance_Matrix_FK_AR_23)
+
+BC_DisDF_FK_AR_23<-as.data.frame.table(BC_DisMat_FK_AR_23) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_FK_AR_Ob1) %>% 
+  full_join(Plot_Info_FK_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2023") 
 
 
 #### PERMANOVA FK Basal 2018 ####
@@ -2516,6 +2668,29 @@ Dispersion_FK_BA_23_DR_GR <- betadisper(BC_Distance_Matrix_FK_BA_23,FK_BA_23$Dr_
 permutest(Dispersion_FK_BA_23_DR_GR,pairwise = T, permutations = 999)  #ns
 ####fix all drough* drazing to actually compare droughtxGR not just drought ####
 
+
+####Distance matrix dataframes ####
+
+Plot_Info_TB_AR_Ob1<-TB_AR_18 %>% 
+  rename(Observation1=observation) %>% 
+  rename(plot1=plot) %>% 
+  rename(slope1=slope) %>% 
+  rename(block1=block) %>% 
+  rename(paddock1=paddock) %>% 
+  rename(rainfall_reduction1=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig1=grazing_treatment_fig) %>% 
+  dplyr::select(Observation1, plot1,slope1,block1,paddock1,rainfall_reduction1,grazing_treatment_fig1)
+
+Plot_Info_TB_AR_Ob2<-T_AR_18 %>% 
+  rename(Observation2=observation) %>% 
+  rename(plot2=plot) %>% 
+  rename(slope2=slope) %>% 
+  rename(block2=block) %>% 
+  rename(paddock2=paddock) %>% 
+  rename(rainfall_reduction2=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig2=grazing_treatment_fig) %>% 
+  dplyr::select(Observation2, plot2,slope2,block2,paddock2,rainfall_reduction2,grazing_treatment_fig2)
+
 #### PERMANOVA TB Aerial 2018 ####
 
 #Make a new dataframe with the data from Wide_Relative_Cover all columns
@@ -2541,7 +2716,11 @@ Posthoc_TB_AR_18_Graze #ns
 #### PERMDISP TB Aerial 2018 ####
 
 TB_AR_18<-Wide_TB_AR_18 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_TB_AR_18))
+
+TB_AR_18$observation=as.factor(TB_AR_18$observation)
+
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_AR_18 <- vegdist(Species_Matrix_TB_AR_18)
@@ -2560,6 +2739,46 @@ Dispersion_TB_AR_18_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_18,TB_AR_18$Dr_
 permutest(Dispersion_TB_AR_18_GR,pairwise = T, permutations = 999)  #DxG (0.001)
 #adjust drought p-value
 p.adjust(0.001, method = "BH", n=5) #0.005
+
+#### Distance to Centroids FK Aerial 2018 ####
+
+Plot_Info_TB_AR_Ob1<-TB_AR_18 %>% 
+  rename(Observation1=observation) %>% 
+  rename(plot1=plot) %>% 
+  rename(slope1=slope) %>% 
+  rename(block1=block) %>% 
+  rename(paddock1=paddock) %>% 
+  rename(rainfall_reduction1=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig1=grazing_treatment_fig) %>% 
+  dplyr::select(Observation1, plot1,slope1,block1,paddock1,rainfall_reduction1,grazing_treatment_fig1)
+
+Plot_Info_TB_AR_Ob2<-TB_AR_18 %>% 
+  rename(Observation2=observation) %>% 
+  rename(plot2=plot) %>% 
+  rename(slope2=slope) %>% 
+  rename(block2=block) %>% 
+  rename(paddock2=paddock) %>% 
+  rename(rainfall_reduction2=rainfall_reduction) %>% 
+  rename(grazing_treatment_fig2=grazing_treatment_fig) %>% 
+  dplyr::select(Observation2, plot2,slope2,block2,paddock2,rainfall_reduction2,grazing_treatment_fig2)
+
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_TB_AR_18 <- as.matrix(BC_Distance_Matrix_TB_AR_18)
+
+BC_DisDF_TB_AR_18<-as.data.frame.table(BC_DisMat_TB_AR_18 ) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_TB_AR_Ob1) %>% 
+  full_join(Plot_Info_TB_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2018") 
 
 
 #### PERMANOVA TB Aerial 2019 ####
@@ -2581,7 +2800,10 @@ print(PerMANOVA_TB_AR_19) #NS
 #### PERMDISP TB Aerial 2019 ####
 
 TB_AR_19<-Wide_TB_AR_19 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_TB_AR_19))
+
+TB_AR_19$observation=as.factor(TB_AR_19$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_AR_19 <- vegdist(Species_Matrix_TB_AR_19)
@@ -2589,6 +2811,22 @@ BC_Distance_Matrix_TB_AR_19 <- vegdist(Species_Matrix_TB_AR_19)
 Dispersion_TB_AR_19_Dr <- betadisper(BC_Distance_Matrix_TB_AR_19,TB_AR_19$rainfall_reduction)
 permutest(Dispersion_TB_AR_19_Dr,pairwise = T, permutations = 999) #ns
 
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_TB_AR_19 <- as.matrix(BC_Distance_Matrix_TB_AR_19)
+
+BC_DisDF_TB_AR_19<-as.data.frame.table(BC_DisMat_TB_AR_19) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_TB_AR_Ob1) %>% 
+  full_join(Plot_Info_TB_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2019") 
 
 #### PERMANOVA TB Aerial 2020 ####
 
@@ -2610,7 +2848,10 @@ print(PerMANOVA_TB_AR_20) #NS
 
 TB_AR_20<-Wide_TB_AR_20 %>% 
   mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
-  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_"))
+  mutate(Dr_Gr19=paste(rainfall_reduction,livestock_util_2019,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_TB_AR_20))
+
+TB_AR_20$observation=as.factor(TB_AR_20$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_AR_20 <- vegdist(Species_Matrix_TB_AR_20)
@@ -2625,6 +2866,23 @@ permutest(Dispersion_TB_AR_20_GR,pairwise = T, permutations = 999)  #ns
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_TB_AR_20_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_20,TB_AR_20$Dr_Gr19)
 permutest(Dispersion_TB_AR_20_GR,pairwise = T, permutations = 999)  #ns
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_TB_AR_20 <- as.matrix(BC_Distance_Matrix_TB_AR_20)
+
+BC_DisDF_TB_AR_20<-as.data.frame.table(BC_DisMat_TB_AR_20) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_TB_AR_Ob1) %>% 
+  full_join(Plot_Info_TB_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2020") 
 
 #### PERMANOVA TB Aerial 2021 ####
 
@@ -2647,7 +2905,10 @@ p.adjust(0.03, method = "BH", n=5) #ns
 #### PERMDISP TB Aerial 2021 ####
 
 TB_AR_21<-Wide_TB_AR_21 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_TB_AR_21))
+
+TB_AR_21$observation=as.factor(TB_AR_21$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_AR_21 <- vegdist(Species_Matrix_TB_AR_21)
@@ -2666,6 +2927,23 @@ Dispersion_TB_AR_21_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_21,TB_AR_21$Dr_
 permutest(Dispersion_TB_AR_21_GR,pairwise = T, permutations = 999)  #0.017
 #adjust drought p-value
 p.adjust(0.02, method = "BH", n=5) #0.1
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_TB_AR_21 <- as.matrix(BC_Distance_Matrix_TB_AR_21)
+
+BC_DisDF_TB_AR_21<-as.data.frame.table(BC_DisMat_TB_AR_21) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_TB_AR_Ob1) %>% 
+  full_join(Plot_Info_TB_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2021") 
 
 
 #### PERMANOVA TB Aerial 2022 ####
@@ -2693,7 +2971,10 @@ Posthoc_TB_AR_22_Graze #heavy vs destock (p=0.03), destock vs stable (p=0.003)
 #### PERMDISP TB Aerial 2022 ####
 
 TB_AR_22<-Wide_TB_AR_22 %>% 
-  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_"))
+  mutate(Dr_Gr=paste(rainfall_reduction,grazing_treatment,sep="_")) %>% 
+  cbind("observation"=1:nrow(Wide_TB_AR_22))
+
+TB_AR_22$observation=as.factor(TB_AR_22$observation)
 
 #Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
 BC_Distance_Matrix_TB_AR_22 <- vegdist(Species_Matrix_TB_AR_22)
@@ -2712,6 +2993,23 @@ Dispersion_TB_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$Dr_
 permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.003
 #adjust drought p-value
 p.adjust(0.001, method = "BH", n=5) #0.005
+
+#making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
+BC_DisMat_TB_AR_22 <- as.matrix(BC_Distance_Matrix_TB_AR_22)
+
+BC_DisDF_TB_AR_22<-as.data.frame.table(BC_DisMat_TB_AR_22) %>% 
+  rename(Observation1=Var1) %>% 
+  rename(Observation2=Var2) %>% 
+  rename(CentroidDist=Freq) %>% 
+  full_join(Plot_Info_TB_AR_Ob1) %>% 
+  full_join(Plot_Info_TB_AR_Ob2) %>% 
+  mutate(BlockPaddock1=paste(block1,paddock1,sep=".")) %>% 
+  mutate(BlockPaddock2=paste(block2,paddock2,sep=".")) %>% 
+  mutate(BlockPaddock_Comparison=paste(BlockPaddock1,BlockPaddock2,sep="-")) %>% 
+  mutate(Drought_Comparison=paste(rainfall_reduction1,rainfall_reduction2,sep="-")) %>% 
+  filter(BlockPaddock_Comparison %in% c("1.1-1.1","1.2-1.2","1.3-1.3","2.1-2.1","2.2-2.2","2.3-2.3","3.1-3.1","3.2-3.2","3.3-3.3")) %>% 
+  filter(Drought_Comparison %in% c("0-25","0-50","0-75","0-99"))%>% 
+  mutate(year="2022") 
 
 
 #### PERMANOVA TB Basal 2018 ####
@@ -3397,7 +3695,7 @@ TB_AR_GR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
 
-TB_AR_GR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
+TB_AR_GR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
@@ -3433,12 +3731,117 @@ TB_AR_GR_20_NMDS+
   plot_layout(ncol = 2,nrow = 2)
 #Save at 2000x1700
 
+#### Distance between Centroids Stats ####
+Distance_FK<-BC_DisDF_FK_AR_19 %>% 
+  rbind(BC_DisDF_FK_AR_20) %>% 
+  rbind(BC_DisDF_FK_AR_21) %>% 
+  rbind(BC_DisDF_FK_AR_22)# %>% 
+  #rbind(BC_DisDF_FK_AR_23)
+
+Distance_TB<-BC_DisDF_TB_AR_19 %>% 
+  rbind(BC_DisDF_TB_AR_20) %>% 
+  rbind(BC_DisDF_TB_AR_21) %>% 
+  rbind(BC_DisDF_TB_AR_22) #%>% 
+  #rbind(BC_DisDF_TB_AR_23)
+
+#FK 2019
+FK_19_Dist <- lmerTest::lmer(data = subset(Distance_FK, year == 2019), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(FK_19_Dist, type = 3) #NS
+
+#FK 2020
+FK_20_Dist <- lmerTest::lmer(data = subset(Distance_FK, year == 2020), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(FK_20_Dist, type = 3) #NS
+
+#FK 2021
+FK_21_Dist <- lmerTest::lmer(data = subset(Distance_FK, year == 2021), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(FK_21_Dist, type = 3) #NS
+
+#FK 2022
+FK_22_Dist <- lmerTest::lmer(data = subset(Distance_FK, year == 2022), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(FK_22_Dist, type = 3) #ns
+
+#FK 2023
+FK_23_Dist <- lmerTest::lmer(data = subset(Distance_FK, year == 2023), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(FK_23_Dist, type = 3) #0.0161
+#adjust drought p-value
+p.adjust(0.016, method = "BH", n=5) #0.08
+
+#TB 2019
+TB_19_Dist <- lmerTest::lmer(data = subset(Distance_TB, year == 2019), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(TB_19_Dist, type = 3) #NS
+
+#TB 2020
+TB_20_Dist <- lmerTest::lmer(data = subset(Distance_TB, year == 2020), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(TB_20_Dist, type = 3) #NS
+
+#TB 2021
+TB_21_Dist <- lmerTest::lmer(data = subset(Distance_TB, year == 2021), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(TB_21_Dist, type = 3) #NS
+
+#TB 2022
+TB_22_Dist <- lmerTest::lmer(data = subset(Distance_TB, year == 2022), CentroidDist ~ Drought_Comparison + (1|block1) + (1|block1:slope1))
+anova(TB_22_Dist, type = 3) #ns
+
+
+
+
+#### Distance Between Centroid Figure ####
+
+Distance_FK_Graph<-ggplot(Distance_FK,aes(x=factor(year,level=c(2019,2020,2021,2022)),y=CentroidDist))+
+  annotate('rect', xmin = c('2018.5'), xmax = c('2019.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#492900")+
+  annotate('rect', xmin = c('2019.5'), xmax = c('2020.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#A36B2B")+
+  annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#7C9693")+
+  annotate('rect', xmin = c('2021.5'), xmax = c('2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#89CFD4")+
+  geom_boxplot(lwd=2,position=position_dodge(1),aes(color=factor(Drought_Comparison,level=c("0-25","0-50","0-75","0-99"))))+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c("25%","50%","75%","99%"),name="Rainfall Reduction")+
+  scale_x_discrete(labels = c("2019","2020","2021","2022"), breaks = c("2019","2020","2021","2022"))+
+  xlab("Year")+
+  ylab("Distance Between Centroids")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "top",legend.key = element_rect(size=10), legend.key.size = unit(4.0, 'lines'))+
+  annotate("text", x=1.6,y=1, label = "A. Montana Site", size=20)
+
+
+Distance_TB_Graph<-ggplot(Distance_TB,aes(x=factor(year,level=c(2019,2020,2021,2022)),y=CentroidDist))+
+  annotate('rect', xmin = c('2018.5'), xmax = c('2019.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#492900")+
+  annotate('rect', xmin = c('2019.5'), xmax = c('2020.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#A36B2B")+
+  annotate('rect', xmin = c('2020.5'), xmax = c('2021.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#7C9693")+
+  annotate('rect', xmin = c('2021.5'), xmax = c('2022.5'), ymin=-Inf, ymax=Inf, alpha=0.2, fill="#89CFD4")+
+  geom_boxplot(lwd=2,position=position_dodge(1),aes(color=factor(Drought_Comparison,level=c("0-25","0-50","0-75","0-99"))))+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c("25%","50%","75%","99%"),name="Rainfall Reduction")+
+  scale_x_discrete(labels = c("2019","2020","2021","2022"), breaks = c("2019","2020","2021","2022"))+
+  xlab("Year")+
+  ylab("Distance Between Centroids")+
+  expand_limits(y=c(0,1))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")+
+  annotate("text", x=1.4,y=1, label = "B. Wyoming Site", size=20)
+  
+Distance_FK_Graph+
+  Distance_TB_Graph+
+  plot_layout(ncol = 1,nrow = 2)
+#Save at 1500x2500
+  
+ 
+
+
+
 
 #### Relative Cover of Functional Group ####
 
 FG_RelCov<-RelCov_FunctionalGroups %>% 
   left_join(plot_layoutK) %>% 
-  mutate(Relative_Cover=Relative_Cover/100)
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(Relative_Cover=Relative_Cover/100) %>% 
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
+  #average across 2 controls in each block
+  group_by(year,site,aerial_basal, Common.Name, Genus_Species,Native_Introduced, Functional_Group, Annual_Perennial,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(slope=mean(as.numeric(slope)),Relative_Cover=mean(Relative_Cover)) %>% 
+  ungroup() %>% 
+  #create column that has all grazing treatments in it for a given year
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment)))))
+
+  
+
 
 #### Normality: FK Forbs ####
 
@@ -3610,16 +4013,14 @@ anova(FK_21_Forb_Ar, type = 3) #ns
 
 #FK 2022- droughtxgrazing
 FK_22_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2022 & site== "FK" & aerial_basal=="Aerial"), RelCov_22_FK_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Forb_Ar, type = 3) #DxG (0.004)
+anova(FK_22_Forb_Ar, type = 3) #DxG (0.03)
 #adjust drought p-value
-p.adjust(0.004456, method = "BH", n=5) #0.02
+p.adjust(0.03, method = "BH", n=5) #ns
 
 #Basal 
 #FK 2018 - checking drought and grazing
 FK_18_Forb_Ba <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2018 & site== "FK" & aerial_basal=="Basal"), RelCov_18_FK_Ba ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_18_Forb_Ba, type = 3) #grazing (0.04)
-#adjust drought p-value
-p.adjust(0.04, method = "BH", n=5) #0.2
+anova(FK_18_Forb_Ba, type = 3) #ns
 
 #FK 2019 - just drought
 FK_19_Forb_Ba <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2019 & site== "FK" & aerial_basal=="Basal"), RelCov_19_FK_Ba ~ rainfall_reduction + (1|block) + (1|block:slope))
@@ -3640,11 +4041,9 @@ p.adjust(0.001108 , method = "BH", n=5) #0.00554
 
 #FK 2022- droughtxgrazing
 FK_22_Forb_Ba <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2022 & site== "FK" & aerial_basal=="Basal"), RelCov_22_FK_Ba ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Forb_Ba, type = 3)  #   grazing (0.04), DxG (2.394x10-6)
-#adjust grazing p-value
-p.adjust(0.03144, method = "BH", n=5) #0.1572
+anova(FK_22_Forb_Ba, type = 3)  #  DxG (2.394x10-6)
 #adjust droughxgrazing p-value
-p.adjust( 2.211e-06, method = "BH", n=5) # 1.1055e-05
+p.adjust( 0.002, method = "BH", n=5) # 0.01
 
 
 #### Normality: TB Forbs ####
@@ -3804,9 +4203,7 @@ anova(TB_19_Forb_Ar, type = 3) #ns
 #TB 2020 - droughtxgrazing
 RelCov_Forb$livestock_util_2019<-as.factor(RelCov_Forb$livestock_util_2019)
 TB_20_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2020 & site== "TB" & aerial_basal=="Aerial"), RelCov_20_TB_AR ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Forb_Ar, type = 3) #grazing (0.007)
-#adjust grazing p-value
-p.adjust(0.007383 , method = "BH", n=5) #0.0369
+anova(TB_20_Forb_Ar, type = 3) #ns
 
 
 #TB 2021- droughtxgrazing
@@ -3819,9 +4216,9 @@ p.adjust(0.003103, method = "BH", n=5) #0.0155
 
 #TB 2022- droughtxgrazing
 TB_22_Forb_Ar <- lmerTest::lmer(data = subset(RelCov_Forb, year == 2022 & site== "TB" & aerial_basal=="Aerial"), RelCov_22_TB_AR ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Forb_Ar, type = 3) #grazing (0.008)
+anova(TB_22_Forb_Ar, type = 3) #grazing (0.04)
 #adjust grazing p-value
-p.adjust(0.008545 , method = "BH", n=5) #0.0427
+p.adjust(0.008545 , method = "BH", n=5) #ns
 
 #Basal 
 #TB 2018 - checking drought and grazing
@@ -6039,12 +6436,11 @@ C4P_FK_ALL_Aerial_Grazing+
 
 Rank_Abundance_Drought <- FG_RelCov  %>%
   filter(aerial_basal=="Aerial") %>% 
-  na.omit(Functional_Group) %>% 
   mutate(Relative_Cover=Relative_Cover*100) %>% 
   group_by(year,site,rainfall_reduction,Genus_Species,Native_Introduced,Annual_Perennial,Functional_Group) %>% 
-  summarize(avg_cover=mean(Relative_Cover))%>%
-  ungroup()%>%
-  arrange(site,year,rainfall_reduction, -avg_cover)%>%
+  summarize(avg_cover=mean(Relative_Cover)) %>%
+  ungroup() %>%
+  arrange(site,year,rainfall_reduction, -avg_cover) %>%
   mutate(site.year.drought=paste(site,year,rainfall_reduction,sep=".")) %>% 
   group_by(site.year.drought)%>%
   mutate(rank=seq_along(site.year.drought))%>%
@@ -6092,7 +6488,7 @@ ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), ae
   geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
   expand_limits(y=100)+
   facet_grid(rainfall_reduction ~ year)
-#save at 1500 x 1000
+#save at 1500 x 1500
 
 ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
   geom_line() +
@@ -6106,7 +6502,7 @@ ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), ae
   geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
   expand_limits(y=100)+
   facet_grid(rainfall_reduction ~ year)
-#save at 1500 x 1000
+#save at 1500 x 1500
 
 #RAC colored based on Functional Group
 
@@ -6294,7 +6690,7 @@ anova(FK_21_Relative_Cover_Basal, type = 3) #NS
 
 #FK 2022- droughtxgrazing
 FK_22_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Relative_Cover_Basal, type = 3) ns
+anova(FK_22_Relative_Cover_Basal, type = 3) #ns
 
 #FK 2023- droughtxgrazing
 FK_23_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -6342,5 +6738,7 @@ anova(TB_21_Relative_Cover_Basal, type = 3) #NS
 #TB 2022- droughtxgrazing
 TB_22_Relative_Cover_Basal <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Relative_Cover_Basal, type = 3) #ns
+
+
 
 
