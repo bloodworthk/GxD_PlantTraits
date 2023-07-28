@@ -122,6 +122,10 @@ CommunityMetrics_Aerial <- Diversity_Aerial %>%
   full_join(Structure_Aerial) %>% 
   full_join(plot_layoutK) %>%
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  #average across 2 controls in each block
+  group_by(year,site,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  ungroup() %>% 
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
   #create a column for graphing grazing shannons,richness, and evar without 2019 data
@@ -138,6 +142,10 @@ CommunityMetrics_Basal <- Diversity_Basal %>%
   full_join(Structure_Basal) %>% 
   full_join(plot_layoutK) %>%
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  #average across 2 controls in each block
+  group_by(year,site,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  ungroup() %>% 
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
   #create a column for graphing grazing shannons,richness, and evar without 2019 data
@@ -299,7 +307,7 @@ anova(FK_18_Richness_Aerial, type = 3) #NS
 FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_19_Richness_Aerial, type = 3)
 #adjust drought p-value
-p.adjust(0.02089, method = "BH", n=5) #0.10445
+p.adjust(0.09525, method = "BH", n=5) #ns
 
 #FK 2020 - droughtxgrazing
 FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
@@ -307,9 +315,7 @@ anova(FK_20_Richness_Aerial, type = 3) #NS
 
 #FK 2021- droughtxgrazing
 FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Richness_Aerial, type = 3) #drought (p=0.04036)
-#adjust drought p-value
-p.adjust(0.04313, method = "BH", n=5) #0.21565
+anova(FK_21_Richness_Aerial, type = 3) #ns
 
 #FK 2022- droughtxgrazing
 FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -326,9 +332,7 @@ anova(FK_18_Richness_Basal, type = 3) #NS
 
 #FK 2019 - just drought
 FK_19_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Richness_Basal, type = 3) #p=0.02
-#adjust drought p-value
-p.adjust(0.02089, method = "BH", n=5) #0.10445
+anova(FK_19_Richness_Basal, type = 3) #p=ns
 
 #FK 2020 - droughtxgrazing
 FK_20_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
@@ -336,9 +340,7 @@ anova(FK_20_Richness_Basal, type = 3) #ns
 
 #FK 2021- droughtxgrazing
 FK_21_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Richness_Basal, type = 3) #drought (p=0.04036)
-#adjust drought p-value
-p.adjust(0.04313, method = "BH", n=5) #0.21565
+anova(FK_21_Richness_Basal, type = 3) #ns
 
 #FK 2022- droughtxgrazing
 FK_22_Richness_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -678,18 +680,14 @@ anova(FK_20_Evar_Aerial, type = 3) #NS
 
 #FK 2021- droughtxgrazing
 FK_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_21_Evar_Aerial, type = 3) #drought (p=0.006575)
+anova(FK_21_Evar_Aerial, type = 3) #drought (p=0.01)
 #adjust drought p-value
-p.adjust(0.00692, method = "BH", n=5) #0.0346
+p.adjust(0.01, method = "BH", n=5) #0.05
 
 
 #FK 2022- droughtxgrazing
 FK_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Evar_Aerial, type = 3) #grazing (0.007961)
-#adjust drought p-value
-p.adjust(0.007961, method = "BH", n=5) #0.040
-#post hoc test for lmer test on grazing
-summary(glht(FK_22_Evar_Aerial, linfct = mcp(grazing_treatment = "Tukey")), test = adjusted(type = "BH")) #NS
+anova(FK_22_Evar_Aerial, type = 3) #ns
 
 
 #FK 2023- droughtxgrazing
@@ -714,13 +712,11 @@ anova(FK_20_Evar_Basal, type = 3) #NS
 FK_21_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_21_Evar_Basal, type = 3) #drought (p=0.0002416)
 #adjust drought p-value
-p.adjust(0.0002012, method = "BH", n=5) #0.001
+p.adjust(0.001, method = "BH", n=5) #0.005
 
 #FK 2022- droughtxgrazing
 FK_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Evar_Basal, type = 3) #Drought(0.02057)
-#adjust drought p-value
-p.adjust(0.02057 , method = "BH", n=5) #0.10285
+anova(FK_22_Evar_Basal, type = 3) #ns
 
 #FK 2023- droughtxgrazing
 FK_23_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2023 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -738,21 +734,17 @@ anova(TB_19_Evar_Aerial, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
 TB_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Evar_Aerial, type = 3) #grazing (0.02589)
-#adjust drought p-value
-p.adjust(0.02432, method = "BH", n=5) #0.1216
+anova(TB_20_Evar_Aerial, type = 3) #ns
 
 #TB 2021- droughtxgrazing
 TB_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_21_Evar_Aerial, type = 3) #drought (0.003804)
 #adjust drought p-value
-p.adjust(0.003804, method = "BH", n=5) #0.01902
+p.adjust(0.009, method = "BH", n=5) #0.045
 
 #TB 2022- droughtxgrazing
 TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(TB_22_Evar_Aerial, type = 3) #0.03817
-#adjust drought p-value
-p.adjust(0.03817, method = "BH", n=5) #0.19085
+anova(TB_22_Evar_Aerial, type = 3) #ns
 
 
 #basal
@@ -772,13 +764,13 @@ anova(TB_20_Evar_Basal, type = 3) #ns
 TB_21_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_21_Evar_Basal, type = 3) #drought (0.08525)
 #adjust drought p-value
-p.adjust(0.00273, method = "BH", n=5) #0.01365
+p.adjust(0.006, method = "BH", n=5) #0.03
 
 #TB 2022- droughtxgrazing
 TB_22_Evar_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Evar_Basal, type = 3) #grazing (0.005449)
 #adjust drought p-value
-p.adjust(0.001243, method = "BH", n=5) #0.006215
+p.adjust(0.004, method = "BH", n=5) #0.02
 
 #### Figure: Aerial - Evenness ####
 
@@ -1027,17 +1019,13 @@ anova(FK_18_Shannon_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
 FK_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
-anova(FK_19_Shannon_Aerial, type = 3) #drought (0.008147)
+anova(FK_19_Shannon_Aerial, type = 3) #drought (0.02)
 #adjust drought p-value
-p.adjust(0.007922 , method = "BH", n=5) #0.03961
+p.adjust(0.02 , method = "BH", n=5) #0.1
 
 #FK 2020 - droughtxgrazing
 FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Shannon_Aerial, type = 3) 
-#adjust drought p-value
-p.adjust(0.04908 , method = "BH", n=5) #0.2454
-#adjust grazing p-value
-p.adjust(0.04318 , method = "BH", n=5) #0.2159
+anova(FK_20_Shannon_Aerial, type = 3) #ns
 
 
 #FK 2021- droughtxgrazing
@@ -1046,9 +1034,7 @@ anova(FK_21_Shannon_Aerial, type = 3) #NS
 
 #FK 2022- droughtxgrazing
 FK_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Shannon_Aerial, type = 3) #grazing (0.01847)
-#adjust grazing p-value
-p.adjust(0.01847 , method = "BH", n=5) #0.09235
+anova(FK_22_Shannon_Aerial, type = 3) #ns
 
 #FK 2023- droughtxgrazing
 FK_23_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -1063,13 +1049,11 @@ anova(FK_18_Shannon_Basal, type = 3) #NS
 FK_19_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_19_Shannon_Basal, type = 3) #drought (0.0006638)
 #adjust grazing p-value
-p.adjust(0.006445 , method = "BH", n=5) #0.032225
+p.adjust(0.01 , method = "BH", n=5) #0.05
 
 #FK 2020 - droughtxgrazing
 FK_20_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "FK"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(FK_20_Shannon_Basal, type = 3) #drought (0.06), grazing (0.062)
-#adjust grazing p-value
-p.adjust(0.03978 , method = "BH", n=5) #0.1989
+anova(FK_20_Shannon_Basal, type = 3) #ns
 
 #FK 2021- droughtxgrazing
 FK_21_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2021 & site== "FK"), Shannon_21_FK_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -1077,9 +1061,7 @@ anova(FK_21_Shannon_Basal, type = 3) #NS
 
 #FK 2022- droughtxgrazing
 FK_22_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
-anova(FK_22_Shannon_Basal, type = 3) #grazing (0.008034), interaction (0.054988)
-#adjust grazing p-value
-p.adjust(0.008034 , method = "BH", n=5) #04017
+anova(FK_22_Shannon_Basal, type = 3) #ns
 
 #FK 2023- droughtxgrazing
 FK_23_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2023 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -1091,7 +1073,7 @@ anova(FK_23_Shannon_Basal, type = 3) #NS
 TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon_18_TB_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_18_Shannon_Aerial, type = 3) #grazing (0.008932)
 #adjust grazing p-value
-p.adjust(0.01617, method = "BH", n=5) #.08085
+p.adjust(0.04, method = "BH", n=5) #.08085
 
 #TB 2019 - just drought
 TB_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
@@ -1099,9 +1081,7 @@ anova(TB_19_Shannon_Aerial, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
 TB_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Shannon_Aerial, type = 3) #grazing (0.01341)
-#adjust grazing p-value
-p.adjust(0.0129 , method = "BH", n=5) #0.0645
+anova(TB_20_Shannon_Aerial, type = 3) #ns
 
 #TB 2021- droughtxgrazing
 TB_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
@@ -1111,14 +1091,14 @@ anova(TB_21_Shannon_Aerial, type = 3) #NS
 TB_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_22_Shannon_Aerial, type = 3) #grazing (0.0308)
 #adjust grazing p-value
-p.adjust(0.0308, method = "BH", n=5) #0.154
+p.adjust(0.04, method = "BH", n=5) #0.154
 
 #basal
 #TB 2018 - checking drought and grazing
 TB_18_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2018 & site== "TB"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(TB_18_Shannon_Basal, type = 3) #grazing (0.002954)
 #adjust grazing p-value
-p.adjust(0.002954, method = "BH", n=5) #0.01477
+p.adjust(0.01, method = "BH", n=5) #0.05
 
 #TB 2019 - just drought
 TB_19_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
@@ -1126,9 +1106,7 @@ anova(TB_19_Shannon_Basal, type = 3) #NS
 
 #TB 2020 - droughtxgrazing
 TB_20_Shannon_Basal <- lmerTest::lmer(data = subset(CommunityMetrics_Basal, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
-anova(TB_20_Shannon_Basal, type = 3) #grazing (0.04664)
-#adjust grazing p-value
-p.adjust(0.04572, method = "BH", n=5) #0.2286
+anova(TB_20_Shannon_Basal, type = 3) #ns
 
 
 #TB 2021- droughtxgrazing
@@ -1219,15 +1197,27 @@ Shannon_FK_ALL_Aerial_Grazing+
 #### Bray Curtis ####
 
 #Create wide relative cover dataframe
-RelCov_Clean<-RelCov_FunctionalGroups %>%
+RelCov_Clean1<-RelCov_FunctionalGroups %>%
   dplyr::select(-c(Common.Name,Native_Introduced,Functional_Group,Annual_Perennial)) %>% 
   full_join(plot_layoutK) %>%
   unique() %>% 
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  dplyr::group_by(year,site,block,paddock,aerial_basal,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,Genus_Species,Relative_Cover) %>% 
+  mutate(plot=as.numeric(plot),slope=as.numeric(slope)) %>% 
+  ungroup() %>% 
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
   spread(key=Genus_Species,value=Relative_Cover, fill=0) 
+  
 
+RelCov_Clean<-RelCov_Clean1 %>% 
+  #average across 2 controls in each block
+  group_by(year,site,aerial_basal,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig) %>%
+  mutate(plot=mean(as.numeric(plot)),slope=mean(as.numeric(slope))) %>% 
+  ungroup() %>% 
+  group_by(year,site,plot,aerial_basal,block,paddock,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021,grazing_treatment_fig) %>%
+  summarise_at(vars(1:137),mean) %>% 
+  ungroup() 
 
   
 
@@ -2207,7 +2197,7 @@ PerMANOVA_FK_AR_21 <- adonis2(formula = Species_Matrix_FK_AR_21~rainfall_reducti
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_21) #drought (0.02)
 #adjust drought p-value
-p.adjust(0.027, method = "BH", n=5) #0.135
+p.adjust(0.029, method = "BH", n=5) #ns
 
 
 #### PERMDISP FK Aerial 2021 ####
@@ -2246,10 +2236,10 @@ PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reducti
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_22) #drought (0.004)
 #adjust drought p-value
-p.adjust(0.002, method = "BH", n=5) #0.01
+p.adjust(0.01, method = "BH", n=5) #0.05
 #pairwise test
 Posthoc_FK_AR_22<-pairwise.adonis(Species_Matrix_FK_AR_22,factors=Environment_Matrix_FK_AR_22$rainfall_reduction, p.adjust.m = "BH")
-Posthoc_FK_AR_22 #0-99 drought is siginificant (0.02)
+Posthoc_FK_AR_22 #0-99 drought is siginificant (0.03)
 
 #### PERMDISP FK Aerial 2022 ####
 
@@ -2289,7 +2279,7 @@ print(PerMANOVA_FK_AR_23) #drought (0.001)
 p.adjust(0.001, method = "BH", n=5) #0.005
 #pairwise test
 Posthoc_FK_AR_23<-pairwise.adonis(Species_Matrix_FK_AR_23,factors=Environment_Matrix_FK_AR_23$rainfall_reduction, p.adjust.m = "BH")
-Posthoc_FK_AR_23 #0-99 drought is significant (0.01), 25-99 is significant (0.015)
+Posthoc_FK_AR_23 #0-99 drought is significant (0.03), 25-99 is significant (0.03)
 
 
 #### PERMDISP FK Aerial 2023 ####
@@ -2301,7 +2291,7 @@ FK_AR_23<-Wide_FK_AR_23 %>%
 BC_Distance_Matrix_FK_AR_23 <- vegdist(Species_Matrix_FK_AR_23)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_23_Dr <- betadisper(BC_Distance_Matrix_FK_AR_23,FK_AR_23$rainfall_reduction)
-permutest(Dispersion_FK_AR_23_Dr,pairwise = T, permutations = 999) #0.029
+permutest(Dispersion_FK_AR_23_Dr,pairwise = T, permutations = 999) #0.016
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing
 Dispersion_FK_AR_23_GR <- betadisper(BC_Distance_Matrix_FK_AR_23,FK_AR_23$grazing_treatment)
@@ -2542,7 +2532,7 @@ PerMANOVA_TB_AR_18 <- adonis2(formula = Species_Matrix_TB_AR_18~rainfall_reducti
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_18) #grazing (0.002)
 #adjust drought p-value
-p.adjust(0.001, method = "BH", n=5) #0.005
+p.adjust(0.002, method = "BH", n=5) #0.01
 #pairwise test
 Posthoc_TB_AR_18_Graze<-pairwise.adonis(Species_Matrix_FK_AR_18,factors=Environment_Matrix_FK_AR_18$grazing_treatment, p.adjust.m = "BH")
 Posthoc_TB_AR_18_Graze #ns
@@ -2650,9 +2640,9 @@ Environment_Matrix_TB_AR_21$slope=as.numeric(Environment_Matrix_TB_AR_21$slope)
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
 PerMANOVA_TB_AR_21 <- adonis2(formula = Species_Matrix_TB_AR_21~rainfall_reduction*grazing_treatment + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_21,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
-print(PerMANOVA_TB_AR_21) #grazing (0.019)
+print(PerMANOVA_TB_AR_21) #grazing (0.03)
 #adjust drought p-value
-p.adjust(0.014, method = "BH", n=5) #0.07
+p.adjust(0.03, method = "BH", n=5) #ns
 
 #### PERMDISP TB Aerial 2021 ####
 
@@ -2694,7 +2684,7 @@ PerMANOVA_TB_AR_22 <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reducti
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_22) #grazing (0.002)
 #adjust drought p-value
-p.adjust(0.002, method = "BH", n=5) #0.01
+p.adjust(0.008, method = "BH", n=5) #0.04
 #pairwise test
 Posthoc_TB_AR_22_Graze<-pairwise.adonis(Species_Matrix_TB_AR_22,factors=Environment_Matrix_TB_AR_22$grazing_treatment, p.adjust.m = "BH")
 Posthoc_TB_AR_22_Graze #heavy vs destock (p=0.03), destock vs stable (p=0.003)
@@ -2715,13 +2705,13 @@ permutest(Dispersion_TB_AR_22_Dr,pairwise = T, permutations = 999) #ns
 Dispersion_TB_AR_22_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$grazing_treatment)
 permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.006
 #adjust drought p-value
-p.adjust(0.001, method = "BH", n=5) #0.02
+p.adjust(0.003, method = "BH", n=5) #0.015
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
 Dispersion_TB_AR_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_AR_22,TB_AR_22$Dr_Gr)
 permutest(Dispersion_TB_AR_22_GR,pairwise = T, permutations = 999)  #0.003
 #adjust drought p-value
-p.adjust(0.004, method = "BH", n=5) #0.005
+p.adjust(0.001, method = "BH", n=5) #0.005
 
 
 #### PERMANOVA TB Basal 2018 ####
@@ -2916,6 +2906,34 @@ p.adjust(0.003, method = "BH", n=5) #0.015
 #### NMDS Figure ####
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+FK_AR_19_NMDS<-ggplot(data = BC_Graph_FK_AR_19, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="A. 2019",size=20)
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
 FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
@@ -2941,36 +2959,9 @@ FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(ra
   ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="B. 2020",size=20)
 
 FK_AR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
-  #make a point graph where the points are size 5.  Color them based on exlosure
-  geom_point(size=8, stroke = 2) +
-  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
-  #make shape, color, and linetype in one combined legend instead of three legends
-  labs(color  = "", linetype = "", shape = "")+
-  # make legend 2 columns
-  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
-  #change order of legend
-  #Use different shapes 
-  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  #make the text size of the legend titles 28
-  theme(legend.position="right")+
-  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
-  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
-  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
-  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
-  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
-  xlab("NMDS1")+
-  ylab("NMDS2")+
-    expand_limits(y=c(-1,1),x=c(-1,1))+
-    theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-    annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
-
-FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
@@ -2993,9 +2984,36 @@ FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(ra
   #Label the x-axis "NMDS1" and the y-axis "NMDS2"
   xlab("NMDS1")+
   ylab("NMDS2")+
+    expand_limits(y=c(-1,1),x=c(-1,1))+
+    theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+    annotate(geom="text", x=-0.6, y=1, label="C. 2021",size=20)
+
+FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="D. 2022",size=20)
 
 FK_AR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
@@ -3022,16 +3040,44 @@ FK_AR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23, aes(MDS1,MDS2, shape = factor(ra
   ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="E. 2023",size=20)
 
 #### Create FK:NMDS Drought Figure ####
-
-FK_AR_20_NMDS+
+FK_AR_19_NMDS+
+  FK_AR_20_NMDS+
   FK_AR_21_NMDS+
   FK_AR_22_NMDS+
   FK_AR_23_NMDS+
-  plot_layout(ncol = 2,nrow = 2)
-#Save at 2000x1700
+  plot_layout(ncol = 2,nrow = 3)
+#Save at 2000x3000
+
+#Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
+TB_AR_19_NMDS<-ggplot(data = BC_Graph_TB_AR_19, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="none")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="A. 2019",size=20)
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
 TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
@@ -3059,36 +3105,9 @@ TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(ra
   ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="A. 2020",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="B. 2020",size=20)
 
 TB_AR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
-  #make a point graph where the points are size 5.  Color them based on exlosure
-  geom_point(size=8, stroke = 2) +
-  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
-  #make shape, color, and linetype in one combined legend instead of three legends
-  labs(color  = "", linetype = "", shape = "")+
-  # make legend 2 columns
-  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
-  #change order of legend
-  #Use different shapes 
-  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
-  #make the text size of the legend titles 28
-  theme(legend.position="right")+
-  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
-  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
-  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
-  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
-  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
-  xlab("NMDS1")+
-  ylab("NMDS2")+
-  expand_limits(y=c(-1,1),x=c(-1,1))+
-  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="B. 2021",size=20)
-
-TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
@@ -3113,7 +3132,34 @@ TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(ra
   ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="C. 2022",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="C. 2021",size=20)
+
+TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+  #make a point graph where the points are size 5.  Color them based on exlosure
+  geom_point(size=8, stroke = 2) +
+  #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
+  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  #make shape, color, and linetype in one combined legend instead of three legends
+  labs(color  = "", linetype = "", shape = "")+
+  # make legend 2 columns
+  guides(shape=guide_legend(ncol=2),colour=guide_legend(ncol=2),linetype=guide_legend(ncol=2))+
+  #change order of legend
+  #Use different shapes 
+  scale_shape_manual(values=c(15,16,17,22,21),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_color_manual(values=c("darkseagreen2","blue4","maroon4","deepskyblue4","darkorange4"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  scale_linetype_manual(values=c("solid","twodash","dotted","solid","twodash","dotted"),labels = c( "0%", "25%","50%","75%","99%"), breaks = c("0","25","50","75","99"),name="Rainfall Reduction")+
+  #make the text size of the legend titles 28
+  theme(legend.position="right")+
+  #Add annotations of K1B, 4B, and K4A inside the elipses and bold them
+  #annotate("text",x=-.16,y=0.27,label="No Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.04,y=-0.09,label="Low Grazing",size=10, fontface="bold")+
+  #annotate("text",x=0.30,y=-0.19,label="High Grazing",size=10, fontface="bold")+
+  #Label the x-axis "NMDS1" and the y-axis "NMDS2"
+  xlab("NMDS1")+
+  ylab("NMDS2")+
+  expand_limits(y=c(-1,1),x=c(-1,1))+
+  theme(text = element_text(size = 55),legend.text=element_text(size=40))+
+  annotate(geom="text", x=-0.6, y=1, label="D. 2022",size=20)
 
 TB_AR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
@@ -3140,16 +3186,16 @@ TB_AR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, aes(MDS1,MDS2, shape = factor(ra
   ylab("NMDS2")+
   expand_limits(y=c(-1,1),x=c(-1,1))+
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
-  annotate(geom="text", x=-0.6, y=1, label="D. 2023",size=20)
+  annotate(geom="text", x=-0.6, y=1, label="E. 2023",size=20)
 
 #### Create TB:NMDS Drought Figure ####
-
-TB_AR_20_NMDS+
+TB_AR_19_NMDS+
+  TB_AR_20_NMDS+
   TB_AR_21_NMDS+
   TB_AR_22_NMDS+
   #TB_AR_23_NMDS+
-  plot_layout(ncol = 2,nrow = 2)
-#Save at 2000x1700
+  plot_layout(ncol = 2,nrow = 3)
+#Save at 2000x3000
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
 FK_AR_GR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(grazing_treatment_fig),color= factor(grazing_treatment_fig),linetype= factor(grazing_treatment_fig)))+
