@@ -1291,17 +1291,19 @@ sites_FK_AR_19 <- 1:nrow(Wide_FK_AR_19)
 BC_Meta_Data_FK_AR_19 <- Wide_FK_AR_19[,1:15] %>% 
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
+BC_Meta_Data_FK_AR_19$rainfall_reduction=as.character(BC_Meta_Data_FK_AR_19$rainfall_reduction)
 
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_FK_AR_19 = data.frame(MDS1 = BC_FK_AR_19$points[,1], MDS2 = BC_FK_AR_19$points[,2],group=BC_Meta_Data_FK_AR_19$Yr_Dr_Gr)
+BC_NMDS_FK_AR_19 = data.frame(MDS1 = BC_FK_AR_19$points[,1], MDS2 = BC_FK_AR_19$points[,2],group=BC_Meta_Data_FK_AR_19$rainfall_reduction)
+
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_FK_AR_19 <- cbind(BC_Meta_Data_FK_AR_19,BC_NMDS_FK_AR_19)
 #make a plot using the dataframe BC_Data and the column "points".  Make Grazing Treatment a factor - make the different grazing treatments different colors
-plot(BC_FK_AR_19$points,col=as.factor(BC_Meta_Data_FK_AR_19$Yr_Dr_Gr))
+plot(BC_FK_AR_19$points,col=as.factor(BC_Meta_Data_FK_AR_19$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_FK_AR_19<-ordiellipse(BC_FK_AR_19, BC_Meta_Data_FK_AR_19$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_FK_AR_19<-ordiellipse(BC_FK_AR_19, BC_Meta_Data_FK_AR_19$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_FK_AR_19 <- data.frame()
@@ -1331,16 +1333,18 @@ BC_Meta_Data_FK_AR_20 <- Wide_FK_AR_20[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
 
+BC_Meta_Data_FK_AR_20$rainfall_reduction=as.character(BC_Meta_Data_FK_AR_20$rainfall_reduction)
+
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_FK_AR_20 = data.frame(MDS1 = BC_FK_AR_20$points[,1], MDS2 = BC_FK_AR_20$points[,2],group=BC_Meta_Data_FK_AR_20$Yr_Dr_Gr_20)
+BC_NMDS_FK_AR_20 = data.frame(MDS1 = BC_FK_AR_20$points[,1], MDS2 = BC_FK_AR_20$points[,2],group=BC_Meta_Data_FK_AR_20$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_FK_AR_20 <- cbind(BC_Meta_Data_FK_AR_20,BC_NMDS_FK_AR_20)
 #make a plot using the dataframe BC_Data and the column "points".  Make Grazing Treatment a factor - make the different grazing treatments different colors
-plot(BC_FK_AR_20$points,col=as.factor(BC_Meta_Data_FK_AR_20$Yr_Dr_Gr_20))
+plot(BC_FK_AR_20$points,col=as.factor(BC_Meta_Data_FK_AR_20$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_FK_AR_20<-ordiellipse(BC_FK_AR_20, BC_Meta_Data_FK_AR_20$Yr_Dr_Gr_20, display = "sites",
+BC_Ord_Ellipses_FK_AR_20<-ordiellipse(BC_FK_AR_20, BC_Meta_Data_FK_AR_20$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_FK_AR_20 <- data.frame()
@@ -1370,16 +1374,18 @@ BC_Meta_Data_FK_AR_21 <- Wide_FK_AR_21[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
 
+BC_Meta_Data_FK_AR_21$rainfall_reduction=as.character(BC_Meta_Data_FK_AR_21$rainfall_reduction)
+
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_FK_AR_21 = data.frame(MDS1 = BC_FK_AR_21$points[,1], MDS2 = BC_FK_AR_21$points[,2],group=BC_Meta_Data_FK_AR_21$Yr_Dr_Gr)
+BC_NMDS_FK_AR_21 = data.frame(MDS1 = BC_FK_AR_21$points[,1], MDS2 = BC_FK_AR_21$points[,2],group=BC_Meta_Data_FK_AR_21$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_FK_AR_21 <- cbind(BC_Meta_Data_FK_AR_21,BC_NMDS_FK_AR_21)
 #make a plot using the dataframe BC_Data and the column "points".  Make Grazing Treatment a factor - make the different grazing treatments different colors
-plot(BC_FK_AR_21$points,col=as.factor(BC_Meta_Data_FK_AR_21$Yr_Dr_Gr))
+plot(BC_FK_AR_21$points,col=as.factor(BC_Meta_Data_FK_AR_21$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_FK_AR_21<-ordiellipse(BC_FK_AR_21, BC_Meta_Data_FK_AR_21$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_FK_AR_21<-ordiellipse(BC_FK_AR_21, BC_Meta_Data_FK_AR_21$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_FK_AR_21 <- data.frame()
@@ -1388,8 +1394,6 @@ for(g in unique(BC_NMDS_FK_AR_21$group)){
   BC_Ellipses_FK_AR_21 <- rbind(BC_Ellipses_FK_AR_21, cbind(as.data.frame(with(BC_NMDS_FK_AR_21[BC_NMDS_FK_AR_21$group==g,],                                                  veganCovEllipse(BC_Ord_Ellipses_FK_AR_21[[g]]$cov,BC_Ord_Ellipses_FK_AR_21[[g]]$center,BC_Ord_Ellipses_FK_AR_21[[g]]$scale)))
                                                             ,group=g))
 }
-
-BC_Ellipses_FK_AR_21_graph <- as.data.frame(BC_Ellipses_FK_AR_21) 
 
 #### Bray Curtis FK Aerial 2022 ####
 
@@ -1410,17 +1414,18 @@ sites_FK_AR_22 <- 1:nrow(Wide_FK_AR_22)
 BC_Meta_Data_FK_AR_22 <- Wide_FK_AR_22[,1:15] %>% 
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
+BC_Meta_Data_FK_AR_22$rainfall_reduction=as.character(BC_Meta_Data_FK_AR_22$rainfall_reduction)
 
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_FK_AR_22 = data.frame(MDS1 = BC_FK_AR_22$points[,1], MDS2 = BC_FK_AR_22$points[,2],group=BC_Meta_Data_FK_AR_22$Yr_Dr_Gr)
+BC_NMDS_FK_AR_22 = data.frame(MDS1 = BC_FK_AR_22$points[,1], MDS2 = BC_FK_AR_22$points[,2],group=BC_Meta_Data_FK_AR_22$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_FK_AR_22 <- cbind(BC_Meta_Data_FK_AR_22,BC_NMDS_FK_AR_22)
 #make a plot using the dataframe BC_Data and the column "points".  Make Grazing Treatment a factor - make the different grazing treatments different colors
-plot(BC_FK_AR_22$points,col=as.factor(BC_Meta_Data_FK_AR_22$Yr_Dr_Gr))
+plot(BC_FK_AR_22$points,col=as.factor(BC_Meta_Data_FK_AR_22$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_FK_AR_22<-ordiellipse(BC_FK_AR_22, BC_Meta_Data_FK_AR_22$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_FK_AR_22<-ordiellipse(BC_FK_AR_22, BC_Meta_Data_FK_AR_22$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_FK_AR_22 <- data.frame()
@@ -1450,16 +1455,18 @@ BC_Meta_Data_FK_AR_23 <- Wide_FK_AR_23[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
 
+BC_Meta_Data_FK_AR_23$rainfall_reduction=as.character(BC_Meta_Data_FK_AR_23$rainfall_reduction)
+
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_FK_AR_23 = data.frame(MDS1 = BC_FK_AR_23$points[,1], MDS2 = BC_FK_AR_23$points[,2],group=BC_Meta_Data_FK_AR_23$Yr_Dr_Gr)
+BC_NMDS_FK_AR_23 = data.frame(MDS1 = BC_FK_AR_23$points[,1], MDS2 = BC_FK_AR_23$points[,2],group=BC_Meta_Data_FK_AR_23$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_FK_AR_23 <- cbind(BC_Meta_Data_FK_AR_23,BC_NMDS_FK_AR_23)
 #make a plot using the dataframe BC_Data and the column "points".  Make Grazing Treatment a factor - make the different grazing treatments different colors
-plot(BC_FK_AR_23$points,col=as.factor(BC_Meta_Data_FK_AR_23$Yr_Dr_Gr))
+plot(BC_FK_AR_23$points,col=as.factor(BC_Meta_Data_FK_AR_23$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_FK_AR_23<-ordiellipse(BC_FK_AR_23, BC_Meta_Data_FK_AR_23$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_FK_AR_23<-ordiellipse(BC_FK_AR_23, BC_Meta_Data_FK_AR_23$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_FK_AR_23 <- data.frame()
@@ -1760,15 +1767,17 @@ BC_Meta_Data_TB_AR_19 <- Wide_TB_AR_19[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2019,sep="."))
 
+BC_Meta_Data_TB_AR_19$rainfall_reduction=as.character(BC_Meta_Data_TB_AR_19$rainfall_reduction)
+
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_TB_AR_19 = data.frame(MDS1 = BC_TB_AR_19$points[,1], MDS2 = BC_TB_AR_19$points[,2],group=BC_Meta_Data_TB_AR_19$Yr_Dr_Gr)
+BC_NMDS_TB_AR_19 = data.frame(MDS1 = BC_TB_AR_19$points[,1], MDS2 = BC_TB_AR_19$points[,2],group=BC_Meta_Data_TB_AR_19$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_TB_AR_19 <- cbind(BC_Meta_Data_TB_AR_19,BC_NMDS_TB_AR_19)
-plot(BC_TB_AR_19$points,col=as.factor(BC_Meta_Data_TB_AR_19$Yr_Dr_Gr))
+plot(BC_TB_AR_19$points,col=as.factor(BC_Meta_Data_TB_AR_19$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_TB_AR_19<-ordiellipse(BC_TB_AR_19, BC_Meta_Data_TB_AR_19$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_TB_AR_19<-ordiellipse(BC_TB_AR_19, BC_Meta_Data_TB_AR_19$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_TB_AR_19 <- data.frame()
@@ -1798,15 +1807,17 @@ BC_Meta_Data_TB_AR_20 <- Wide_TB_AR_20[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_20=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
 
+BC_Meta_Data_TB_AR_20$rainfall_reduction=as.character(BC_Meta_Data_TB_AR_20$rainfall_reduction)
+
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_TB_AR_20 = data.frame(MDS1 = BC_TB_AR_20$points[,1], MDS2 = BC_TB_AR_20$points[,2],group=BC_Meta_Data_TB_AR_20$Yr_Dr_Gr_20)
+BC_NMDS_TB_AR_20 = data.frame(MDS1 = BC_TB_AR_20$points[,1], MDS2 = BC_TB_AR_20$points[,2],group=BC_Meta_Data_TB_AR_20$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_TB_AR_20 <- cbind(BC_Meta_Data_TB_AR_20,BC_NMDS_TB_AR_20)
-plot(BC_TB_AR_20$points,col=as.factor(BC_Meta_Data_TB_AR_20$Yr_Dr_Gr_20))
+plot(BC_TB_AR_20$points,col=as.factor(BC_Meta_Data_TB_AR_20$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_TB_AR_20<-ordiellipse(BC_TB_AR_20, BC_Meta_Data_TB_AR_20$Yr_Dr_Gr_20, display = "sites",
+BC_Ord_Ellipses_TB_AR_20<-ordiellipse(BC_TB_AR_20, BC_Meta_Data_TB_AR_20$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_TB_AR_20 <- data.frame()
@@ -1836,15 +1847,16 @@ BC_Meta_Data_TB_AR_21 <- Wide_TB_AR_21[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_21=paste(year,rainfall_reduction,livestock_util_2021,sep="."))
 
+BC_Meta_Data_TB_AR_21$rainfall_reduction=as.character(BC_Meta_Data_TB_AR_21$rainfall_reduction)
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_TB_AR_21 = data.frame(MDS1 = BC_TB_AR_21$points[,1], MDS2 = BC_TB_AR_21$points[,2],group=BC_Meta_Data_TB_AR_21$Yr_Dr_Gr)
+BC_NMDS_TB_AR_21 = data.frame(MDS1 = BC_TB_AR_21$points[,1], MDS2 = BC_TB_AR_21$points[,2],group=BC_Meta_Data_TB_AR_21$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_TB_AR_21 <- cbind(BC_Meta_Data_TB_AR_21,BC_NMDS_TB_AR_21)
-plot(BC_TB_AR_21$points,col=as.factor(BC_Meta_Data_TB_AR_21$Yr_Dr_Gr))
+plot(BC_TB_AR_21$points,col=as.factor(BC_Meta_Data_TB_AR_21$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_TB_AR_21<-ordiellipse(BC_TB_AR_21, BC_Meta_Data_TB_AR_21$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_TB_AR_21<-ordiellipse(BC_TB_AR_21, BC_Meta_Data_TB_AR_21$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_TB_AR_21 <- data.frame()
@@ -1874,15 +1886,16 @@ BC_Meta_Data_TB_AR_22 <- Wide_TB_AR_22[,1:15] %>%
   mutate(Yr_Dr_Gr=paste(year,rainfall_reduction,grazing_treatment,sep=".")) %>% 
   mutate(Yr_Dr_Gr_22=paste(year,rainfall_reduction,livestock_util_2020,sep="."))
 
+BC_Meta_Data_TB_AR_22$rainfall_reduction=as.character(BC_Meta_Data_TB_AR_22$rainfall_reduction)
 
 ## Create NMDS numbers Graph ##
 #Make a data frame called BC_NMDS and at a column using the first set of "points" in BC_Data and a column using the second set of points.  Group them by watershed
-BC_NMDS_TB_AR_22 = data.frame(MDS1 = BC_TB_AR_22$points[,1], MDS2 = BC_TB_AR_22$points[,2],group=BC_Meta_Data_TB_AR_22$Yr_Dr_Gr)
+BC_NMDS_TB_AR_22 = data.frame(MDS1 = BC_TB_AR_22$points[,1], MDS2 = BC_TB_AR_22$points[,2],group=BC_Meta_Data_TB_AR_22$rainfall_reduction)
 #Make data table called BC_NMDS_Graph and bind the BC_Meta_Data, and BC_NMDS data together
 BC_Graph_TB_AR_22 <- cbind(BC_Meta_Data_TB_AR_22,BC_NMDS_TB_AR_22)
-plot(BC_TB_AR_22$points,col=as.factor(BC_Meta_Data_TB_AR_22$Yr_Dr_Gr))
+plot(BC_TB_AR_22$points,col=as.factor(BC_Meta_Data_TB_AR_22$rainfall_reduction))
 #Make a data table called BC_Ord_Ellipses using data from BC_Data and watershed information from BC_Meta_Data.  Display sites and find the standard error at a confidence iinterval of 0.95.  Place lables on the graph
-BC_Ord_Ellipses_TB_AR_22<-ordiellipse(BC_TB_AR_22, BC_Meta_Data_TB_AR_22$Yr_Dr_Gr, display = "sites",
+BC_Ord_Ellipses_TB_AR_22<-ordiellipse(BC_TB_AR_22, BC_Meta_Data_TB_AR_22$rainfall_reduction, display = "sites",
                                       kind = "se", conf = 0.95, label = T)
 #Make a new empty data frame called BC_Ellipses                
 BC_Ellipses_TB_AR_22 <- data.frame()
@@ -3204,11 +3217,11 @@ p.adjust(0.003, method = "BH", n=5) #0.015
 #### NMDS Figure ####
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
-FK_AR_19_NMDS<-ggplot(data = BC_Graph_FK_AR_19, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+FK_AR_19_NMDS<-ggplot(data = BC_Graph_FK_AR_19, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_FK_AR_19, aes(x=NMDS1, y=NMDS2), size=1)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3232,11 +3245,11 @@ FK_AR_19_NMDS<-ggplot(data = BC_Graph_FK_AR_19, aes(MDS1,MDS2, shape = factor(ra
   annotate(geom="text", x=-0.6, y=1, label="A. 2019",size=20)
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
-FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3259,11 +3272,11 @@ FK_AR_20_NMDS<-ggplot(data = BC_Graph_FK_AR_20, aes(MDS1,MDS2, shape = factor(ra
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="B. 2020",size=20)
 
-FK_AR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+FK_AR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3286,11 +3299,11 @@ FK_AR_21_NMDS<-ggplot(data = BC_Graph_FK_AR_21, aes(MDS1,MDS2, shape = factor(ra
     theme(text = element_text(size = 55),legend.text=element_text(size=40))+
     annotate(geom="text", x=-0.6, y=1, label="C. 2021",size=20)
 
-FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3313,11 +3326,11 @@ FK_AR_22_NMDS<-ggplot(data = BC_Graph_FK_AR_22, aes(MDS1,MDS2, shape = factor(ra
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="D. 2022",size=20)
 
-FK_AR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+FK_AR_23_NMDS<-ggplot(data = BC_Graph_FK_AR_23, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_FK_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3350,11 +3363,11 @@ FK_AR_19_NMDS+
 #Save at 2000x3000
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
-TB_AR_19_NMDS<-ggplot(data = BC_Graph_TB_AR_19, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+TB_AR_19_NMDS<-ggplot(data = BC_Graph_TB_AR_19, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3378,11 +3391,11 @@ TB_AR_19_NMDS<-ggplot(data = BC_Graph_TB_AR_19, aes(MDS1,MDS2, shape = factor(ra
   annotate(geom="text", x=-0.6, y=1, label="A. 2019",size=20)
 
 #Plot the data from BC_NMDS_Graph, where x=MDS1 and y=MDS2, make an ellipse based on "group"
-TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3405,11 +3418,11 @@ TB_AR_20_NMDS<-ggplot(data = BC_Graph_TB_AR_20, aes(MDS1,MDS2, shape = factor(ra
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="B. 2020",size=20)
 
-TB_AR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+TB_AR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3432,11 +3445,11 @@ TB_AR_21_NMDS<-ggplot(data = BC_Graph_TB_AR_21, aes(MDS1,MDS2, shape = factor(ra
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="C. 2021",size=20)
 
-TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
@@ -3459,11 +3472,11 @@ TB_AR_22_NMDS<-ggplot(data = BC_Graph_TB_AR_22, aes(MDS1,MDS2, shape = factor(ra
   theme(text = element_text(size = 55),legend.text=element_text(size=40))+
   annotate(geom="text", x=-0.6, y=1, label="D. 2022",size=20)
 
-TB_AR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, aes(MDS1,MDS2, shape = factor(rainfall_reduction),color= factor(rainfall_reduction),linetype= factor(rainfall_reduction)))+
+TB_AR_23_NMDS<-ggplot(data = BC_Graph_TB_AR_23, aes(MDS1,MDS2, shape = factor(group),color= factor(group),linetype= factor(group)))+
   #make a point graph where the points are size 5.  Color them based on exlosure
   geom_point(size=8, stroke = 2) +
   #Use the data from BC_Ellipses to make ellipses that are size 1 with a solid line
-  #geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
+  geom_path(data = BC_Ellipses_TB_AR_20, aes(x=NMDS1, y=NMDS2), size=4)+
   #make shape, color, and linetype in one combined legend instead of three legends
   labs(color  = "", linetype = "", shape = "")+
   # make legend 2 columns
