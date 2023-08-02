@@ -6457,9 +6457,10 @@ Rank_Abundance_Drought <- FG_RelCov  %>%
   mutate(site.year.drought=paste(site,year,rainfall_reduction,sep=".")) %>% 
   group_by(site.year.drought)%>%
   mutate(rank=seq_along(site.year.drought))%>%
-  ungroup()
+  ungroup() %>% 
+  mutate(Native_Introduced=ifelse(Genus_Species=="Poa.UNKWN26", "N",Native_Introduced))
 
-ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019 & year<=2022 &rank<=10), aes(x=rank, y=avg_cover)) +
   geom_line() +
   geom_point(size=3) +
   #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
@@ -6474,7 +6475,7 @@ ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), ae
   facet_grid(rainfall_reduction ~ year)
 #save at 1500 x 1000
 
-ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
+ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019 & year<=2022&rank<=10), aes(x=rank, y=avg_cover)) +
   geom_line() +
   geom_point(size=3) +
   #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
@@ -6489,33 +6490,39 @@ ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), ae
 
 #RAC colored based on Native/Non Native
 
-ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
-  geom_line() +
-  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
-  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
-  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
-  xlab('') +
+ggplot(data=subset(Rank_Abundance_Drought, site=="FK" & year>=2019 & year<=2022&rank<=10 & Native_Introduced!="NA"), aes(x=rank, y=avg_cover)) +
+  geom_line(size=3) +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=10) +
+  scale_color_manual(values=c("#A50F14", "#879673"), labels=c("Non-native", "Native"), name="Plant Status")+
+  scale_shape_manual(values=c(16, 17), labels=c("Non-native", "Native"), name="Plant Status")+
+  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10))+
+  xlab('Rank') +
   ylab('Relative Cover (%)') +
   # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
   # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
-  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  geom_text(aes(y=avg_cover+2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=10)+
   expand_limits(y=100)+
-  facet_grid(rainfall_reduction ~ year)
+  theme(text = element_text(size = 40),legend.text=element_text(size=60), axis.text.y=element_text(size=40),axis.text.x=element_text(size = 40),axis.title.y=element_text(size=60),axis.title.x=element_text(size = 60))+
+  facet_grid(rainfall_reduction ~ year)+
+  theme(panel.spacing=unit(2,"lines"))
 #save at 1500 x 1500
 
-ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019&rank<=20), aes(x=rank, y=avg_cover)) +
-  geom_line() +
-  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=3) +
-  #scale_color_manual(values=c("grey50", "grey20"), labels=c("Non-native", "Native"))+
-  #scale_shape_discrete(labels=c("Forb","Graminoid", "Succulent", "Woody"),name="Growth Form")+
-  xlab('') +
+ggplot(data=subset(Rank_Abundance_Drought, site=="TB" & year>=2019 & year<=2022&rank<=10 & Native_Introduced!="NA"), aes(x=rank, y=avg_cover)) +
+  geom_line(size=3) +
+  geom_point(aes(color=Native_Introduced,shape=Native_Introduced),size=10) +
+  scale_color_manual(values=c("#A50F14", "#879673"), labels=c("Non-native", "Native"), name="Plant Status")+
+  scale_shape_manual(values=c(16, 17), labels=c("Non-native", "Native"), name="Plant Status")+
+  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10))+
+  xlab('Rank') +
   ylab('Relative Cover (%)') +
   # scale_x_continuous(expand=c(0,0), limits=c(0.5,17), breaks=seq(0,17,5)) +
   # scale_y_continuous(expand=c(0,0), limits=c(0,60), breaks=seq(0,60,10)) +
-  geom_text(aes(y=avg_cover+1.2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=4)+
+  geom_text(aes(y=avg_cover+2, x=rank+0.1, label=Genus_Species), hjust='left', vjust='center', angle=90, size=10)+
   expand_limits(y=100)+
-  facet_grid(rainfall_reduction ~ year)
-#save at 1500 x 1500
+  theme(text = element_text(size = 40),legend.text=element_text(size=60), axis.text.y=element_text(size=40),axis.text.x=element_text(size = 40),axis.title.y=element_text(size=60),axis.title.x=element_text(size = 60))+
+  facet_grid(rainfall_reduction ~ year)+
+  theme(panel.spacing=unit(2,"lines"))
+#save at 4000 x 3000
 
 #RAC colored based on Functional Group
 
