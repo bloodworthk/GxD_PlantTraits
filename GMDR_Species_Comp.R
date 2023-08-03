@@ -1281,6 +1281,11 @@ Wide_FK_AR_19<-RelCov_Clean%>%
 
 #### Make new data frame called BC_Data and run an NMDS for each grouping
 BC_FK_AR_19<-metaMDS(Wide_FK_AR_19[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_FK_AR_19)
 
 #look at species significance driving NMDS 
 intrinsics_FK_AR_19 <- envfit(BC_FK_AR_19, Wide_FK_AR_19, permutations = 999,na.rm=T, drop=T)
@@ -1313,6 +1318,7 @@ for(g in unique(BC_NMDS_FK_AR_19$group)){
                                                             ,group=g))
 }
 
+
 #### Bray Curtis FK Aerial 2020 ####
 
 #Species Comp FK: Aerial 2020
@@ -1323,6 +1329,12 @@ Wide_FK_AR_20<-RelCov_Clean%>%
 
 #Species Comp FK: Aerial 
 BC_FK_AR_20<-metaMDS(Wide_FK_AR_20[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_FK_AR_20)
+
 #look at species signiciance driving NMDS 
 intrinsics_FK_AR_20 <- envfit(BC_FK_AR_20, Wide_FK_AR_20, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_20)
@@ -1364,6 +1376,12 @@ Wide_FK_AR_21<-RelCov_Clean%>%
 
 #Species Comp FK: Aerial 
 BC_FK_AR_21<-metaMDS(Wide_FK_AR_21[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_FK_AR_21)
+
 #look at species signiciance driving NMDS 
 intrinsics_FK_AR_21 <- envfit(BC_FK_AR_21, Wide_FK_AR_21, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_21)
@@ -1405,6 +1423,13 @@ Wide_FK_AR_22<-RelCov_Clean%>%
 
 #Species Comp FK: Aerial 
 BC_FK_AR_22<-metaMDS(Wide_FK_AR_22[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_FK_AR_22)
+
+
 #look at species signiciance driving NMDS 
 intrinsics_FK_AR_22 <- envfit(BC_FK_AR_22, Wide_FK_AR_22, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_22)
@@ -1445,6 +1470,14 @@ Wide_FK_AR_23<-RelCov_Clean%>%
 
 #Species Comp FK: Aerial 
 BC_FK_AR_23<-metaMDS(Wide_FK_AR_23[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_FK_AR_23)
+
+
+
 #look at species signiciance driving NMDS 
 intrinsics_FK_AR_23 <- envfit(BC_FK_AR_23, Wide_FK_AR_23, permutations = 999,na.rm=T)
 head(intrinsics_FK_AR_23)
@@ -1717,6 +1750,13 @@ Wide_TB_AR_18<-RelCov_Clean%>%
 
 #Species Comp TB: Aerial 
 BC_TB_AR_18<-metaMDS(Wide_TB_AR_18[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_TB_AR_18)
+
+
 #look at species signiciance driving NMDS 
 intrinsics_TB_AR_18 <- envfit(BC_TB_AR_18, Wide_TB_AR_18, permutations = 999,na.rm=T)
 head(intrinsics_TB_AR_18)
@@ -1757,6 +1797,12 @@ Wide_TB_AR_19<-RelCov_Clean%>%
 
 #Species Comp TB: Aerial 
 BC_TB_AR_19<-metaMDS(Wide_TB_AR_19[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_TB_AR_19)
+
 #look at species significance driving NMDS 
 intrinsics_TB_AR_19 <- envfit(BC_TB_AR_19, Wide_TB_AR_19, permutations = 999,na.rm=T)
 head(intrinsics_TB_AR_19)
@@ -1797,6 +1843,12 @@ Wide_TB_AR_20<-RelCov_Clean%>%
 
 #Species Comp TB: Aerial 
 BC_TB_AR_20<-metaMDS(Wide_TB_AR_20[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_TB_AR_20)
+
 #look at species signiciance driving NMDS 
 intrinsics_TB_AR_20 <- envfit(BC_TB_AR_20, Wide_TB_AR_20, permutations = 999,na.rm=T)
 head(intrinsics_TB_AR_20)
@@ -1837,6 +1889,12 @@ Wide_TB_AR_21<-RelCov_Clean%>%
 
 #Species Comp TB: Aerial 
 BC_TB_AR_21<-metaMDS(Wide_TB_AR_21[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_TB_AR_21)
+
 #look at species signiciance driving NMDS 
 intrinsics_TB_AR_21 <- envfit(BC_TB_AR_21, Wide_TB_AR_21, permutations = 999,na.rm=T)
 head(intrinsics_TB_AR_21)
@@ -1876,6 +1934,12 @@ Wide_TB_AR_22<-RelCov_Clean%>%
 
 #Species Comp TB: Aerial 
 BC_TB_AR_22<-metaMDS(Wide_TB_AR_22[,16:152])
+# Generally, stress < 0.05 provides an excellent represention in reduced 
+# dimensions, < 0.1 is great, < 0.2 is good, and stress > 0.3 provides a 
+# poor representation
+
+stressplot(BC_TB_AR_22)
+
 #look at species signiciance driving NMDS 
 intrinsics_TB_AR_22 <- envfit(BC_TB_AR_22, Wide_TB_AR_22, permutations = 999,na.rm=T)
 head(intrinsics_TB_AR_22)
