@@ -14,6 +14,7 @@ library(lattice)
 #install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
 library(tidyverse) 
+library(olsrr)
 library(scales)
 
 
@@ -199,12 +200,470 @@ ggplot(Traits_avg,aes(x=Year,y=LDMC_Mean,fill=species_code,color=species_code)) 
   facet_wrap(~site)
 
 
+#### Normality: FK - Percent Green: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
 
 
+#### Normality: TB - Percent Green: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(percent_green)), (sqrt/(percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(percent_green)), ((percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
 
 
+#### Normality: FK - Emerging Leaves: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(emerging_leaves)), (emerging_leaves)  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(emerging_leaves)), (emerging_leaves)  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
 
 
+#### Normality: TB - Emerging Leaves: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(emerging_leaves)), (sqrt/(emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(emerging_leaves)), (sqrt(emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(emerging_leaves)), (sqrt(emerging_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+#### Normality: FK - developed_leaves: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(developed_leaves)), (sqrt(developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(developed_leaves)), ((developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(developed_leaves)), ((developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(developed_leaves)), ((developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
 
 
+#### Normality: TB - developed_leaves: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(developed_leaves)), (sqrt/(developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(developed_leaves)), ((developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(developed_leaves)), (sqrt(developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(developed_leaves)), (sqrt(developed_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+#### Normality: FK - scenesced_leaves: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(scenesced_leaves)), (sqrt(scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(scenesced_leaves)), ((scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(scenesced_leaves)), ((scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(scenesced_leaves)), ((scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
+
+
+#### Normality: TB - scenesced_leaves: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(scenesced_leaves)), (sqrt/(scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(scenesced_leaves)), ((scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(scenesced_leaves)), (sqrt(scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(scenesced_leaves)), (sqrt(scenesced_leaves))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+#### Normality: FK - height_cm: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(height_cm)), (sqrt(height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(height_cm)), ((height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(height_cm)), ((height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(height_cm)), ((height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
+
+
+#### Normality: TB - height_cm: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(height_cm)), (sqrt/(height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(height_cm)), ((height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(height_cm)), (sqrt(height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(height_cm)), (sqrt(height_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+#### Normality: FK - leaf_area_cm: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(leaf_area_cm)), (sqrt(leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(leaf_area_cm)), ((leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(leaf_area_cm)), ((leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(leaf_area_cm)), ((leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
+
+
+#### Normality: TB - leaf_area_cm: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(leaf_area_cm)), (sqrt/(leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), ((leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), (sqrt(leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_area_cm)), (sqrt(leaf_area_cm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+#### Normality: FK - leaf_thickness_mm: ####
+
+#BRAR
+#non transformed data
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year)
+ols_plot_resid_hist(Norm_FK_BRAR) 
+ols_test_normality(Norm_FK_BRAR) #not normal
+
+#HECO
+#non transformed data
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_HECO) 
+ols_test_normality(Norm_FK_HECO) #not normal
+
+#KOMA
+#non transformed data
+Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_KOMA) 
+ols_test_normality(Norm_FK_KOMA) #not normal
+
+#SPCO
+#non transformed data
+Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_SPCO) 
+ols_test_normality(Norm_FK_SPCO) #not normal
+
+#TRDU
+#non transformed data
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_FK_TRDU) 
+ols_test_normality(Norm_FK_TRDU) #not normal
+
+
+#### Normality: TB - leaf_thickness_mm: ####
+
+#BOGR
+#non transformed data
+Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year)
+ols_plot_resid_hist(Norm_TB_BOGR) 
+ols_test_normality(Norm_TB_BOGR) #not normal
+
+#KOMA
+#non transformed data
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt/(leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_KOMA) 
+ols_test_normality(Norm_TB_KOMA) #not normal
+
+#LOAR
+#non transformed data
+Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_LOAR) 
+ols_test_normality(Norm_TB_LOAR) #not normal
+
+#PASM
+#non transformed data
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_PASM) 
+ols_test_normality(Norm_TB_PASM) #not normal
+
+#VIAM
+#non transformed data
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Year)
+ols_plot_resid_hist(Norm_TB_VIAM) 
+ols_test_normality(Norm_TB_VIAM) #not normal
+
+
+#### Stats: FK - percent green ####
+
+#BRAR
+FK_BRAR <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_BRAR, type = 3) #NS
+
+#HECO
+FK_HECO <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_HECO, type = 3) #NS
 
