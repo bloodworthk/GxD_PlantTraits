@@ -15,6 +15,7 @@ library(lattice)
 library(PerformanceAnalytics)
 library(tidyverse) 
 library(olsrr)
+library(multcomp)
 library(scales)
 
 
@@ -41,8 +42,10 @@ theme_update(axis.title.x=element_text(size=30, vjust=-0.35, margin=margin(t=15)
 #Trait Data
 Traits<-read.csv("DxG_Plant_Traits/ThroughTime_Traits.csv") %>% 
   mutate(plant=ifelse(plant=="HG",3,ifelse(plant=="LG",1,ifelse(plant=="MG",2,plant)))) %>% 
-  select("Year","site","genus_species","species_code","block","plant","percent_green","emerging_leaves","developed_leaves","height_cm","scenesced_leaves","leaf_area_cm","leaf_thickness_mm","wet_weight_g", "biomass_mg","leaf_mg","comments") %>% 
+  dplyr::select("Year","site","genus_species","species_code","block","plant","percent_green","emerging_leaves","developed_leaves","height_cm","scenesced_leaves","leaf_area_cm","leaf_thickness_mm","wet_weight_g", "biomass_mg","leaf_mg","comments") %>% 
   mutate(LDMC=as.numeric(leaf_mg)/wet_weight_g)
+
+Traits$Year=as.character(Traits$Year)
 
 #### Calculate averages ####
  Traits_avg<-Traits %>% 
@@ -194,43 +197,47 @@ ggplot(Traits_avg,aes(x=Year,y=LDMC_Mean,fill=species_code,color=species_code)) 
   geom_smooth(method='lm', se=FALSE,size=4)+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
   xlab("Year")+
-  ylab("Dry Leaf Weight (g)")+
+  ylab("LDMC")+
   #expand_limits(y=c(10,20))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55))+
   facet_wrap(~site)
 
+#### Histogram of all variables ####
+ggplot(Traits,aes(x=percent_green,color=species_code, fill=species_code))+
+  geom_histogram(alpha=0.6, binwidth = 20)+
+  facet_grid(site~species_code)
 
 #### Normality: FK - Percent Green: ####
 
 #BRAR
 #non transformed data
-Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year)
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_FK_BRAR) 
-ols_test_normality(Norm_FK_BRAR) #not normal
+ols_test_normality(Norm_FK_BRAR) #normalish
 
 #HECO
 #non transformed data
-Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_FK_HECO) 
-ols_test_normality(Norm_FK_HECO) #not normal
+ols_test_normality(Norm_FK_HECO) ##normalish
 
 #KOMA
 #non transformed data
 Norm_FK_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_FK_KOMA) 
-ols_test_normality(Norm_FK_KOMA) #not normal
+ols_test_normality(Norm_FK_KOMA) ##normalish
 
 #SPCO
 #non transformed data
 Norm_FK_SPCO <- lm(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_FK_SPCO) 
-ols_test_normality(Norm_FK_SPCO) #not normal
+ols_test_normality(Norm_FK_SPCO) ##normalish
 
 #TRDU
 #non transformed data
 Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_FK_TRDU) 
-ols_test_normality(Norm_FK_TRDU) #not normal
+ols_test_normality(Norm_FK_TRDU) #normal
 
 
 #### Normality: TB - Percent Green: ####
@@ -239,29 +246,29 @@ ols_test_normality(Norm_FK_TRDU) #not normal
 #non transformed data
 Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year)
 ols_plot_resid_hist(Norm_TB_BOGR) 
-ols_test_normality(Norm_TB_BOGR) #not normal
+ols_test_normality(Norm_TB_BOGR) ##normalish
 
 #KOMA
 #non transformed data
-Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(percent_green)), (sqrt/(percent_green))  ~ Year)
+Norm_TB_KOMA <- lm(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_TB_KOMA) 
-ols_test_normality(Norm_TB_KOMA) #not normal
+ols_test_normality(Norm_TB_KOMA) ##normalish
 
 #LOAR
 #non transformed data
 Norm_TB_LOAR <- lm(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_TB_LOAR) 
-ols_test_normality(Norm_TB_LOAR) #not normal
+ols_test_normality(Norm_TB_LOAR) #normal
 
 #PASM
 #non transformed data
-Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+Norm_TB_PASM <- lm(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_TB_PASM) 
 ols_test_normality(Norm_TB_PASM) #not normal
 
 #VIAM
 #non transformed data
-Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(percent_green)), (sqrt(percent_green))  ~ Year)
+Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(percent_green)), ((percent_green))  ~ Year)
 ols_plot_resid_hist(Norm_TB_VIAM) 
 ols_test_normality(Norm_TB_VIAM) #not normal
 
@@ -270,7 +277,7 @@ ols_test_normality(Norm_TB_VIAM) #not normal
 
 #BRAR
 #non transformed data
-Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(emerging_leaves)), (emerging_leaves)  ~ Year)
+Norm_FK_BRAR <- lm(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
 ols_plot_resid_hist(Norm_FK_BRAR) 
 ols_test_normality(Norm_FK_BRAR) #not normal
 
@@ -278,7 +285,7 @@ ols_test_normality(Norm_FK_BRAR) #not normal
 #non transformed data
 Norm_FK_HECO <- lm(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(emerging_leaves)), (emerging_leaves)  ~ Year)
 ols_plot_resid_hist(Norm_FK_HECO) 
-ols_test_normality(Norm_FK_HECO) #not normal
+ols_test_normality(Norm_FK_HECO) #normalish
 
 #KOMA
 #non transformed data
@@ -294,7 +301,7 @@ ols_test_normality(Norm_FK_SPCO) #not normal
 
 #TRDU
 #non transformed data
-Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(emerging_leaves)), ((emerging_leaves))  ~ Year)
+Norm_FK_TRDU <- lm(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(emerging_leaves)), (log(emerging_leaves))  ~ Year)
 ols_plot_resid_hist(Norm_FK_TRDU) 
 ols_test_normality(Norm_FK_TRDU) #not normal
 
@@ -630,7 +637,7 @@ ols_test_normality(Norm_FK_TRDU) #not normal
 #non transformed data
 Norm_TB_BOGR <- lm(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year)
 ols_plot_resid_hist(Norm_TB_BOGR) 
-ols_test_normality(Norm_TB_BOGR) #not normal
+ols_test_normality(Norm_TB_BOGR) #normal
 
 #KOMA
 #non transformed data
@@ -654,16 +661,510 @@ ols_test_normality(Norm_TB_PASM) #not normal
 #non transformed data
 Norm_TB_VIAM <- lm(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Year)
 ols_plot_resid_hist(Norm_TB_VIAM) 
-ols_test_normality(Norm_TB_VIAM) #not normal
+ols_test_normality(Norm_TB_VIAM) #normal
 
 
 #### Stats: FK - percent green ####
 
 #BRAR
-FK_BRAR <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
-anova(FK_BRAR, type = 3) #NS
+FK_BRAR_G <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_BRAR_G, type = 3) #posthoc
+summary(glht(FK_BRAR_G, linfct = mcp(Year = "Tukey"), test = adjusted(type = "BH"))) #NS
 
 #HECO
-FK_HECO <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
-anova(FK_HECO, type = 3) #NS
+FK_HECO_G <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_HECO_G, type = 3) #NS
+
+#KOMA
+FK_KOMA_G <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_KOMA_G, type = 3) #0.01
+
+#SPCO
+FK_SPCO_G <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_SPCO_G, type = 3) #NS
+
+#TRDU
+FK_TRDU_G <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(FK_TRDU_G, type = 3) #0.01
+
+#### Stats: TB - percent green ####
+
+#BOGR
+TB_BOGR_G <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(TB_BOGR_G, type = 3) #0.0002
+
+#KOMA
+TB_KOMA_G <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(TB_KOMA_G, type = 3) #0.0006
+
+#LOAR
+TB_LOAR_G <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(TB_LOAR_G, type = 3) #0.001
+
+#PASM
+TB_PASM_G <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(TB_PASM_G, type = 3) #NS
+
+#VIAM
+TB_VIAM_G <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(percent_green)), percent_green  ~ Year + (1|block))
+anova(TB_VIAM_G, type = 3) #0.02
+
+#### Stats: FK - emerging_leaves ####
+
+#BRAR
+FK_BRAR_EL <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(FK_BRAR_EL, type = 3) #NS
+
+#HECO
+FK_HECO_EL <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(FK_HECO_EL, type = 3) #NS
+
+#KOMA
+FK_KOMA_EL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(FK_KOMA_EL, type = 3) #1.9E05
+
+#SPCO
+FK_SPCO_EL <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(FK_SPCO_EL, type = 3) #0.005
+summary(glht(FK_SPCO_EL, linfct = mcp(Year = "Tukey"), test = adjusted(type = "BH"))) #NS
+
+
+#TRDU
+FK_TRDU_EL <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(FK_TRDU_EL, type = 3) #NS
+
+#### Stats: TB - emerging_leaves ####
+
+#BOGR
+TB_BOGR_EL <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(TB_BOGR_EL, type = 3) #0.04
+
+#KOMA
+TB_KOMA_EL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(TB_KOMA_EL, type = 3) #NS
+
+#LOAR
+TB_LOAR_EL <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(TB_LOAR_EL, type = 3) #NS
+
+#PASM
+TB_PASM_EL <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(TB_PASM_EL, type = 3) #0.001
+
+#VIAM
+TB_VIAM_EL <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(emerging_leaves)), emerging_leaves  ~ Year + (1|block))
+anova(TB_VIAM_EL, type = 3) #NS
+
+#### Stats: FK - developed_leaves ####
+
+#BRAR
+FK_BRAR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(FK_BRAR_DL, type = 3) #1.4E-13
+summary(glht(FK_BRAR_DL, linfct = mcp(Year = "Tukey")), test = adjusted(type = "BH")) #NS
+
+#HECO
+FK_HECO_DL <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(FK_HECO_DL, type = 3) #0.007
+
+#KOMA
+FK_KOMA_DL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(FK_KOMA_DL, type = 3) #NS
+
+#SPCO
+FK_SPCO_DL <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(FK_SPCO_DL, type = 3) #NS
+
+#TRDU
+FK_TRDU_DL <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(FK_TRDU_DL, type = 3) #0.02
+
+#### Stats: TB - developed_leaves ####
+
+#BOGR
+TB_BOGR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(TB_BOGR_DL, type = 3) #NS
+
+#KOMA
+TB_KOMA_DL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(TB_KOMA_DL, type = 3) #NS
+
+#LOAR
+TB_LOAR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(TB_LOAR_DL, type = 3) #NS
+
+#PASM
+TB_PASM_DL <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(TB_PASM_DL, type = 3) #0.03
+
+#VIAM
+TB_VIAM_DL <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(developed_leaves)), developed_leaves  ~ Year + (1|block))
+anova(TB_VIAM_DL, type = 3) #0.03
+
+
+#### Stats: FK - scenesced_leaves ####
+
+#BRAR
+FK_BRAR_SL <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(FK_BRAR_SL, type = 3) #NS
+
+#HECO
+FK_HECO_SL <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(FK_HECO_SL, type = 3) #0.03
+
+#KOMA
+FK_KOMA_SL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(FK_KOMA_SL, type = 3) #NS
+
+#SPCO
+FK_SPCO_SL <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(FK_SPCO_SL, type = 3) #NS
+
+#TRDU
+FK_TRDU_SL <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(FK_TRDU_SL, type = 3) #NS
+
+#### Stats: TB - scenesced_leaves ####
+
+#BOGR
+TB_BOGR_SL <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(TB_BOGR_SL, type = 3) #NS
+
+#KOMA
+TB_KOMA_SL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(TB_KOMA_SL, type = 3) #NS
+
+#LOAR
+TB_LOAR_SL <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(TB_LOAR_SL, type = 3) #0.008
+
+#PASM
+TB_PASM_SL <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(TB_PASM_SL, type = 3) #NS
+
+#VIAM
+TB_VIAM_SL <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(scenesced_leaves)), scenesced_leaves  ~ Year + (1|block))
+anova(TB_VIAM_SL, type = 3) #0.001
+
+
+#### Stats: FK - height_cm ####
+
+#BRAR
+FK_BRAR_H <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(FK_BRAR_H, type = 3) #0.006
+
+#HECO
+FK_HECO_H <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(FK_HECO_H, type = 3) #1.5E-06
+
+#KOMA
+FK_KOMA_H <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(FK_KOMA_H, type = 3) #4.995e-07
+
+#SPCO
+FK_SPCO_H <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(FK_SPCO_H, type = 3) #0.0009543
+
+#TRDU
+FK_TRDU_H <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(FK_TRDU_H, type = 3) # 0.0008992
+
+#### Stats: TB - height_cm ####
+
+#BOGR
+TB_BOGR_H <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(TB_BOGR_H, type = 3) #NS
+
+#KOMA
+TB_KOMA_H <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(TB_KOMA_H, type = 3) #0.02
+
+#LOAR
+TB_LOAR_H <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(TB_LOAR_H, type = 3) #NS
+
+#PASM
+TB_PASM_H <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(TB_PASM_H, type = 3) #NS
+
+#VIAM
+TB_VIAM_H <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(height_cm)), height_cm  ~ Year + (1|block))
+anova(TB_VIAM_H, type = 3) #0.0001
+
+
+#### Stats: FK - leaf_area_cm ####
+
+#BRAR
+FK_BRAR_LA <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(FK_BRAR_LA, type = 3) #NS
+
+#HECO
+FK_HECO_LA <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(FK_HECO_LA, type = 3) #NS
+
+#KOMA
+FK_KOMA_LA <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(FK_KOMA_LA, type = 3) #NS
+
+#SPCO
+FK_SPCO_LA <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(FK_SPCO_LA, type = 3) #NS
+
+#TRDU
+FK_TRDU_LA <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(FK_TRDU_LA, type = 3) #NS
+
+#### Stats: TB - leaf_area_cm ####
+
+#BOGR
+TB_BOGR_LA <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(TB_BOGR_LA, type = 3) #NS
+
+#KOMA
+TB_KOMA_LA <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(TB_KOMA_LA, type = 3) #NS
+
+#LOAR
+TB_LOAR_LA <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(TB_LOAR_LA, type = 3) #NS
+
+#PASM
+TB_PASM_LA <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(TB_PASM_LA, type = 3) #NS
+
+#VIAM
+TB_VIAM_LA <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Year + (1|block))
+anova(TB_VIAM_LA, type = 3) #NS
+
+
+#### Stats: FK - wet_weight_g ####
+
+#BRAR
+FK_BRAR_WW <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(FK_BRAR_WW, type = 3) #0.01
+
+#HECO
+FK_HECO_WW <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(FK_HECO_WW, type = 3) #3.96e-05
+
+#KOMA
+FK_KOMA_WW <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(FK_KOMA_WW, type = 3) #0.03736
+
+#SPCO
+FK_SPCO_WW <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(FK_SPCO_WW, type = 3) #0.0003633
+
+#TRDU
+FK_TRDU_WW <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(FK_TRDU_WW, type = 3) #NS
+
+#### Stats: TB - wet_weight_g ####
+
+#BOGR
+TB_BOGR_WW <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(TB_BOGR_WW, type = 3) #0.02
+
+#KOMA
+TB_KOMA_WW <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(TB_KOMA_WW, type = 3) #NS
+
+#LOAR
+TB_LOAR_WW <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(TB_LOAR_WW, type = 3) #NS
+
+#PASM
+TB_PASM_WW <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(TB_PASM_WW, type = 3) #NS
+
+#VIAM
+TB_VIAM_WW <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(wet_weight_g)), wet_weight_g  ~ Year + (1|block))
+anova(TB_VIAM_WW, type = 3) #NS
+
+#### Stats: FK - leaf_thickness_mm ####
+
+#BRAR
+FK_BRAR_LT <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(FK_BRAR_LT, type = 3) #0.000293
+
+#HECO
+FK_HECO_LT <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(FK_HECO_LT, type = 3) #NS
+
+#KOMA
+FK_KOMA_LT <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(FK_KOMA_LT, type = 3) #0.001024
+
+#SPCO
+FK_SPCO_LT <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(FK_SPCO_LT, type = 3) #0.006678
+
+#TRDU
+FK_TRDU_LT <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(FK_TRDU_LT, type = 3) #0.0001141
+
+#### Stats: TB - leaf_thickness_mm ####
+
+#BOGR
+TB_BOGR_LT <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(TB_BOGR_LT, type = 3) #0.0009858
+
+#KOMA
+TB_KOMA_LT <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(TB_KOMA_LT, type = 3) #0.00173
+
+#LOAR
+TB_LOAR_LT <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(TB_LOAR_LT, type = 3) #9.081e-08 
+
+#PASM
+TB_PASM_LT <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(TB_PASM_LT, type = 3) #6.756e-05
+
+#VIAM
+TB_VIAM_LT <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Year + (1|block))
+anova(TB_VIAM_LT, type = 3) #0.0001121
+
+
+#### Stats: FK - biomass_mg ####
+
+#BRAR
+FK_BRAR_BM <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(FK_BRAR_BM, type = 3) #NS
+
+#HECO
+FK_HECO_BM <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(FK_HECO_BM, type = 3) #NS
+
+#KOMA
+FK_KOMA_BM <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(FK_KOMA_BM, type = 3) #NS
+
+#SPCO
+FK_SPCO_BM <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(FK_SPCO_BM, type = 3) #NS
+
+#TRDU
+FK_TRDU_BM <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(FK_TRDU_BM, type = 3) #NS
+
+#### Stats: TB - biomass_mg ####
+
+#BOGR
+TB_BOGR_BM <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(TB_BOGR_BM, type = 3) #NS
+
+#KOMA
+TB_KOMA_BM <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(TB_KOMA_BM, type = 3) #NS
+
+#LOAR
+TB_LOAR_BM <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(TB_LOAR_BM, type = 3) #NS
+
+#PASM
+TB_PASM_BM <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(TB_PASM_BM, type = 3) #0.01
+
+#VIAM
+TB_VIAM_BM <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(biomass_mg)), biomass_mg  ~ Year + (1|block))
+anova(TB_VIAM_BM, type = 3) #0.0001
+
+#### Stats: FK - leaf_mg ####
+
+#BRAR
+FK_BRAR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(FK_BRAR_DL, type = 3) #1.371e-13
+
+#HECO
+FK_HECO_DL <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(FK_HECO_DL, type = 3) #NS
+
+#KOMA
+FK_KOMA_DL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(FK_KOMA_DL, type = 3) #NS
+
+#SPCO
+FK_SPCO_DL <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(FK_SPCO_DL, type = 3) #NS
+
+#TRDU
+FK_TRDU_DL <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(FK_TRDU_DL, type = 3) #0.02871
+
+#### Stats: TB - leaf_mg ####
+
+#BOGR
+TB_BOGR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(TB_BOGR_DL, type = 3) #NS
+
+#KOMA
+TB_KOMA_DL <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(TB_KOMA_DL, type = 3) #NS
+
+#LOAR
+TB_LOAR_DL <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(TB_LOAR_DL, type = 3) #0.00503
+
+#PASM
+TB_PASM_DL <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(TB_PASM_DL, type = 3) #NS
+
+#VIAM
+TB_VIAM_DL <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_mg)), leaf_mg  ~ Year + (1|block))
+anova(TB_VIAM_DL, type = 3) #0.004652
+
+#### Stats: FK - LDMC ####
+
+#BRAR
+FK_BRAR_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "BRAR" & site== "FK" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(FK_BRAR_LDMC, type = 3) #
+
+#HECO
+FK_HECO_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "HECO" & site== "FK" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(FK_HECO_LDMC, type = 3) #NS
+
+#KOMA
+FK_KOMA_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "FK" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(FK_KOMA_LDMC, type = 3) #NS
+
+#SPCO
+FK_SPCO_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "SPCO" & site== "FK" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(FK_SPCO_LDMC, type = 3) #NS
+
+#TRDU
+FK_TRDU_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "TRDU" & site== "FK" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(FK_TRDU_LDMC, type = 3) #NS
+
+#### Stats: TB - LDMC ####
+
+#BOGR
+TB_BOGR_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "BOGR" & site== "TB" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(TB_BOGR_LDMC, type = 3) #NS
+
+#KOMA
+TB_KOMA_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "KOMA" & site== "TB" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(TB_KOMA_LDMC, type = 3) #NS
+
+#LOAR
+TB_LOAR_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(TB_LOAR_LDMC, type = 3) #0.00078
+
+#PASM
+TB_PASM_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(TB_PASM_LDMC, type = 3) #NS
+
+#VIAM
+TB_VIAM_LDMC <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(LDMC)), LDMC  ~ Year + (1|block))
+anova(TB_VIAM_LDMC, type = 3) #NS
+
+
+
+
+
+
+
+
+
+
+
 
