@@ -7119,3 +7119,358 @@ TB_AR_19_NMDS+
   #TB_AR_23_NMDS+
   plot_layout(ncol = 2,nrow = 2)
 #Save at 2000x3000
+
+
+#### CCA: FK 2018 ####
+
+CCA_FK_AR_18 <- Wide_FK_AR_18[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_18 <- Wide_FK_AR_18[,1:15]
+
+BC_Meta_Data_FK_AR_18$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_18$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_18_DF <- cca(CCA_FK_AR_18 ~ grazing_treatment*rainfall_reduction, data=BC_Meta_Data_FK_AR_18)
+CCA_FK_AR_18_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_18_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_18_DF$CCA$eig/sum(CCA_FK_AR_18_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_18_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_18_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_18_DF, by = "axis")  
+
+plot(CCA_FK_AR_18_DF)
+
+
+#### CCA: FK 2019 ####
+
+CCA_FK_AR_19 <- Wide_FK_AR_19[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_19 <- Wide_FK_AR_19[,1:15]
+
+BC_Meta_Data_FK_AR_19$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_19$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_19_DF <- cca(CCA_FK_AR_19 ~ rainfall_reduction, data=BC_Meta_Data_FK_AR_19)
+CCA_FK_AR_19_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_19_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_19_DF$CCA$eig/sum(CCA_FK_AR_19_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_19_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_19_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_19_DF, by = "axis")  
+
+plot(CCA_FK_AR_19_DF)
+
+
+#### CCA: FK 2020 ####
+
+CCA_FK_AR_20 <- Wide_FK_AR_20[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_20 <- Wide_FK_AR_20[,1:15]
+
+BC_Meta_Data_FK_AR_20$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_20$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_20_DF <- cca(CCA_FK_AR_20 ~ rainfall_reduction*livestock_util_2019, data=BC_Meta_Data_FK_AR_20)
+CCA_FK_AR_20_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_20_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_20_DF$CCA$eig/sum(CCA_FK_AR_20_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_20_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_20_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_20_DF, by = "axis")  
+
+plot(CCA_FK_AR_20_DF)
+
+#### CCA: FK 2021 ####
+
+CCA_FK_AR_21 <- Wide_FK_AR_21[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_21 <- Wide_FK_AR_21[,1:15] 
+
+BC_Meta_Data_FK_AR_21$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_21$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_21_DF <- cca(CCA_FK_AR_21 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_FK_AR_21)
+CCA_FK_AR_21_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_21_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_21_DF$CCA$eig/sum(CCA_FK_AR_21_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_21_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_21_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_21_DF, by = "axis")  
+
+plot(CCA_FK_AR_21_DF)
+
+#### CCA: FK 2022 ####
+
+CCA_FK_AR_22 <- Wide_FK_AR_22[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_22 <- Wide_FK_AR_22[,1:15] 
+
+BC_Meta_Data_FK_AR_22$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_22$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_22_DF <- cca(CCA_FK_AR_22 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_FK_AR_22)
+CCA_FK_AR_22_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_22_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_22_DF$CCA$eig/sum(CCA_FK_AR_22_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_22_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_22_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_22_DF, by = "axis")  
+
+plot(CCA_FK_AR_22_DF)
+
+#### CCA: FK 2023 ####
+
+CCA_FK_AR_23 <- Wide_FK_AR_23[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_FK_AR_23 <- Wide_FK_AR_23[,1:15] 
+
+BC_Meta_Data_FK_AR_23$rainfall_reduction<-as.character(BC_Meta_Data_FK_AR_23$rainfall_reduction)
+
+#run the CCA
+CCA_FK_AR_23_DF <- cca(CCA_FK_AR_23 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_FK_AR_23)
+CCA_FK_AR_23_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_FK_AR_23_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_FK_AR_23_DF$CCA$eig/sum(CCA_FK_AR_23_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_FK_AR_23_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_FK_AR_18_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_FK_AR_18_DF, by = "axis")  
+
+plot(CCA_FK_AR_23_DF)
+
+
+#### CCA: TB 2018 ####
+
+CCA_TB_AR_18 <- Wide_TB_AR_18[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_18 <- Wide_TB_AR_18[,1:15]
+
+BC_Meta_Data_TB_AR_18$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_18$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_18_DF <- cca(CCA_TB_AR_18 ~ grazing_treatment*rainfall_reduction, data=BC_Meta_Data_TB_AR_18)
+CCA_TB_AR_18_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_18_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_18_DF$CCA$eig/sum(CCA_TB_AR_18_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_18_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_18_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_18_DF, by = "axis")  
+
+plot(CCA_TB_AR_18_DF)
+
+
+#### CCA: TB 2019 ####
+
+CCA_TB_AR_19 <- Wide_TB_AR_19[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_19 <- Wide_TB_AR_19[,1:15]
+
+BC_Meta_Data_TB_AR_19$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_19$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_19_DF <- cca(CCA_TB_AR_19 ~ rainfall_reduction, data=BC_Meta_Data_TB_AR_19)
+CCA_TB_AR_19_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_19_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_19_DF$CCA$eig/sum(CCA_TB_AR_19_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_19_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_19_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_19_DF, by = "axis")  
+
+plot(CCA_TB_AR_19_DF)
+
+
+#### CCA: TB 2020 ####
+
+CCA_TB_AR_20 <- Wide_TB_AR_20[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_20 <- Wide_TB_AR_20[,1:15]
+
+BC_Meta_Data_TB_AR_20$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_20$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_20_DF <- cca(CCA_TB_AR_20 ~ rainfall_reduction*livestock_util_2019, data=BC_Meta_Data_TB_AR_20)
+CCA_TB_AR_20_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_20_DF, c(1:9), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_20_DF$CCA$eig/sum(CCA_TB_AR_20_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_20_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_20_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_20_DF, by = "axis")  
+
+plot(CCA_TB_AR_20_DF)
+
+#### CCA: TB 2021 ####
+
+CCA_TB_AR_21 <- Wide_TB_AR_21[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_21 <- Wide_TB_AR_21[,1:15] 
+
+BC_Meta_Data_TB_AR_21$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_21$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_21_DF <- cca(CCA_TB_AR_21 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_TB_AR_21)
+CCA_TB_AR_21_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_21_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_21_DF$CCA$eig/sum(CCA_TB_AR_21_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_21_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_21_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_21_DF, by = "axis")  
+
+plot(CCA_TB_AR_21_DF)
+
+#### CCA: TB 2022 ####
+
+CCA_TB_AR_22 <- Wide_TB_AR_22[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_22 <- Wide_TB_AR_22[,1:15] 
+
+BC_Meta_Data_TB_AR_22$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_22$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_22_DF <- cca(CCA_TB_AR_22 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_TB_AR_22)
+CCA_TB_AR_22_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_22_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_22_DF$CCA$eig/sum(CCA_TB_AR_22_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_22_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_22_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_22_DF, by = "axis")  
+
+plot(CCA_TB_AR_22_DF)
+
+#### CCA: TB 2023 ####
+
+CCA_TB_AR_23 <- Wide_TB_AR_23[,16:152]
+
+#Make a new data table called BC_Meta_Data and use data from Wide_Relative_Cover columns 1-15
+BC_Meta_Data_TB_AR_23 <- Wide_TB_AR_23[,1:15] 
+
+BC_Meta_Data_TB_AR_23$rainfall_reduction<-as.character(BC_Meta_Data_TB_AR_23$rainfall_reduction)
+
+#run the CCA
+CCA_TB_AR_23_DF <- cca(CCA_TB_AR_23 ~ rainfall_reduction*grazing_treatment, data=BC_Meta_Data_TB_AR_23)
+CCA_TB_AR_23_DF
+
+#pull scores to use for subsequent univariate analyses
+scores(CCA_TB_AR_23_DF, c(1:5), scaling=3)
+
+#find out what percentage of the variation is explained by each axis
+CCA_TB_AR_23_DF$CCA$eig/sum(CCA_TB_AR_23_DF$CCA$eig)
+
+#do some stats
+#overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
+anova(CCA_TB_AR_23_DF)    #ns
+#test significance by terms (= PerMANOVA)
+#anova(CCA_TB_AR_18_DF, by = "terms")  
+#justifies subsequent univariate tests for axes that are significant
+#anova(CCA_TB_AR_18_DF, by = "axis")  
+
+plot(CCA_TB_AR_23_DF)
+
