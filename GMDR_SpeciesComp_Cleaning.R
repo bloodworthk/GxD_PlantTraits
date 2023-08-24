@@ -512,12 +512,12 @@ FK_2020 <-Species_Cover_2020_FK %>%
   dplyr::select(year,site,plot,species,aerial_cover)
 
 FK_2021 <- Long_Cov_2021_FK %>% 
-  filter(aerial_basal=="Aerial") %>% 
+  filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
 FK_2022 <- Long_Cov_2022_FK %>% 
-  filter(aerial_basal=="Aerial") %>% 
+  filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
@@ -542,12 +542,12 @@ TB_2020 <-Long_Cov_2020_TB %>%
   dplyr::select(year,site,plot,species,aerial_cover)
 
 TB_2021 <-Long_Cov_2021_TB %>% 
-  filter(aerial_basal=="Aerial") %>% 
+  filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
 TB_2022 <-Long_Cov_2022_TB %>% 
-  filter(aerial_basal=="Aerial") %>% 
+  filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
