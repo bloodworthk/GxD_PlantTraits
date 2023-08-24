@@ -7144,9 +7144,9 @@ CCA_FK_AR_18_DF$CCA$eig/sum(CCA_FK_AR_18_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_18_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_18_DF, by = "terms")  
+anova(CCA_FK_AR_18_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
-#anova(CCA_FK_AR_18_DF, by = "axis")  
+aanova(CCA_FK_AR_18_DF, by = "axis")  
 
 plot(CCA_FK_AR_18_DF)
 
@@ -7174,7 +7174,7 @@ CCA_FK_AR_19_DF$CCA$eig/sum(CCA_FK_AR_19_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_19_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_19_DF, by = "terms")  
+anova(CCA_FK_AR_19_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_FK_AR_19_DF, by = "axis")  
 
@@ -7204,7 +7204,7 @@ CCA_FK_AR_20_DF$CCA$eig/sum(CCA_FK_AR_20_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_20_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_20_DF, by = "terms")  
+anova(CCA_FK_AR_20_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_FK_AR_20_DF, by = "axis")  
 
@@ -7233,7 +7233,7 @@ CCA_FK_AR_21_DF$CCA$eig/sum(CCA_FK_AR_21_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_21_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_21_DF, by = "terms")  
+anova(CCA_FK_AR_21_DF, by = "terms")   #drought (0.037)
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_FK_AR_21_DF, by = "axis")  
 
@@ -7262,7 +7262,7 @@ CCA_FK_AR_22_DF$CCA$eig/sum(CCA_FK_AR_22_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_22_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_22_DF, by = "terms")  
+anova(CCA_FK_AR_22_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_FK_AR_22_DF, by = "axis")  
 
@@ -7291,7 +7291,7 @@ CCA_FK_AR_23_DF$CCA$eig/sum(CCA_FK_AR_23_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_FK_AR_23_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_FK_AR_18_DF, by = "terms")  
+anova(CCA_FK_AR_18_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_FK_AR_18_DF, by = "axis")  
 
@@ -7321,7 +7321,7 @@ CCA_TB_AR_18_DF$CCA$eig/sum(CCA_TB_AR_18_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_TB_AR_18_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_TB_AR_18_DF, by = "terms")  
+anova(CCA_TB_AR_18_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_TB_AR_18_DF, by = "axis")  
 
@@ -7351,7 +7351,7 @@ CCA_TB_AR_19_DF$CCA$eig/sum(CCA_TB_AR_19_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_TB_AR_19_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_TB_AR_19_DF, by = "terms")  
+anova(CCA_TB_AR_19_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_TB_AR_19_DF, by = "axis")  
 
@@ -7381,7 +7381,7 @@ CCA_TB_AR_20_DF$CCA$eig/sum(CCA_TB_AR_20_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_TB_AR_20_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_TB_AR_20_DF, by = "terms")  
+anova(CCA_TB_AR_20_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_TB_AR_20_DF, by = "axis")  
 
@@ -7410,7 +7410,7 @@ CCA_TB_AR_21_DF$CCA$eig/sum(CCA_TB_AR_21_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_TB_AR_21_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_TB_AR_21_DF, by = "terms")  
+anova(CCA_TB_AR_21_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_TB_AR_21_DF, by = "axis")  
 
@@ -7439,7 +7439,7 @@ CCA_TB_AR_22_DF$CCA$eig/sum(CCA_TB_AR_22_DF$CCA$eig)
 #overall model significant; this uses vegan's anova.cca function; if NS, should not run univariate tests.
 anova(CCA_TB_AR_22_DF)    #ns
 #test significance by terms (= PerMANOVA)
-#anova(CCA_TB_AR_22_DF, by = "terms")  
+anova(CCA_TB_AR_22_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
 #anova(CCA_TB_AR_22_DF, by = "axis")  
 
