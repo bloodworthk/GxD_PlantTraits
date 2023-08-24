@@ -42,6 +42,10 @@ RelCov_FunctionalGroups<-read.csv("RelCov_FunctionalGroups.csv") %>%
   dplyr::select(-X)
 RelCov_FunctionalGroups$plot<-as.factor(RelCov_FunctionalGroups$plot)
 
+Absolute_FunctionalGroups<-read.csv("Absolute_FunctionalGroups.csv") %>% 
+  dplyr::select(-X)
+Absolute_FunctionalGroups$plot<-as.factor(Absolute_FunctionalGroups$plot)
+
 
 #Read in Plot Data
 plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>% 
@@ -7473,4 +7477,70 @@ anova(CCA_TB_AR_23_DF)    #ns
 #anova(CCA_TB_AR_18_DF, by = "axis")  
 
 plot(CCA_TB_AR_23_DF)
+
+#### Absolute Cover ####
+
+FG_Absolute<-Absolute_FunctionalGroups %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
+  #average across 2 controls in each block
+  group_by(year,site, Common.Name, Genus_Species,Native_Introduced, Functional_Group, Annual_Perennial,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(slope=mean(as.numeric(slope)),Absolute=mean(aerial_cover)) %>% 
+  ungroup() %>% 
+  #create column that has all grazing treatments in it for a given year
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) 
+
+
+
+
+#### Absolute Stats ####
+
+#### Stats: Fort Keogh Aerial + Basal - Absolute's ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2018 & site== "FK"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_18_Absolute_Aerial, type = 3) #NS
+
+#FK 2019 - just drought
+FK_19_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2019 & site== "FK"), Absolute ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(FK_19_Absolute_Aerial, type = 3) #ns
+
+#FK 2020 - droughtxgrazing
+FK_20_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2020 & site== "FK"), Absolute ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(FK_20_Absolute_Aerial, type = 3) #ns
+
+#FK 2021- droughtxgrazing
+FK_21_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2021 & site== "FK"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_21_Absolute_Aerial, type = 3) #NS
+
+#FK 2022- droughtxgrazing
+FK_22_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2022 & site== "FK"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_22_Absolute_Aerial, type = 3) #ns
+
+#FK 2023- droughtxgrazing
+FK_23_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2023 & site== "FK"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(FK_23_Absolute_Aerial, type = 3) #NS
+
+#### Stats: Thunder  Basin Aerial + Basal - Absolute's####
+
+#TB 2018 - checking drought and grazing
+TB_18_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2018 & site== "TB"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_18_Absolute_Aerial, type = 3) #ns
+
+#TB 2019 - just drought
+TB_19_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2019 & site== "TB"), Absolute ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_19_Absolute_Aerial, type = 3) #NS
+
+#TB 2020 - droughtxgrazing
+TB_20_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2020 & site== "TB"), Absolute ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:slope))
+anova(TB_20_Absolute_Aerial, type = 3) #ns
+
+#TB 2021- droughtxgrazing
+TB_21_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2021 & site== "TB"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_21_Absolute_Aerial, type = 3) #NS
+
+#TB 2022- droughtxgrazing
+TB_22_Absolute_Aerial <- lmerTest::lmer(data = subset(FG_Absolute, year == 2022 & site== "TB"), Absolute ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_22_Absolute_Aerial, type = 3) #ns
 
