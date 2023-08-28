@@ -7150,7 +7150,7 @@ anova(CCA_FK_AR_18_DF)    #ns
 #test significance by terms (= PerMANOVA)
 anova(CCA_FK_AR_18_DF, by = "terms")  
 #justifies subsequent univariate tests for axes that are significant
-aanova(CCA_FK_AR_18_DF, by = "axis")  
+anova(CCA_FK_AR_18_DF, by = "axis")  
 
 plot(CCA_FK_AR_18_DF)
 
