@@ -85,32 +85,30 @@ Graph_Height_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=height_c
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 Graph_Height_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=height_cm_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=height_cm_Mean-height_cm_St_Error,ymax=height_cm_Mean+height_cm_St_Error),linewidth = 3)+
   xlab("Year")+
   ylab("Height (cm)")+
-  #scale_alpha_manual(values=c(1,0,1,0,1))+
-  scale_linetype_manual(values=c("clear","clear","solid","clear","solid"),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(0,1,0,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   expand_limits(y=c(0,40))+
                   theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
 #### Leaf Area Figure ####
 Graph_LeafArea_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=leaf_area_cm_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  #geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Year")+
   ylab("Leaf Area (cm)")+
   expand_limits(y=c(0,10))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 Graph_LeafArea_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=leaf_area_cm_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,0,1,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Year")+
   ylab("Leaf Area (cm)")+
   expand_limits(y=c(0,10))+
@@ -118,20 +116,20 @@ Graph_LeafArea_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=leaf_a
 
 #### Leaf Thickness Figure ####
 Graph_Thickness_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,0,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Year")+
   ylab("Leaf Thickness (mm)")+
   expand_limits(y=c(0,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Year")+
   ylab("Leaf Thickness (mm)")+
   expand_limits(y=c(0,1))+
@@ -139,10 +137,10 @@ Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=leaf_
 
 #### Biomass  Figure ####
 Graph_Biomass_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=Plant_Biomass_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,1,0,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Year")+
   ylab("Biomass (g)")+
   expand_limits(y=c(0,2))+
@@ -150,10 +148,10 @@ Graph_Biomass_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=Plant_B
 
 
 Graph_Biomass_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=Plant_Biomass_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(0,1,0,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Year")+
   ylab("Biomass (g)")+
   expand_limits(y=c(0,2))+
@@ -161,20 +159,20 @@ Graph_Biomass_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=Plant_B
 
 #### LDMC Figure ####
 Graph_LDMC_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=LDMC_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Year")+
   ylab("LDMC")+
   expand_limits(y=c(0,2))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=LDMC_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Year")+
   ylab("LDMC")+
   expand_limits(y=c(0,2))+
@@ -182,20 +180,20 @@ Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=LDMC_Mean,
 
 #### SLA Figure ####
 Graph_SLA_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Year,y=SLA_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,1,1,1,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Year")+
   ylab("SLA")+
   expand_limits(y=c(0,2))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position="none")
 
 Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Year,y=SLA_Mean,fill=species_code,color=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+  geom_point(size=5, stroke =2,aes(shape=species_code))+
+  geom_smooth(method='lm', se=FALSE,size=4, aes(linetype=species_code))+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c("solid","solid","solid","solid","solid"),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(1,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Year")+
   ylab("SLA")+
   expand_limits(y=c(0,2))+
@@ -664,7 +662,7 @@ anova(TB_KOMA_LA, type = 3) #NS
 
 #LOAR
 TB_LOAR_LA <- lmerTest::lmer(data = subset(Traits, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), log(leaf_area_cm)  ~ Year + (1|block))
-anova(TB_LOAR_LA, type = 3) #NS
+anova(TB_LOAR_LA, type = 3) #0.01
 
 #PASM
 TB_PASM_LA <- lmerTest::lmer(data = subset(Traits, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), sqrt(leaf_area_cm)  ~ Year + (1|block))
@@ -672,7 +670,7 @@ anova(TB_PASM_LA, type = 3) #NS
 
 #VIAM
 TB_VIAM_LA <- lmerTest::lmer(data = subset(Traits, species_code == "VIAM" & site== "TB" & !is.na(leaf_area_cm)), sqrt(leaf_area_cm)  ~ Year + (1|block))
-anova(TB_VIAM_LA, type = 3) #NS
+anova(TB_VIAM_LA, type = 3) #0.035
 
 #### Stats: FK - leaf_thickness_mm ####
 
