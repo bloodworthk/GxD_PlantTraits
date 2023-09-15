@@ -50,6 +50,15 @@ Traits<-read.csv("DxG_Plant_Traits/ThroughTime_Traits.csv") %>%
 
 Traits$Year=as.character(Traits$Year)
 
+#Precipitation Data
+Precip<-read.csv("DxG_Plant_Traits/DxG_PrecipitationData.csv")
+Precip$Year=as.character(Precip$Year)
+
+#Soil Moisture Data
+SM_TB<-read.csv("DxG_Plant_Traits/GMDR_TB_SoilMoisture_Controls.csv")
+
+SM_FK<-read.csv("DxG_Plant_Traits/GMDR_FK_SoilMoisture_Controls.csv")
+
 #### Calculate averages ####
  Traits_avg<-Traits %>% 
   group_by(Year,site,genus_species,species_code)%>% 
