@@ -3043,7 +3043,7 @@ anova(Soil_Moisture_TB_VIAM_LA, type = 3) #0.01417
 
 #BRAR
 Soil_Moisture_FKBRAR_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Soil_Moisture + (1|block))
-anova(Soil_Moisture_FKBRAR_LT, type = 3) 0.0004647
+anova(Soil_Moisture_FKBRAR_LT, type = 3) #0.0004647
 
 #HECO
 Soil_Moisture_FKHECO_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(leaf_thickness_mm)), (1/sqrt(leaf_thickness_mm))  ~ Soil_Moisture + (1|block))
