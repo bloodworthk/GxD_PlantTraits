@@ -31,6 +31,7 @@ TB_SpComp_2019<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2019.csv")
 TB_SpComp_2020<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2020.csv")
 TB_SpComp_2021<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2021.csv")
 TB_SpComp_2022<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2022.csv")
+TB_SpComp_2023<-read.csv("DxG_Plant_Traits/DxG_spcomp_TB_2023.csv")
 
 #Read in Plot Data
 plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>% 
@@ -304,12 +305,50 @@ Relative_Cover_2022_TB<-Long_Cov_2022_TB%>%
 #make plot a factor not an integer
 Relative_Cover_2022_TB$plot<-as.factor(Relative_Cover_2022_TB$plot)
 
+#### TB - 2023 - Relative Cover ####
+# get dataframe with just aerial total cover per plot
+Total_Cover_2023_TB<-TB_SpComp_2023 %>%
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_total","Estimated_total", "Rock", "Litter", "LItter","Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  na.omit(aerial_cover) %>% 
+  group_by(site,block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T), Total_Cover_Basal=sum(basal_cover,na.rm=T)) %>%
+  ungroup() 
+
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2023_TB<-TB_SpComp_2023 %>% 
+  #take out all 'species' that are not actually plant species
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_Total","Estimated_total", "Rocks", "Litter","LItter", "Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  na.omit(aerial_cover) %>% 
+  dplyr::select(-c(observers,date,notes)) %>% 
+  mutate(genus_species=ifelse(symbol=="ZIVE","Zigadenus.venenosus",ifelse(symbol=="TROC","Tradescantia.occidentalis",ifelse(symbol=="SD LOAR","StandingDead_LOAR",ifelse(symbol=="SD ARFR","StandingDead_ARFR",ifelse(symbol=="SD PASM","StandingDead_PASM",ifelse(symbol=="SD KOMA","StandingDead_KOMA",ifelse(symbol=="SD ARPU","StandingDead_ARPU",genus_species)))))))) 
+
+#Calculate Relative Cover
+Relative_Cover_2023_TB_1<-Species_Cover_2023_TB%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2023_TB)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(aerial_Relative_Cover=(aerial_cover/Total_Cover_Aerial)*100,basal_Relative_Cover=(basal_cover/Total_Cover_Basal)*100) %>%
+  mutate(year=2023)  %>% 
+  rename(species="genus_species") %>% 
+  dplyr::select(year,site,plot,species,aerial_Relative_Cover,basal_Relative_Cover)
+
+Relative_Cover_2023_TB<-gather(Relative_Cover_2023_TB_1, "aerial_basal","Relative_Cover",5:6) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial_Relative_Cover","Aerial","Basal"))
+
+#make plot a factor not an integer
+Relative_Cover_2023_TB$plot<-as.factor(Relative_Cover_2023_TB$plot)
+
 #### Merge Relative Cover Data Frames Together ####
 Species_Comp_RelCov_All<- Relative_Cover_2018_TB %>% 
   rbind(Relative_Cover_2019_TB) %>% 
   rbind(Relative_Cover_2020_TB) %>% 
   rbind(Relative_Cover_2021_TB) %>% 
-  rbind(Relative_Cover_2022_TB) %>% 
+  rbind(Relative_Cover_2022_TB) %>%
+  rbind(Relative_Cover_2023_TB) %>%
   rbind(Relative_Cover_2018_FK) %>% 
   rbind(Relative_Cover_2019_FK) %>% 
   rbind(Relative_Cover_2020_FK) %>% 
@@ -478,7 +517,20 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
   mutate(Genus_Species=ifelse(Genus_Species_4=="Cryptans.minima","Cryptantha.minima",   
      ifelse(Genus_Species_4=="Chenopudium.pratericola","Chenopodium.pratericola",
      ifelse(Genus_Species_4=="Coryphanthus.vivipara","Coryphantha.vivipara",
-     Genus_Species_4)))) %>% 
+     ifelse(Genus_Species_4=="Cactus.sedum","Cactus.UNKWN39",
+     ifelse(Genus_Species_4=="Chenopodium.?","Chenopodium.UNKWN40",
+     ifelse(Genus_Species_4=="EREN","Erigeron.engelmannii",
+     ifelse(Genus_Species_4=="Erigeron.engelmanni","Erigeron.engelmannii",
+     ifelse(Genus_Species_4=="Hedeoma.Hispida","Hedeoma.hispida",
+     ifelse(Genus_Species_4=="Machaeranthera.grindelioides","Machaeranthera grindelioides",
+     ifelse(Genus_Species_4=="Machaeranthera.grindelaides","Machaeranthera grindelioides",
+     ifelse(Genus_Species_4=="Nothocalais.cuspidata", "Nothocalos",
+     ifelse(Genus_Species_4=="Oenotherea.suffrutenscens","Oenothera suffrutescens",
+     ifelse(Genus_Species_4=="Oenotherea.suffrutescens","Oenothera suffrutescens",
+     ifelse(Genus_Species_4=="Phlox.hoodia","Phlox.hoodii",
+     ifelse(Genus_Species_4=="Tradescantia","Tradescantia.occidentalis",
+     ifelse(Genus_Species_4=="zigadenus.venenosus","Zigadenus.venenosus",
+     Genus_Species_4))))))))))))))))) %>% 
   dplyr::select(year,site,plot,aerial_basal,Genus_Species,Relative_Cover) %>% 
   unique()
 
@@ -546,9 +598,14 @@ TB_2021 <-Long_Cov_2021_TB %>%
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
-TB_2022 <-Long_Cov_2022_TB %>% 
+TB_2021 <-Long_Cov_2022_TB %>% 
   filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
+  dplyr::select(year,site,plot,species,aerial_cover)
+
+TB_2023 <- Species_Cover_2023_TB %>% 
+  mutate(year=2023) %>% 
+  rename(species=genus_species) %>%
   dplyr::select(year,site,plot,species,aerial_cover)
 
 #### Merge Absolute Cover Data Frames Together ####
@@ -562,7 +619,8 @@ Absolute_Species_Comp<- FK_2018 %>%
   rbind(TB_2019) %>% 
   rbind(TB_2020) %>% 
   rbind(TB_2021) %>% 
-  rbind(TB_2022)   
+  rbind(TB_2022) %>% 
+  rbind(TB_2023)
 
 
 #### Clean Species Names Up to Match ####
