@@ -522,15 +522,22 @@ Species_Comp_RelCov_Clean<-Species_Comp_RelCov_All %>%
      ifelse(Genus_Species_4=="EREN","Erigeron.engelmannii",
      ifelse(Genus_Species_4=="Erigeron.engelmanni","Erigeron.engelmannii",
      ifelse(Genus_Species_4=="Hedeoma.Hispida","Hedeoma.hispida",
-     ifelse(Genus_Species_4=="Machaeranthera.grindelioides","Machaeranthera grindelioides",
-     ifelse(Genus_Species_4=="Machaeranthera.grindelaides","Machaeranthera grindelioides",
+     ifelse(Genus_Species_4=="Machaeranthera.grindelioides","Machaeranthera.grindelioides",
+     ifelse(Genus_Species_4=="Machaeranthera.grindelaides","Machaeranthera.grindelioides",
      ifelse(Genus_Species_4=="Nothocalais.cuspidata", "Nothocalos",
-     ifelse(Genus_Species_4=="Oenotherea.suffrutenscens","Oenothera suffrutescens",
-     ifelse(Genus_Species_4=="Oenotherea.suffrutescens","Oenothera suffrutescens",
+     ifelse(Genus_Species_4=="Oenotherea.suffrutenscens","Oenothera.suffrutescens",
+     ifelse(Genus_Species_4=="Oenotherea.suffrutescens","Oenothera.suffrutescens",
      ifelse(Genus_Species_4=="Phlox.hoodia","Phlox.hoodii",
      ifelse(Genus_Species_4=="Tradescantia","Tradescantia.occidentalis",
      ifelse(Genus_Species_4=="zigadenus.venenosus","Zigadenus.venenosus",
-     Genus_Species_4))))))))))))))))) %>% 
+     ifelse(Genus_Species_4=="Alyssum.dessertorum","Alyssum.desertorum",
+     ifelse(Genus_Species_4=="Anntenaria.parvifolia","Antennaria.parvifolia",
+     ifelse(Genus_Species_4=="Erigeron.divergensOchroleucus","Erigeron.divergens",
+     ifelse(Genus_Species_4=="Machaeranthera grindelioides","Machaeranthera.grindelioides",
+     ifelse(Genus_Species_4=="Oenothera suffrutescens","Oenothera.suffrutescens",
+     ifelse(Genus_Species_4=="Penstimum.albidus","Penstemon.albidus",
+     ifelse(Genus_Species_4=="Eriogonum.hookeri","Eremogone.hookeri",
+     Genus_Species_4)))))))))))))))))))))))) %>% 
   dplyr::select(year,site,plot,aerial_basal,Genus_Species,Relative_Cover) %>% 
   unique()
 
@@ -545,7 +552,7 @@ RelCov_FunctionalGroups<-Species_Comp_RelCov_Clean %>%
   full_join(Functional_Groups, relationship="many-to-many")
 
 #write CSV to save RelCov_FunctionalGroups
-write.csv(RelCov_FunctionalGroups,"RelCov_FunctionalGroups.csv")
+write.csv(RelCov_FunctionalGroups,"C:/Users/kjbloodw/Box/Projects/Dissertation/RelCov_FunctionalGroups.csv")
 
 #### Absolute Cover ####
 FK_2018 <- Long_Cov_2018_FK %>% 
@@ -598,7 +605,7 @@ TB_2021 <-Long_Cov_2021_TB %>%
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
 
-TB_2021 <-Long_Cov_2022_TB %>% 
+TB_2022 <-Long_Cov_2022_TB %>% 
   filter(aerial_basal=="aerial") %>% 
   rename(aerial_cover=cover) %>% 
   dplyr::select(year,site,plot,species,aerial_cover)
@@ -784,7 +791,27 @@ Absolute_Species_Comp_Clean<-Absolute_Species_Comp %>%
   mutate(Genus_Species=ifelse(Genus_Species_4=="Cryptans.minima","Cryptantha.minima",   
                               ifelse(Genus_Species_4=="Chenopudium.pratericola","Chenopodium.pratericola",
                                      ifelse(Genus_Species_4=="Coryphanthus.vivipara","Coryphantha.vivipara",
-                                            Genus_Species_4)))) %>% 
+                                            ifelse(Genus_Species_4=="Cactus.sedum","Cactus.UNKWN39",
+                                                   ifelse(Genus_Species_4=="Chenopodium.?","Chenopodium.UNKWN40",
+                                                          ifelse(Genus_Species_4=="EREN","Erigeron.engelmannii",
+                                                                 ifelse(Genus_Species_4=="Erigeron.engelmanni","Erigeron.engelmannii",
+                                                                        ifelse(Genus_Species_4=="Hedeoma.Hispida","Hedeoma.hispida",
+                                                                               ifelse(Genus_Species_4=="Machaeranthera.grindelioides","Machaeranthera.grindelioides",
+                                                                                      ifelse(Genus_Species_4=="Machaeranthera.grindelaides","Machaeranthera.grindelioides",
+                                                                                             ifelse(Genus_Species_4=="Nothocalais.cuspidata", "Nothocalos",
+                                                                                                    ifelse(Genus_Species_4=="Oenotherea.suffrutenscens","Oenothera.suffrutescens",
+                                                                                                           ifelse(Genus_Species_4=="Oenotherea.suffrutescens","Oenothera.suffrutescens",
+                                                                                                                  ifelse(Genus_Species_4=="Phlox.hoodia","Phlox.hoodii",
+                                                                                                                         ifelse(Genus_Species_4=="Tradescantia","Tradescantia.occidentalis",
+                                                                                                                                ifelse(Genus_Species_4=="zigadenus.venenosus","Zigadenus.venenosus",
+                                                                                                                                       ifelse(Genus_Species_4=="Alyssum.dessertorum","Alyssum.desertorum",
+                                                                                                                                              ifelse(Genus_Species_4=="Anntenaria.parvifolia","Antennaria.parvifolia",
+                                                                                                                                                     ifelse(Genus_Species_4=="Erigeron.divergensOchroleucus","Erigeron.divergens",
+                                                                                                                                                            ifelse(Genus_Species_4=="Machaeranthera grindelioides","Machaeranthera.grindelioides",
+                                                                                                                                                                   ifelse(Genus_Species_4=="Oenothera suffrutescens","Oenothera.suffrutescens",
+                                                                                                                                                                          ifelse(Genus_Species_4=="Penstimum.albidus","Penstemon.albidus",
+                                                                                                                                                                                 ifelse(Genus_Species_4=="Eriogonum.hookeri","Eremogone.hookeri",
+                                                                                                                                                                                        Genus_Species_4)))))))))))))))))))))))) %>% 
   dplyr::select(year,site,plot,Genus_Species,aerial_cover) %>% 
   unique()
 
