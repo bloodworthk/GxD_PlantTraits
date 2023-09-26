@@ -461,7 +461,7 @@ Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
 #Thunder Basin all years
 Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
+  #geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="TB"&year==2021), method='lm', se=FALSE,color="maroon4",size=5)+
   #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
@@ -843,8 +843,8 @@ Evar_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"
   geom_pointrange(aes(ymin=Evar_Mean-Evar_St_Error,ymax=Evar_Mean+Evar_St_Error),linewidth = 4)+
   geom_smooth(data=(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year==2021)), method='lm', se=FALSE,size=5,linetype="solid")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_shape_manual(values=c(15,16,17,18,20),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Evenness")+
   expand_limits(y=c(0,0.6))+
@@ -6489,6 +6489,8 @@ anova(TB_23_BOGR_Ba, type = 3)  #NS
 
 RelCov_Avg<-FG_RelCov %>% 
   filter(aerial_basal=="Aerial") %>% 
+  mutate(Functional_Group=ifelse(Functional_Group=="Brome","C3",Functional_Group)) %>% 
+  
   na.omit(Functional_Group) %>% 
   mutate(Relative_Cover=Relative_Cover*100) %>% 
   group_by(year,site, Functional_Group,rainfall_reduction) %>% 
@@ -6536,16 +6538,41 @@ ggplot(subset(RelCov_Avg,year>=2019),aes(x=rainfall_reduction,y=FG_Mean,color=as
   #annotate("text", x=21, y=40, label = "A. Montana Site", size=20)+
   facet_grid(site ~ Functional_Group,scales="free")
 
+
+####Figure 1 ####
+FG_RelCov_All<-Absolute_FunctionalGroups %>% 
+  left_join(plot_layoutK) %>% 
+  filter(year==2018) %>% 
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  filter(!grepl("UNKWN", Genus_Species)) %>% 
+  filter(!grepl("UNKNWN", Genus_Species)) %>% 
+  filter(!grepl("Unk", Genus_Species)) %>% 
+  filter(!grepl("Uknown", Genus_Species)) %>% 
+  filter(!grepl("StandingDead", Genus_Species)) %>% 
+  filter(!Genus_Species %in% c("Green.bunch.p42","Nothocalos","unk.seedling.P6")) %>%
+  na.omit() %>% 
+  group_by(year,site) %>% 
+  mutate(Site_Cover=sum(aerial_cover)) %>% 
+  ungroup() %>% 
+  group_by(year,site,Functional_Group,Site_Cover) %>% 
+  summarise(Functional_Group_Cover=sum(aerial_cover)) %>% 
+  ungroup() %>% 
+  mutate(Relative_Cover_Site=Functional_Group_Cover/Site_Cover) %>% 
+  na.omit() %>% 
+  mutate(site=ifelse(site=="FK","Fort Keogh","Thunder Basin"))
+
+
 #All Sites - All Functional Groups - Drought All Years
-ggplot(subset(RelCov_Avg,year>=2019),aes(x=factor(rainfall_reduction),y=FG_Mean, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
+ggplot(subset(FG_RelCov_All,year==2018),aes(x=factor(site),y=Relative_Cover_Site, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
   geom_bar(stat="identity")+
-  scale_fill_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
-  scale_color_manual(values=c("#44AA99","#DDCC77","#CC6677","#117733","#332288","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
-  xlab("Rainfall Reduction (%)")+
-  ylab("Cover (%)")+
-  expand_limits(y=c(0,100))+
+  scale_fill_manual(values=c("#A99985","#DAD2BC","#6F732F","#70798C","#252323","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  scale_color_manual(values=c("#A99985","#DAD2BC","#6F732F","#70798C","#252323","#661100"), labels=c("C3 Annuals","C3 Perennials","C4 Perennials","Cactus","Forb","Woody"))+
+  xlab("Site")+
+  ylab("Proportion of Site Cover")+
+  expand_limits(y=c(0,1))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55))+
-  facet_grid(site ~ year,scales="free")
+  #wrap text for x axis ticks using stringr package
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 5))
 
 #All Sites - All Functional Groups - Grazing All Years
 ggplot(subset(FG_RelCov_Gr_Avg,year>=2020),aes(x=factor(grazing_treatment_fig2),y=FG_Mean, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
