@@ -6570,9 +6570,10 @@ ggplot(subset(FG_RelCov_All,year==2018),aes(x=factor(site),y=Relative_Cover_Site
   xlab("Site")+
   ylab("Proportion of Site Cover")+
   expand_limits(y=c(0,1))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position="right")+
   #wrap text for x axis ticks using stringr package
   scale_x_discrete(labels = function(x) str_wrap(x, width = 5))
+#save at 1500 x 1500
 
 #All Sites - All Functional Groups - Grazing All Years
 ggplot(subset(FG_RelCov_Gr_Avg,year>=2020),aes(x=factor(grazing_treatment_fig2),y=FG_Mean, color=factor(Functional_Group), fill=factor(Functional_Group), position="stack")) +
