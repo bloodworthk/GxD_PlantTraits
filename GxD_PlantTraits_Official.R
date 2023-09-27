@@ -666,3 +666,196 @@ p.adjust(0.5599, method = "BH", n=5)
 p.adjust(0.127, method = "BH", n=5)
 p.adjust(0.4882, method = "BH", n=5)
 p.adjust(0.7656, method = "BH", n=5)
+
+
+
+### CWM Multivariate Space ####
+
+#Create seperate dataframes for each site and year for PCAs
+CWM_Collected_Data_FK_19<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2019)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_FK_20<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2020)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_FK_21<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2021)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_FK_22<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2022)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_FK_23<-CWM_Collected_Data %>% 
+  filter(Site=="FK" & year==2023)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+#TB
+
+CWM_Collected_Data_TB_19<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2019) %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_TB_20<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2020) %>%  
+  na.omit(LDMC_CWM)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_TB_21<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2021) %>%
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_TB_22<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2022)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+CWM_Collected_Data_TB_23<-CWM_Collected_Data %>% 
+  filter(Site=="TB" & year==2023)%>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat,Height_CWM,LeafThickness_CWM,LDMC_CWM,Area_CWM)
+
+#make two seperate dataframes for each year and site to have treatment data and trait data seperate
+#adding 1 to all leaf thickness measures since they are negative numbers
+
+## FK ##
+#2019
+CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>% 
+  dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat) 
+
+CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
+  dplyr::select(year,Site,plot,block,paddock,slope,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2020
+CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-slope,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2021
+CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-slope,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2022
+CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
+  dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2023
+CWM_FK_23_Trait<-CWM_Collected_Data_FK_23 %>% 
+  dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_FK_23_Treatment<-CWM_Collected_Data_FK_23 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+## TB ##
+
+#2019
+CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2020
+CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2021
+CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
+  dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2022
+CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
+  dplyr::select(year,Site,plot,slope,block,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+#2023
+CWM_TB_23_Trait<-CWM_Collected_Data_TB_23 %>% 
+  dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
+
+CWM_TB_23_Treatment<-CWM_Collected_Data_TB_23 %>% 
+  dplyr::select(year,Site,plot,slope,block,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+# run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
+#### Permanova FK ####
+## FK ##
+#FK 2019
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_19_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_19) #N.S
+
+#FK 2020
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_20) 
+
+#FK 2021
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_21) 
+
+#FK 2022
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_22) 
+
+#FK 2023
+PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_23_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_FK_23) 
+
+# adjust pvalues for perMANOVA FK
+p.adjust(0.9311, method = "BH", n=5)
+p.adjust(0.4096, method = "BH", n=5)
+p.adjust(0.2318, method = "BH", n=5)
+p.adjust(0.6593, method = "BH", n=5)
+p.adjust(0.3047, method = "BH", n=5)
+
+#### PERMANOVA TB ####
+##TB##
+#TB 2019
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_19_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_19)  #NS
+
+#TB 2020
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_20_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_20) #NS
+
+#TB 2021
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_21_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_21) #NS
+
+#TB 2022
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_22_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_22) 
+
+#TB 2023
+PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_23_Treatment, 
+                          permutations = 1000, method = 'bray') 
+print(PERMANOVA_TB_23) 
+
+# adjust pvalues for perMANOVA FK
+p.adjust(0.8791, method = "BH", n=5)
+p.adjust(0.5984, method = "BH", n=5)
+p.adjust(0.6054, method = "BH", n=5)
+p.adjust(0.3037, method = "BH", n=5)
+p.adjust(0.1469, method = "BH", n=5)
