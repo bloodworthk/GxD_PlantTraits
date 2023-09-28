@@ -1805,6 +1805,11 @@ YeartoDate_Precip_Graph_Height_FK+
   plot_layout(ncol = 2,nrow = 6)
 #save at 3000x5000
 
+#not transformed - FK
+chart.Correlation(Traits_Precip_SM_FK[c(7,8,9,14,15,16)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+#not transformed - TB
+chart.Correlation(Traits_Precip_SM_TB[c(7,8,9,14,15,16)],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
 #### Normality: FK - height_cm: ####
 
 #BRAR
