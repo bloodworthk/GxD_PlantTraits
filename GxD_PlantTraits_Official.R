@@ -890,7 +890,7 @@ Avg_Traits_FK_Data<-Avg_Traits_FK_All  %>%
 rownames(Avg_Traits_FK_Data) <- c(1:32)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_FK_SpNames<-Avg_Traits_FK %>% 
+Avg_Traits_FK_SpNames<-Avg_Traits_FK_All %>% 
   dplyr::select(Genus_Species_Correct,Sp_Num)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
@@ -949,7 +949,7 @@ Avg_Traits_TB_Data<-Avg_Traits_TB_All %>%
 rownames(Avg_Traits_TB_Data) <- c(1:21)
 
 #make a dataframe with the species name and identification number 
-Avg_Traits_TB_SpNames<-Avg_Traits_TB %>% 
+Avg_Traits_TB_SpNames<-Avg_Traits_TB_All %>% 
   dplyr::select(Genus_Species_Correct,Sp_Num)
 
 #Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
