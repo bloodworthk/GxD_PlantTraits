@@ -270,23 +270,9 @@ CWM_Collected_Data<-CWM_Collected_Data_FK %>%
 
 CWM_Collected_Data_avg<-CWM_Collected_Data %>% 
   group_by(Site, year, rainfall_reduction)%>%
-  summarize(Height_CWM_Std=sd(Height_CWM),Height_CWM_Mean=mean(Height_CWM),Height_CWM_n=length(Height_CWM),
-            PercentGreen_CWM_Std=sd(PercentGreen_CWM),PercentGreen_CWM_Mean=mean(PercentGreen_CWM),PercentGreen_CWM_n=length(PercentGreen_CWM),
-            LeafThickness_CWM_Std=sd(LeafThickness_CWM),LeafThickness_CWM_Mean=mean(LeafThickness_CWM),LeafThickness_CWM_n=length(LeafThickness_CWM),
-            LDMC_CWM_Std=sd(LDMC_CWM),LDMC_CWM_Mean=mean(LDMC_CWM),LDMC_CWM_n=length(LDMC_CWM),
-            Avg_SLA_CWM_Std=sd(Avg_SLA_CWM),Avg_SLA_CWM_Mean=mean(Avg_SLA_CWM),Avg_SLA_CWM_n=length(Avg_SLA_CWM),
-            Area_CWM_Std=sd(Area_CWM),Area_CWM_Mean=mean(Area_CWM),Area_CWM_n=length(Area_CWM),
-            Lifespan_CWM_Std=sd(Lifespan_CWM),Lifespan_CWM_Mean=mean(Lifespan_CWM),Lifespan_CWM_n=length(Lifespan_CWM),
-            GrowthForm_CWM_Std=sd(GrowthForm_CWM),GrowthForm_CWM_Mean=mean(GrowthForm_CWM),GrowthForm_CWM_n=length(GrowthForm_CWM)
-  )%>%
-  mutate(Height_CWM_St_Error=Height_CWM_Std/sqrt(Height_CWM_n),
-         PercentGreen_CWM_St_Error=PercentGreen_CWM_Std/sqrt(PercentGreen_CWM_n),
-         LeafThickness_CWM_St_Error=LeafThickness_CWM_Std/sqrt(LeafThickness_CWM_n),
-         LDMC_CWM_St_Error=LDMC_CWM_Std/sqrt(LDMC_CWM_n),
-         Avg_SLA_CWM_St_Error=Avg_SLA_CWM_Std/sqrt(Avg_SLA_CWM_n),
-         Area_CWM_St_Error=Area_CWM_Std/sqrt(Area_CWM_n),
-         Lifespan_CWM_St_Error=Lifespan_CWM_Std/sqrt(Lifespan_CWM_n),
-         GrowthForm_CWM_St_Error=GrowthForm_CWM_Std/sqrt(GrowthForm_CWM_n)) %>% 
+  summarize(Height_CWM_Std=sd(Height_CWM),Height_CWM_Mean=mean(Height_CWM),Height_CWM_n=length(Height_CWM),LeafThickness_CWM_Std=sd(LeafThickness_CWM),LeafThickness_CWM_Mean=mean(LeafThickness_CWM),LeafThickness_CWM_n=length(LeafThickness_CWM),LDMC_CWM_Std=sd(LDMC_CWM),LDMC_CWM_Mean=mean(LDMC_CWM),LDMC_CWM_n=length(LDMC_CWM),Area_CWM_Std=sd(Area_CWM),Area_CWM_Mean=mean(Area_CWM),Area_CWM_n=length(Area_CWM),)%>%
+  mutate(Height_CWM_St_Error=Height_CWM_Std/sqrt(Height_CWM_n), LeafThickness_CWM_St_Error=LeafThickness_CWM_Std/sqrt(LeafThickness_CWM_n), LDMC_CWM_St_Error=LDMC_CWM_Std/sqrt(LDMC_CWM_n),Area_CWM_St_Error=Area_CWM_Std/sqrt(Area_CWM_n),
+         ) %>% 
   ungroup()
 
 
@@ -467,8 +453,8 @@ LeafArea_FK_ALL<-ggplot(subset(CWM_Collected_Data_avg,Site=="FK"&year>=2019),aes
   geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5,linetype="solid")+
   geom_pointrange(aes(ymin=Area_CWM_Mean-Area_CWM_St_Error,ymax=Area_CWM_Mean+Area_CWM_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_shape_manual(values=c(15,16,17,18,20),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen","red"),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   #scale_linetype_manual(values=c("dashed","solid","dashed"),labels = c("2019", "2020","2021"), breaks = c("2019","2020","2021"),name="Year")+
   scale_y_continuous(labels = label_number(accuracy = 0.01))+
   xlab("Rainfall Reduction (%)")+
@@ -3300,11 +3286,11 @@ Functional_Diversity_Area_avg<-Functional_Diversity_Area %>%
 
 Area_FDis_FK<-ggplot(subset(Functional_Diversity_Area_avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=FDis_Mean,color=as.factor(year),shape=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="FK"&year==2021), method='lm', se=FALSE,color="maroon4",size=5, linetype="dashed")+
+  geom_smooth(data=subset(Functional_Diversity_Area_avg,site=="FK"&year==2020), method='lm', se=FALSE,color="blue4",size=5, linetype="dashed")+
   geom_pointrange(aes(ymin=FDis_Mean-FDis_St_Error,ymax=FDis_Mean+FDis_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
-  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen"),labels = c("2019", "2020","2021","2022"), breaks = c("2019","2020","2021","2022"),name="Year")+
+  scale_shape_manual(values=c(15,16,17,18,20),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_color_manual(values=c("darkslateblue","blue4","maroon4","darkgreen","red"),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Functional Dispersion")+
   expand_limits(y=c(0,0.8))+
