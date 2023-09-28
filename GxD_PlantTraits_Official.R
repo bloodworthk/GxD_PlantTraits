@@ -25,6 +25,7 @@ library(factoextra)
 library(multcomp)
 library(tidyverse) 
 library(scales)
+library(olsrr)
 
 
 #### Set Working Directory ####
@@ -873,13 +874,15 @@ Avg_Traits_FK<-Traits_Clean_2 %>%
     Avg_leaf_thickness=mean(leaf_thickness_.mm.,na.rm=T),
     Avg_LDMC=mean(LDMC,na.rm=T),
     Avg_Area=mean(Total.Area, na.rm=T)
-  ) %>% 
+  ) 
+
+Avg_Traits_FK_All<-Avg_Traits_FK%>% 
   filter(Genus_Species_Correct!="Pediomelum.esculentum") %>% 
   mutate(Sp_Num=c(1:32)) %>% 
   ungroup() 
 
 #Create a matrix with just average trait data removing all idetifiers
-Avg_Traits_FK_Data<-Avg_Traits_FK %>% 
+Avg_Traits_FK_Data<-Avg_Traits_FK_All  %>% 
   dplyr::select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
   as.matrix()
 
@@ -931,12 +934,14 @@ Avg_Traits_TB<-Traits_Clean_2 %>%
     Avg_LDMC=mean(LDMC,na.rm=T),
     Avg_Area=mean(Total.Area, na.rm=T)
   ) %>% 
-  ungroup() %>% 
+  ungroup() 
+
+Avg_Traits_TB_All<-Avg_Traits_TB %>% 
   filter(Genus_Species_Correct %in% c("Alyssum.desertorum", "Androsace.occidentalis","Aristida.purpurea","Artemisia.dracunculus","Artemisia.frigida","Bouteloua.gracilis","Bromus.arvensis","Bromus.tectorum","Carex.duriuscula","Carex.filifolia","Conyza.canadensis","Hedeoma.hispida","Hesperostipa.comata","Koeleria.macrantha","Lepidium.densiflorum","Lithospermum.incisum","Logfia.arvensis","Pascopyrum.smithii","Plantago.patagonica","Poa.secunda","Sphaeralcea.coccinea","Sporobolus.cryptandrus","Taraxacum.officinale","Tragopogon.dubius","Vulpia.octoflora")) %>% 
   mutate(Sp_Num=c(1:21))
 
 #Create a matrix with just average trait data removing all identifiers
-Avg_Traits_TB_Data<-Avg_Traits_TB %>% 
+Avg_Traits_TB_Data<-Avg_Traits_TB_All %>% 
   dplyr::select(-Genus_Species_Correct,-Sp_Num,-Site) %>% 
   as.matrix()
 
@@ -1107,3 +1112,906 @@ p.adjust(0.8561, method = "BH", n=5)
 p.adjust(0.4861, method = "BH", n=5)
 p.adjust(0.7317, method = "BH", n=5)
 p.adjust(0.7421, method = "BH", n=5)
+
+
+#### Calculate Height FDis: FK ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Height<-Avg_Traits_FK%>% 
+  filter(Genus_Species_Correct!="Pediomelum.esculentum") %>% 
+  mutate(Sp_Num=c(1:32)) %>% 
+  ungroup() 
+
+Avg_Traits_FK_Data_Height<-Avg_Traits_FK_Height %>% 
+  dplyr::select(Avg_height_cm) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Height) <- c(1:3)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Height<-Avg_Traits_FK_Height %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Height<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_FK_SpNames_Height) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Height<-Species_Comp_FK_Height %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Height<-Species_Comp_FK_Wide_Height %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Height<-Species_Comp_FK_Wide_Height %>% 
+  mutate(ID_Num=c(1:324)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Height <- dbFD(Avg_Traits_FK_Data_Height, Species_Comp_FK_Wide_Data_Height,corr = "none")
+summary(FK_FunctionalDiversity_Height)
+
+#### Calculate Height FDis: TB ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_TB_Height<-Avg_Traits_TB%>% 
+  filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus")) %>% 
+  mutate(Sp_Num=c(1:40)) %>% 
+  ungroup() 
+
+Avg_Traits_TB_Data_Height<-Avg_Traits_TB_Height %>% 
+  dplyr::select(Avg_height_cm) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Height) <- c(1:40)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Height<-Avg_Traits_TB_Height %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_TB_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Height<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_TB_SpNames_Height) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Height<-Species_Comp_TB_Height %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Height<-Species_Comp_TB_Wide_Height %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Height<-Species_Comp_TB_Wide_Height %>% 
+  mutate(ID_Num=c(1:323)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Height <- dbFD(Avg_Traits_TB_Data_Height, Species_Comp_TB_Wide_Data_Height,corr = "none")
+
+#### Merge FK and TB Height ####
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Height<-as.data.frame(FK_FunctionalDiversity_Height) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Height)
+
+Functional_Diversity_TB_Height<-as.data.frame(TB_FunctionalDiversity_Height) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Height)
+
+Functional_Diversity_Height<-Functional_Diversity_FK_Height %>% 
+  rbind(Functional_Diversity_TB_Height) %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
+  dplyr::select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(FDis_Height=FDis)
+
+
+
+#### Normality: Height FDis FK ####
+
+#FK - FDis - 2019
+FDis_Height_Norm_19_FK <- lm(data = subset(Functional_Diversity_Height, year == 2019 & site== "FK"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_19_FK) 
+ols_test_normality(FDis_Height_Norm_19_FK) #normal
+
+#FK - FDis - 2020
+FDis_Height_Norm_20_FK <- lm(data = subset(Functional_Diversity_Height, year == 2020 & site== "FK"), (FDis_Height)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_20_FK) 
+ols_test_normality(FDis_Height_Norm_20_FK) #normal
+
+#FK - FDis - 2021
+FDis_Height_Norm_21_FK <- lm(data = subset(Functional_Diversity_Height, year == 2021 & site== "FK"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_21_FK) 
+ols_test_normality(FDis_Height_Norm_21_FK) #normal
+
+#FK - FDis - 2022
+FDis_Height_Norm_22_FK <- lm(data = subset(Functional_Diversity_Height, year == 2022 & site== "FK"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_22_FK) 
+ols_test_normality(FDis_Height_Norm_22_FK) #normal
+
+#FK - FDis - 2023
+FDis_Height_Norm_23_FK <- lm(data = subset(Functional_Diversity_Height, year == 2023 & site== "FK"),FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_23_FK) 
+ols_test_normality(FDis_Height_Norm_23_FK) #normal
+
+#### Stats: Height FDis FK ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="FK"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.8277, method = "BH", n=5)
+p.adjust(0.1418, method = "BH", n=5)
+p.adjust(0.4283, method = "BH", n=5)
+p.adjust(0.1461, method = "BH", n=5)
+p.adjust(0.1895, method = "BH", n=5)
+
+#### Normality: Height FDis TB ####
+
+#TB - FDis - 2019
+FDis_Height_Norm_19_TB <- lm(data = subset(Functional_Diversity_Height, year == 2019 & site== "TB"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_19_TB) 
+ols_test_normality(FDis_Height_Norm_19_TB) #normal
+
+#TB - FDis - 2020
+FDis_Height_Norm_20_TB <- lm(data = subset(Functional_Diversity_Height, year == 2020 & site== "TB"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_20_TB) 
+ols_test_normality(FDis_Height_Norm_20_TB) #normal
+
+#TB - FDis - 2021
+FDis_Height_Norm_21_TB <- lm(data = subset(Functional_Diversity_Height, year == 2021 & site== "TB"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_21_TB) 
+ols_test_normality(FDis_Height_Norm_21_TB) #normal
+
+#TB - FDis - 2022
+FDis_Height_Norm_22_TB <- lm(data = subset(Functional_Diversity_Height, year == 2022 & site== "TB"), FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_22_TB) 
+ols_test_normality(FDis_Height_Norm_22_TB) #normal
+
+#TB - FDis - 2023
+FDis_Height_Norm_23_TB <- lm(data = subset(Functional_Diversity_Height, year == 2023 & site== "TB"),FDis_Height  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Height_Norm_23_TB) 
+ols_test_normality(FDis_Height_Norm_23_TB) #normalish
+
+#### Stats: Height FDis TB ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="TB"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.4036, method = "BH", n=5)
+p.adjust(0.6143, method = "BH", n=5)
+p.adjust(0.2578, method = "BH", n=5)
+p.adjust(0.7359, method = "BH", n=5)
+p.adjust(0.5551, method = "BH", n=5)
+
+
+
+#### Calculate Leaf_Thickness FDis: FK ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Leaf_Thickness<-Avg_Traits_FK%>% 
+  filter(!Genus_Species_Correct %in% c("Pediomelum.esculentum","Linum.rigidum")) %>% 
+  mutate(Sp_Num=c(1:31)) %>% 
+  ungroup() 
+
+Avg_Traits_FK_Data_Leaf_Thickness<-Avg_Traits_FK_Leaf_Thickness %>% 
+  dplyr::select(Avg_leaf_thickness) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Leaf_Thickness) <- c(1:31)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Leaf_Thickness<-Avg_Traits_FK_Leaf_Thickness %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Leaf_Thickness<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_FK_SpNames_Leaf_Thickness) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Leaf_Thickness<-Species_Comp_FK_Leaf_Thickness %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Leaf_Thickness<-Species_Comp_FK_Wide_Leaf_Thickness %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Leaf_Thickness<-Species_Comp_FK_Wide_Leaf_Thickness %>% 
+  mutate(ID_Num=c(1:324)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Leaf_Thickness <- dbFD(Avg_Traits_FK_Data_Leaf_Thickness, Species_Comp_FK_Wide_Data_Leaf_Thickness,corr = "none")
+summary(FK_FunctionalDiversity_Leaf_Thickness)
+
+#### Calculate Leaf_Thickness FDis: TB ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_TB_Leaf_Thickness<-Avg_Traits_TB%>% 
+  filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides")) %>% 
+  mutate(Sp_Num=c(1:39)) %>% 
+  ungroup() 
+
+Avg_Traits_TB_Data_Leaf_Thickness<-Avg_Traits_TB_Leaf_Thickness %>% 
+  dplyr::select(Avg_leaf_thickness) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Leaf_Thickness) <- c(1:39)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Leaf_Thickness<-Avg_Traits_TB_Leaf_Thickness %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_TB_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Leaf_Thickness<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_TB_SpNames_Leaf_Thickness) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Leaf_Thickness<-Species_Comp_TB_Leaf_Thickness %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Leaf_Thickness<-Species_Comp_TB_Wide_Leaf_Thickness %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Leaf_Thickness<-Species_Comp_TB_Wide_Leaf_Thickness %>% 
+  mutate(ID_Num=c(1:323)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Leaf_Thickness <- dbFD(Avg_Traits_TB_Data_Leaf_Thickness, Species_Comp_TB_Wide_Data_Leaf_Thickness,corr = "none")
+
+#### Merge FK and TB Leaf_Thickness ####
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Leaf_Thickness<-as.data.frame(FK_FunctionalDiversity_Leaf_Thickness) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Leaf_Thickness)
+
+Functional_Diversity_TB_Leaf_Thickness<-as.data.frame(TB_FunctionalDiversity_Leaf_Thickness) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Leaf_Thickness)
+
+Functional_Diversity_Leaf_Thickness<-Functional_Diversity_FK_Leaf_Thickness %>% 
+  rbind(Functional_Diversity_TB_Leaf_Thickness) %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
+  dplyr::select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(FDis_Leaf_Thickness=FDis)
+
+
+
+#### Normality: Leaf_Thickness FDis FK ####
+
+#FK - FDis - 2019
+FDis_Leaf_Thickness_Norm_19_FK <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2019 & site== "FK"), FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_19_FK) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_19_FK) #normal
+
+#FK - FDis - 2020
+FDis_Leaf_Thickness_Norm_20_FK <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2020 & site== "FK"), (FDis_Leaf_Thickness)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_20_FK) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_20_FK) #normal
+
+#FK - FDis - 2021
+FDis_Leaf_Thickness_Norm_21_FK <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2021 & site== "FK"), exp(FDis_Leaf_Thickness)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_21_FK) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_21_FK) #not normal but okay
+
+#FK - FDis - 2022
+FDis_Leaf_Thickness_Norm_22_FK <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2022 & site== "FK"), FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_22_FK) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_22_FK) #normal
+
+#FK - FDis - 2023
+FDis_Leaf_Thickness_Norm_23_FK <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2023 & site== "FK"),FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_23_FK) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_23_FK) #normal
+
+#### Stats: Leaf_Thickness FDis FK ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="FK"), exp(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.3337, method = "BH", n=5)
+p.adjust(0.6804, method = "BH", n=5)
+p.adjust(0.5967, method = "BH", n=5)
+p.adjust(0.4663, method = "BH", n=5)
+p.adjust(0.5493, method = "BH", n=5)
+
+#### Normality: Leaf_Thickness FDis TB ####
+
+#TB - FDis - 2019
+FDis_Leaf_Thickness_Norm_19_TB <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2019 & site== "TB"), FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_19_TB) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_19_TB) #normal
+
+#TB - FDis - 2020
+FDis_Leaf_Thickness_Norm_20_TB <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2020 & site== "TB"), log(FDis_Leaf_Thickness)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_20_TB) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_20_TB) #normal
+
+#TB - FDis - 2021
+FDis_Leaf_Thickness_Norm_21_TB <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2021 & site== "TB"), FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_21_TB) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_21_TB) #normal
+
+#TB - FDis - 2022
+FDis_Leaf_Thickness_Norm_22_TB <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2022 & site== "TB"), FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_22_TB) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_22_TB) #normal
+
+#TB - FDis - 2023
+FDis_Leaf_Thickness_Norm_23_TB <- lm(data = subset(Functional_Diversity_Leaf_Thickness, year == 2023 & site== "TB"),FDis_Leaf_Thickness  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Leaf_Thickness_Norm_23_TB) 
+ols_test_normality(FDis_Leaf_Thickness_Norm_23_TB) #normalish
+
+#### Stats: Leaf_Thickness FDis TB ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="TB"), log(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.8614, method = "BH", n=5)
+p.adjust(0.9702, method = "BH", n=5)
+p.adjust(0.3435, method = "BH", n=5)
+p.adjust(0.9627, method = "BH", n=5)
+p.adjust(0.5307, method = "BH", n=5)
+
+
+#### Calculate LDMC FDis: FK ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_LDMC<-Avg_Traits_FK%>% 
+  filter(!Genus_Species_Correct %in% c("Pediomelum.esculentum","Linum.rigidum","Hedeoma.hispida")) %>% 
+  mutate(Sp_Num=c(1:30)) %>% 
+  ungroup() 
+
+Avg_Traits_FK_Data_LDMC<-Avg_Traits_FK_LDMC %>% 
+  dplyr::select(Avg_LDMC) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_LDMC) <- c(1:30)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_LDMC<-Avg_Traits_FK_LDMC %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_LDMC<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_FK_SpNames_LDMC) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_LDMC<-Species_Comp_FK_LDMC %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_LDMC<-Species_Comp_FK_Wide_LDMC %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_LDMC<-Species_Comp_FK_Wide_LDMC %>% 
+  mutate(ID_Num=c(1:324)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_FK_Data_LDMC, Species_Comp_FK_Wide_Data_LDMC,corr = "none")
+
+#### Calculate LDMC FDis: TB ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_TB_LDMC<-Avg_Traits_TB%>% 
+  filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides","Hedeoma.hispida")) %>% 
+  mutate(Sp_Num=c(1:38)) %>% 
+  ungroup() 
+
+Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_LDMC %>% 
+  dplyr::select(Avg_LDMC) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_LDMC) <- c(1:38)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_LDMC<-Avg_Traits_TB_LDMC %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_TB_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_LDMC<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_TB_SpNames_LDMC) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_LDMC<-Species_Comp_TB_LDMC %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_LDMC<-Species_Comp_TB_Wide_LDMC %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_LDMC<-Species_Comp_TB_Wide_LDMC %>% 
+  mutate(ID_Num=c(1:323)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_TB_Data_LDMC, Species_Comp_TB_Wide_Data_LDMC,corr = "none")
+
+#### Merge FK and TB LDMC ####
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_LDMC<-as.data.frame(FK_FunctionalDiversity_LDMC) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_LDMC)
+
+Functional_Diversity_TB_LDMC<-as.data.frame(TB_FunctionalDiversity_LDMC) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_LDMC)
+
+Functional_Diversity_LDMC<-Functional_Diversity_FK_LDMC %>% 
+  rbind(Functional_Diversity_TB_LDMC) %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
+  dplyr::select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(FDis_LDMC=FDis)
+
+
+
+#### Normality: LDMC FDis FK ####
+
+#FK - FDis - 2019
+FDis_LDMC_Norm_19_FK <- lm(data = subset(Functional_Diversity_LDMC, year == 2019 & site== "FK"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_19_FK) 
+ols_test_normality(FDis_LDMC_Norm_19_FK) #normal
+
+#FK - FDis - 2020
+FDis_LDMC_Norm_20_FK <- lm(data = subset(Functional_Diversity_LDMC, year == 2020 & site== "FK"), (FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_20_FK) 
+ols_test_normality(FDis_LDMC_Norm_20_FK) #normal
+
+#FK - FDis - 2021
+FDis_LDMC_Norm_21_FK <- lm(data = subset(Functional_Diversity_LDMC, year == 2021 & site== "FK"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_21_FK) 
+ols_test_normality(FDis_LDMC_Norm_21_FK) #normal
+
+#FK - FDis - 2022
+FDis_LDMC_Norm_22_FK <- lm(data = subset(Functional_Diversity_LDMC, year == 2022 & site== "FK"), FDis_LDMC  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_22_FK) 
+ols_test_normality(FDis_LDMC_Norm_22_FK) #normal
+
+#FK - FDis - 2023
+FDis_LDMC_Norm_23_FK <- lm(data = subset(Functional_Diversity_LDMC, year == 2023 & site== "FK"),FDis_LDMC  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_23_FK) 
+ols_test_normality(FDis_LDMC_Norm_23_FK) #normal
+
+#### Stats: LDMC FDis FK ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.2265, method = "BH", n=5)
+p.adjust(0.6835, method = "BH", n=5)
+p.adjust(0.2905, method = "BH", n=5)
+p.adjust(0.06682, method = "BH", n=5)
+p.adjust(0.6484, method = "BH", n=5)
+
+#### Normality: LDMC FDis TB ####
+
+#TB - FDis - 2019
+FDis_LDMC_Norm_19_TB <- lm(data = subset(Functional_Diversity_LDMC, year == 2019 & site== "TB"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_19_TB) 
+ols_test_normality(FDis_LDMC_Norm_19_TB) #not normal but okay
+
+#TB - FDis - 2020
+FDis_LDMC_Norm_20_TB <- lm(data = subset(Functional_Diversity_LDMC, year == 2020 & site== "TB"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_20_TB) 
+ols_test_normality(FDis_LDMC_Norm_20_TB) #normal
+
+#TB - FDis - 2021
+FDis_LDMC_Norm_21_TB <- lm(data = subset(Functional_Diversity_LDMC, year == 2021 & site== "TB"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_21_TB) 
+ols_test_normality(FDis_LDMC_Norm_21_TB) #not normal but okay
+
+#TB - FDis - 2022
+FDis_LDMC_Norm_22_TB <- lm(data = subset(Functional_Diversity_LDMC, year == 2022 & site== "TB"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_22_TB) 
+ols_test_normality(FDis_LDMC_Norm_22_TB) #okay
+
+#TB - FDis - 2023
+FDis_LDMC_Norm_23_TB <- lm(data = subset(Functional_Diversity_LDMC, year == 2023 & site== "TB"), log(FDis_LDMC)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_LDMC_Norm_23_TB) 
+ols_test_normality(FDis_LDMC_Norm_23_TB) #not normal but okay
+
+#### Stats: LDMC FDis TB ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.8238, method = "BH", n=5)
+p.adjust(0.9681, method = "BH", n=5)
+p.adjust(0.1296, method = "BH", n=5)
+p.adjust(0.5506, method = "BH", n=5)
+p.adjust(0.5571, method = "BH", n=5)
+
+
+#### Calculate Area FDis: FK ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_FK_Area<-Avg_Traits_FK%>% 
+  filter(!Genus_Species_Correct %in% c("Pediomelum.esculentum","Linum.rigidum")) %>% 
+  mutate(Sp_Num=c(1:31)) %>% 
+  ungroup() 
+
+Avg_Traits_FK_Data_Area<-Avg_Traits_FK_Area %>% 
+  dplyr::select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_FK_Data_Area) <- c(1:31)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_FK_SpNames_Area<-Avg_Traits_FK_Area %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only FK. Left join the Avg_Traits_FK_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_FK_Area<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="FK") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_FK_SpNames_Area) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_FK_Wide_Area<-Species_Comp_FK_Area %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_FK_Wide_Data_Area<-Species_Comp_FK_Wide_Area %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_FK_Wide_PlotData_Area<-Species_Comp_FK_Wide_Area %>% 
+  mutate(ID_Num=c(1:324)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+FK_FunctionalDiversity_Area <- dbFD(Avg_Traits_FK_Data_Area, Species_Comp_FK_Wide_Data_Area,corr = "none")
+
+#### Calculate Area FDis: TB ####
+
+#Create a matrix with just average trait data removing all idetifiers
+Avg_Traits_TB_Area<-Avg_Traits_TB%>% 
+  filter(!Genus_Species_Correct %in% c("Aristida.purpurea","Artemisia.frigida","Artemisia.tridentata","Bouteloua.gracilis","Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides","Gutierrezia.sarothrae")) %>% 
+  mutate(Sp_Num=c(1:34)) %>% 
+  ungroup() 
+
+Avg_Traits_TB_Data_Area<-Avg_Traits_TB_Area %>% 
+  dplyr::select(Avg_Area) %>% 
+  as.matrix()
+
+#make row names 1-33 to match the sp_num for future identification 
+rownames(Avg_Traits_TB_Data_Area) <- c(1:34)
+
+#make a dataframe with the species name and identification number 
+Avg_Traits_TB_SpNames_Area<-Avg_Traits_TB_Area %>% 
+  dplyr::select(Genus_Species_Correct,Sp_Num) 
+
+#Create a new dataframe using species comp data and remove anything that has a relative cover of 0 then filter by site to include only TB. Left join the Avg_Traits_TB_SpNames so that species numbers and names match up between future matrices. create a new ID column for year, site, and plot together for future identification and stats
+Species_Comp_TB_Area<- Species_Comp_RelCov_Clean %>% 
+  filter(Relative_Cover!=0) %>% 
+  filter(site=="TB") %>%
+  filter(aerial_basal=="Aerial") %>% 
+  rename(Genus_Species_Correct=Genus_Species) %>% 
+  left_join(Avg_Traits_TB_SpNames_Area) %>% 
+  na.omit(Sp_Num) %>% 
+  mutate(ID=paste(year,site,plot,sep="_"))
+
+#put dataframe into wide format with sp_num as columns and ID as first row, filling data with relative cover
+Species_Comp_TB_Wide_Area<-Species_Comp_TB_Area %>% 
+  dplyr::select(Sp_Num,Relative_Cover,ID) %>% 
+  spread(key=Sp_Num,value=Relative_Cover,fill=0)
+
+#Make a matrix with JUST the species comp data, no identifiers
+Species_Comp_TB_Wide_Data_Area<-Species_Comp_TB_Wide_Area %>% 
+  dplyr::select(-ID) %>% 
+  as.matrix()
+
+#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+Species_Comp_TB_Wide_PlotData_Area<-Species_Comp_TB_Wide_Area %>% 
+  mutate(ID_Num=c(1:323)) %>% 
+  dplyr::select(ID,ID_Num) 
+
+#run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
+TB_FunctionalDiversity_Area <- dbFD(Avg_Traits_TB_Data_Area, Species_Comp_TB_Wide_Data_Area,corr = "none")
+
+#### Merge FK and TB Area ####
+#merge FK and TB functional diversity matrices back into dataframes and join environmental data 
+Functional_Diversity_FK_Area<-as.data.frame(FK_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_FK_Wide_PlotData_Area)
+
+Functional_Diversity_TB_Area<-as.data.frame(TB_FunctionalDiversity_Area) %>% 
+  cbind(Species_Comp_TB_Wide_PlotData_Area)
+
+Functional_Diversity_Area<-Functional_Diversity_FK_Area %>% 
+  rbind(Functional_Diversity_TB_Area) %>% 
+  separate(ID,c("year","site","plot"), sep = "_") %>% 
+  dplyr::select(-ID_Num) %>% 
+  left_join(plot_layoutK) %>% 
+  mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
+  mutate(FDis_Area=FDis)
+
+
+
+#### Normality: Area FDis FK ####
+
+#FK - FDis - 2019
+FDis_Area_Norm_19_FK <- lm(data = subset(Functional_Diversity_Area, year == 2019 & site== "FK"), (FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_19_FK) 
+ols_test_normality(FDis_Area_Norm_19_FK) #normal
+
+#FK - FDis - 2020
+FDis_Area_Norm_20_FK <- lm(data = subset(Functional_Diversity_Area, year == 2020 & site== "FK"), (FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_20_FK) 
+ols_test_normality(FDis_Area_Norm_20_FK) #normal
+
+#FK - FDis - 2021
+FDis_Area_Norm_21_FK <- lm(data = subset(Functional_Diversity_Area, year == 2021 & site== "FK"), log(FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_21_FK) 
+ols_test_normality(FDis_Area_Norm_21_FK) #normal
+
+#FK - FDis - 2022
+FDis_Area_Norm_22_FK <- lm(data = subset(Functional_Diversity_Area, year == 2022 & site== "FK"), log(FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_22_FK) 
+ols_test_normality(FDis_Area_Norm_22_FK) #normal
+
+#FK - FDis - 2023
+FDis_Area_Norm_23_FK <- lm(data = subset(Functional_Diversity_Area, year == 2023 & site== "FK"),FDis_Area  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_23_FK) 
+ols_test_normality(FDis_Area_Norm_23_FK) #normal
+
+#### Stats: Area FDis FK ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="FK"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="FK"), log(FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_FK21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_FK23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.3872, method = "BH", n=5)
+p.adjust(0.7226, method = "BH", n=5)
+p.adjust(0.1322, method = "BH", n=5)
+p.adjust(0.8867, method = "BH", n=5)
+p.adjust(0.06561, method = "BH", n=5)
+
+#### Normality: Area FDis TB ####
+
+#TB - FDis - 2019
+FDis_Area_Norm_19_TB <- lm(data = subset(Functional_Diversity_Area, year == 2019 & site== "TB"), (FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_19_TB) 
+ols_test_normality(FDis_Area_Norm_19_TB) #normal
+
+#TB - FDis - 2020
+FDis_Area_Norm_20_TB <- lm(data = subset(Functional_Diversity_Area, year == 2020 & site== "TB"), log(FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_20_TB) 
+ols_test_normality(FDis_Area_Norm_20_TB) #normal
+
+#TB - FDis - 2021
+FDis_Area_Norm_21_TB <- lm(data = subset(Functional_Diversity_Area, year == 2021 & site== "TB"), (FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_21_TB) 
+ols_test_normality(FDis_Area_Norm_21_TB) #normal
+
+#TB - FDis - 2022
+FDis_Area_Norm_22_TB <- lm(data = subset(Functional_Diversity_Area, year == 2022 & site== "TB"),(FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_22_TB) 
+ols_test_normality(FDis_Area_Norm_22_TB) #okay
+
+#TB - FDis - 2023
+FDis_Area_Norm_23_TB <- lm(data = subset(Functional_Diversity_Area, year == 2023 & site== "TB"), (FDis_Area)  ~ rainfall_reduction)
+ols_plot_resid_hist(FDis_Area_Norm_23_TB) 
+ols_test_normality(FDis_Area_Norm_23_TB) #normal
+
+#### Stats: Area FDis TB ####
+
+#FDis for Fort Keogh 2019 - LMER
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB19_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2020 - LMER
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="TB"), log(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB20_LMER, type = 3)  #NS
+
+#FDis for Fort Keogh 2021 - LMER
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+anova(FDis_TB21_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2022 - LMER
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB22_LMER, type = 3) #NS
+
+#FDis for Fort Keogh 2023 - LMER
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="TB"),(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+anova(FDis_TB23_LMER, type = 3) #NS
+
+# adjust pvalues for Area TB
+p.adjust(0.05093, method = "BH", n=5)
+p.adjust(0.5048, method = "BH", n=5)
+p.adjust(0.1536, method = "BH", n=5)
+p.adjust(0.5719, method = "BH", n=5)
+p.adjust(0.3467, method = "BH", n=5)
