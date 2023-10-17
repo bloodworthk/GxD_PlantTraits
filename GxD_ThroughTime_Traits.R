@@ -18,6 +18,8 @@ library(olsrr)
 library(multcomp)
 library(scales)
 library(patchwork)
+#install.packages("EnvStats")
+library(EnvStats) #for Rosner outlier test
 
 
 #### Set Working Directory ####
@@ -48,42 +50,37 @@ Traits<-read.csv("DxG_Plant_Traits/ThroughTime_Traits.csv") %>%
   mutate(SLA=leaf_area_cm/leaf_mg) %>%
   mutate(Plant_Biomass=as.numeric(leaf_mg)+as.numeric(biomass_mg)) %>% 
   #remove outliers for SLA
-  mutate(SLA=ifelse(SLA>9999,NA,SLA))
+  mutate(SLA=ifelse(SLA>402.6316,NA,SLA)) %>% 
+  mutate(LDMC=ifelse(LDMC>10,NA,LDMC))
 
 Traits$Year=as.character(Traits$Year)
 
+#outlier test for SLA
+summary(Traits$SLA)
+boxplot(Traits$SLA,
+        ylab = "SLA"
+)
+boxplot.stats(Traits$SLA)$out
+
+#Rosner Test for Outliers
+test_SLA <- rosnerTest(Traits$SLA,
+                   k = 39
+)
+test_SLA
+
+
+
 #Precipitation Data
 Precip<-read.csv("DxG_Plant_Traits/DxG_PrecipitationData.csv") %>% 
-  mutate(Time_Point=ifelse(Time_Point=="July","Monthly_Precip",ifelse(Time_Point=="June","Monthly_Precip","YeartoDate_Precip"))) %>% 
-  spread(key=Time_Point,value=Rainfall..mm., fill=NA) %>% 
   rename(site=Site)
 Precip$Year=as.character(Precip$Year)
 
-#Soil Moisture Data
-SM_TB<-read.csv("DxG_Plant_Traits/GMDR_TB_SoilMoisture_Controls.csv")%>% 
-  rename(site=Site) %>% 
-  filter(Date %in% c("4/19/19","5/2/19","5/19/19","6/3/19","6/14/19","6/24/19","5/8/20","5/19/20","6/1/20" ,"6/16/20","6/18/20","6/29/20" ,"6/30/20","7/16/20","7/30/20","4/23/21","5/6/21","5/19/21", "6/2/21","6/16/21","6/29/21","4/21/22","5/2/22","5/20/22","6/2/22","6/14/22","6/28/22")) %>% 
-  group_by(site, Year) %>% 
-  summarise(Soil_Moisture=mean(Soil.Moisture))
-SM_TB$Year=as.character(SM_TB$Year)
-
-####Currently no 2022 FK Soil Moisture Data ####
-SM_FK<-read.csv("DxG_Plant_Traits/GMDR_FK_SoilMoisture_Controls.csv")%>% 
-  rename(site=Site)%>% 
-  group_by(site, Year) %>% 
-  summarise(Soil_Moisture=mean(Soil_Moisture))
-SM_FK$Year=as.character(SM_FK$Year)
-
-SM_All<-SM_TB %>% 
-  rbind(SM_FK)
-
 Traits_Precip_SM<-Traits %>% 
-  left_join(Precip) %>% 
-  left_join(SM_All)
+  left_join(Precip) 
 
 #### Calculate averages ####
 Traits_avg<-Traits_Precip_SM %>% 
-  group_by(Year,Monthly_Precip,YeartoDate_Precip,Soil_Moisture,site,genus_species,species_code)%>% 
+  group_by(Year,Rainfall..mm.,site,genus_species,species_code)%>% 
   summarize(height_cm_Std=sd(height_cm,na.rm = T),height_cm_Mean=mean(height_cm,na.rm = T),height_cm_n=length(height_cm),
             leaf_area_cm_Std=sd(leaf_area_cm,na.rm = T),leaf_area_cm_Mean=mean(leaf_area_cm,na.rm = T),leaf_area_cm_n=length(leaf_area_cm),
             leaf_thickness_mm_Std=sd(leaf_thickness_mm,na.rm = T),leaf_thickness_mm_Mean=mean(leaf_thickness_mm,na.rm = T),leaf_thickness_mm_n=length(leaf_thickness_mm),
@@ -881,929 +878,195 @@ anova(TB_VIAM_SLA, type = 3) #NS
 
 
 
-#### Traits by Monthly Precip ####
-#### Height Figure ####
-Monthly_Precip_Graph_Height_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=height_cm_Mean,color=species_code,fill=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=height_cm_Mean-height_cm_St_Error,ymax=height_cm_Mean+height_cm_St_Error),linewidth = 3)+
-  xlab("Monthly_Precip")+
-  ylab("Height (cm)")+
-  scale_linetype_manual(values=c(0,1,0,1,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  expand_limits(y=c(0,40))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
-
-Monthly_Precip_Graph_Height_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=height_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=height_cm_Mean-height_cm_St_Error,ymax=height_cm_Mean+height_cm_St_Error),linewidth = 3)+
-  xlab("Monthly_Precip")+
-  ylab("Height (cm)")+
-  #scale_alpha_manual(values=c(1,0,1,0,1))+
-  scale_linetype_manual(values=c(0,0,0,1,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  expand_limits(y=c(0,40))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### Leaf Area Figure ####
-Monthly_Precip_Graph_LeafArea_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,0,1,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Leaf Area (cm)")+
-  expand_limits(y=c(0,10))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
-
-Monthly_Precip_Graph_LeafArea_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,0,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Leaf Area (cm)")+
-  expand_limits(y=c(0,10))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### Leaf Thickness Figure ####
-Monthly_Precip_Graph_Thickness_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,1))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
-
-Monthly_Precip_Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,1,1,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,1))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### Biomass  Figure ####
-Monthly_Precip_Graph_Biomass_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,1,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Biomass (g)")+
-  expand_limits(y=c(0,2))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
-
-
-Monthly_Precip_Graph_Biomass_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,0,0,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("Biomass (g)")+
-  expand_limits(y=c(0,2))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### LDMC Figure ####
-Monthly_Precip_Graph_LDMC_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("LDMC")+
-  expand_limits(y=c(0,15))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
-
-Monthly_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,1,1,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("LDMC")+
-  expand_limits(y=c(0,15))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### SLA Figure ####
-Monthly_Precip_Graph_SLA_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Monthly_Precip,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("SLA")+
-  expand_limits(y=c(0,8000))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position="none")
-
-Monthly_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Monthly_Precip,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("Monthly_Precip")+
-  ylab("SLA")+
-  expand_limits(y=c(0,8000))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position="none")
-
-#### Create Through time Trait x Monthly Precip Figure####
-Monthly_Precip_Graph_Height_FK+
-  Monthly_Precip_Graph_Height_TB+
-  Monthly_Precip_Graph_LeafArea_FK+
-  Monthly_Precip_Graph_LeafArea_TB+
-  Monthly_Precip_Graph_Thickness_FK+
-  Monthly_Precip_Graph_Thickness_TB+
-  Monthly_Precip_Graph_Biomass_FK+
-  Monthly_Precip_Graph_Biomass_TB+
-  Monthly_Precip_Graph_LDMC_FK+
-  Monthly_Precip_Graph_LDMC_TB+
-  Monthly_Precip_Graph_SLA_FK+
-  Monthly_Precip_Graph_SLA_TB+
-  plot_layout(ncol = 2,nrow = 6)
-#save at 3000x5000
-
-#### Normality: FK - height_cm: ####
-
-#BRAR
-Monthly_Precip_Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(height_cm)), log(height_cm)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Monthly_Precip_Norm_FK_BRAR) #normal
-
-#HECO
-Monthly_Precip_Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(height_cm)), (log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Monthly_Precip_Norm_FK_HECO) #normal
-
-#KOMA
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(height_cm)), (log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA)
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #normalish
-
-#SPCO
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(height_cm)), (log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normal
-
-#TRDU
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(height_cm)), ((height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #normal
-
-
-#### Normality: TB - height_cm: ####
-
-#BOGR
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(height_cm)), height_cm  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR) #normal
-
-#KOMA
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(height_cm)), (1/log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #normal
-
-#LOAR
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(height_cm)), (log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #normal
-
-#PASM
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(height_cm)), (sqrt(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #normal
-
-#VIAM
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(height_cm)), (log(height_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normal
-
-#### Normality: FK - leaf_area_cm: ####
-
-#BRAR
-Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(leaf_area_cm)), (1/log(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Norm_FK_BRAR) #normal
-
-#HECO
-Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Norm_FK_HECO) #normal
-
-#KOMA
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(leaf_area_cm)), (1/sqrt(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #normal
-
-#SPCO
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normal
-
-#TRDU
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #normal
-
-
-#### Normality: TB - leaf_area_cm: ####
-
-#BOGR
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR) #normal
-
-#KOMA
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(leaf_area_cm)), (1/exp(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #normal
-
-#LOAR
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #normal
-
-#PASM
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), (sqrt(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #normal
-
-#VIAM
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(leaf_area_cm)), (sqrt(leaf_area_cm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normal
-
-#### Normality: FK - leaf_thickness_mm: ####
-
-#BRAR
-Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Norm_FK_BRAR) #normal
-
-#HECO
-Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(leaf_thickness_mm)), (1/sqrt(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Norm_FK_HECO) #normal
-
-#KOMA
-#
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(leaf_thickness_mm)), (1/log(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #normal
-
-#SPCO
-#
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(leaf_thickness_mm)), (1/sqrt(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normalish
-
-#TRDU
-#
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #normal
-
-
-#### Normality: TB - leaf_thickness_mm: ####
-
-#BOGR
-#
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(leaf_thickness_mm)), log(leaf_thickness_mm)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR) #normal
-
-#KOMA
-#
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(leaf_thickness_mm)), (log(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #normal
-
-#LOAR
-#
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(leaf_thickness_mm)), ((leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #normal
-
-#PASM
-#
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #normal
-
-#VIAM
-#
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(leaf_thickness_mm)), (sqrt(leaf_thickness_mm))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normal
-
-
-#### Normality: FK - Plant Biomass: ####
-
-#BRAR
-Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Norm_FK_BRAR) #normal
-
-#HECO
-Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Norm_FK_HECO) #normal
-
-#KOMA
-#
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(Plant_Biomass)), (log(Plant_Biomass))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #normal
-
-#SPCO
-#
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normal
-
-#TRDU
-#
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(Plant_Biomass)), ((Plant_Biomass))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #normal
-
-
-#### Normality: TB - Plant_Biomass ####
-
-#BOGR
-#
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR) #normal
-
-#KOMA
-#
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(Plant_Biomass)), log(Plant_Biomass) ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #normalish
-
-#LOAR
-#
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(Plant_Biomass)), (log(Plant_Biomass))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #normal
-
-#PASM
-#
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #normal
-
-#VIAM
-#
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(Plant_Biomass)), 1/sqrt(Plant_Biomass)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normalish
-
-
-#### Normality: FK - LDMC: ####
-
-#BRAR
-Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(LDMC)), (log(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Norm_FK_BRAR) #normalish
-
-#HECO
-Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(LDMC)), (1/log1p(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Norm_FK_HECO) #not normal but looks okay
-
-#KOMA
-#
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(LDMC)), (1/log(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #not normal but looks okay
-
-#SPCO
-#
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(LDMC)), 1/log(LDMC)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normal
-
-#TRDU
-#
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(LDMC)), (log(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #not normal but looks okay
-
-
-#### Normality: TB - LDMC ####
-
-#BOGR
-#
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(LDMC)), log(LDMC)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR)  #not normal but looks okay
-
-#KOMA
-#
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(LDMC)), 1/log(LDMC) ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #normalish
-
-#LOAR
-#
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(LDMC)), (1/exp(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #not normal but looks okay
-
-#PASM
-#
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(LDMC)),(1/log(LDMC))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #not normal but looks okay
-
-#VIAM
-#
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(LDMC)), sqrt(LDMC)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normalish
-
-#### Normality: FK - SLA: ####
-
-#BRAR
-Monthly_Precip_Norm_FK_BRAR <- lm(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(SLA)), log(SLA)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_BRAR) 
-ols_test_normality(Monthly_Precip_Norm_FK_BRAR) #normal
-
-#HEC
-Monthly_Precip_Norm_FK_HECO <- lm(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(SLA)), (log(SLA))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_HECO) 
-ols_test_normality(Monthly_Precip_Norm_FK_HECO) #not normal but looks okay
-
-#KOMA
-#
-Monthly_Precip_Norm_FK_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(SLA)), (sqrt(SLA))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_FK_KOMA) #normalish
-
-#SPCO
-#
-Monthly_Precip_Norm_FK_SPCO <- lm(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(SLA)), (1/sqrt(SLA)) ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_SPCO) 
-ols_test_normality(Monthly_Precip_Norm_FK_SPCO) #normalish
-
-#TRDU
-#
-Monthly_Precip_Norm_FK_TRDU <- lm(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(SLA)), (1/log(SLA))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_FK_TRDU) 
-ols_test_normality(Monthly_Precip_Norm_FK_TRDU) #normalish
-
-
-#### Normality: TB - SLA ####
-
-#BOGR
-#
-Monthly_Precip_Norm_TB_BOGR <- lm(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(SLA)), 1/sqrt(SLA)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_BOGR) 
-ols_test_normality(Monthly_Precip_Norm_TB_BOGR) #normal
-
-#KOMA
-#
-Monthly_Precip_Norm_TB_KOMA <- lm(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(SLA)), (1/sqrt(SLA)) ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_KOMA) 
-ols_test_normality(Monthly_Precip_Norm_TB_KOMA) #not normal but looks okay
-
-#LOAR
-#
-Monthly_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(SLA)), (1/(SLA))  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_LOAR) 
-ols_test_normality(Monthly_Precip_Norm_TB_LOAR) #normalish
-
-#PASM
-#
-Monthly_Precip_Norm_TB_PASM <- lm(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(SLA)), log(SLA)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_PASM) 
-ols_test_normality(Monthly_Precip_Norm_TB_PASM) #not normal but looks okay
-
-#VIAM
-#
-Monthly_Precip_Norm_TB_VIAM <- lm(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(SLA)), 1/log(SLA)  ~ Monthly_Precip)
-ols_plot_resid_hist(Monthly_Precip_Norm_TB_VIAM) 
-ols_test_normality(Monthly_Precip_Norm_TB_VIAM) #normal
-
-
-
-#### Stats: FK - height_cm ####
-
-#BRAR
-Monthy_Precip_FKBRAR_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(height_cm)), log(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKBRAR_H, type = 3) #NS
-
-#HECO
-Monthy_Precip_FKHECO_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(height_cm)), log(height_cm) ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKHECO_H, type = 3) #0.01863
-
-#KOMA
-Monthy_Precip_FKKOMA_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(height_cm)), log(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKKOMA_H, type = 3) #NS
-
-#SPCO
-Monthy_Precip_FKSPCO_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(height_cm)), log(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKSPCO_H, type = 3) #0.01029
-
-#TRDU
-Monthy_Precip_FKTRDU_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(height_cm)), height_cm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKTRDU_H, type = 3) #NS
-
-#### Stats: TB - height_cm ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(height_cm)), height_cm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_H, type = 3) #NS
-
-#KOMA
-Monthy_Precip_TB_KOMA_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(height_cm)), (1/log(height_cm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_H, type = 3) #NS
-
-#LOAR
-Monthy_Precip_TB_LOAR_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(height_cm)),log(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_H, type = 3) #NS
-
-#PASM
-Monthy_Precip_TB_PASM_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(height_cm)), sqrt(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_H, type = 3) #0.04595
-
-#VIAM
-Monthy_Precip_TB_VIAM_H <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(height_cm)),log(height_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_H, type = 3) #NS
-
-
-#### Stats: FK - leaf_area_cm ####
-
-#BRAR
-Monthy_Precip_FKBRAR_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(leaf_area_cm)), (1/log(leaf_area_cm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKBRAR_LA, type = 3) #0.001057
-
-#HECO
-Monthy_Precip_FKHECO_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(leaf_area_cm)), log(leaf_area_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKHECO_LA, type = 3) #NS
-
-#KOMA
-Monthy_Precip_FKKOMA_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(leaf_area_cm)), (1/sqrt(leaf_area_cm))   ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKKOMA_LA, type = 3) #NS
-
-#SPCO
-Monthy_Precip_FKSPCO_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKSPCO_LA, type = 3) #0.03583
-
-#TRDU
-Monthy_Precip_FKTRDU_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(leaf_area_cm)), (log(leaf_area_cm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKTRDU_LA, type = 3) #NS
-
-#### Stats: TB - leaf_area_cm ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(leaf_area_cm)), leaf_area_cm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_LA, type = 3) #0.009031
-
-#KOMA
-Monthy_Precip_TB_KOMA_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(leaf_area_cm)), (1/exp(leaf_area_cm))   ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_LA, type = 3) #NS
-
-#LOAR
-Monthy_Precip_TB_LOAR_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), log(leaf_area_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_LA, type = 3) #NS
-
-#PASM
-Monthy_Precip_TB_PASM_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), sqrt(leaf_area_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_LA, type = 3) #NS
-
-#VIAM
-Monthy_Precip_TB_VIAM_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(leaf_area_cm)), sqrt(leaf_area_cm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_LA, type = 3) #0.01053
-
-#### Stats: FK - leaf_thickness_mm ####
-
-#BRAR
-Monthy_Precip_FKBRAR_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKBRAR_LT, type = 3) #NS
-
-#HECO
-Monthy_Precip_FKHECO_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(leaf_thickness_mm)), (1/sqrt(leaf_thickness_mm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKHECO_LT, type = 3) #NS
-
-#KOMA
-Monthy_Precip_FKKOMA_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(leaf_thickness_mm)), (1/log(leaf_thickness_mm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKKOMA_LT, type = 3) #NS
-
-#SPCO
-Monthy_Precip_FKSPCO_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(leaf_thickness_mm)), (1/sqrt(leaf_thickness_mm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FKSPCO_LT, type = 3) #NS
-
-#TRDU
-Monthy_Precip_FK_TRDU_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_TRDU_LT, type = 3) #NS
-
-#### Stats: TB - leaf_thickness_mm ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(leaf_thickness_mm)), log(leaf_thickness_mm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_LT, type = 3) #0.03699
-
-#KOMA
-Monthy_Precip_TB_KOMA_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(leaf_thickness_mm)), (log(leaf_thickness_mm))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_LT, type = 3) #0.005529
-
-#LOAR
-Monthy_Precip_TB_LOAR_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(leaf_thickness_mm)), leaf_thickness_mm  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_LT, type = 3) #9.081e-08 
-
-#PASM
-Monthy_Precip_TB_PASM_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(leaf_thickness_mm)), sqrt(leaf_thickness_mm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_LT, type = 3) #0.0005
-
-#VIAM
-Monthy_Precip_TB_VIAM_LT <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(leaf_thickness_mm)), sqrt(leaf_thickness_mm)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_LT, type = 3) #3.832e-05
-
-
-#### Stats: FK - Plant_Biomass ####
-
-#BRAR
-Monthy_Precip_FK_BRAR_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_BRAR_BM, type = 3) #4.861e-05
-
-#HECO
-Monthy_Precip_FK_HECO_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_HECO_BM, type = 3) #4.439e0-05
-
-#KOMA
-Monthy_Precip_FK_KOMA_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_KOMA_BM, type = 3) #0.029
-
-#SPCO
-Monthy_Precip_FK_SPCO_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(Plant_Biomass)), log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_SPCO_BM, type = 3) #0.006213
-
-#TRDU
-Monthy_Precip_FK_TRDU_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(Plant_Biomass)), Plant_Biomass  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_TRDU_BM, type = 3) #0.004719
-
-#### Stats: TB - Plant_Biomass ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(Plant_Biomass)),  log(Plant_Biomass) ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_BM, type = 3) #NS
-
-#KOMA
-Monthy_Precip_TB_KOMA_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(Plant_Biomass)),  log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_BM, type = 3) #NS
-
-#LOAR
-Monthy_Precip_TB_LOAR_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(Plant_Biomass)),  log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_BM, type = 3) #NS
-
-#PASM
-Monthy_Precip_TB_PASM_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(Plant_Biomass)),  log(Plant_Biomass)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_BM, type = 3) #0.02
-
-#VIAM
-Monthy_Precip_TB_VIAM_BM <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(Plant_Biomass)), (1/sqrt(Plant_Biomass))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_BM, type = 3) #0.0001
-
-#### Stats: FK - LDMC ####
-
-#BRAR
-Monthy_Precip_FK_BRAR_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(LDMC)), log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_BRAR_LDMC, type = 3) #NS
-
-#HECO
-Monthy_Precip_FK_HECO_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(LDMC)), (1/log1p(LDMC))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_HECO_LDMC, type = 3) #NS
-
-#KOMA
-Monthy_Precip_FK_KOMA_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(LDMC)), log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_KOMA_LDMC, type = 3) #NS
-
-#SPCO
-Monthy_Precip_FK_SPCO_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(LDMC)), (1/log(LDMC))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_SPCO_LDMC, type = 3) #NS
-
-#TRDU
-Monthy_Precip_FK_TRDU_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(LDMC)), log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_TRDU_LDMC, type = 3) #NS
-
-#### Stats: TB - LDMC ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(LDMC)), log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_LDMC, type = 3) #0.01345
-
-#KOMA
-Monthy_Precip_TB_KOMA_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(LDMC)), 1/log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_LDMC, type = 3) #NS
-
-#LOAR
-Monthy_Precip_TB_LOAR_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(LDMC)), 1/exp(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_LDMC, type = 3) #0.01533
-
-#PASM
-Monthy_Precip_TB_PASM_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(LDMC)), 1/log(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_LDMC, type = 3) #0.005357
-
-#VIAM
-Monthy_Precip_TB_VIAM_LDMC <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(LDMC)), sqrt(LDMC)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_LDMC, type = 3) #NS
-
-#### Stats: FK - SLA ####
-
-#BRAR
-Monthy_Precip_FK_BRAR_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BRAR" & site== "FK" & !is.na(SLA)), log(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_BRAR_SLA, type = 3) #0.003976
-
-#HECO
-Monthy_Precip_FK_HECO_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "HECO" & site== "FK" & !is.na(SLA)), (log(SLA))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_HECO_SLA, type = 3) #NS
-
-#KOMA
-Monthy_Precip_FK_KOMA_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "FK" & !is.na(SLA)), sqrt(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_KOMA_SLA, type = 3) #NS
-
-#SPCO
-Monthy_Precip_FK_SPCO_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "SPCO" & site== "FK" & !is.na(SLA)), (1/sqrt(SLA))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_SPCO_SLA, type = 3) #NS
-
-#TRDU
-Monthy_Precip_FK_TRDU_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "TRDU" & site== "FK" & !is.na(SLA)), 1/log(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_FK_TRDU_SLA, type = 3) #NS
-
-#### Stats: TB - SLA ####
-
-#BOGR
-Monthy_Precip_TB_BOGR_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "BOGR" & site== "TB" & !is.na(SLA)), (1/sqrt(SLA))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_BOGR_SLA, type = 3) #0.003342
-
-#KOMA
-Monthy_Precip_TB_KOMA_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "KOMA" & site== "TB" & !is.na(SLA)), (1/sqrt(SLA))  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_KOMA_SLA, type = 3) #NS
-
-#LOAR
-Monthy_Precip_TB_LOAR_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(SLA)), 1/(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_LOAR_SLA, type = 3) #NS
-
-#PASM
-Monthy_Precip_TB_PASM_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(SLA)), log(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_PASM_SLA, type = 3) #NS
-
-#VIAM
-Monthy_Precip_TB_VIAM_SLA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "VIAM" & site== "TB" & !is.na(SLA)), 1/log(SLA)  ~ Monthly_Precip + (1|block))
-anova(Monthy_Precip_TB_VIAM_SLA, type = 3) #NS
-
 
 
 #### Traits by Year to Date Precip ####
+
+#### Color Pallet ####
+#Species
+cbPalette_FK <- c("#4E79A7", "#954F09", "#E15759","#76B7B2", "#B07AA2")
+
+cbPalette_TB <- c("#59A14E", "#E15759", "#605550","#FF9DA7", "#9C755F")
+
 #### Height Figure ####
-YeartoDate_Precip_Graph_Height_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=height_cm_Mean,color=species_code,fill=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Height_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=height_cm_Mean,color=species_code,fill=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=height_cm_Mean-height_cm_St_Error,ymax=height_cm_Mean+height_cm_St_Error),linewidth = 3)+
-  xlab("YeartoDate_Precip")+
+  xlab("Precipitation")+
   ylab("Height (cm)")+
   scale_linetype_manual(values=c(1,1,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  expand_limits(y=c(0,40))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  expand_limits(y=c(0,40),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
-YeartoDate_Precip_Graph_Height_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=height_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Height_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=height_cm_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=height_cm_Mean-height_cm_St_Error,ymax=height_cm_Mean+height_cm_St_Error),linewidth = 3)+
-  xlab("YeartoDate_Precip")+
+  xlab("Precipitation")+
   ylab("Height (cm)")+
   #scale_alpha_manual(values=c(1,0,1,0,1))+
   scale_linetype_manual(values=c(0,0,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  expand_limits(y=c(0,40))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  expand_limits(y=c(0,40),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 #### Leaf Area Figure ####
-YeartoDate_Precip_Graph_LeafArea_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_LeafArea_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("YeartoDate_Precip")+
-  ylab("Leaf Area (cm)")+
-  expand_limits(y=c(0,10))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  xlab("Precipitation")+
+  ylab("Leaf Area (cm^2)")+
+  expand_limits(y=c(0,5),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
-YeartoDate_Precip_Graph_LeafArea_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_LeafArea_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=leaf_area_cm_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_area_cm_Mean-leaf_area_cm_St_Error,ymax=leaf_area_cm_Mean+leaf_area_cm_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(0,0,1,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("YeartoDate_Precip")+
-  ylab("Leaf Area (cm)")+
-  expand_limits(y=c(0,10))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  xlab("Precipitation")+
+  ylab("Leaf Area (cm^2)")+
+  expand_limits(y=c(0,5),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 #### Leaf Thickness Figure ####
-YeartoDate_Precip_Graph_Thickness_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Thickness_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,1,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("YeartoDate_Precip")+
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  xlab("Precipitation")+
   ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,1))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
+  expand_limits(y=c(0,0.75),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
-YeartoDate_Precip_Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=leaf_thickness_mm_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,0,1,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("YeartoDate_Precip")+
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  xlab("Precipitation")+
   ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,1))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
+  expand_limits(y=c(0,0.75),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
 #### Biomass  Figure ####
-YeartoDate_Precip_Graph_Biomass_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Biomass_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,1,0,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("YeartoDate_Precip")+
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  xlab("Precipitation")+
   ylab("Biomass (g)")+
-  expand_limits(y=c(0,2))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
+  expand_limits(y=c(0,2),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
 
-YeartoDate_Precip_Graph_Biomass_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_Biomass_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=Plant_Biomass_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=Plant_Biomass_Mean-Plant_Biomass_St_Error,ymax=Plant_Biomass_Mean+Plant_Biomass_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(0,0,0,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("YeartoDate_Precip")+
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  xlab("Precipitation")+
   ylab("Biomass (g)")+
-  expand_limits(y=c(0,2))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
-
-#### LDMC Figure ####
-YeartoDate_Precip_Graph_LDMC_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
-  geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("YeartoDate_Precip")+
-  ylab("LDMC")+
-  expand_limits(y=c(0,15))+
+  expand_limits(y=c(0,2),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
-YeartoDate_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+#### LDMC Figure ####
+YeartoDate_Precip_Graph_LDMC_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("YeartoDate_Precip")+
+  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  xlab("Precipitation")+
   ylab("LDMC")+
-  expand_limits(y=c(0,15))+
+  expand_limits(y=c(0,4),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
+YeartoDate_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
+  geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
+  scale_linetype_manual(values=c(1,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  xlab("Precipitation")+
+  ylab("LDMC")+
+  expand_limits(y=c(0,4),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
+
 #### SLA Figure ####
-YeartoDate_Precip_Graph_SLA_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=YeartoDate_Precip,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_SLA_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=Rainfall..mm.,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,1,1,1,0),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
-  xlab("YeartoDate_Precip")+
-  ylab("SLA")+
-  expand_limits(y=c(0,8000))+
-  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position="none")
+  scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  xlab("Precipitation")+
+  ylab("SLA (cm^2 g^-1)")+
+  expand_limits(y=c(0,400),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")
 
-YeartoDate_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=YeartoDate_Precip,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code)) +  
-  geom_point(size=5, stroke =2)+
-  geom_smooth(method='lm', se=FALSE,size=4)+
+YeartoDate_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+  geom_point(size=8, stroke =2)+
+  geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
   scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
-  xlab("YeartoDate_Precip")+
-  ylab("SLA")+
-  expand_limits(y=c(0,8000))+
-  theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position="none")
+  scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_shape_manual(values=c(15,16,17,18,7),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  xlab("Precipitation")+
+  ylab("SLA (cm^2 g^-1)")+
+  expand_limits(y=c(0,400),x=c(125,250))+
+  scale_x_continuous(breaks=c(125,150,175,200,225,250))+
+  theme(axis.text.y=element_text(size=55),axis.text.x=element_text(size=55),axis.title.y=element_text(size=55),axis.title.x=element_text(size=55),legend.position = "none")
 
 #### Create Through time Trait Figure####
-YeartoDate_Precip_Graph_Height_FK+
-  YeartoDate_Precip_Graph_Height_TB+
-  YeartoDate_Precip_Graph_LeafArea_FK+
+YeartoDate_Precip_Graph_Height_TB+
+  YeartoDate_Precip_Graph_Height_FK+
   YeartoDate_Precip_Graph_LeafArea_TB+
-  YeartoDate_Precip_Graph_Thickness_FK+
+  YeartoDate_Precip_Graph_LeafArea_FK+
   YeartoDate_Precip_Graph_Thickness_TB+
-  YeartoDate_Precip_Graph_Biomass_FK+
+  YeartoDate_Precip_Graph_Thickness_FK+
   YeartoDate_Precip_Graph_Biomass_TB+
-  YeartoDate_Precip_Graph_LDMC_FK+
+  YeartoDate_Precip_Graph_Biomass_FK+
   YeartoDate_Precip_Graph_LDMC_TB+
-  YeartoDate_Precip_Graph_SLA_FK+
+  YeartoDate_Precip_Graph_LDMC_FK+
   YeartoDate_Precip_Graph_SLA_TB+
+  YeartoDate_Precip_Graph_SLA_FK+
   plot_layout(ncol = 2,nrow = 6)
-#save at 3000x5000
+#save at 2800x3500
 
 #not transformed - FK
 chart.Correlation(Traits_Precip_SM_FK[c(7,8,9,14,15,16)],pch="41", cex = 4, method="spearman", histogram = TRUE)
