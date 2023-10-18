@@ -1234,7 +1234,8 @@ anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for TB 2022 - LMER
 FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_TB22_LMER, type = 3) #NS
+anova(FDis_TB22_LMER, type = 3) #0.005
+summary(glht(FDis_TB22_LMER , linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
 
 #FDis for TB 2023 - LMER
 FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
@@ -2086,7 +2087,9 @@ anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
 FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="FK"), 1/sqrt(FDis_SLA)~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FDis_FK23_LMER, type = 3) #NS
+anova(FDis_FK23_LMER, type = 3) #0.006094
+summary(glht(FDis_FK23_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+
 
 # adjust pvalues for SLA TB
 p.adjust(0.035, method = "BH", n=5)
