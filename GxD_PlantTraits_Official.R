@@ -118,7 +118,7 @@ Traits_Clean <- Traits [complete.cases(Traits[ , 6]),] %>%
   filter(comments_lab!="not BRTE - did not measure, remove from data") %>% 
   filter(comments_lab!="maybe KOMA?") %>% 
   filter(comments_lab!="add 0.0012 to total biomass (wet)") %>% 
-  mutate(wet_leaf_weight_g=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",ifelse(wet_leaf_weight_g=="0..0233",0.0233, wet_leaf_weight_g))))
+  mutate(wet_leaf_weight_g=as.numeric(ifelse(wet_leaf_weight_g=="<0.0001","0.00001",wet_leaf_weight_g)))
 
 #Changing ARTR to ARFR based on comments on lab traits
 Traits_Clean[58, "genus_species"] <- "Artemisia_frigida"
@@ -165,7 +165,37 @@ Traits_Clean_2<-Traits_Clean %>%
   #edit genus species to match species comp data
   mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
   mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
-  dplyr::select(-genus_species,-Genus_Species_2)
+  dplyr::select(-genus_species,-Genus_Species_2) %>% 
+  filter(SLA==ifelse(SLA>447,NA,SLA)) %>% 
+  filter(Total.Area==ifelse(Total.Area>7.8,NA,Total.Area))
+
+#outlier test for SLA
+summary(Traits_Clean_2$SLA)
+boxplot(Traits_Clean_2$SLA,
+        ylab = "SLA"
+)
+boxplot.stats(Traits_Clean_2$SLA)$out
+
+#Rosner Test for Outliers
+test_SLA <- rosnerTest(Traits_Clean_2$SLA,
+                       k = 75
+)
+test_SLA
+
+#outlier test for leaf area
+summary(Traits_Clean_2$Total.Area)
+boxplot(Traits_Clean_2$Total.Area,
+        ylab = "Leaf Area"
+)
+boxplot.stats(Traits_Clean_2$Total.Area)$out
+
+#Rosner Test for Outliers
+test_Total.Area <- rosnerTest(Traits_Clean_2$Total.Area,
+                       k = 47
+)
+test_Total.Area
+
+
 
 #### Calculate CWM ####
 
@@ -595,11 +625,11 @@ FK_SLA_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==
 anova(FK_SLA_2023_LMER_slope, type = 3) #ns
 
 # adjust pvalues for SLA FK
-p.adjust(0.01, method = "BH", n=5)
-p.adjust(0.02, method = "BH", n=5)
-p.adjust(0.28, method = "BH", n=5)
-p.adjust(0.39, method = "BH", n=5)
-p.adjust(0.40, method = "BH", n=5)
+p.adjust(0.18, method = "BH", n=5)
+p.adjust(0.06, method = "BH", n=5)
+p.adjust(0.96, method = "BH", n=5)
+p.adjust(0.53, method = "BH", n=5)
+p.adjust(0.54, method = "BH", n=5)
 
 #### Normality: CWM SLA TB ####
 
@@ -651,11 +681,11 @@ TB_SLA_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==
 anova(TB_SLA_2023_LMER_slope, type = 3) #ns
 
 # adjust pvalues for SLA TB
-p.adjust(0.62, method = "BH", n=5)
-p.adjust(0.02, method = "BH", n=5)
-p.adjust(0.13, method = "BH", n=5)
-p.adjust(0.24, method = "BH", n=5)
-p.adjust(0.77, method = "BH", n=5)
+p.adjust(0.58, method = "BH", n=5)
+p.adjust(0.69, method = "BH", n=5)
+p.adjust(0.96, method = "BH", n=5)
+p.adjust(0.82, method = "BH", n=5)
+p.adjust(0.11, method = "BH", n=5)
 
 
 #### Normality: CWM Area FK ####
@@ -708,11 +738,11 @@ FK_Area_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year=
 anova(FK_Area_2023_LMER_slope, type = 3) #ns
 
 # adjust pvalues for Area FK
-p.adjust(0.1723, method = "BH", n=5)
-p.adjust(6.92e-05, method = "BH", n=5)
-p.adjust(0.1166, method = "BH", n=5)
-p.adjust(0.4296, method = "BH", n=5)
-p.adjust(0.5277, method = "BH", n=5)
+p.adjust(0.1958, method = "BH", n=5)
+p.adjust(0.0017, method = "BH", n=5)
+p.adjust(0.1084, method = "BH", n=5)
+p.adjust(0.609, method = "BH", n=5)
+p.adjust(0.6982, method = "BH", n=5)
 
 #### Normality: CWM Area TB ####
 
@@ -764,11 +794,11 @@ TB_Area_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year=
 anova(TB_Area_2023_LMER_slope, type = 3) #ns
 
 # adjust pvalues for Area TB
-p.adjust(0.3677, method = "BH", n=5)
-p.adjust(0.5599, method = "BH", n=5)
-p.adjust(0.127, method = "BH", n=5)
-p.adjust(0.4882, method = "BH", n=5)
-p.adjust(0.7656, method = "BH", n=5)
+p.adjust(0.3642, method = "BH", n=5)
+p.adjust(0.5677, method = "BH", n=5)
+p.adjust(0.2897, method = "BH", n=5)
+p.adjust(0.5407, method = "BH", n=5)
+p.adjust(0.7767, method = "BH", n=5)
 
 
 
@@ -923,11 +953,11 @@ PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat + (1|block/slop
 print(PERMANOVA_FK_23) 
 
 # adjust pvalues for perMANOVA FK
-p.adjust(0.1089, method = "BH", n=5)
-p.adjust(0.4106, method = "BH", n=5)
-p.adjust(0.5025, method = "BH", n=5)
-p.adjust(0.8222, method = "BH", n=5)
-p.adjust(0.5534, method = "BH", n=5)
+p.adjust(0.4056, method = "BH", n=5)
+p.adjust(0.3147, method = "BH", n=5)
+p.adjust(0.9331, method = "BH", n=5)
+p.adjust(0.9191, method = "BH", n=5)
+p.adjust(0.7073, method = "BH", n=5)
 
 #### PERMANOVA TB ####
 ##TB##
@@ -957,11 +987,11 @@ PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat + (1|block/slop
 print(PERMANOVA_TB_23) 
 
 # adjust pvalues for perMANOVA FK
+p.adjust(0.97, method = "BH", n=5)
+p.adjust(0.987, method = "BH", n=5)
+p.adjust(0.994, method = "BH", n=5)
 p.adjust(0.965, method = "BH", n=5)
-p.adjust(0.1219, method = "BH", n=5)
-p.adjust(0.1738, method = "BH", n=5)
-p.adjust(0.4755, method = "BH", n=5)
-p.adjust(0.8751, method = "BH", n=5)
+p.adjust(0.8012, method = "BH", n=5)
 
 
 
@@ -981,7 +1011,7 @@ Avg_Traits_FK<-Traits_Clean_2 %>%
 
 Avg_Traits_FK_All<-Avg_Traits_FK%>% 
   filter(Genus_Species_Correct!="Pediomelum.esculentum") %>% 
-  mutate(Sp_Num=c(1:32)) %>% 
+  mutate(Sp_Num=c(1:30)) %>% 
   ungroup() 
 
 #Create a matrix with just average trait data removing all idetifiers
@@ -990,7 +1020,7 @@ Avg_Traits_FK_Data<-Avg_Traits_FK_All  %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data) <- c(1:32)
+rownames(Avg_Traits_FK_Data) <- c(1:30)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_FK_SpNames<-Avg_Traits_FK_All %>% 
@@ -1042,7 +1072,7 @@ Avg_Traits_TB<-Traits_Clean_2 %>%
 
 Avg_Traits_TB_All<-Avg_Traits_TB %>% 
   filter(Genus_Species_Correct %in% c("Alyssum.desertorum", "Androsace.occidentalis","Aristida.purpurea","Artemisia.dracunculus","Artemisia.frigida","Bouteloua.gracilis","Bromus.arvensis","Bromus.tectorum","Carex.duriuscula","Carex.filifolia","Conyza.canadensis","Hedeoma.hispida","Hesperostipa.comata","Koeleria.macrantha","Lepidium.densiflorum","Lithospermum.incisum","Logfia.arvensis","Pascopyrum.smithii","Plantago.patagonica","Poa.secunda","Sphaeralcea.coccinea","Sporobolus.cryptandrus","Taraxacum.officinale","Tragopogon.dubius","Vulpia.octoflora")) %>% 
-  mutate(Sp_Num=c(1:21))
+  mutate(Sp_Num=c(1:17))
 
 #Create a matrix with just average trait data removing all identifiers
 Avg_Traits_TB_Data<-Avg_Traits_TB_All %>% 
@@ -1050,7 +1080,7 @@ Avg_Traits_TB_Data<-Avg_Traits_TB_All %>%
   as.matrix()
 
 #make row names 1-44 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data) <- c(1:21)
+rownames(Avg_Traits_TB_Data) <- c(1:17)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames<-Avg_Traits_TB_All %>% 
@@ -1106,19 +1136,19 @@ Functional_Diversity<-Functional_Diversity_FK %>%
 #### Normality: Multivariate FDis FK ####
 
 #FK - FDis - 2019
-FDis_Multi_Norm_19_FK <- lm(data = subset(Functional_Diversity, year == 2019 & site== "FK"), FDis_All  ~ rainfall_reduction)
+FDis_Multi_Norm_19_FK <- lm(data = subset(Functional_Diversity, year == 2019 & site== "FK"), (FDis_All)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_Multi_Norm_19_FK) 
-ols_test_normality(FDis_Multi_Norm_19_FK) #normal
+ols_test_normality(FDis_Multi_Norm_19_FK) #normalish
 
 #FK - FDis - 2020
 FDis_Multi_Norm_20_FK <- lm(data = subset(Functional_Diversity, year == 2020 & site== "FK"), FDis_All  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_Multi_Norm_20_FK) 
-ols_test_normality(FDis_Multi_Norm_20_FK) #normal
+ols_test_normality(FDis_Multi_Norm_20_FK) #normalish
 
 #FK - FDis - 2021
 FDis_Multi_Norm_21_FK <- lm(data = subset(Functional_Diversity, year == 2021 & site== "FK"), FDis_All  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_Multi_Norm_21_FK) 
-ols_test_normality(FDis_Multi_Norm_21_FK) #normal
+ols_test_normality(FDis_Multi_Norm_21_FK) #normalish
 
 #FK - FDis - 2022
 FDis_Multi_Norm_22_FK <- lm(data = subset(Functional_Diversity, year == 2022 & site== "FK"), FDis_All  ~ rainfall_reduction)
@@ -1128,7 +1158,7 @@ ols_test_normality(FDis_Multi_Norm_22_FK) #normal
 #FK - FDis - 2023
 FDis_Multi_Norm_23_FK <- lm(data = subset(Functional_Diversity, year == 2023 & site== "FK"),FDis_All  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_Multi_Norm_23_FK) 
-ols_test_normality(FDis_Multi_Norm_23_FK) #normalish
+ols_test_normality(FDis_Multi_Norm_23_FK) #normal
 
 #### Stats: Multivariate FDis FK ####
 
@@ -1153,11 +1183,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&s
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.1907, method = "BH", n=5)
-p.adjust(0.497, method = "BH", n=5)
-p.adjust(0.3575, method = "BH", n=5)
-p.adjust(0.4872, method = "BH", n=5)
-p.adjust(0.6934, method = "BH", n=5)
+p.adjust(0.098, method = "BH", n=5)
+p.adjust(0.267, method = "BH", n=5)
+p.adjust(0.6599, method = "BH", n=5)
+p.adjust(0.539, method = "BH", n=5)
+p.adjust(0.7278, method = "BH", n=5)
 
 
 
@@ -1186,7 +1216,7 @@ ols_test_normality(FDis_Multi_Norm_22_TB) #normal
 #TB - FDis - 2023
 FDis_Multi_Norm_23_TB <- lm(data = subset(Functional_Diversity, year == 2023 & site== "TB"),(FDis_All)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_Multi_Norm_23_TB) 
-ols_test_normality(FDis_Multi_Norm_23_TB) #normalish
+ols_test_normality(FDis_Multi_Norm_23_TB) #normal
 
 #### Stats: Multivariate FDis TB ####
 
@@ -1211,11 +1241,11 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&s
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.754, method = "BH", n=5)
-p.adjust(0.8907, method = "BH", n=5)
-p.adjust(0.5207, method = "BH", n=5)
-p.adjust(0.7457, method = "BH", n=5)
-p.adjust(0.7373, method = "BH", n=5)
+p.adjust(0.08426, method = "BH", n=5)
+p.adjust(0.5519, method = "BH", n=5)
+p.adjust(0.2323, method = "BH", n=5)
+p.adjust(0.005333, method = "BH", n=5)
+p.adjust(0.07632, method = "BH", n=5)
 
 
 #### Calculate Height FDis: FK ####
@@ -1949,7 +1979,7 @@ FK_FunctionalDiversity_SLA <- dbFD(Avg_Traits_FK_Data_SLA, Species_Comp_FK_Wide_
 Avg_Traits_TB_SLA<-Avg_Traits_TB%>% 
   na.omit(Avg_SLA) %>%
   filter(!Genus_Species_Correct %in% c("Erigeron.canus","Nothocalais.cuspidata", "Oenothera.suffrtescuns")) %>% 
-  mutate(Sp_Num=c(1:20)) %>% 
+  mutate(Sp_Num=c(1:34)) %>% 
   ungroup() 
 
 Avg_Traits_TB_Data_SLA<-Avg_Traits_TB_SLA %>% 
@@ -1957,7 +1987,7 @@ Avg_Traits_TB_Data_SLA<-Avg_Traits_TB_SLA %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_SLA) <- c(1:20)
+rownames(Avg_Traits_TB_Data_SLA) <- c(1:34)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames_SLA<-Avg_Traits_TB_SLA %>% 
@@ -2017,14 +2047,14 @@ ols_plot_resid_hist(FDis_SLA_Norm_19_FK)
 ols_test_normality(FDis_SLA_Norm_19_FK) #normal
 
 #FK - FDis - 2020
-FDis_SLA_Norm_20_FK <- lm(data = subset(Functional_Diversity_SLA, year == 2020 & site== "FK"), log(FDis_SLA)  ~ rainfall_reduction)
+FDis_SLA_Norm_20_FK <- lm(data = subset(Functional_Diversity_SLA, year == 2020 & site== "FK"), (FDis_SLA)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_SLA_Norm_20_FK) 
-ols_test_normality(FDis_SLA_Norm_20_FK) #normal
+ols_test_normality(FDis_SLA_Norm_20_FK) #normalish
 
 #FK - FDis - 2021
-FDis_SLA_Norm_21_FK <- lm(data = subset(Functional_Diversity_SLA, year == 2021 & site== "FK"), log(FDis_SLA)  ~ rainfall_reduction)
+FDis_SLA_Norm_21_FK <- lm(data = subset(Functional_Diversity_SLA, year == 2021 & site== "FK"), (FDis_SLA)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_SLA_Norm_21_FK) 
-ols_test_normality(FDis_SLA_Norm_21_FK) #normal
+ols_test_normality(FDis_SLA_Norm_21_FK) #normalish
 
 #FK - FDis - 2022
 FDis_SLA_Norm_22_FK <- lm(data = subset(Functional_Diversity_SLA, year == 2022 & site== "FK"), sqrt(FDis_SLA)  ~ rainfall_reduction)
@@ -2043,11 +2073,11 @@ FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==20
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
@@ -2059,11 +2089,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==20
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for SLA TB
-p.adjust(0.128, method = "BH", n=5)
-p.adjust(0.5141, method = "BH", n=5)
-p.adjust(0.8544, method = "BH", n=5)
-p.adjust(0.8585, method = "BH", n=5)
-p.adjust(0.2579, method = "BH", n=5)
+p.adjust(0.035, method = "BH", n=5)
+p.adjust(0.333, method = "BH", n=5)
+p.adjust(0.778, method = "BH", n=5)
+p.adjust(0.2713, method = "BH", n=5)
+p.adjust(0.0061, method = "BH", n=5)
 
 #### Normality: SLA FDis TB ####
 
@@ -2083,12 +2113,12 @@ ols_plot_resid_hist(FDis_SLA_Norm_21_TB)
 ols_test_normality(FDis_SLA_Norm_21_TB) #normal
 
 #TB - FDis - 2022
-FDis_SLA_Norm_22_TB <- lm(data = subset(Functional_Diversity_SLA, year == 2022 & site== "TB"),log(FDis_SLA)  ~ rainfall_reduction)
+FDis_SLA_Norm_22_TB <- lm(data = subset(Functional_Diversity_SLA, year == 2022 & site== "TB"),(FDis_SLA)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_SLA_Norm_22_TB) 
-ols_test_normality(FDis_SLA_Norm_22_TB) #okay
+ols_test_normality(FDis_SLA_Norm_22_TB) #normal
 
 #TB - FDis - 2023
-FDis_SLA_Norm_23_TB <- lm(data = subset(Functional_Diversity_SLA, year == 2023 & site== "TB"), sqrt(FDis_SLA)  ~ rainfall_reduction)
+FDis_SLA_Norm_23_TB <- lm(data = subset(Functional_Diversity_SLA, year == 2023 & site== "TB"), log(FDis_SLA)  ~ rainfall_reduction)
 ols_plot_resid_hist(FDis_SLA_Norm_23_TB) 
 ols_test_normality(FDis_SLA_Norm_23_TB) #normal
 
@@ -2107,26 +2137,26 @@ FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==20
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="TB"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="TB"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="TB"),sqrt(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="TB"),log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for SLA TB
-p.adjust(0.2954, method = "BH", n=5)
-p.adjust(0.02842, method = "BH", n=5)
-p.adjust(0.1069, method = "BH", n=5)
-p.adjust(0.1695, method = "BH", n=5)
-p.adjust(0.8946, method = "BH", n=5)
+p.adjust(0.559, method = "BH", n=5)
+p.adjust(0.182, method = "BH", n=5)
+p.adjust(0.1607, method = "BH", n=5)
+p.adjust(0.09415, method = "BH", n=5)
+p.adjust(0.8016, method = "BH", n=5)
 
 #### Calculate Area FDis: FK ####
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Area<-Avg_Traits_FK%>% 
   filter(!Genus_Species_Correct %in% c("Pediomelum.esculentum","Linum.rigidum")) %>% 
-  mutate(Sp_Num=c(1:31)) %>% 
+  mutate(Sp_Num=c(1:30)) %>% 
   ungroup() 
 
 Avg_Traits_FK_Data_Area<-Avg_Traits_FK_Area %>% 
@@ -2134,7 +2164,7 @@ Avg_Traits_FK_Data_Area<-Avg_Traits_FK_Area %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_Area) <- c(1:31)
+rownames(Avg_Traits_FK_Data_Area) <- c(1:30)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_FK_SpNames_Area<-Avg_Traits_FK_Area %>% 
@@ -2173,7 +2203,7 @@ FK_FunctionalDiversity_Area <- dbFD(Avg_Traits_FK_Data_Area, Species_Comp_FK_Wid
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_TB_Area<-Avg_Traits_TB%>% 
   filter(!Genus_Species_Correct %in% c("Aristida.purpurea","Artemisia.frigida","Artemisia.tridentata","Bouteloua.gracilis","Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides","Gutierrezia.sarothrae")) %>% 
-  mutate(Sp_Num=c(1:34)) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
   ungroup() 
 
 Avg_Traits_TB_Data_Area<-Avg_Traits_TB_Area %>% 
@@ -2181,7 +2211,7 @@ Avg_Traits_TB_Data_Area<-Avg_Traits_TB_Area %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_Area) <- c(1:34)
+rownames(Avg_Traits_TB_Data_Area) <- c(1:33)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames_Area<-Avg_Traits_TB_Area %>% 
@@ -2283,11 +2313,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.3872, method = "BH", n=5)
-p.adjust(0.7226, method = "BH", n=5)
-p.adjust(0.1322, method = "BH", n=5)
-p.adjust(0.8867, method = "BH", n=5)
-p.adjust(0.06561, method = "BH", n=5)
+p.adjust(0.3998, method = "BH", n=5)
+p.adjust(0.6613, method = "BH", n=5)
+p.adjust(0.1325, method = "BH", n=5)
+p.adjust(0.7777, method = "BH", n=5)
+p.adjust(0.05299, method = "BH", n=5)
 
 #### Normality: Area FDis TB ####
 
@@ -2339,8 +2369,8 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.05093, method = "BH", n=5)
-p.adjust(0.5048, method = "BH", n=5)
-p.adjust(0.1536, method = "BH", n=5)
-p.adjust(0.5719, method = "BH", n=5)
-p.adjust(0.3467, method = "BH", n=5)
+p.adjust(0.02851, method = "BH", n=5)
+p.adjust(0.308, method = "BH", n=5)
+p.adjust(0.1803, method = "BH", n=5)
+p.adjust(0.2, method = "BH", n=5)
+p.adjust(0.2501, method = "BH", n=5)
