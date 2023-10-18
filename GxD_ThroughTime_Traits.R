@@ -166,12 +166,12 @@ YeartoDate_Precip_Graph_Thickness_FK<-ggplot(data=subset(Traits_avg,site=="FK"),
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,1,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
+  scale_linetype_manual(values=c(0,1,1,1,1),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   scale_color_manual(values=cbPalette_FK,labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   scale_shape_manual(values=c(0,1,2,5,6),labels = c("BRAR","HECO","KOMA","SPCO","TRDU"), breaks = c("BRAR","HECO","KOMA","SPCO","TRDU"),name="Species")+
   xlab("Precipitation")+
   ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,0.75),x=c(125,250))+
+  expand_limits(y=c(0,0.05),x=c(125,250))+
   scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
@@ -179,12 +179,12 @@ YeartoDate_Precip_Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(1,0,1,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(0,0,0,1,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_shape_manual(values=c(15,2,16,17,18),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Precipitation")+
   ylab("Leaf Thickness (mm)")+
-  expand_limits(y=c(0,0.75),x=c(125,250))+
+  expand_limits(y=c(0,0.05),x=c(125,250))+
   scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_text(size=55),axis.text.x=element_blank(),axis.title.y=element_text(size=55),axis.title.x=element_blank(),legend.position = "none")
 
