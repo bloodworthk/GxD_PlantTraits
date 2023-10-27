@@ -701,7 +701,7 @@ anova(YeartoDate_Precip_TB_KOMA_LA, type = 3) #NS
 
 #LOAR
 YeartoDate_Precip_TB_LOAR_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(leaf_area_cm)), log(leaf_area_cm)  ~ Rainfall..mm. + (1|block))
-anova(YeartoDate_Precip_TB_LOAR_LA, type = 3) #NS
+anova(YeartoDate_Precip_TB_LOAR_LA, type = 3) #0.004498
 
 #PASM
 YeartoDate_Precip_TB_PASM_LA <- lmerTest::lmer(data = subset(Traits_Precip_SM, species_code == "PASM" & site== "TB" & !is.na(leaf_area_cm)), sqrt(leaf_area_cm)  ~ Rainfall..mm. + (1|block))
