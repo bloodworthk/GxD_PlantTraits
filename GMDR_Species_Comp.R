@@ -438,18 +438,21 @@ CommunityMetrics_Aerial_Avg<-CommunityMetrics_Aerial %>%
 #Grazing Palette
 grazingColor <- c("#8A9A5B", "#4C6444","#3E341F") #from MLLMM to MMMMM to HHMMM 
 
-# Drought palette with grey:
-cbPalette <- c("#492900", "#A36B2B", "#7C9693","#89CFD4", "#2686A0")
+# Drought palette
+cbPaletteOld <- c("#A36B2B","#492900","#7C9693","#89CFD4", "#2686A0")
+
+cbPalette<- c("#A36B2B","#492900","grey60","#87A878", "#3B5249")
 
 #Thunder Basin all years
-Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year),fill=as.factor(year))) +  
   geom_point(size=14, stroke =6)+
   geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019), method='lm', se=FALSE,size=5,linetype="dashed")+
   #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
   geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_shape_manual(values=c(22,23,2,24,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_fill_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Richness")+
   expand_limits(y=c(5,20))+
@@ -457,12 +460,13 @@ Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
   annotate("text", x=21,y=19.7, label = "a) Thunder Basin", size=20)
 
 #Fort Keogh all years
-Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year))) +  
+Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year),fill=as.factor(year))) +  
   geom_point(size=14, stroke =6)+ 
   geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019), method='lm', se=FALSE,size=5,linetype="dashed")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
-  scale_shape_manual(values=c(15,16,17,18,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_shape_manual(values=c(22,23,2,24,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
+  scale_fill_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   xlab("Rainfall Reduction (%)")+
   ylab("Plant Species Richness")+
   expand_limits(y=c(5,20))+
