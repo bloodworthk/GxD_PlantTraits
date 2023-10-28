@@ -68,8 +68,6 @@ test_SLA <- rosnerTest(Traits$SLA,
 )
 test_SLA
 
-
-
 #Precipitation Data
 Precip<-read.csv("DxG_Plant_Traits/DxG_PrecipitationData.csv") %>% 
   rename(site=Site)
@@ -179,7 +177,7 @@ YeartoDate_Precip_Graph_Thickness_TB<-ggplot(data=subset(Traits_avg,site=="TB"),
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=leaf_thickness_mm_Mean-leaf_thickness_mm_St_Error,ymax=leaf_thickness_mm_Mean+leaf_thickness_mm_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,0,0,1,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(1,0,1,1,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_shape_manual(values=c(15,2,16,17,18),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Precipitation")+
@@ -206,7 +204,7 @@ YeartoDate_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,1,0,0,1),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(0,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_shape_manual(values=c(15,2,16,17,18),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Precipitation")+
@@ -233,7 +231,7 @@ YeartoDate_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,0,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(1,0,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_shape_manual(values=c(15,2,16,17,18),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Precipitation")+
@@ -606,7 +604,7 @@ ols_test_normality(YeartoDate_Precip_Norm_TB_KOMA) #not normal but looks okay
 #
 YeartoDate_Precip_Norm_TB_LOAR <- lm(data = subset(Traits_Precip_SM, species_code == "LOAR" & site== "TB" & !is.na(SLA)), (1/(SLA))  ~ Rainfall..mm.)
 ols_plot_resid_hist(YeartoDate_Precip_Norm_TB_LOAR) 
-ols_test_normality(YeartoDate_Precip_Norm_TB_LOAR) #normalish
+#ols_test_normality(YeartoDate_Precip_Norm_TB_LOAR) #can't run because sample size is below 7 - had to remove many LOAR data points because they were outliers
 
 #PASM
 #
