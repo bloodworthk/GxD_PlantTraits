@@ -32,9 +32,36 @@ Plot_Texture_Slope<-plot_layoutK %>%
   left_join(Soil_Texture) %>% 
   select(site,block,paddock,plot,slope,X..Sand,X..Clay,X..Silt)
 
+#Merge together slope and soil texture data
+Plot_Texture_Slope_FK<-Plot_Texture_Slope %>% 
+  filter(site=="FK")
 
 #all correlations
-chart.Correlation(Plot_Texture_Slope[5:8],pch="41", cex = 4, method="spearman", histogram = TRUE)
+chart.Correlation(Plot_Texture_Slope_FK[5:8],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
+#Merge together slope and soil texture data
+Plot_Texture_Slope_TB<-Plot_Texture_Slope %>% 
+  filter(site=="TB")
+
+#all correlations
+chart.Correlation(Plot_Texture_Slope_TB[5:8],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
+#by block
+Plot_Texture_Slope_FK<-Plot_Texture_Slope %>% 
+  filter(site=="FK" & block==3)
+
+#all correlations
+chart.Correlation(Plot_Texture_Slope_FK[5:8],pch="41", cex = 4, method="spearman", histogram = TRUE)
+
+
+#Merge together slope and soil texture data
+Plot_Texture_Slope_TB<-Plot_Texture_Slope %>% 
+  filter(site=="TB"& block==3)
+
+#all correlations
+chart.Correlation(Plot_Texture_Slope_TB[5:8],pch="41", cex = 4, method="spearman", histogram = TRUE)
 
 
 #### PCA for FK ####
