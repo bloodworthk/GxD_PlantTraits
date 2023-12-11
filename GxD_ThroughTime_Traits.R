@@ -50,8 +50,10 @@ Traits<-read.csv("DxG_Plant_Traits/ThroughTime_Traits.csv") %>%
   mutate(SLA=leaf_area_cm/leaf_mg) %>%
   mutate(Plant_Biomass=as.numeric(leaf_mg)+as.numeric(biomass_mg)) %>% 
   #remove outliers for SLA
-  mutate(SLA=ifelse(SLA>402.6316,NA,SLA)) %>% 
-  mutate(LDMC=ifelse(LDMC>10,NA,LDMC))
+  mutate(SLA=ifelse(SLA>402.6316,NA,SLA)) %>%
+  mutate(SLA=ifelse(species_code=="LOAR",NA,SLA)) %>%
+  mutate(LDMC=ifelse(LDMC>10,NA,LDMC)) %>% 
+  mutate(LDMC=ifelse(species_code=="LOAR",NA,LDMC))
 
 Traits$Year=as.character(Traits$Year)
 
@@ -200,11 +202,11 @@ YeartoDate_Precip_Graph_LDMC_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x
   scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_blank(),axis.text.x=element_blank(),axis.title.y=element_blank(),axis.title.x=element_blank(),legend.position = "none")
 
-YeartoDate_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+YeartoDate_Precip_Graph_LDMC_TB<-ggplot(data=subset(Traits_avg,site=="TB" & SLA_Mean!="NA"),aes(x=Rainfall..mm.,y=LDMC_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=LDMC_Mean-LDMC_St_Error,ymax=LDMC_Mean+LDMC_St_Error),linewidth = 3)+
-  scale_linetype_manual(values=c(0,1,1,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
+  scale_linetype_manual(values=c(0,1,0,0,0),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_color_manual(values=cbPalette_TB,labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   scale_shape_manual(values=c(15,2,16,17,18),labels = c("BOGR","KOMA","LOAR","PASM","VIAM"), breaks = c("BOGR","KOMA","LOAR","PASM","VIAM"),name="Species")+
   xlab("Precipitation")+
@@ -227,7 +229,7 @@ YeartoDate_Precip_Graph_SLA_FK<-ggplot(data=subset(Traits_avg,site=="FK"),aes(x=
   scale_x_continuous(breaks=c(125,150,175,200,225,250))+
   theme(axis.text.y=element_blank(),axis.text.x=element_text(size=55),axis.title.y=element_blank(),axis.title.x=element_text(size=55),legend.position = "none")
 
-YeartoDate_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"),aes(x=Rainfall..mm.,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
+YeartoDate_Precip_Graph_SLA_TB<-ggplot(data=subset(Traits_avg,site=="TB"& SLA_Mean!="NA"),aes(x=Rainfall..mm.,y=SLA_Mean,fill=species_code,color=species_code,linetype=species_code,shape=species_code)) +  
   geom_point(size=8, stroke =2)+
   geom_smooth(method='lm', se=FALSE,size=5)+
   geom_pointrange(aes(ymin=SLA_Mean-SLA_St_Error,ymax=SLA_Mean+SLA_St_Error),linewidth = 3)+
