@@ -126,11 +126,12 @@ Structure_Basal<-Structure_FK_Basal %>%
 CommunityMetrics_Aerial <- Diversity_Aerial %>%
   full_join(Structure_Aerial) %>% 
   full_join(plot_layoutK) %>%
+  full_join(Plot_Texture_Slope) %>% 
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
   mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
   #average across 2 controls in each block
   group_by(year,site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
-  summarize(slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  summarize(slope=mean(as.numeric(slope)),sand=mean(as.numeric(X..Sand)),silt=mean(as.numeric(X..Silt)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
   ungroup() %>% 
 #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
@@ -142,7 +143,7 @@ CommunityMetrics_Aerial <- Diversity_Aerial %>%
   mutate(livestock_util_2020 = as.factor(livestock_util_2020)) %>% 
   mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
   mutate(grazing_treatment_fig = as.factor(grazing_treatment_fig)) %>%
-  dplyr::select(year,site,block,slope,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig, livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
+  dplyr::select(year,site,block,slope,sand,silt,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig, livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
 
 CommunityMetrics_Basal <- Diversity_Basal %>%
   full_join(Structure_Basal) %>% 
@@ -323,27 +324,47 @@ ols_test_normality(Norm_TB_23_Richness_Ba) #normal
 FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
 anova(FK_18_Richness_Aerial, type = 3) #NS
 
-#FK 2019 - just drought
+#FK 2019
 FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_19_Richness_Aerial, type = 3)
 #adjust drought p-value
 p.adjust(0.09525, method = "BH", n=5) #ns
 
-#FK 2020 - droughtxgrazing
+#Percent sand instead of block and slope
+FK_19_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+anova(FK_19_Richness_Sand, type = 3)
+
+#FK 2020 
 FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_20_Richness_Aerial, type = 3) #NS
 
-#FK 2021- droughtxgrazing
+#FK 2020 sand
+FK_20_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+anova(FK_20_Richness_Sand, type = 3) #NS
+
+#FK 2021- 
 FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|block) + (1|block:slope))
 anova(FK_21_Richness_Aerial, type = 3) #ns
 
-#FK 2022- droughtxgrazing
+#FK 2021- sand
+FK_21_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|sand))
+anova(FK_21_Richness_Sand, type = 3) #ns
+
+#FK 2022
 FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_22_Richness_Aerial, type = 3) #NS
 
-#FK 2023- droughtxgrazing
+#FK 2022- Sand
+FK_22_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+anova(FK_22_Richness_Sand, type = 3) #NS
+
+#FK 2023
 FK_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(FK_23_Richness_Aerial, type = 3) #NS
+
+#FK 2022- Sand
+FK_23_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+anova(FK_23_Richness_Sand, type = 3) #NS
 
 #Basal 
 #FK 2018 - checking drought and grazing
@@ -380,21 +401,41 @@ anova(TB_18_Richness_Aerial, type = 3) #NS
 TB_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_19_Richness_Aerial, type = 3) #NS
 
-#TB 2020 - droughtxgrazing
+#TB 2019 - silt
+TB_19_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+anova(TB_19_Richness_Silt, type = 3) #NS
+
+#TB 2020 
 TB_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_20_Richness_Aerial, type = 3) #NS
+
+#TB 2020 - silt
+TB_20_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+anova(TB_20_Richness_Silt, type = 3) #NS
 
 #TB 2021- droughtxgrazing
 TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_21_Richness_Aerial, type = 3) #NS
 
+#TB 2021 - silt
+TB_21_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+anova(TB_21_Richness_Silt, type = 3) #NS
+
 #TB 2022- droughtxgrazing
 TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_22_Richness_Aerial, type = 3) #NS
 
+#TB 2022 - silt
+TB_22_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+anova(TB_22_Richness_Silt, type = 3) #NS
+
 #TB 2023- droughtxgrazing
 TB_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_23_Richness_Aerial, type = 3) #NS
+
+#TB 2023 - silt
+TB_23_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+anova(TB_23_Richness_Silt, type = 3) #NS
 
 #Basal#
 
