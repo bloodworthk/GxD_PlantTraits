@@ -331,7 +331,7 @@ anova(FK_19_Richness_Aerial, type = 3)
 p.adjust(0.09525, method = "BH", n=5) #ns
 
 #Percent sand instead of block and slope
-FK_19_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+FK_19_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
 anova(FK_19_Richness_Sand, type = 3)
 
 #FK 2020 
@@ -339,7 +339,7 @@ FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(FK_20_Richness_Aerial, type = 3) #NS
 
 #FK 2020 sand
-FK_20_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+FK_20_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
 anova(FK_20_Richness_Sand, type = 3) #NS
 
 #FK 2021- 
@@ -347,7 +347,7 @@ FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(FK_21_Richness_Aerial, type = 3) #ns
 
 #FK 2021- sand
-FK_21_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|sand))
+FK_21_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
 anova(FK_21_Richness_Sand, type = 3) #ns
 
 #FK 2022
@@ -355,7 +355,7 @@ FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(FK_22_Richness_Aerial, type = 3) #NS
 
 #FK 2022- Sand
-FK_22_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+FK_22_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
 anova(FK_22_Richness_Sand, type = 3) #NS
 
 #FK 2023
@@ -363,7 +363,7 @@ FK_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(FK_23_Richness_Aerial, type = 3) #NS
 
 #FK 2022- Sand
-FK_23_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|sand))
+FK_23_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block)  + (1|sand))
 anova(FK_23_Richness_Sand, type = 3) #NS
 
 #Basal 
@@ -402,7 +402,7 @@ TB_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_19_Richness_Aerial, type = 3) #NS
 
 #TB 2019 - silt
-TB_19_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+TB_19_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
 anova(TB_19_Richness_Silt, type = 3) #NS
 
 #TB 2020 
@@ -410,7 +410,7 @@ TB_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_20_Richness_Aerial, type = 3) #NS
 
 #TB 2020 - silt
-TB_20_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+TB_20_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
 anova(TB_20_Richness_Silt, type = 3) #NS
 
 #TB 2021- droughtxgrazing
@@ -418,7 +418,7 @@ TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_21_Richness_Aerial, type = 3) #NS
 
 #TB 2021 - silt
-TB_21_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+TB_21_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|silt) + (1|block) )
 anova(TB_21_Richness_Silt, type = 3) #NS
 
 #TB 2022- droughtxgrazing
@@ -426,7 +426,7 @@ TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_22_Richness_Aerial, type = 3) #NS
 
 #TB 2022 - silt
-TB_22_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+TB_22_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
 anova(TB_22_Richness_Silt, type = 3) #NS
 
 #TB 2023- droughtxgrazing
@@ -434,7 +434,7 @@ TB_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_23_Richness_Aerial, type = 3) #NS
 
 #TB 2023 - silt
-TB_23_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|silt))
+TB_23_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
 anova(TB_23_Richness_Silt, type = 3) #NS
 
 #Basal#
