@@ -1134,7 +1134,7 @@ Relative_Cover_AbsCov_2022_TB$plot<-as.factor(Relative_Cover_AbsCov_2022_TB$plot
 # get dataframe with just aerial total cover per plot
 Total_Cover_2023_TB<-TB_SpComp_2023 %>%
   #only keep species to calculate added total
-  filter(!genus_species %in% c("Added_total","Estimated_total", "Rock", "Litter", "LItter","Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  filter(!genus_species %in% c("Added_Total","Estimated_total", "Rocks", "Litter", "LItter","Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
   na.omit(aerial_cover) %>% 
   group_by(site,block,plot) %>% 
   summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T), Total_Cover_Basal=sum(basal_cover,na.rm=T)) %>%
@@ -1377,4 +1377,4 @@ Species_Comp_RelCov_AbsCov_Clean<-Species_Comp_RelCov_AbsCov_All %>%
   mutate(Relative_Cover=ifelse(Genus_Species=="Bareground",NA,ifelse(Genus_Species=="Dung",NA,ifelse(Genus_Species=="Lichen",NA,ifelse(Genus_Species=="Litter",NA,ifelse(Genus_Species=="Mushroom",NA,ifelse(Genus_Species=="Moss",NA,ifelse(Genus_Species=="Opuntia.polycantha.PADS",NA,ifelse(Genus_Species=="Overlap",NA,ifelse(Genus_Species=="Rock",NA,ifelse(Genus_Species=="STANDING.DEAD.Bromus.arvensis",NA,ifelse(Genus_Species=="STANDING.DEAD.Bromus.tectorum",NA,ifelse(Genus_Species=="STANDING.DEAD.Logfia.arvensis",NA,ifelse(Genus_Species=="STANDING.DEAD.Pascopyrum.smithii",NA,ifelse(Genus_Species=="STANDING.DEADArtemisia.tridentata",NA,ifelse(Genus_Species=="StandingDead.ARFR",NA,ifelse(Genus_Species=="StandingDead.ARPU",NA,ifelse(Genus_Species=="StandingDead.KOMA",NA,ifelse(Genus_Species=="StandingDead.LOAR",NA,ifelse(Genus_Species=="StandingDead.PASM",NA,Relative_Cover))))))))))))))))))))
   
 #write CSV to save Species_Comp_RelCov_Clean
-write.csv(Species_Comp_RelCov_AbsCov_Clean,"Species_Comp_RelCov_AbsCov_Clean.csv")
+write.csv(Species_Comp_RelCov_AbsCov_Clean,"~/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/Species_Comp_RelCov_AbsCov_Clean.csv")
