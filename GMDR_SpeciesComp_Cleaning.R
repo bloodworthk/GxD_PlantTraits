@@ -826,3 +826,555 @@ Absolute_FunctionalGroups<-Absolute_Species_Comp_Clean %>%
 
 #write CSV to save RelCov_FunctionalGroups
 write.csv(Absolute_FunctionalGroups,"Absolute_FunctionalGroups.csv")
+
+
+
+########################################## 
+#### #Data Cleaning Species Comp for J.D (all years combined with species names fixed: code below was taken from above and adapted to include absolute values in final datasheet in addition to relative values)
+#### Clean Up Species Comp Data ####
+
+#### FK - 2018 - Relative Cover ####
+#Create Long dataframe from wide dataframe and fix species issues
+Long_Cov_2018_FK<-gather(FK_SpComp_2018,key="species","cover",18:117) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>% 
+  #ilter(!species %in% c("STANDING.DEADArtemisia.tridentata","STANDING.DEAD.Bromus.arvensis","STANDING.DEAD.Bromus.tectorum","STANDING.DEAD.Logfia.arvensis","STANDING.DEAD.Pascopyrum.smithii","Rock","Moss.Lichen.Bogr.overlap")) %>%
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2018_FK<-Long_Cov_2018_FK%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,added_total_excel,Relative_Cover) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial","Aerial",aerial_basal)) %>% 
+  rename(Total_Cover=added_total_excel)
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2018_FK$plot<-as.factor(Relative_Cover_AbsCov_2018_FK$plot)
+
+#### FK - 2019 - Relative Cover ####
+# get dataframe with just aerial total cover per plot
+Total_Cover_2019_FK<-FK_SpComp_2019 %>%
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_Total","Estimated_Total", "Rock", "Litter", "Bare Ground","overlap" ,"Overlap" ,"opuntia_pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  mutate(basal_cover=ifelse(basal_cover=="<0.6",0.25,as.numeric(basal_cover))) %>% 
+  group_by(site,block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T), Total_Cover_Basal=sum(basal_cover,na.rm=T)) %>%
+  ungroup() 
+
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2019_FK<-FK_SpComp_2019 %>% 
+  filter(!is.na(genus_species)) %>% 
+  filter(genus_species!="") %>% 
+  filter(!genus_species %in% c("Added_Total","Estimated_Total")) %>%
+  dplyr::select(-c(observers,date,notes)) %>% 
+  filter(!is.na(aerial_cover)) %>%
+  filter(!is.na(basal_cover)) %>%
+  filter(aerial_cover!="0") %>% 
+  mutate(basal_cover=ifelse(basal_cover=="<0.6",0.25,ifelse(basal_cover==0,0.25, as.numeric(basal_cover))))
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2019_FK_1<-Species_Cover_2019_FK%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2019_FK)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(aerial_Relative_Cover=(aerial_cover/Total_Cover_Aerial)*100,basal_Relative_Cover=(basal_cover/Total_Cover_Basal)*100) %>%
+  mutate(year=2019)  %>% 
+  rename(species="genus_species") %>% 
+  dplyr::select(year,site,plot,species,aerial_cover,basal_cover,Total_Cover_Aerial,Total_Cover_Basal,aerial_Relative_Cover,basal_Relative_Cover) 
+
+Relative_Cover_AbsCov_2019_FK<-gather(Relative_Cover_AbsCov_2019_FK_1, "aerial_basal1","Relative_Cover",9:10) %>% 
+  gather("aerial_basal2","Total_Cover",7:8) %>% 
+  gather("aerial_basal3","cover",5:6) %>% 
+  mutate(aerial_basal1=ifelse(aerial_basal1=="aerial_Relative_Cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal2=ifelse(aerial_basal2=="Total_Cover_Aerial","Aerial","Basal")) %>% 
+  mutate(aerial_basal3=ifelse(aerial_basal3=="aerial_cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal=paste(aerial_basal1,aerial_basal2,aerial_basal3,sep="_")) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="Aerial_Aerial_Aerial","Aerial",ifelse(aerial_basal=="Basal_Basal_Basal","Basal",NA))) %>% 
+  na.omit(aerial_basal) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal, cover, Total_Cover, Relative_Cover) 
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2019_FK$plot<-as.factor(Relative_Cover_AbsCov_2019_FK$plot)
+
+#### FK - 2020 - Relative Cover ####
+#get dataframe with just total cover per plot
+Total_Cover_2020_FK<-FK_SpComp_2020%>%
+  #only keep species to calculate added tota
+  filter(!is.na(genus_species)) %>% 
+  filter(!genus_species %in% c("","Added_total","Estimated_total","Rock","Litter","Bareground","Dung","Lichen","Moss","Mushroom")) %>% 
+  group_by(block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm = T),Total_Cover_Basal=sum(basal_cover,na.rm = T)) %>% 
+  ungroup()
+
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2020_FK<-FK_SpComp_2020 %>% 
+  #take out all 'species' that are not actually plant species
+  filter(!is.na(genus_species)) %>% 
+  filter(!genus_species %in% c("" ,"Added_total","Estimated_total")) %>% 
+  filter(!is.na(aerial_cover)) %>% 
+  filter(aerial_cover!=0) %>% 
+  dplyr::select(-observers,-date)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2020_FK<-Species_Cover_2020_FK%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2020_FK) %>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(Relative_Cover_Aerial=(aerial_cover/Total_Cover_Aerial)*100) %>% 
+  mutate(Relative_Cover_Basal=(basal_cover/Total_Cover_Basal)*100) %>% 
+  mutate(year=2020) %>% 
+  rename(species="genus_species") %>%
+  dplyr::select(year,site,plot,species,aerial_cover,basal_cover,Total_Cover_Aerial,Total_Cover_Basal,Relative_Cover_Aerial,Relative_Cover_Basal) %>% 
+  gather("aerial_basal1","Relative_Cover",9:10) %>% 
+  gather("aerial_basal2","Total_Cover",7:8) %>% 
+  gather("aerial_basal3","cover",5:6) %>% 
+  mutate(aerial_basal1=ifelse(aerial_basal1=="Relative_Cover_Aerial","Aerial","Basal")) %>% 
+  mutate(aerial_basal2=ifelse(aerial_basal2=="Total_Cover_Aerial","Aerial","Basal")) %>% 
+  mutate(aerial_basal3=ifelse(aerial_basal3=="aerial_cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal=paste(aerial_basal1,aerial_basal2,aerial_basal3,sep="_")) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="Aerial_Aerial_Aerial","Aerial",ifelse(aerial_basal=="Basal_Basal_Basal","Basal",NA))) %>% 
+  na.omit(aerial_basal) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal, cover, Total_Cover, Relative_Cover) 
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2020_FK$plot<-as.factor(Relative_Cover_AbsCov_2020_FK$plot)
+
+#### FK - 2021 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2021_FK<-FK_SpComp_2021 %>% 
+  relocate(final_total_excel,.after = added_total_excel) %>% 
+  relocate(final_total,.after=added_total_excel) %>% 
+  gather(key="species","cover",13:61,na.rm=T) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,added_total_excel) 
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2021_FK<-Long_Cov_2021_FK%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial","Aerial","Basal")) %>% 
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2021_FK$plot<-as.factor(Relative_Cover_AbsCov_2021_FK$plot)
+
+#### FK - 2022 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2022_FK<-FK_SpComp_2022 %>% 
+  relocate(final_total_excel,.after = added_total_excel) %>% 
+  relocate(final_total,.after=added_total_excel) %>% 
+  gather(key="species","cover",13:70,na.rm=T) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,added_total_excel) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2022_FK<-Long_Cov_2022_FK%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>%
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial","Aerial","Basal")) %>% 
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2022_FK$plot<-as.factor(Relative_Cover_AbsCov_2022_FK$plot)
+
+#### FK - 2023 - Relative Cover ####
+# get dataframe with just aerial total cover per plot
+Total_Cover_2023_FK<-FK_SpComp_2023 %>%
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_total","Estimated_total", "Rock", "Litter", "LItter","Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  na.omit(aerial_cover) %>% 
+  group_by(site,block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T), Total_Cover_Basal=sum(basal_cover,na.rm=T)) %>%
+  ungroup() 
+
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2023_FK<-FK_SpComp_2023 %>% 
+  filter(!genus_species %in% c("Added_total","Estimated_total")) %>% 
+  na.omit(aerial_cover) %>% 
+  dplyr::select(-c(observers,date,notes))
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2023_FK<-Species_Cover_2023_FK%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2023_FK)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(aerial_Relative_Cover=(aerial_cover/Total_Cover_Aerial)*100,basal_Relative_Cover=(basal_cover/Total_Cover_Basal)*100) %>%
+  mutate(year=2023)  %>% 
+  rename(species="genus_species") %>% 
+  dplyr::select(year,site,plot,species,aerial_cover,basal_cover,Total_Cover_Aerial,Total_Cover_Basal,aerial_Relative_Cover,basal_Relative_Cover) %>% 
+  gather("aerial_basal1","Relative_Cover",9:10) %>% 
+  gather("aerial_basal2","Total_Cover",7:8) %>% 
+  gather("aerial_basal3","cover",5:6) %>% 
+  mutate(aerial_basal1=ifelse(aerial_basal1=="aerial_Relative_Cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal2=ifelse(aerial_basal2=="Total_Cover_Aerial","Aerial","Basal")) %>% 
+  mutate(aerial_basal3=ifelse(aerial_basal3=="aerial_cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal=paste(aerial_basal1,aerial_basal2,aerial_basal3,sep="_")) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="Aerial_Aerial_Aerial","Aerial",ifelse(aerial_basal=="Basal_Basal_Basal","Basal",NA))) %>% 
+  na.omit(aerial_basal) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal, cover, Total_Cover, Relative_Cover) 
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2023_FK$plot<-as.factor(Relative_Cover_AbsCov_2023_FK$plot)
+
+#### TB - 2018 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2018_TB<-gather(TB_SpComp_2018,key="species","cover",11:115) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>% 
+  filter(!species %in% c("X")) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2018_TB<-Long_Cov_2018_TB%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>%  
+  ungroup()
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2018_TB$plot<-as.factor(Relative_Cover_AbsCov_2018_TB$plot)
+
+#### TB - 2019 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2019_TB<-gather(TB_SpComp_2019 ,key="species","cover",11:117) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0) %>% 
+  #removing typo -- this should have been a zero
+  filter(cover!=".")
+
+Long_Cov_2019_TB$cover<-as.numeric(Long_Cov_2019_TB$cover)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2019_TB<-Long_Cov_2019_TB%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>%  
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2019_TB$plot<-as.factor(Relative_Cover_AbsCov_2019_TB$plot)
+
+#### TB - 2020 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2020_TB<-gather(TB_SpComp_2020,key="species","cover",11:117) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>%
+  na.omit(cover) %>% 
+  filter(cover!=0) %>% 
+  filter(cover!="") %>% 
+  mutate(cover=ifelse(cover=="<0.5",0.25,cover))
+
+Long_Cov_2020_TB$cover<-as.numeric(Long_Cov_2020_TB$cover)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2020_TB<-Long_Cov_2020_TB%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>%  
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2020_TB$plot<-as.factor(Relative_Cover_AbsCov_2020_TB$plot)
+
+#### TB - 2021 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2021_TB<-TB_SpComp_2021 %>% 
+  relocate(final_total_excel,.after = added_total_excel) %>% 
+  relocate(final_total_datasheet,.after=added_total_excel) %>%
+  select(-grasshopper_exoskeleton) %>% 
+  gather(key="species","cover",13:80) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>%  
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2021_TB<-Long_Cov_2021_TB%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial","Aerial","Basal")) %>% 
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2021_TB$plot<-as.factor(Relative_Cover_AbsCov_2021_TB$plot)
+
+#### TB - 2022 - Relative Cover ####
+#Create Long dataframe from wide dataframe
+Long_Cov_2022_TB<-gather(TB_SpComp_2022,key="species","cover",11:85) %>% 
+  dplyr::select(year,site,plot,aerial_basal,added_total_excel,species,cover) %>% 
+  na.omit(cover) %>% 
+  filter(cover!=0)
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2022_TB<-Long_Cov_2022_TB%>%
+  group_by(year, site, plot, aerial_basal) %>% 
+  mutate(Relative_Cover=(cover/added_total_excel)*100) %>% 
+  rename(Total_Cover=added_total_excel) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal,cover,Total_Cover,Relative_Cover) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="aerial","Aerial","Basal")) %>% 
+  ungroup()
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2022_TB$plot<-as.factor(Relative_Cover_AbsCov_2022_TB$plot)
+
+#### TB - 2023 - Relative Cover ####
+# get dataframe with just aerial total cover per plot
+Total_Cover_2023_TB<-TB_SpComp_2023 %>%
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_total","Estimated_total", "Rock", "Litter", "LItter","Bareground","OPPO_Pads" ,"Dung","Lichen" ,"Moss" ,"Mushroom")) %>% 
+  na.omit(aerial_cover) %>% 
+  group_by(site,block,plot) %>% 
+  summarise(Total_Cover_Aerial=sum(aerial_cover,na.rm=T), Total_Cover_Basal=sum(basal_cover,na.rm=T)) %>%
+  ungroup() 
+
+#make dataframe with necessary information for relative cover calculation
+Species_Cover_2023_TB<-TB_SpComp_2023 %>% 
+  #take out all 'species' that are not actually plant species
+  #only keep species to calculate added total
+  filter(!genus_species %in% c("Added_Total","Estimated_total")) %>% 
+  na.omit(aerial_cover) %>% 
+  dplyr::select(-c(observers,date,notes)) %>% 
+  mutate(genus_species=ifelse(symbol=="ZIVE","Zigadenus.venenosus",ifelse(symbol=="TROC","Tradescantia.occidentalis",ifelse(symbol=="SD LOAR","StandingDead_LOAR",ifelse(symbol=="SD ARFR","StandingDead_ARFR",ifelse(symbol=="SD PASM","StandingDead_PASM",ifelse(symbol=="SD KOMA","StandingDead_KOMA",ifelse(symbol=="SD ARPU","StandingDead_ARPU",genus_species)))))))) 
+
+#Calculate Relative Cover
+Relative_Cover_AbsCov_2023_TB<-Species_Cover_2023_TB%>%
+  #Make a new column named "Treatment"
+  mutate(Treatment=paste(block,plot,sep="_"))%>%
+  #Add Total_Cover data into the Relative_Cover data sheet
+  left_join(Total_Cover_2023_TB)%>%
+  #In the data sheet Relative_Cover, add a new column called "Relative_Cover", in which you divide "cover" by "Total_Cover"
+  mutate(aerial_Relative_Cover=(aerial_cover/Total_Cover_Aerial)*100,basal_Relative_Cover=(basal_cover/Total_Cover_Basal)*100) %>%
+  mutate(year=2023)  %>% 
+  rename(species="genus_species") %>% 
+  dplyr::select(year,site,plot,species,aerial_cover,basal_cover,Total_Cover_Aerial,Total_Cover_Basal,aerial_Relative_Cover,basal_Relative_Cover) %>% 
+  gather("aerial_basal1","Relative_Cover",9:10) %>% 
+  gather("aerial_basal2","Total_Cover",7:8) %>% 
+  gather("aerial_basal3","cover",5:6) %>% 
+  mutate(aerial_basal1=ifelse(aerial_basal1=="aerial_Relative_Cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal2=ifelse(aerial_basal2=="Total_Cover_Aerial","Aerial","Basal")) %>% 
+  mutate(aerial_basal3=ifelse(aerial_basal3=="aerial_cover","Aerial","Basal")) %>% 
+  mutate(aerial_basal=paste(aerial_basal1,aerial_basal2,aerial_basal3,sep="_")) %>% 
+  mutate(aerial_basal=ifelse(aerial_basal=="Aerial_Aerial_Aerial","Aerial",ifelse(aerial_basal=="Basal_Basal_Basal","Basal",NA))) %>% 
+  na.omit(aerial_basal) %>% 
+  dplyr::select(year,site,plot,species,aerial_basal, cover, Total_Cover, Relative_Cover) 
+
+#make plot a factor not an integer
+Relative_Cover_AbsCov_2023_TB$plot<-as.factor(Relative_Cover_AbsCov_2023_TB$plot)
+
+#### Merge Relative Cover Data Frames Together ####
+Species_Comp_RelCov_AbsCov_All<- Relative_Cover_AbsCov_2018_TB %>% 
+  rbind(Relative_Cover_AbsCov_2019_TB) %>% 
+  rbind(Relative_Cover_AbsCov_2020_TB) %>% 
+  rbind(Relative_Cover_AbsCov_2021_TB) %>% 
+  rbind(Relative_Cover_AbsCov_2022_TB) %>%
+  rbind(Relative_Cover_AbsCov_2023_TB) %>%
+  rbind(Relative_Cover_AbsCov_2018_FK) %>% 
+  rbind(Relative_Cover_AbsCov_2019_FK) %>% 
+  rbind(Relative_Cover_AbsCov_2020_FK) %>% 
+  rbind(Relative_Cover_AbsCov_2021_FK) %>% 
+  rbind(Relative_Cover_AbsCov_2022_FK) %>% 
+  rbind(Relative_Cover_AbsCov_2023_FK) 
+
+
+#### Clean Species Names Up to Match ####
+Species_Comp_RelCov_AbsCov_All$species <- gsub("_",".",Species_Comp_RelCov_AbsCov_All$species)
+
+Species_Comp_RelCov_AbsCov_Clean<-Species_Comp_RelCov_AbsCov_All %>% 
+  #change species codes to full species names
+  mutate(Genus_Species_1=ifelse(species=="ALDE","Alyssum.desertorum",
+                                ifelse(species=="ALTE","Allium.textile",
+                                       ifelse(species=="ANOC","Androsace.occidentalis",
+                                              ifelse(species=="ANPA","Antennaria.parvifolia",
+                                                     ifelse(species=="ARCA","Artemisia.cana",
+                                                            ifelse(species=="ARDR","Artemisia.dracunculus",
+                                                                   ifelse(species=="ARFR","Artemisia.frigida",
+                                                                          ifelse(species=="ARPU","Aristida.purpurea",
+                                                                                 ifelse(species=="ARTR","Artemisia.tridentata",
+                                                                                        ifelse(species=="ASBI","Astragalus.bisulcatus",
+                                                                                               ifelse(species=="ASGR","Astragalus.gracilis",
+                                                                                                      ifelse(species=="ASPU","Astragalus.purshii",
+                                                                                                             ifelse(species=="BODA","Bouteloua.dactyloides",
+                                                                                                                    ifelse(species=="BOGR" ,"Bouteloua.gracilis",
+                                                                                                                           ifelse(species=="BRAR","Bromus.arvensis",
+                                                                                                                                  ifelse(species=="BRTE","Bromus.tectorum",
+                                                                                                                                         ifelse(species=="CADU","Carex.duriuscula",
+                                                                                                                                                ifelse(species=="CAFI","Carex.filifolia",
+                                                                                                                                                       ifelse(species=="CAMI","Camelina.microcarpa",
+                                                                                                                                                              ifelse(species=="CHPR","Chenopudium.pratericola",
+                                                                                                                                                                     ifelse(species=="CIUN","Cirsium.undulatum",
+                                                                                                                                                                            ifelse(species=="COCA","Conyza.canadensis",
+                                                                                                                                                                                   ifelse(species=="COLI","Collomia.linearis",
+                                                                                                                                                                                          ifelse(species=="COVI","Coryphantha.viviparus",
+                                                                                                                                                                                                 ifelse(species=="DEPI","Descurainia.pinnata",
+                                                                                                                                                                                                        ifelse(species=="ERHO","Eremogone.hookeri",
+                                                                                                                                                                                                               ifelse(species=="GUSA","Gutierrezia.sarothrae",
+                                                                                                                                                                                                                      ifelse(species=="HECO","Hesperostipa.comata",
+                                                                                                                                                                                                                             ifelse(species=="VIAM","Vicia.americana",
+                                                                                                                                                                                                                                    ifelse(species=="VUOC","Vulpia.octoflora",
+                                                                                                                                                                                                                                           ifelse(species=="KOMA","Koeleria.macrantha",
+                                                                                                                                                                                                                                                  ifelse(species=="LOAR","Logfia.arvensis",
+                                                                                                                                                                                                                                                         ifelse(species=="LYJU","Lygodesmia.juncea",
+                                                                                                                                                                                                                                                                ifelse(species=="MUDI","Musineon.divaricatum",
+                                                                                                                                                                                                                                                                       ifelse(species=="NAVI","Nassella.viridula",
+                                                                                                                                                                                                                                                                              ifelse(species== "LOFO","Lomatium.foeniculaceum",
+                                                                                                                                                                                                                                                                                     ifelse(species=="DRRE","Draba.reptans",
+                                                                                                                                                                                                                                                                                            ifelse(species=="ANPA","Antennaria.parvifolia",
+                                                                                                                                                                                                                                                                                                   ifelse(species=="ERCA.","Erigeron.canus",
+                                                                                                                                                                                                                                                                                                          ifelse(species=="ERPU","Erigeron.pumilus",
+                                                                                                                                                                                                                                                                                                                 ifelse(species=="ERPU.","Erigeron.pumilus",
+                                                                                                                                                                                                                                                                                                                        ifelse(species=="HEHI","Hedeoma.hispida",
+                                                                                                                                                                                                                                                                                                                               ifelse(species=="LEDE","Lepidium.densiflorum",
+                                                                                                                                                                                                                                                                                                                                      ifelse(species=="LIIN","Lithospermum.incisum",
+                                                                                                                                                                                                                                                                                                                                             ifelse(species=="LIPU","Liatris.punctata",
+                                                                                                                                                                                                                                                                                                                                                    ifelse(species=="MODI","Musineon.divaricatum",
+                                                                                                                                                                                                                                                                                                                                                           ifelse(species=="NOCU","Nothocalais.cuspidata",
+                                                                                                                                                                                                                                                                                                                                                                  ifelse(species=="PEES","Pediomelum.esculentum",
+                                                                                                                                                                                                                                                                                                                                                                         ifelse(species=="PIOP","Picradeniopsis.oppositifolia",
+                                                                                                                                                                                                                                                                                                                                                                                species)))))))))))))))))))))))))))))))))))))))))))))))))) %>% 
+  mutate(Genus_Species_2=ifelse(Genus_Species_1=="POAV","Polygonum.aviculare",
+                                ifelse(Genus_Species_1=="VEPE","Veronica.peregrina",
+                                       ifelse(Genus_Species_1=="ZIVE","Zigadenus.venenosus",
+                                              ifelse(Genus_Species_1=="LIRI","Linum.rigidum",
+                                                     ifelse(Genus_Species_1=="MAGR","Machaeranthera.grindelioides",
+                                                            ifelse(Genus_Species_1=="PEAL","Penstemon.albidus",
+                                                                   ifelse(Genus_Species_1=="SPCR","Sporobolus.cryptandrus",
+                                                                          ifelse(Genus_Species_1=="ERDI","Erigeron.divergens.ochroleucus",
+                                                                                 ifelse(Genus_Species_1=="GUSA.1","Gutierrezia.sarothrae",
+                                                                                        ifelse(Genus_Species_1=="LEMO","Leucocrinum.montanum",
+                                                                                               ifelse(Genus_Species_1=="LOFO.1","Lomatium.foeniculaceum",
+                                                                                                      ifelse(Genus_Species_1=="SCLA","Scorzonera.laciniata",
+                                                                                                             ifelse(Genus_Species_1=="SCPA","Schedonnardus.paniculatus",
+                                                                                                                    ifelse(Genus_Species_1=="TROC","Tradescantia.occidentalis",
+                                                                                                                           ifelse(Genus_Species_1=="VINU","Viola.nuttallii",
+                                                                                                                                  ifelse(Genus_Species_1=="PEAN","Penstamom.angus",
+                                                                                                                                         ifelse(Genus_Species_1=="PHLO","Phlox.longifoli",
+                                                                                                                                                ifelse(Genus_Species_1=="CRMI","Cryptans.minima",
+                                                                                                                                                       ifelse(Genus_Species_1=="DRNE","Draba.nemorosa",
+                                                                                                                                                              ifelse(Genus_Species_1=="MILI","Mirabilis.linearis",
+                                                                                                                                                                     ifelse(Genus_Species_1=="OEAL","Oenothera.albicaulis",
+                                                                                                                                                                            ifelse(Genus_Species_1=="OOMU","Oonopsis.multicaulis",
+                                                                                                                                                                                   ifelse(Genus_Species_1=="POSE","Poa.secunda",
+                                                                                                                                                                                          ifelse(Genus_Species_1=="PSTE","Psoralidium.tenuiflorum",
+                                                                                                                                                                                                 ifelse(Genus_Species_1=="SPCO","Sphaeralcea.coccinea",
+                                                                                                                                                                                                        ifelse(Genus_Species_1=="TRDU","Tragopogon.dubius",
+                                                                                                                                                                                                               ifelse(Genus_Species_1=="TAOF","Taraxacum.officinale",
+                                                                                                                                                                                                                      ifelse(Genus_Species_1=="OESU","Oenothera.suffrutescens",
+                                                                                                                                                                                                                             ifelse(Genus_Species_1=="OPPO","Opuntia.polyacantha",
+                                                                                                                                                                                                                                    ifelse(Genus_Species_1=="PASM","Pascopyrum.smithii",
+                                                                                                                                                                                                                                           ifelse(Genus_Species_1=="PLPA","Plantago.patagonica",
+                                                                                                                                                                                                                                                  ifelse(Genus_Species_1=="PHHO","Phlox.hoodii",
+                                                                                                                                                                                                                                                         ifelse(Genus_Species_1=="ZIDI","Zigadenus.venenosus",
+                                                                                                                                                                                                                                                                ifelse(species=="ASCR","Astragalus.crassicarpus",
+                                                                                                                                                                                                                                                                       Genus_Species_1))))))))))))))))))))))))))))))))))) %>% 
+  #fix spelling errors
+  mutate(Genus_Species_3=ifelse(Genus_Species_2=="Oenotherea.suffrutescens","Oenothera.suffrutescens",
+                                ifelse(Genus_Species_2=="Opuntia.polycantha","Opuntia.polyacantha",
+                                       ifelse(Genus_Species_2=="Pediomelum.esculenta","Pediomelum.esculentum",
+                                              ifelse(Genus_Species_2=="pediomelum.esculentum","Pediomelum.esculentum", 
+                                                     ifelse(Genus_Species_2=="Allysum.desetorum","Alyssum.desertorum", 
+                                                            ifelse(Genus_Species_2=="Carex.durescula","Carex.duriuscula",
+                                                                   ifelse(Genus_Species_2=="conyza.canadensis","Conyza.canadensis",
+                                                                          ifelse(Genus_Species_2=="Coryphanthus_vivipara","Coryphantha.viviparus",
+                                                                                 ifelse(Genus_Species_2=="Liatrus_punctata","Liatris.punctata",
+                                                                                        ifelse(Genus_Species_2=="oenothera_suffruticosa","Oenothera.suffrutescens",
+                                                                                               ifelse(Genus_Species_2=="Coryphantha.viviparus","Coryphantha.vivipara",
+                                                                                                      ifelse(Genus_Species_2=="Oenotherea.suffrutescens.1","Oenothera.suffrutescens",
+                                                                                                             ifelse(Genus_Species_2=="Liatrus.punctata","Liatris.punctata",
+                                                                                                                    ifelse(Genus_Species_2=="oenothera.suffruticosa","Oenothera.suffrutescens",
+                                                                                                                           ifelse(Genus_Species_2=="Oenothera.suffruticosa","Oenothera.suffrutescens",
+                                                                                                                                  Genus_Species_2)))))))))))))))) %>% 
+  #Give unknowns more cohesive name
+  mutate(Genus_Species_4=ifelse(Genus_Species_3=="Antennaria.KW.pic.unknown","Antennaria.UNKWN1",
+                                ifelse(Genus_Species_3=="Antennaria.spp.unknown","Antennaria.UNKWN2",
+                                       ifelse(Genus_Species_3=="Artemisia.look.alike.no.smell.KW.pic.unknown","Artemisia.UNKWN3",
+                                              ifelse(Genus_Species_3=="ASER.Like.Woody","ASER.UNKWN4",
+                                                     ifelse(Genus_Species_3=="Astragalus.KW.pic.unknown","Astragalus.UNKWN5",
+                                                            ifelse(Genus_Species_3=="basal.aster.KW.pic.unknown","BasalAster_UNKWN6",
+                                                                   ifelse(Genus_Species_3=="basal.rosette","BasalRosette_UNKWN7",
+                                                                          ifelse(Genus_Species_3=="Basal.rosette","BasalRosette_UNKWN8",
+                                                                                 ifelse(Genus_Species_3=="basal.rosette.2020.KW.pic.unknown","BasalRosette_UNKWN9",
+                                                                                        ifelse(Genus_Species_3=="Cirsium.sp.","CirsiumSp.UNKWN10",
+                                                                                               ifelse(Genus_Species_3=="CIUN.CIOC.","CIUNCIOC.UNKWN11",
+                                                                                                      ifelse(Genus_Species_3=="CRCE.LELU.Penstemon.sp","CRCELELUPenstemon.UNKWN12",
+                                                                                                             ifelse(Genus_Species_3=="dead.mustard.unk","DeadMustard.UNKWN13",
+                                                                                                                    ifelse(Genus_Species_3=="Erigeron.divergens.ochroleucus","Erigeron.divergensOchroleucus",
+                                                                                                                           ifelse(Genus_Species_3=="flat.spikelet.panicle.KW.pic.unknown","FlatSpikeletPanicle.UNKWN14",
+                                                                                                                                  ifelse(Genus_Species_3=="Flesur.linear.leaves.in.bunch..KW.pic.","FlesurLinearLeavesBunch.UNKWN15",
+                                                                                                                                         ifelse(Genus_Species_3=="lanceolate.KW.pic.unknown","Lanceolate.UNKWN16",
+                                                                                                                                                ifelse(Genus_Species_3=="Linear.leaf.hairy.red.stem.KWpic." ,"LinearLeafHairyRedStem.UNKWN16",
+                                                                                                                                                       ifelse(Genus_Species_3=="Lithospermum.KW.pic.unknown" ,"Lithospermum.UNKWN17",
+                                                                                                                                                              ifelse(Genus_Species_3=="long.pods.no.leaves.KW.pic.unknown", "LongPodsNoLeaves.UNKWN18",
+                                                                                                                                                                     ifelse(Genus_Species_3=="Lygo.deomia.1","Lygodesmia_UNKNWN19",
+                                                                                                                                                                            ifelse(Genus_Species_3=="Lygo.deomia","Lygodesmia_UNKNWN19",
+                                                                                                                                                                                   ifelse(Genus_Species_3=="oenothera?.basal.rossetta","OenotheraBasalRosetta.UNKNWN20",
+                                                                                                                                                                                          ifelse(Genus_Species_3=="oenothera?.basal.rossette","OenotheraBasalRosetta.UNKNWN20",
+                                                                                                                                                                                                 ifelse(Genus_Species_3=="Oenothera.","Oenothera.UNKNWN21",
+                                                                                                                                                                                                        ifelse(Genus_Species_3=="Oenothera.waxy.leaves","OenotheraWaxyLeaves.UNKNWN22",
+                                                                                                                                                                                                               ifelse(Genus_Species_3=="Oneothera.n.", "Oenothera.UNKNWN23",
+                                                                                                                                                                                                                      ifelse(Genus_Species_3=="PEAL.LP.pic.","PEAL.UNKNWN24",
+                                                                                                                                                                                                                             ifelse(Genus_Species_3=="Penstemon.sp.","Penstemon.UNKWN25",
+                                                                                                                                                                                                                                    ifelse(Genus_Species_3=="Poa.diseased.Kwpic.","Poa.UNKWN26", 
+                                                                                                                                                                                                                                           ifelse(Genus_Species_3=="Pointy.petals..Rhear.leaves", "PointyPetalRhearLeaves.UNKWN27",
+                                                                                                                                                                                                                                                  ifelse(Genus_Species_3=="silver.stuff.unk3","SilverStuff.UNKWN28",
+                                                                                                                                                                                                                                                         ifelse(Genus_Species_3=="Skinny.leaf.fuzzy.bottom","SkinnyLeafFuzzyBottom.UNKWN29",  
+                                                                                                                                                                                                                                                                ifelse(Genus_Species_3=="Sponge.leaf..KW.pic....FRUN.PIOP.46......" ,"SpongeLeafFRUNPIOO.UNKWN30",
+                                                                                                                                                                                                                                                                       ifelse(Genus_Species_3=="Unk..3.Basal.Rosette","BasalRosette.UNKWN31",
+                                                                                                                                                                                                                                                                              ifelse(Genus_Species_3=="Unk..3.soft.point.leaf.KW.photo" ,"SoftPointLeaf.UNKWN32",
+                                                                                                                                                                                                                                                                                     ifelse(Genus_Species_3=="Unk.baby.forb.opp.","BabyForbOPP.UNKWN33",
+                                                                                                                                                                                                                                                                                            ifelse(Genus_Species_3=="Unkn..10.small.linear.leaf.KW.photo","SmallLinear.UNKWN34",
+                                                                                                                                                                                                                                                                                                   ifelse(Genus_Species_3=="UNKN8.basal.rosette.lancroiati","BasalRosetteLancroiati.UNKWN35",
+                                                                                                                                                                                                                                                                                                          ifelse(Genus_Species_3=="Unknown..7.baby.guara.","BabyGuara.UNKWN36",
+                                                                                                                                                                                                                                                                                                                 ifelse(Genus_Species_3=="Unknown1.2021.no.sp.name.datasheet" ,"NoName.UNKWN37",
+                                                                                                                                                                                                                                                                                                                        ifelse(Genus_Species_3=="CHLE","CHLE.UNKWN38",
+                                                                                                                                                                                                                                                                                                                               ifelse(Genus_Species_3=="DECA","Dalea.candida",
+                                                                                                                                                                                                                                                                                                                                      ifelse(Genus_Species_3=="Chamaesyce.nutans","Oenothera.nutans",
+                                                                                                                                                                                                                                                                                                                                             ifelse(Genus_Species_3=="Pediomelum.esculentum","Psoralea.esculenta",
+                                                                                                                                                                                                                                                                                                                                                    ifelse(Genus_Species_3=="Phlox.longifoli","Phlox.longifolia",
+                                                                                                                                                                                                                                                                                                                                                           ifelse(Genus_Species_3=="Penstamom.angus","Penstemon.angustifolius",
+                                                                                                                                                                                                                                                                                                                                                                  ifelse(Genus_Species_3=="Oenothera.suffrutescens","Oenotherea.suffrutescens",
+                                                                                                                                                                                                                                                                                                                                                                         ifelse(Genus_Species_3=="Oenothera.nutans","Oenothera.nuttallii",
+                                                                                                                                                                                                                                                                                                                                                                                Genus_Species_3)))))))))))))))))))))))))))))))))))))))))))))))))) %>% 
+  mutate(Genus_Species=ifelse(Genus_Species_4=="Cryptans.minima","Cryptantha.minima",   
+                              ifelse(Genus_Species_4=="Chenopudium.pratericola","Chenopodium.pratericola",
+                                     ifelse(Genus_Species_4=="Coryphanthus.vivipara","Coryphantha.vivipara",
+                                            ifelse(Genus_Species_4=="Cactus.sedum","Cactus.UNKWN39",
+                                                   ifelse(Genus_Species_4=="Chenopodium.?","Chenopodium.UNKWN40",
+                                                          ifelse(Genus_Species_4=="EREN","Erigeron.engelmannii",
+                                                                 ifelse(Genus_Species_4=="Erigeron.engelmanni","Erigeron.engelmannii",
+                                                                        ifelse(Genus_Species_4=="Hedeoma.Hispida","Hedeoma.hispida",
+                                                                               ifelse(Genus_Species_4=="Machaeranthera.grindelioides","Machaeranthera.grindelioides",
+                                                                                      ifelse(Genus_Species_4=="Machaeranthera.grindelaides","Machaeranthera.grindelioides",
+                                                                                             ifelse(Genus_Species_4=="Nothocalais.cuspidata", "Nothocalos",
+                                                                                                    ifelse(Genus_Species_4=="Oenotherea.suffrutenscens","Oenothera.suffrutescens",
+                                                                                                           ifelse(Genus_Species_4=="Oenotherea.suffrutescens","Oenothera.suffrutescens",
+                                                                                                                  ifelse(Genus_Species_4=="Phlox.hoodia","Phlox.hoodii",
+                                                                                                                         ifelse(Genus_Species_4=="Tradescantia","Tradescantia.occidentalis",
+                                                                                                                                ifelse(Genus_Species_4=="zigadenus.venenosus","Zigadenus.venenosus",
+                                                                                                                                       ifelse(Genus_Species_4=="Alyssum.dessertorum","Alyssum.desertorum",
+                                                                                                                                              ifelse(Genus_Species_4=="Anntenaria.parvifolia","Antennaria.parvifolia",
+                                                                                                                                                     ifelse(Genus_Species_4=="Erigeron.divergensOchroleucus","Erigeron.divergens",
+                                                                                                                                                            ifelse(Genus_Species_4=="Machaeranthera grindelioides","Machaeranthera.grindelioides",
+                                                                                                                                                                   ifelse(Genus_Species_4=="Oenothera suffrutescens","Oenothera.suffrutescens",
+                                                                                                                                                                          ifelse(Genus_Species_4=="Penstimum.albidus","Penstemon.albidus",
+                                                                                                                                                                                 ifelse(Genus_Species_4=="Eriogonum.hookeri","Eremogone.hookeri",
+                                                                                                                                        ifelse(Genus_Species_4=="bare","Bareground",ifelse(Genus_Species_4=="Bare Ground","Bareground",ifelse(Genus_Species_4=="Bare Ground","Bareground", ifelse(Genus_Species_4=="bare.ground","Bareground", ifelse(Genus_Species_4=="bareground","Bareground",ifelse(Genus_Species_4=="dung","Dung",ifelse(Genus_Species_4=="Green.bunch.p42","Green.Bunch.P42.UNKWN41",ifelse(Genus_Species_4=="lichen","Lichen",ifelse(Genus_Species_4=="litter","Litter",ifelse(Genus_Species_4=="LItter","Litter",ifelse(Genus_Species_4=="moss","Moss",ifelse(Genus_Species_4=="mushroom","Mushroom",ifelse(Genus_Species_4=="Nothocalos","Nothocalos.UNKWN42",ifelse(Genus_Species_4=="Opuntia.pads..","Opuntia.polycantha.PADS",ifelse(Genus_Species_4=="OPPO.PADS","Opuntia.polycantha.PADS",ifelse(Genus_Species_4=="opuntia.pads","Opuntia.polycantha.PADS",ifelse(Genus_Species_4=="overlap","Overlap",ifelse(Genus_Species_4=="rock","Rock",ifelse(Genus_Species_4=="Unk.Crepis.51","Unk.Crepis.51.UNKWN43",ifelse(Genus_Species_4=="Unk.Forb.32","Unk.Forb.32.UNKWN44",ifelse(Genus_Species_4=="Unk.Grass.Forb","Unk.Grass.Forb.UNKWN45",ifelse(Genus_Species_4=="unk.seedling.P6","unk.seedling.P6.UNKWN46",ifelse(Genus_Species_4=="Unknown.astragalus4","Unknown.astragalus4.UNKWN47",ifelse(Genus_Species_4=="Unknown.Physaria.montana","Unknown.Physaria.montana.UNKWN48",ifelse(Genus_Species_4=="Unknown.seedling.37","Unknown.seedling.37.UNKWN49",ifelse(Genus_Species_4=="Verbena.stricta?","Verbena.stricta?.UNKWN50",Genus_Species_4)))))))))))))))))))))))))))))))))))))))))))))))))) %>% 
+  dplyr::select(year,site,plot,Genus_Species,aerial_basal,cover,Total_Cover,Relative_Cover) %>% 
+  unique() %>% 
+  #put NA for relative cover for all non-plantsthings (rocks, bareground, mushrooms, etc.)
+  mutate(Relative_Cover=ifelse(Genus_Species=="Bareground",NA,ifelse(Genus_Species=="Dung",NA,ifelse(Genus_Species=="Lichen",NA,ifelse(Genus_Species=="Litter",NA,ifelse(Genus_Species=="Mushroom",NA,ifelse(Genus_Species=="Moss",NA,ifelse(Genus_Species=="Opuntia.polycantha.PADS",NA,ifelse(Genus_Species=="Overlap",NA,ifelse(Genus_Species=="Rock",NA,ifelse(Genus_Species=="STANDING.DEAD.Bromus.arvensis",NA,ifelse(Genus_Species=="STANDING.DEAD.Bromus.tectorum",NA,ifelse(Genus_Species=="STANDING.DEAD.Logfia.arvensis",NA,ifelse(Genus_Species=="STANDING.DEAD.Pascopyrum.smithii",NA,ifelse(Genus_Species=="STANDING.DEADArtemisia.tridentata",NA,ifelse(Genus_Species=="StandingDead.ARFR",NA,ifelse(Genus_Species=="StandingDead.ARPU",NA,ifelse(Genus_Species=="StandingDead.KOMA",NA,ifelse(Genus_Species=="StandingDead.LOAR",NA,ifelse(Genus_Species=="StandingDead.PASM",NA,Relative_Cover))))))))))))))))))))
+  
+#write CSV to save Species_Comp_RelCov_Clean
+write.csv(Species_Comp_RelCov_AbsCov_Clean,"Species_Comp_RelCov_AbsCov_Clean.csv")
