@@ -30,7 +30,7 @@ Soil_Texture$plot<-as.factor(Soil_Texture$plot)
 #Merge together slope and soil texture data
 Plot_Texture_Slope<-plot_layoutK %>% 
   left_join(Soil_Texture) %>% 
-  select(site,block,paddock,plot,slope,X..Sand,X..Clay,X..Silt)
+  dplyr::select(site,block,paddock,plot,slope,X..Sand,X..Clay,X..Silt)
 
 #Merge together slope and soil texture data
 Plot_Texture_Slope_FK<-Plot_Texture_Slope %>% 

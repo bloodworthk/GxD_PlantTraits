@@ -486,10 +486,10 @@ cbPalette<- c("#A36B2B","#492900","grey60","#87A878", "#3B5249")
 
 #Thunder Basin all years
 Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year),fill=as.factor(year))) +  
-  geom_point(size=14, stroke =6)+
-  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019), method='lm', se=FALSE,size=5,linetype="dashed")+
+  geom_point(size=10, stroke =4)+
+  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="TB"&year>=2019), method='lm', se=FALSE,size=4,linetype="dashed")+
   #geom_smooth(data=subset(CWM_Collected_Data_avg,Site=="FK"&year==2022), method='lm', se=FALSE,color="darkgreen",size=5)+
-  geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 4)+
+  geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 3)+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(22,23,2,24,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
@@ -502,8 +502,10 @@ Richness_TB_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site==
 
 #Fort Keogh all years
 Richness_FK_ALL_Aerial_Drought<-ggplot(subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019),aes(x=rainfall_reduction,y=Richness_Mean,color=as.factor(year),shape=as.factor(year),fill=as.factor(year))) +  
-  geom_point(size=14, stroke =6)+ 
-  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019), method='lm', se=FALSE,size=5,linetype="dashed")+
+  geom_point(size=10, stroke =4)+ 
+  geom_smooth(data=subset(CommunityMetrics_Aerial_Avg,site=="FK"&year>=2019), method='lm', se=FALSE,size=4,linetype="dashed")+
+  geom_pointrange(aes(ymin=Richness_Mean-Richness_St_Error,ymax=Richness_Mean+Richness_St_Error),linewidth = 3)+
+  labs(color  = "Year", linetype = "Year", shape = "Year")+
   labs(color  = "Year", linetype = "Year", shape = "Year")+
   scale_shape_manual(values=c(22,23,2,24,25),labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
   scale_color_manual(values=cbPalette,labels = c("2019", "2020","2021","2022","2023"), breaks = c("2019","2020","2021","2022","2023"),name="Year")+
