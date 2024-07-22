@@ -98,6 +98,21 @@ Traits<-Field_Traits %>%
   left_join(Dry_Traits_Leaf) %>% 
   left_join(Leaf_Area)
 
+#### Trait data frame to save for easy access ####
+Traits_csv_FK<-Traits %>% 
+  filter(Site=="FK") %>% 
+  rename(Leaf_Area=Total.Area) %>% 
+  select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
+
+write.csv(Traits_csv_FK,file="Merged_Traits_FK_2022")
+
+Traits_csv_TB<-Traits %>% 
+  filter(Site=="TB") %>% 
+  rename(Leaf_Area=Total.Area) %>% 
+  select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
+
+write.csv(Traits_csv_TB,file="Merged_Traits_TB_2022")
+
 #Read in Plot Data
 plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>% 
   dplyr::select(site,block,paddock,plot,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021)
