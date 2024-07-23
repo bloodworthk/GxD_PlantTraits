@@ -281,31 +281,31 @@ ols_test_normality(CWM_Height_Norm_23_FK) #normal
 ### Stats: CWM Height FK #### 
 
 #CWM of height for FK 2019 - LMER
-FK_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Height_2019_LMER_slope, type = 3) #ns
+FK_Height_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2019_LMER_paddock, type = 3) #ns
 
 #CWM of height for FK 2020 - LMER
-FK_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Height_2020_LMER_slope, type = 3) #ns
+FK_Height_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2020_LMER_paddock, type = 3) #ns
 
 #CWM of height for FK 2021 - LMER
-FK_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Height_2021_LMER_slope, type = 3) #ns
+FK_Height_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2021_LMER_paddock, type = 3) #ns
 
 #CWM of height for FK 2022 - LMER
-FK_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Height_2022_LMER_slope, type = 3) #ns
+FK_Height_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2022_LMER_paddock, type = 3) #ns
 
 #CWM of height for FK 2023 - LMER
-FK_Height_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Height_2023_LMER_slope, type = 3) #ns
+FK_Height_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Height_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for height FK
-p.adjust(0.7448, method = "BH", n=5)
-p.adjust(0.5778, method = "BH", n=5)
-p.adjust(0.03485, method = "BH", n=5)
-p.adjust(0.24, method = "BH", n=5)
-p.adjust(0.0739, method = "BH", n=5)
+p.adjust(0.3949, method = "BH", n=5)
+p.adjust(0.2903, method = "BH", n=5)
+p.adjust(0.02786, method = "BH", n=5)
+p.adjust(0.3606, method = "BH", n=5)
+p.adjust(0.07677, method = "BH", n=5)
 
 #### Normality: CWM Height TB ####
 #TB - Height CWM - 2019
@@ -336,31 +336,31 @@ ols_test_normality(CWM_Height_Norm_23_TB) #normal
 ### Stats: CWM Height TB #### 
 
 #CWM of height for TB 2019 - LMER
-TB_Height_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Height_2019_LMER_slope, type = 3) #ns
+TB_Height_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2019_LMER_paddock, type = 3) #ns
 
 #CWM of height for TB 2020 - LMER
-TB_Height_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Height_2020_LMER_slope, type = 3) #ns
+TB_Height_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2020_LMER_paddock, type = 3) #ns
 
 #CWM of height for TB 2021 - LMER
-TB_Height_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Height_2021_LMER_slope, type = 3) #ns
+TB_Height_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2021_LMER_paddock, type = 3) #ns
 
 #CWM of height for TB 2022 - LMER
-TB_Height_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Height_2022_LMER_slope, type = 3) #ns
+TB_Height_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2022_LMER_paddock, type = 3) #ns
 
 #CWM of height for TB 2023 - LMER
-TB_Height_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Height_2023_LMER_slope, type = 3) #ns
+TB_Height_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), 1/log(Height_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Height_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for height TB
-p.adjust(0.8736, method = "BH", n=5)
-p.adjust(0.3806, method = "BH", n=5)
-p.adjust(0.4228, method = "BH", n=5)
-p.adjust(0.2576, method = "BH", n=5)
-p.adjust(0.1584, method = "BH", n=5)
+p.adjust(0.9726, method = "BH", n=5)
+p.adjust(0.7548, method = "BH", n=5)
+p.adjust(0.2123, method = "BH", n=5)
+p.adjust(0.1076, method = "BH", n=5)
+p.adjust(0.5964, method = "BH", n=5)
 
 #### Normality: CWM LeafThickness FK ####
 
@@ -392,31 +392,31 @@ ols_test_normality(CWM_LeafThickness_Norm_23_FK) #normal
 ### Stats: CWM LeafThickness FK #### 
 
 #CWM of LeafThickness for FK 2019 - LMER
-FK_LeafThickness_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), 1/(LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LeafThickness_2019_LMER_slope, type = 3) #ns
+FK_LeafThickness_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), 1/(LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2019_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for FK 2020 - LMER
-FK_LeafThickness_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LeafThickness_2020_LMER_slope, type = 3) #ns
+FK_LeafThickness_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2020_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for FK 2021 - LMER
-FK_LeafThickness_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), (LeafThickness_CWM)*1/3 ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LeafThickness_2021_LMER_slope, type = 3) #ns
+FK_LeafThickness_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), (LeafThickness_CWM)*1/3 ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2021_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for FK 2022 - LMER
-FK_LeafThickness_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LeafThickness_2022_LMER_slope, type = 3) #ns
+FK_LeafThickness_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2022_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for FK 2023 - LMER
-FK_LeafThickness_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LeafThickness_2023_LMER_slope, type = 3) #ns
+FK_LeafThickness_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LeafThickness_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for LeafThickness FK
-p.adjust(0.8168, method = "BH", n=5)
-p.adjust(0.7607, method = "BH", n=5)
-p.adjust(0.1264, method = "BH", n=5)
-p.adjust(0.1743, method = "BH", n=5)
-p.adjust(0.5461, method = "BH", n=5)
+p.adjust(0.7765, method = "BH", n=5)
+p.adjust(0.8502, method = "BH", n=5)
+p.adjust(0.1569, method = "BH", n=5)
+p.adjust(0.3555, method = "BH", n=5)
+p.adjust(0.4823, method = "BH", n=5)
 
 #### Normality: CWM Leaf Thickness TB ####
 
@@ -448,31 +448,31 @@ ols_test_normality(CWM_LeafThickness_Norm_23_TB) #normal
 ### Stats: CWM LeafThickness TB #### 
 
 #CWM of LeafThickness for TB 2019 - LMER
-TB_LeafThickness_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LeafThickness_2019_LMER_slope, type = 3) #ns
+TB_LeafThickness_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2019_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for TB 2020 - LMER
-TB_LeafThickness_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LeafThickness_2020_LMER_slope, type = 3) #ns
+TB_LeafThickness_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2020_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for TB 2021 - LMER
-TB_LeafThickness_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LeafThickness_2021_LMER_slope, type = 3) #ns
+TB_LeafThickness_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2021_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for TB 2022 - LMER
-TB_LeafThickness_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LeafThickness_2022_LMER_slope, type = 3) #ns
+TB_LeafThickness_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2022_LMER_paddock, type = 3) #ns
 
 #CWM of LeafThickness for TB 2023 - LMER
-TB_LeafThickness_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LeafThickness_2023_LMER_slope, type = 3) #ns
+TB_LeafThickness_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), (LeafThickness_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LeafThickness_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for LeafThickness TB
-p.adjust(0.8958, method = "BH", n=5)
-p.adjust(0.7826, method = "BH", n=5)
-p.adjust(0.9232, method = "BH", n=5)
-p.adjust(0.4546, method = "BH", n=5)
-p.adjust(0.5632, method = "BH", n=5)
+p.adjust(0.2311, method = "BH", n=5)
+p.adjust(0.2739, method = "BH", n=5)
+p.adjust(0.7632, method = "BH", n=5)
+p.adjust(0.3756, method = "BH", n=5)
+p.adjust(0.2942, method = "BH", n=5)
 
 
 
@@ -506,31 +506,31 @@ ols_test_normality(CWM_LDMC_Norm_23_FK) #normal
 #### Stats: CWM LDMC FK #### 
 
 #CWM of LDMC for FK 2019 - LMER
-FK_LDMC_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2019_LMER_slope, type = 3) #ns
+FK_LDMC_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2019_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for FK 2020 - LMER
-FK_LDMC_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2020_LMER_slope, type = 3) #ns
+FK_LDMC_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2020_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for FK 2021 - LMER
-FK_LDMC_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2021_LMER_slope, type = 3) #ns
+FK_LDMC_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2021_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for FK 2022 - LMER
-FK_LDMC_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2022_LMER_slope, type = 3) #ns
+FK_LDMC_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2022_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for FK 2023 - LMER
-FK_LDMC_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_LDMC_2023_LMER_slope, type = 3) #ns
+FK_LDMC_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_LDMC_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for LDMC FK
-p.adjust(0.9316, method = "BH", n=5)
-p.adjust(0.9619, method = "BH", n=5)
-p.adjust(0.7951, method = "BH", n=5)
-p.adjust(0.2426, method = "BH", n=5)
-p.adjust(0.1384, method = "BH", n=5)
+p.adjust(0.9647, method = "BH", n=5)
+p.adjust(0.9997, method = "BH", n=5)
+p.adjust(0.8469, method = "BH", n=5)
+p.adjust(0.4221, method = "BH", n=5)
+p.adjust(0.1268, method = "BH", n=5)
 
 #### Normality: CWM LDMC TB ####
 
@@ -562,31 +562,31 @@ ols_test_normality(CWM_LDMC_Norm_23_TB) #not ideal but fine
 #### Stats: CWM LDMC TB #### 
 
 #CWM of LDMC for TB 2019 - LMER
-TB_LDMC_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), 1/sqrt(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LDMC_2019_LMER_slope, type = 3) #ns
+TB_LDMC_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), 1/sqrt(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2019_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for TB 2020 - LMER
-TB_LDMC_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LDMC_2020_LMER_slope, type = 3) #ns
+TB_LDMC_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2020_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for TB 2021 - LMER
-TB_LDMC_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LDMC_2021_LMER_slope, type = 3) #ns
+TB_LDMC_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2021_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for TB 2022 - LMER
-TB_LDMC_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LDMC_2022_LMER_slope, type = 3) #ns
+TB_LDMC_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2022_LMER_paddock, type = 3) #ns
 
 #CWM of LDMC for TB 2023 - LMER
-TB_LDMC_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_LDMC_2023_LMER_slope, type = 3) #ns
+TB_LDMC_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), 1/(LDMC_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_LDMC_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for LDMC TB
-p.adjust(0.7177, method = "BH", n=5)
-p.adjust(0.5127, method = "BH", n=5)
-p.adjust(0.4164, method = "BH", n=5)
-p.adjust(0.5166, method = "BH", n=5)
-p.adjust(0.577, method = "BH", n=5)
+p.adjust(0.2009, method = "BH", n=5)
+p.adjust(0.3717, method = "BH", n=5)
+p.adjust(0.3665, method = "BH", n=5)
+p.adjust(0.5111, method = "BH", n=5)
+p.adjust(0.4911, method = "BH", n=5)
 
 
 
@@ -620,31 +620,31 @@ ols_test_normality(CWM_SLA_Norm_23_FK) #not normal
 #### Stats: CWM SLA FK #### 
 
 #CWM of SLA for FK 2019 - LMER
-FK_SLA_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_SLA_2019_LMER_slope, type = 3) #ns
+FK_SLA_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_SLA_2019_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for FK 2020 - LMER
-FK_SLA_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_SLA_2020_LMER_slope, type = 3) #ns
+FK_SLA_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_SLA_2020_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for FK 2021 - LMER
-FK_SLA_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_SLA_2021_LMER_slope, type = 3) #ns
+FK_SLA_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_SLA_2021_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for FK 2022 - LMER
-FK_SLA_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_SLA_2022_LMER_slope, type = 3) #ns
+FK_SLA_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_SLA_2022_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for FK 2023 - LMER
-FK_SLA_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_SLA_2023_LMER_slope, type = 3) #ns
+FK_SLA_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_SLA_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for SLA FK
-p.adjust(0.18, method = "BH", n=5)
-p.adjust(0.06, method = "BH", n=5)
-p.adjust(0.96, method = "BH", n=5)
-p.adjust(0.53, method = "BH", n=5)
-p.adjust(0.54, method = "BH", n=5)
+p.adjust(0.1636, method = "BH", n=5)
+p.adjust(0.06762, method = "BH", n=5)
+p.adjust(0.9604, method = "BH", n=5)
+p.adjust(0.4432, method = "BH", n=5)
+p.adjust(0.4752, method = "BH", n=5)
 
 #### Normality: CWM SLA TB ####
 
@@ -676,31 +676,31 @@ ols_test_normality(CWM_SLA_Norm_23_TB) #not normal but okay
 ### Stats: CWM SLA TB #### 
 
 #CWM of SLA for TB 2019 - LMER
-TB_SLA_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_SLA_2019_LMER_slope, type = 3) #ns
+TB_SLA_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_SLA_2019_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for TB 2020 - LMER
-TB_SLA_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_SLA_2020_LMER_slope, type = 3) #ns
+TB_SLA_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_SLA_2020_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for TB 2021 - LMER
-TB_SLA_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), sqrt(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_SLA_2021_LMER_slope, type = 3) #ns
+TB_SLA_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), sqrt(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_SLA_2021_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for TB 2022 - LMER
-TB_SLA_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_SLA_2022_LMER_slope, type = 3) #ns
+TB_SLA_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), log(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_SLA_2022_LMER_paddock, type = 3) #ns
 
 #CWM of SLA for TB 2023 - LMER
-TB_SLA_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), sqrt(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_SLA_2023_LMER_slope, type = 3) #ns
+TB_SLA_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), sqrt(SLA_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_SLA_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for SLA TB
-p.adjust(0.58, method = "BH", n=5)
-p.adjust(0.69, method = "BH", n=5)
-p.adjust(0.96, method = "BH", n=5)
-p.adjust(0.82, method = "BH", n=5)
-p.adjust(0.11, method = "BH", n=5)
+p.adjust(0.5702, method = "BH", n=5)
+p.adjust(0.6263, method = "BH", n=5)
+p.adjust(0.9615, method = "BH", n=5)
+p.adjust(0.821, method = "BH", n=5)
+p.adjust(0.1237, method = "BH", n=5)
 
 
 #### Normality: CWM Area FK ####
@@ -733,30 +733,30 @@ ols_test_normality(CWM_Area_Norm_23_FK) #normal
 #### Stats: CWM Area FK #### 
 
 #CWM of Area for FK 2019 - LMER
-FK_Area_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Area_2019_LMER_slope, type = 3) #ns
+FK_Area_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Area_2019_LMER_paddock, type = 3) #ns
 
 #CWM of Area for FK 2020 - LMER
-FK_Area_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Area_2020_LMER_slope, type = 3) #ns
+FK_Area_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Area_2020_LMER_paddock, type = 3) #ns
 
 #CWM of Area for FK 2021 - LMER
-FK_Area_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Area_2021_LMER_slope, type = 3) #ns
+FK_Area_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Area_2021_LMER_paddock, type = 3) #ns
 
 #CWM of Area for FK 2022 - LMER
-FK_Area_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Area_2022_LMER_slope, type = 3) #ns
+FK_Area_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="FK"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Area_2022_LMER_paddock, type = 3) #ns
 
 #CWM of Area for FK 2023 - LMER
-FK_Area_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(FK_Area_2023_LMER_slope, type = 3) #ns
+FK_Area_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="FK"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FK_Area_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for Area FK
-p.adjust(0.1958, method = "BH", n=5)
-p.adjust(0.0017, method = "BH", n=5)
-p.adjust(0.1084, method = "BH", n=5)
-p.adjust(0.609, method = "BH", n=5)
+p.adjust(0.1785, method = "BH", n=5)
+p.adjust(0.002779, method = "BH", n=5)
+p.adjust(0.1085, method = "BH", n=5)
+p.adjust(0.5477, method = "BH", n=5)
 p.adjust(0.6982, method = "BH", n=5)
 
 #### Normality: CWM Area TB ####
@@ -789,31 +789,31 @@ ols_test_normality(CWM_Area_Norm_23_TB) #normal
 ### Stats: CWM Area TB #### 
 
 #CWM of Area for TB 2019 - LMER
-TB_Area_2019_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Area_2019_LMER_slope, type = 3) #ns
+TB_Area_2019_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2019&Site=="TB"), (Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Area_2019_LMER_paddock, type = 3) #ns
 
 #CWM of Area for TB 2020 - LMER
-TB_Area_2020_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Area_2020_LMER_slope, type = 3) #ns
+TB_Area_2020_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2020&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Area_2020_LMER_paddock, type = 3) #ns
 
 #CWM of Area for TB 2021 - LMER
-TB_Area_2021_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Area_2021_LMER_slope, type = 3) #ns
+TB_Area_2021_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2021&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Area_2021_LMER_paddock, type = 3) #ns
 
 #CWM of Area for TB 2022 - LMER
-TB_Area_2022_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Area_2022_LMER_slope, type = 3) #ns
+TB_Area_2022_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2022&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Area_2022_LMER_paddock, type = 3) #ns
 
 #CWM of Area for TB 2023 - LMER
-TB_Area_2023_LMER_slope <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
-anova(TB_Area_2023_LMER_slope, type = 3) #ns
+TB_Area_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year==2023&Site=="TB"), log(Area_CWM) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(TB_Area_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for Area TB
-p.adjust(0.3642, method = "BH", n=5)
-p.adjust(0.5677, method = "BH", n=5)
+p.adjust(0.3565, method = "BH", n=5)
+p.adjust(0.5221, method = "BH", n=5)
 p.adjust(0.2897, method = "BH", n=5)
-p.adjust(0.5407, method = "BH", n=5)
-p.adjust(0.7767, method = "BH", n=5)
+p.adjust(0.3472, method = "BH", n=5)
+p.adjust(0.8844, method = "BH", n=5)
 
 
 
@@ -943,70 +943,70 @@ CWM_TB_23_Treatment<-CWM_Collected_Data_TB_23 %>%
 #### Permanova FK ####
 ## FK ##
 #FK 2019
-PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_19_Treatment, 
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_19) #N.S
 
 #FK 2020
-PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_20_Treatment, 
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_20_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_20) 
 
 #FK 2021
-PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_21_Treatment, 
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_21_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_21) 
 
 #FK 2022
-PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_22_Treatment, 
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_22_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_22) 
 
 #FK 2023
-PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_FK_23_Treatment, 
+PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_23_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_FK_23) 
 
 # adjust pvalues for perMANOVA FK
-p.adjust(0.4056, method = "BH", n=5)
-p.adjust(0.3147, method = "BH", n=5)
-p.adjust(0.9331, method = "BH", n=5)
-p.adjust(0.9191, method = "BH", n=5)
-p.adjust(0.7073, method = "BH", n=5)
+p.adjust(0.3686, method = "BH", n=5)
+p.adjust(0.3267, method = "BH", n=5)
+p.adjust(0.9271, method = "BH", n=5)
+p.adjust(0.9061, method = "BH", n=5)
+p.adjust(0.7383, method = "BH", n=5)
 
 #### PERMANOVA TB ####
 ##TB##
 #TB 2019
-PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_19_Treatment, 
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_19)  #NS
 
 #TB 2020
-PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_20_Treatment, 
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_20_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_20) #NS
 
 #TB 2021
-PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_21_Treatment, 
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_21_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_21) #NS
 
 #TB 2022
-PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_22_Treatment, 
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_22_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_22) 
 
 #TB 2023
-PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat + (1|block/slope), data = CWM_TB_23_Treatment, 
+PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_23_Treatment, 
                           permutations = 1000, method = 'bray') 
 print(PERMANOVA_TB_23) 
 
 # adjust pvalues for perMANOVA FK
-p.adjust(0.97, method = "BH", n=5)
+p.adjust(0.964, method = "BH", n=5)
 p.adjust(0.987, method = "BH", n=5)
-p.adjust(0.994, method = "BH", n=5)
-p.adjust(0.965, method = "BH", n=5)
-p.adjust(0.8012, method = "BH", n=5)
+p.adjust(0.98, method = "BH", n=5)
+p.adjust(0.961, method = "BH", n=5)
+p.adjust(0.7992, method = "BH", n=5)
 
 
 
@@ -1178,23 +1178,23 @@ ols_test_normality(FDis_Multi_Norm_23_FK) #normal
 #### Stats: Multivariate FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FDis_All ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="FK"), FDis_All ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&site=="FK"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1236,24 +1236,24 @@ ols_test_normality(FDis_Multi_Norm_23_TB) #normal
 #### Stats: Multivariate FDis TB ####
 
 #FDis for TB 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), log(FDis_All) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2019&site=="TB"), log(FDis_All) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for TB 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), log(FDis_All) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2020&site=="TB"), log(FDis_All) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for TB 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FDis_All ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2021&site=="TB"), FDis_All ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for TB 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2022&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #0.005
 summary(glht(FDis_TB22_LMER , linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
 
 #FDis for TB 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&site=="TB"), FDis_All ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1407,23 +1407,23 @@ ols_test_normality(FDis_Height_Norm_23_FK) #normal
 #### Stats: Height FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="FK"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="FK"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="FK"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1463,23 +1463,23 @@ ols_test_normality(FDis_Height_Norm_23_TB) #normalish
 #### Stats: Height FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2019&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2020&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="TB"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2021&site=="TB"), FDis_Height ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2022&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year==2023&site=="TB"), FDis_Height ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1634,23 +1634,23 @@ ols_test_normality(FDis_Leaf_Thickness_Norm_23_FK) #normal
 #### Stats: Leaf_Thickness FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="FK"), exp(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="FK"), exp(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="FK"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1690,23 +1690,23 @@ ols_test_normality(FDis_Leaf_Thickness_Norm_23_TB) #normalish
 #### Stats: Leaf_Thickness FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2019&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="TB"), log(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2020&site=="TB"), log(FDis_Leaf_Thickness) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2021&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2022&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickness,year==2023&site=="TB"), FDis_Leaf_Thickness ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1859,23 +1859,23 @@ ols_test_normality(FDis_LDMC_Norm_23_FK) #normal
 #### Stats: LDMC FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="FK"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="FK"), FDis_LDMC ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -1915,23 +1915,23 @@ ols_test_normality(FDis_LDMC_Norm_23_TB) #not normal but okay
 #### Stats: LDMC FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -2085,23 +2085,23 @@ ols_test_normality(FDis_SLA_Norm_23_FK) #normalish
 #### Stats: SLA FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="FK"), 1/sqrt(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="FK"), 1/sqrt(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="FK"), 1/sqrt(FDis_SLA)~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="FK"), 1/sqrt(FDis_SLA)~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #0.006094
 summary(glht(FDis_FK23_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
 
@@ -2143,23 +2143,23 @@ ols_test_normality(FDis_SLA_Norm_23_TB) #normal
 #### Stats: SLA FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="TB"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="TB"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="TB"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="TB"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="TB"), sqrt(FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="TB"), sqrt(FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="TB"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="TB"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="TB"),log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="TB"),log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for SLA TB
@@ -2311,23 +2311,23 @@ ols_test_normality(FDis_Area_Norm_23_FK) #normal
 #### Stats: Area FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="FK"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="FK"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="FK"), log(FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="FK"), log(FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_FK21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="FK"), FDis_Area ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
@@ -2367,23 +2367,23 @@ ols_test_normality(FDis_Area_Norm_23_TB) #normal
 #### Stats: Area FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB19_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="TB"), log(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="TB"), log(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB20_LMER, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:slope))
+FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
 anova(FDis_TB21_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB22_LMER, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="TB"),(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:slope))
+FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="TB"),(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
