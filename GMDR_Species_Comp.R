@@ -126,12 +126,14 @@ Structure_Basal<-Structure_FK_Basal %>%
 CommunityMetrics_Aerial <- Diversity_Aerial %>%
   full_join(Structure_Aerial) %>% 
   full_join(plot_layoutK) %>%
-  full_join(Plot_Texture_Slope) %>% 
+  #full_join(Plot_Texture_Slope) %>% 
   mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
   mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
   #average across 2 controls in each block
   group_by(year,site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
-  summarize(slope=mean(as.numeric(slope)),sand=mean(as.numeric(X..Sand)),silt=mean(as.numeric(X..Silt)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  summarize(slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+#removed from summarize step 
+  #sand=mean(as.numeric(X..Sand)),silt=mean(as.numeric(X..Silt))
   ungroup() %>% 
 #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
@@ -143,7 +145,7 @@ CommunityMetrics_Aerial <- Diversity_Aerial %>%
   mutate(livestock_util_2020 = as.factor(livestock_util_2020)) %>% 
   mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
   mutate(grazing_treatment_fig = as.factor(grazing_treatment_fig)) %>%
-  dplyr::select(year,site,block,slope,sand,silt,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig, livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
+  dplyr::select(year,site,block,paddock,slope,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig,livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
 
 CommunityMetrics_Basal <- Diversity_Basal %>%
   full_join(Structure_Basal) %>% 
@@ -321,50 +323,59 @@ ols_test_normality(Norm_TB_23_Richness_Ba) #normal
 #### Stats: Fort Keogh Aerial + Basal - Richness ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(FK_18_Richness_Aerial, type = 3) #NS
 
 #FK 2019
-FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_19_Richness_Aerial, type = 3)
 #adjust drought p-value
-p.adjust(0.09525, method = "BH", n=5) #ns
+p.adjust(0.03223, method = "BH", n=5) #ns
 
 #Percent sand instead of block and slope
-FK_19_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
-anova(FK_19_Richness_Sand, type = 3)
+#FK_19_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
+#anova(FK_19_Richness_Sand, type = 3)
 
 #FK 2020 
-FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_20_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.1081, method = "BH", n=5) #ns
 
 #FK 2020 sand
-FK_20_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
-anova(FK_20_Richness_Sand, type = 3) #NS
+#FK_20_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
+#anova(FK_20_Richness_Sand, type = 3) #NS
 
 #FK 2021- 
-FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|block) + (1|block:slope))
-anova(FK_21_Richness_Aerial, type = 3) #ns
+FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|block) + (1|block:paddock))
+anova(FK_21_Richness_Aerial, type = 3) #0.05
+#adjust drought p-value
+p.adjust(0.05276, method = "BH", n=5) #ns
 
 #FK 2021- sand
-FK_21_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
-anova(FK_21_Richness_Sand, type = 3) #ns
+#FK_21_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
+#anova(FK_21_Richness_Sand, type = 3) #ns
 
 #FK 2022
-FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_22_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.215, method = "BH", n=5) #ns
 
 #FK 2022- Sand
-FK_22_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
-anova(FK_22_Richness_Sand, type = 3) #NS
+#FK_22_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|sand))
+#anova(FK_22_Richness_Sand, type = 3) #NS
 
 #FK 2023
-FK_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_23_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.9585, method = "BH", n=5) #ns
 
-#FK 2022- Sand
-FK_23_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block)  + (1|sand))
-anova(FK_23_Richness_Sand, type = 3) #NS
+
+#FK 2023- Sand
+#FK_23_Richness_Sand <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block)  + (1|sand))
+#anova(FK_23_Richness_Sand, type = 3) #NS
 
 #Basal 
 #FK 2018 - checking drought and grazing
@@ -398,44 +409,54 @@ TB_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, y
 anova(TB_18_Richness_Aerial, type = 3) #NS
 
 #TB 2019 - just drought
-TB_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_19_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.7337, method = "BH", n=5) #ns
 
 #TB 2019 - silt
-TB_19_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
-anova(TB_19_Richness_Silt, type = 3) #NS
+#TB_19_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
+#anova(TB_19_Richness_Silt, type = 3) #NS
 
 #TB 2020 
-TB_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_20_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.3277, method = "BH", n=5) #ns
 
 #TB 2020 - silt
-TB_20_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
-anova(TB_20_Richness_Silt, type = 3) #NS
+#TB_20_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
+#anova(TB_20_Richness_Silt, type = 3) #NS
 
 #TB 2021- droughtxgrazing
-TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_21_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.3471, method = "BH", n=5) #ns
 
 #TB 2021 - silt
-TB_21_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|silt) + (1|block) )
-anova(TB_21_Richness_Silt, type = 3) #NS
+#TB_21_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|silt) + (1|block) )
+#anova(TB_21_Richness_Silt, type = 3) #NS
 
 #TB 2022- droughtxgrazing
-TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_22_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.4885, method = "BH", n=5) #ns
 
 #TB 2022 - silt
-TB_22_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
-anova(TB_22_Richness_Silt, type = 3) #NS
+#TB_22_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
+#anova(TB_22_Richness_Silt, type = 3) #NS
 
 #TB 2023- droughtxgrazing
 TB_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
 anova(TB_23_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.6383, method = "BH", n=5) #ns
 
 #TB 2023 - silt
-TB_23_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
-anova(TB_23_Richness_Silt, type = 3) #NS
+#TB_23_Richness_Silt <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|silt))
+#anova(TB_23_Richness_Silt, type = 3) #NS
 
 #Basal#
 
@@ -749,32 +770,40 @@ ols_test_normality(Norm_TB_23_Evar_Ba) #not normal
 #### Stats: Fort Keogh Aerial + Basal - Evar ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+FK_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(FK_18_Evar_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar_FK_19_TF ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar_FK_19_TF ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_19_Evar_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.7026, method = "BH", n=5) #0.05
 
 #FK 2020 - droughtxgrazing
-FK_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_20_Evar_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.6091, method = "BH", n=5) #0.05
 
 #FK 2021- droughtxgrazing
-FK_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_21_Evar_Aerial, type = 3) #drought (p=0.01)
 #adjust drought p-value
-p.adjust(0.01, method = "BH", n=5) #0.05
+p.adjust(0.01095, method = "BH", n=5) #0.05
 
 
 #FK 2022- droughtxgrazing
-FK_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_22_Evar_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.7137, method = "BH", n=5) #0.05
 
 
 #FK 2023- droughtxgrazing
-FK_23_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_23_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_23_Evar_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.5258, method = "BH", n=5) #0.05
 
 #Basal
 #FK 2018 - checking drought and grazing
@@ -807,30 +836,38 @@ anova(FK_23_Evar_Basal, type = 3) #NS
 #### Stats:  Thunder Basin Aerial + Basal - Evar ####
 
 #TB 2018 - checking drought and grazing
-TB_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_18_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Evar ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(TB_18_Evar_Aerial, type = 3) #NS
 
 #TB 2019 - just drought
-TB_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_19_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_19_Evar_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.2377, method = "BH", n=5) #0.045
 
 #TB 2020 - droughtxgrazing
-TB_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_20_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_20_Evar_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.2059, method = "BH", n=5) #0.045
 
 #TB 2021- droughtxgrazing
-TB_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction+ (1|block) + (1|block:slope))
+TB_21_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(TB_21_Evar_Aerial, type = 3) #drought (0.003804)
 #adjust drought p-value
-p.adjust(0.009, method = "BH", n=5) #0.045
+p.adjust(0.003531, method = "BH", n=5) #0.045
 
 #TB 2022- droughtxgrazing
-TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction+ (1|block) + (1|block:slope))
+TB_22_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(TB_22_Evar_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.2017, method = "BH", n=5) #0.045
 
 #TB 2023- droughtxgrazing
-TB_23_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_23_Evar_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Evar ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_23_Evar_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.8023, method = "BH", n=5) #0.045
 
 
 #basal
@@ -1117,31 +1154,39 @@ ols_test_normality(Norm_TB_23_Shannon_Ba) #normal
 #### Stats: Fort Keogh Aerial + Basal - Shannon's ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+FK_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), Shannon ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(FK_18_Shannon_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_19_Shannon_Aerial, type = 3) #drought (0.02)
 #adjust drought p-value
-p.adjust(0.02 , method = "BH", n=5) #0.1
+p.adjust(0.007498 , method = "BH", n=5) #0.03
 
 #FK 2020 - droughtxgrazing
-FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_20_Shannon_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.1754 , method = "BH", n=5) #0.03
 
 
 #FK 2021- droughtxgrazing
-FK_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:slope))
+FK_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(FK_21_Shannon_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.2404 , method = "BH", n=5) #NS
 
 #FK 2022- droughtxgrazing
-FK_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_22_Shannon_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.5472 , method = "BH", n=5) #NS
 
 #FK 2023- droughtxgrazing
-FK_23_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_23_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Shannon ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_23_Shannon_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.1959 , method = "BH", n=5) #NS
 
 #basal
 #FK 2018 - checking drought and grazing
@@ -1173,32 +1218,40 @@ anova(FK_23_Shannon_Basal, type = 3) #NS
 #### Stats: Thunder  Basin Aerial + Basal - Shannon's####
 
 #TB 2018 - checking drought and grazing
-TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon_18_TB_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_18_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "TB"), Shannon_18_TB_TF ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(TB_18_Shannon_Aerial, type = 3) #grazing (0.008932)
 #adjust grazing p-value
 p.adjust(0.04, method = "BH", n=5) #.08085
 
 #TB 2019 - just drought
-TB_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_19_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_19_Shannon_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.3361 , method = "BH", n=5) #NS
 
 #TB 2020 - droughtxgrazing
-TB_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_20_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_20_Shannon_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.9683 , method = "BH", n=5) #NS
 
 #TB 2021- droughtxgrazing
-TB_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:slope))
+TB_21_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(TB_21_Shannon_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.2928 , method = "BH", n=5) #NS
 
 #TB 2022- droughtxgrazing
-TB_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:slope))
-anova(TB_22_Shannon_Aerial, type = 3) #grazing (0.0308)
+TB_22_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:paddock))
+anova(TB_22_Shannon_Aerial, type = 3) #NS
 #adjust grazing p-value
-p.adjust(0.04, method = "BH", n=5) #0.154
+p.adjust(0.8536, method = "BH", n=5) #NS
 
 #TB 2023- droughtxgrazing
-TB_23_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:slope))
+TB_23_Shannon_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Shannon ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(TB_23_Shannon_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.2123 , method = "BH", n=5) #NS
 
 #basal
 #TB 2018 - checking drought and grazing
@@ -2434,9 +2487,11 @@ Environment_Matrix_FK_AR_19$block=as.numeric(Environment_Matrix_FK_AR_19$block)
 Environment_Matrix_FK_AR_19$slope=as.numeric(Environment_Matrix_FK_AR_19$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_FK_AR_19 <- adonis2(formula = Species_Matrix_FK_AR_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_19,permutations = 999, method = "bray",type=3)
+PerMANOVA_FK_AR_19 <- adonis2(formula = Species_Matrix_FK_AR_19~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_FK_AR_19,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_19) #NS
+#adjust drought p-value
+p.adjust(0.25, method = "BH", n=5) #NS
 
 #### PERMDISP FK Aerial 2019 ####
 
@@ -2450,6 +2505,8 @@ BC_Distance_Matrix_FK_AR_19 <- vegdist(Species_Matrix_FK_AR_19)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_19_Dr <- betadisper(BC_Distance_Matrix_FK_AR_19,FK_AR_19$rainfall_reduction)
 permutest(Dispersion_FK_AR_19_Dr,pairwise = T, permutations = 999) 
+#adjust drought p-value
+p.adjust(0.743 , method = "BH", n=5) #NS
 
 #making Bray curtis distance matrix a matrix so that it can then be turned into a data frame with columns instead of as a matrix
 BC_DisMat_FK_AR_19 <- as.matrix(BC_Distance_Matrix_FK_AR_19)
@@ -2480,9 +2537,11 @@ Environment_Matrix_FK_AR_20$block=as.numeric(Environment_Matrix_FK_AR_20$block)
 Environment_Matrix_FK_AR_20$slope=as.numeric(Environment_Matrix_FK_AR_20$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_FK_AR_20 <- adonis2(formula = Species_Matrix_FK_AR_20~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_20,permutations = 999, method = "bray",type=3)
+PerMANOVA_FK_AR_20 <- adonis2(formula = Species_Matrix_FK_AR_20~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_FK_AR_20,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_20) #NS
+#adjust drought p-value
+p.adjust(0.392 , method = "BH", n=5) #NS
 
 #### PERMDISP FK Aerial 2020 ####
 
@@ -2499,6 +2558,8 @@ BC_Distance_Matrix_FK_AR_20 <- vegdist(Species_Matrix_FK_AR_20)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_20_Dr <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$rainfall_reduction)
 permutest(Dispersion_FK_AR_20_Dr,pairwise = T, permutations = 999) #ns
+#adjust drought p-value
+p.adjust(0.356 , method = "BH", n=5) #NS
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing
 Dispersion_FK_AR_20_GR <- betadisper(BC_Distance_Matrix_FK_AR_20,FK_AR_20$livestock_util_2019)
@@ -2537,11 +2598,11 @@ Environment_Matrix_FK_AR_21$block=as.numeric(Environment_Matrix_FK_AR_21$block)
 Environment_Matrix_FK_AR_21$slope=as.numeric(Environment_Matrix_FK_AR_21$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_FK_AR_21 <- adonis2(formula = Species_Matrix_FK_AR_21~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_21,permutations = 999, method = "bray",type=3)
+PerMANOVA_FK_AR_21 <- adonis2(formula = Species_Matrix_FK_AR_21~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_FK_AR_21,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
-print(PerMANOVA_FK_AR_21) #drought (0.02)
+print(PerMANOVA_FK_AR_21) #drought (0.025)
 #adjust drought p-value
-p.adjust(0.029, method = "BH", n=5) #ns
+p.adjust(0.025, method = "BH", n=5) #ns
 
 
 #### PERMDISP FK Aerial 2021 ####
@@ -2557,6 +2618,8 @@ BC_Distance_Matrix_FK_AR_21 <- vegdist(Species_Matrix_FK_AR_21)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_21_Dr <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$rainfall_reduction)
 permutest(Dispersion_FK_AR_21_Dr,pairwise = T, permutations = 999)  #ns
+#adjust drought p-value
+p.adjust(0.386 , method = "BH", n=5) #NS
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing
 Dispersion_FK_AR_21_GR <- betadisper(BC_Distance_Matrix_FK_AR_21,FK_AR_21$grazing_treatment)
@@ -2596,11 +2659,11 @@ Environment_Matrix_FK_AR_22$block=as.numeric(Environment_Matrix_FK_AR_22$block)
 Environment_Matrix_FK_AR_22$slope=as.numeric(Environment_Matrix_FK_AR_22$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_22,permutations = 999, method = "bray",type=3)
+PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_FK_AR_22,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_22) #drought (0.004)
 #adjust drought p-value
-p.adjust(0.01, method = "BH", n=5) #0.05
+p.adjust(0.008, method = "BH", n=5) #0.05
 #pairwise test
 Posthoc_FK_AR_22<-pairwise.adonis(Species_Matrix_FK_AR_22,factors=Environment_Matrix_FK_AR_22$rainfall_reduction, p.adjust.m = "BH")
 Posthoc_FK_AR_22 #0-99 drought is siginificant (0.03)
@@ -2619,6 +2682,8 @@ BC_Distance_Matrix_FK_AR_22 <- vegdist(Species_Matrix_FK_AR_22)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_22_Dr <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$rainfall_reduction)
 permutest(Dispersion_FK_AR_22_Dr,pairwise = T, permutations = 999) #ns
+#adjust drought p-value
+p.adjust(0.111 , method = "BH", n=5) #NS
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing
 Dispersion_FK_AR_22_GR <- betadisper(BC_Distance_Matrix_FK_AR_22,FK_AR_22$grazing_treatment)
@@ -2657,11 +2722,11 @@ Environment_Matrix_FK_AR_23$block=as.numeric(Environment_Matrix_FK_AR_23$block)
 Environment_Matrix_FK_AR_23$slope=as.numeric(Environment_Matrix_FK_AR_23$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_FK_AR_23 <- adonis2(formula = Species_Matrix_FK_AR_23~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_FK_AR_23,permutations = 999, method = "bray",type=3)
+PerMANOVA_FK_AR_23 <- adonis2(formula = Species_Matrix_FK_AR_23~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_FK_AR_23,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
-print(PerMANOVA_FK_AR_23) #drought (0.001)
+print(PerMANOVA_FK_AR_23) #drought (0.002)
 #adjust drought p-value
-p.adjust(0.001, method = "BH", n=5) #0.005
+p.adjust(0.002, method = "BH", n=5) #0.005
 #pairwise test
 Posthoc_FK_AR_23<-pairwise.adonis(Species_Matrix_FK_AR_23,factors=Environment_Matrix_FK_AR_23$rainfall_reduction, p.adjust.m = "BH")
 Posthoc_FK_AR_23 #0-99 drought is significant (0.03), 25-99 is significant (0.03)
@@ -2680,6 +2745,8 @@ BC_Distance_Matrix_FK_AR_23 <- vegdist(Species_Matrix_FK_AR_23)
 #Run a dissimilarity matrix (PermDisp) comparing drought
 Dispersion_FK_AR_23_Dr <- betadisper(BC_Distance_Matrix_FK_AR_23,FK_AR_23$rainfall_reduction)
 permutest(Dispersion_FK_AR_23_Dr,pairwise = T, permutations = 999) #0.016
+#adjust drought p-value
+p.adjust(0.018 , method = "BH", n=5) #NS
 
 #Run a dissimilarity matrix (PermDisp) comparing grazing
 Dispersion_FK_AR_23_GR <- betadisper(BC_Distance_Matrix_FK_AR_23,FK_AR_23$grazing_treatment)
@@ -3046,9 +3113,11 @@ Environment_Matrix_TB_AR_19$block=as.numeric(Environment_Matrix_TB_AR_19$block)
 Environment_Matrix_TB_AR_19$slope=as.numeric(Environment_Matrix_TB_AR_19$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_TB_AR_19 <- adonis2(formula = Species_Matrix_TB_AR_19~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_19,permutations = 999, method = "bray",type=3)
+PerMANOVA_TB_AR_19 <- adonis2(formula = Species_Matrix_TB_AR_19~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_TB_AR_19,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_19) #NS
+#adjust drought p-value
+p.adjust(0.94 , method = "BH", n=5) #NS
 
 #### PERMDISP TB Aerial 2019 ####
 
@@ -3093,9 +3162,11 @@ Environment_Matrix_TB_AR_20$block=as.numeric(Environment_Matrix_TB_AR_20$block)
 Environment_Matrix_TB_AR_20$slope=as.numeric(Environment_Matrix_TB_AR_20$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_TB_AR_20 <- adonis2(formula = Species_Matrix_TB_AR_20~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_20,permutations = 999, method = "bray",type=3)
+PerMANOVA_TB_AR_20 <- adonis2(formula = Species_Matrix_TB_AR_20~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_TB_AR_20,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_20) #NS
+#adjust drought p-value
+p.adjust(0.831 , method = "BH", n=5) #NS
 
 #### PERMDISP TB Aerial 2020 ####
 
@@ -3149,11 +3220,11 @@ Environment_Matrix_TB_AR_21$block=as.numeric(Environment_Matrix_TB_AR_21$block)
 Environment_Matrix_TB_AR_21$slope=as.numeric(Environment_Matrix_TB_AR_21$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_TB_AR_21 <- adonis2(formula = Species_Matrix_TB_AR_21~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_21,permutations = 999, method = "bray",type=3)
+PerMANOVA_TB_AR_21 <- adonis2(formula = Species_Matrix_TB_AR_21~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_TB_AR_21,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_21) #grazing (0.03)
 #adjust drought p-value
-p.adjust(0.03, method = "BH", n=5) #ns
+p.adjust(0.116, method = "BH", n=5) #ns
 
 #### PERMDISP TB Aerial 2021 ####
 
@@ -3211,14 +3282,12 @@ Environment_Matrix_TB_AR_22$block=as.numeric(Environment_Matrix_TB_AR_22$block)
 Environment_Matrix_TB_AR_22$slope=as.numeric(Environment_Matrix_TB_AR_22$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_TB_AR_22 <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reduction+ (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_22,permutations = 999, method = "bray",type=3)
+PerMANOVA_TB_AR_22 <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reduction+ (1|block) + (1|block/paddock) , data=Environment_Matrix_TB_AR_22,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_22) #grazing (0.002)
 #adjust drought p-value
-p.adjust(0.008, method = "BH", n=5) #0.04
-#pairwise test
-Posthoc_TB_AR_22_Graze<-pairwise.adonis(Species_Matrix_TB_AR_22,factors=Environment_Matrix_TB_AR_22$grazing_treatment, p.adjust.m = "BH")
-Posthoc_TB_AR_22_Graze #heavy vs destock (p=0.03), destock vs stable (p=0.003)
+p.adjust(0.149, method = "BH", n=5) #0.04
+
 
 
 #### PERMDISP TB Aerial 2022 ####
@@ -3276,9 +3345,11 @@ Environment_Matrix_TB_AR_23$block=as.numeric(Environment_Matrix_TB_AR_23$block)
 Environment_Matrix_TB_AR_23$slope=as.numeric(Environment_Matrix_TB_AR_23$slope)
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
-PerMANOVA_TB_AR_23 <- adonis2(formula = Species_Matrix_TB_AR_23~rainfall_reduction + (1|block) + (1|block/slope) , data=Environment_Matrix_TB_AR_23,permutations = 999, method = "bray",type=3)
+PerMANOVA_TB_AR_23 <- adonis2(formula = Species_Matrix_TB_AR_23~rainfall_reduction + (1|block) + (1|block/paddock) , data=Environment_Matrix_TB_AR_23,permutations = 999, method = "bray",type=3)
 #give a print out of the PermMANOVA
 print(PerMANOVA_TB_AR_23) #NS
+#adjust drought p-value
+p.adjust(0.433 , method = "BH", n=5) #NS
 
 #### PERMDISP TB Aerial 2023 ####
 
@@ -7093,29 +7164,39 @@ ggplot(data=subset(Rank_Abundance_Grazing, site=="TB" & year>=2020&rank<=20), ae
 #### Stats: Fort Keogh Aerial + Basal - Relative_Cover's ####
 
 #FK 2018 - checking drought and grazing
-FK_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+FK_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(FK_18_Relative_Cover_Aerial, type = 3) #NS
 
 #FK 2019 - just drought
-FK_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_19_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.25, method = "BH", n=5) #ns
 
 #FK 2020 - droughtxgrazing
-FK_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_20_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.1553, method = "BH", n=5) #ns
 
 
 #FK 2021- droughtxgrazing
-FK_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_21_Relative_Cover_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.2573, method = "BH", n=5) #ns
 
 #FK 2022- droughtxgrazing
-FK_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_22_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.4691, method = "BH", n=5) #ns
 
 #FK 2023- droughtxgrazing
-FK_23_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+FK_23_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "FK" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(FK_23_Relative_Cover_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.5093, method = "BH", n=5) #ns
 
 #basal
 #FK 2018 - checking drought and grazing
@@ -7145,28 +7226,38 @@ anova(FK_23_Relative_Cover_Basal, type = 3) #NS
 #### Stats: Thunder  Basin Aerial + Basal - Relative_Cover's####
 
 #TB 2018 - checking drought and grazing
-TB_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+TB_18_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2018 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(TB_18_Relative_Cover_Aerial, type = 3) #ns
 
 #TB 2019 - just drought
-TB_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_19_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2019 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_19_Relative_Cover_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.6859, method = "BH", n=5) #ns
 
 #TB 2020 - droughtxgrazing
-TB_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_20_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2020 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_20_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.591, method = "BH", n=5) #ns
 
 #TB 2021- droughtxgrazing
-TB_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction+ (1|block) + (1|block:slope))
+TB_21_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2021 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction+ (1|block) + (1|block:paddock))
 anova(TB_21_Relative_Cover_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.8594, method = "BH", n=5) #ns
 
 #TB 2022- droughtxgrazing
-TB_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_22_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2022 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_22_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.755, method = "BH", n=5) #ns
 
 #TB 2023- droughtxgrazing
-TB_23_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:slope))
+TB_23_Relative_Cover_Aerial <- lmerTest::lmer(data = subset(FG_RelCov, year == 2023 & site== "TB" & aerial_basal=="Aerial"), Relative_Cover ~ rainfall_reduction + (1|block) + (1|block:paddock))
 anova(TB_23_Relative_Cover_Aerial, type = 3) #ns
+#adjust drought p-value
+p.adjust(0.5463, method = "BH", n=5) #ns
 
 #basal
 #TB 2018 - checking drought and grazing
