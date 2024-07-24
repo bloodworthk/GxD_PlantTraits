@@ -1198,11 +1198,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&s
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.098, method = "BH", n=5)
-p.adjust(0.267, method = "BH", n=5)
-p.adjust(0.6599, method = "BH", n=5)
+p.adjust(0.04958, method = "BH", n=5)
+p.adjust(0.2673, method = "BH", n=5)
+p.adjust(0.6164, method = "BH", n=5)
 p.adjust(0.539, method = "BH", n=5)
-p.adjust(0.7278, method = "BH", n=5)
+p.adjust(0.688, method = "BH", n=5)
 
 
 
@@ -1257,11 +1257,11 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity,year==2023&s
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.08426, method = "BH", n=5)
-p.adjust(0.5519, method = "BH", n=5)
-p.adjust(0.2323, method = "BH", n=5)
-p.adjust(0.005333, method = "BH", n=5)
-p.adjust(0.07632, method = "BH", n=5)
+p.adjust(0.1226, method = "BH", n=5)
+p.adjust(0.4875, method = "BH", n=5)
+p.adjust(0.1952, method = "BH", n=5)
+p.adjust(0.1478, method = "BH", n=5)
+p.adjust(0.7506, method = "BH", n=5)
 
 
 #### Calculate Height FDis: FK ####
@@ -1269,15 +1269,16 @@ p.adjust(0.07632, method = "BH", n=5)
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Height<-Avg_Traits_FK%>% 
   filter(Genus_Species_Correct!="Pediomelum.esculentum") %>% 
-  mutate(Sp_Num=c(1:32)) %>% 
-  ungroup() 
+  mutate(Sp_Num=c(1:30)) %>% 
+  ungroup() %>% 
+  select()
 
 Avg_Traits_FK_Data_Height<-Avg_Traits_FK_Height %>% 
   dplyr::select(Avg_height_cm) %>% 
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_Height) <- c(1:3)
+rownames(Avg_Traits_FK_Data_Height) <- c(1:30)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_FK_SpNames_Height<-Avg_Traits_FK_Height %>% 
@@ -1317,7 +1318,7 @@ summary(FK_FunctionalDiversity_Height)
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_TB_Height<-Avg_Traits_TB%>% 
   filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus")) %>% 
-  mutate(Sp_Num=c(1:40)) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
   ungroup() 
 
 Avg_Traits_TB_Data_Height<-Avg_Traits_TB_Height %>% 
@@ -1325,7 +1326,7 @@ Avg_Traits_TB_Data_Height<-Avg_Traits_TB_Height %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_Height) <- c(1:40)
+rownames(Avg_Traits_TB_Data_Height) <- c(1:33)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames_Height<-Avg_Traits_TB_Height %>% 
@@ -1374,7 +1375,6 @@ Functional_Diversity_Height<-Functional_Diversity_FK_Height %>%
   left_join(plot_layoutK) %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
   mutate(FDis_Height=FDis)
-
 
 
 #### Normality: Height FDis FK ####
@@ -1427,11 +1427,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year=
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.8277, method = "BH", n=5)
-p.adjust(0.1418, method = "BH", n=5)
-p.adjust(0.4283, method = "BH", n=5)
-p.adjust(0.1461, method = "BH", n=5)
-p.adjust(0.1895, method = "BH", n=5)
+p.adjust(0.7663, method = "BH", n=5)
+p.adjust(0.1347, method = "BH", n=5)
+p.adjust(0.3308, method = "BH", n=5)
+p.adjust(0.1192, method = "BH", n=5)
+p.adjust(0.1103, method = "BH", n=5)
 
 #### Normality: Height FDis TB ####
 
@@ -1483,20 +1483,18 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Height,year=
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.4036, method = "BH", n=5)
-p.adjust(0.6143, method = "BH", n=5)
-p.adjust(0.2578, method = "BH", n=5)
-p.adjust(0.7359, method = "BH", n=5)
-p.adjust(0.5551, method = "BH", n=5)
-
-
+p.adjust(0.1315, method = "BH", n=5)
+p.adjust(0.8022, method = "BH", n=5)
+p.adjust(0.03462, method = "BH", n=5)
+p.adjust(0.6568, method = "BH", n=5)
+p.adjust(0.717, method = "BH", n=5)
 
 #### Calculate Leaf_Thickness FDis: FK ####
 
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_FK_Leaf_Thickness<-Avg_Traits_FK%>% 
   filter(!Genus_Species_Correct %in% c("Pediomelum.esculentum","Linum.rigidum")) %>% 
-  mutate(Sp_Num=c(1:31)) %>% 
+  mutate(Sp_Num=c(1:30)) %>% 
   ungroup() 
 
 Avg_Traits_FK_Data_Leaf_Thickness<-Avg_Traits_FK_Leaf_Thickness %>% 
@@ -1504,7 +1502,7 @@ Avg_Traits_FK_Data_Leaf_Thickness<-Avg_Traits_FK_Leaf_Thickness %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_FK_Data_Leaf_Thickness) <- c(1:31)
+rownames(Avg_Traits_FK_Data_Leaf_Thickness) <- c(1:30)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_FK_SpNames_Leaf_Thickness<-Avg_Traits_FK_Leaf_Thickness %>% 
@@ -1544,7 +1542,7 @@ summary(FK_FunctionalDiversity_Leaf_Thickness)
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_TB_Leaf_Thickness<-Avg_Traits_TB%>% 
   filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides")) %>% 
-  mutate(Sp_Num=c(1:39)) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
   ungroup() 
 
 Avg_Traits_TB_Data_Leaf_Thickness<-Avg_Traits_TB_Leaf_Thickness %>% 
@@ -1552,7 +1550,7 @@ Avg_Traits_TB_Data_Leaf_Thickness<-Avg_Traits_TB_Leaf_Thickness %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_Leaf_Thickness) <- c(1:39)
+rownames(Avg_Traits_TB_Data_Leaf_Thickness) <- c(1:33)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames_Leaf_Thickness<-Avg_Traits_TB_Leaf_Thickness %>% 
@@ -1654,11 +1652,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickne
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.3337, method = "BH", n=5)
-p.adjust(0.6804, method = "BH", n=5)
-p.adjust(0.5967, method = "BH", n=5)
-p.adjust(0.4663, method = "BH", n=5)
-p.adjust(0.5493, method = "BH", n=5)
+p.adjust(0.1617, method = "BH", n=5)
+p.adjust(0.5262, method = "BH", n=5)
+p.adjust(0.5222, method = "BH", n=5)
+p.adjust(0.3089, method = "BH", n=5)
+p.adjust(0.4986, method = "BH", n=5)
 
 #### Normality: Leaf_Thickness FDis TB ####
 
@@ -1710,11 +1708,11 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Leaf_Thickne
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.8614, method = "BH", n=5)
-p.adjust(0.9702, method = "BH", n=5)
-p.adjust(0.3435, method = "BH", n=5)
-p.adjust(0.9627, method = "BH", n=5)
-p.adjust(0.5307, method = "BH", n=5)
+p.adjust(0.6553, method = "BH", n=5)
+p.adjust(0.06354, method = "BH", n=5)
+p.adjust(0.02562, method = "BH", n=5)
+p.adjust(0.00539, method = "BH", n=5)
+p.adjust(0.8499, method = "BH", n=5)
 
 
 #### Calculate LDMC FDis: FK ####
@@ -1769,7 +1767,7 @@ FK_FunctionalDiversity_LDMC <- dbFD(Avg_Traits_FK_Data_LDMC, Species_Comp_FK_Wid
 #Create a matrix with just average trait data removing all idetifiers
 Avg_Traits_TB_LDMC<-Avg_Traits_TB%>% 
   filter(!Genus_Species_Correct %in% c("Erigeron.pumilus","Nothocalais.cuspidata","Oenothera.suffrtescuns","Erigeron.canus","Elymus.elymoides","Hedeoma.hispida")) %>% 
-  mutate(Sp_Num=c(1:38)) %>% 
+  mutate(Sp_Num=c(1:33)) %>% 
   ungroup() 
 
 Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_LDMC %>% 
@@ -1777,7 +1775,7 @@ Avg_Traits_TB_Data_LDMC<-Avg_Traits_TB_LDMC %>%
   as.matrix()
 
 #make row names 1-33 to match the sp_num for future identification 
-rownames(Avg_Traits_TB_Data_LDMC) <- c(1:38)
+rownames(Avg_Traits_TB_Data_LDMC) <- c(1:33)
 
 #make a dataframe with the species name and identification number 
 Avg_Traits_TB_SpNames_LDMC<-Avg_Traits_TB_LDMC %>% 
@@ -1879,11 +1877,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.2265, method = "BH", n=5)
-p.adjust(0.6835, method = "BH", n=5)
-p.adjust(0.2905, method = "BH", n=5)
-p.adjust(0.06682, method = "BH", n=5)
-p.adjust(0.6484, method = "BH", n=5)
+p.adjust(0.1084, method = "BH", n=5)
+p.adjust(0.8566, method = "BH", n=5)
+p.adjust(0.2534, method = "BH", n=5)
+p.adjust(0.1062, method = "BH", n=5)
+p.adjust(0.5398, method = "BH", n=5)
 
 #### Normality: LDMC FDis TB ####
 
@@ -1915,31 +1913,31 @@ ols_test_normality(FDis_LDMC_Norm_23_TB) #not normal but okay
 #### Stats: LDMC FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB19_LMER, type = 3) #NS
+FDis_TB19_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2019&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB19_LMER_LDMC, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB20_LMER, type = 3)  #NS
+FDis_TB20_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2020&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB20_LMER_LDMC, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
-anova(FDis_TB21_LMER, type = 3) #NS
+FDis_TB21_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2021&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
+anova(FDis_TB21_LMER_LDMC, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB22_LMER, type = 3) #NS
+FDis_TB22_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2022&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB22_LMER_LDMC, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB23_LMER, type = 3) #NS
+FDis_TB23_LMER_LDMC <- lmerTest::lmer(data = subset(Functional_Diversity_LDMC,year==2023&site=="TB"), log(FDis_LDMC) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB23_LMER_LDMC, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.8238, method = "BH", n=5)
-p.adjust(0.9681, method = "BH", n=5)
-p.adjust(0.1296, method = "BH", n=5)
-p.adjust(0.5506, method = "BH", n=5)
-p.adjust(0.5571, method = "BH", n=5)
+p.adjust(0.6137, method = "BH", n=5)
+p.adjust(0.6107, method = "BH", n=5)
+p.adjust(0.1372, method = "BH", n=5)
+p.adjust(0.1438, method = "BH", n=5)
+p.adjust(0.9108, method = "BH", n=5)
 
 
 #### Calculate SLA FDis: FK ####
@@ -2085,33 +2083,33 @@ ols_test_normality(FDis_SLA_Norm_23_FK) #normalish
 #### Stats: SLA FDis FK ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_FK19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="FK"), 1/sqrt(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_FK19_LMER, type = 3) #NS
+FDis_FK19_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2019&site=="FK"), 1/sqrt(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_FK19_LMER_SLA, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_FK20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_FK20_LMER, type = 3)  #NS
+FDis_FK20_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2020&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_FK20_LMER_SLA, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_FK21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
-anova(FDis_FK21_LMER, type = 3) #NS
+FDis_FK21_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2021&site=="FK"), (FDis_SLA) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
+anova(FDis_FK21_LMER_SLA, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_FK22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_FK22_LMER, type = 3) #NS
+FDis_FK22_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2022&site=="FK"), log(FDis_SLA) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_FK22_LMER_SLA, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="FK"), 1/sqrt(FDis_SLA)~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_FK23_LMER, type = 3) #0.006094
-summary(glht(FDis_FK23_LMER, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
+FDis_FK23_LMER_SLA <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==2023&site=="FK"), 1/sqrt(FDis_SLA)~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_FK23_LMER_SLA, type = 3) #0.006094
+summary(glht(FDis_FK23_LMER_SLA, linfct = mcp(Rainfall_reduction_cat = "Tukey")), test = adjusted(type = "BH")) 
 
 
 # adjust pvalues for SLA TB
-p.adjust(0.035, method = "BH", n=5)
-p.adjust(0.333, method = "BH", n=5)
-p.adjust(0.778, method = "BH", n=5)
-p.adjust(0.2713, method = "BH", n=5)
-p.adjust(0.0061, method = "BH", n=5)
+p.adjust(0.01692, method = "BH", n=5)
+p.adjust(0.3335, method = "BH", n=5)
+p.adjust(0.9408, method = "BH", n=5)
+p.adjust(0.2046, method = "BH", n=5)
+p.adjust(0.006056, method = "BH", n=5)
 
 #### Normality: SLA FDis TB ####
 
@@ -2163,11 +2161,11 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==20
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for SLA TB
-p.adjust(0.559, method = "BH", n=5)
-p.adjust(0.182, method = "BH", n=5)
+p.adjust(0.554, method = "BH", n=5)
+p.adjust(0.07559, method = "BH", n=5)
 p.adjust(0.1607, method = "BH", n=5)
-p.adjust(0.09415, method = "BH", n=5)
-p.adjust(0.8016, method = "BH", n=5)
+p.adjust(0.06956, method = "BH", n=5)
+p.adjust(0.7411, method = "BH", n=5)
 
 #### Calculate Area FDis: FK ####
 
@@ -2331,11 +2329,11 @@ FDis_FK23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2
 anova(FDis_FK23_LMER, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.3998, method = "BH", n=5)
+p.adjust(0.3795, method = "BH", n=5)
 p.adjust(0.6613, method = "BH", n=5)
-p.adjust(0.1325, method = "BH", n=5)
-p.adjust(0.7777, method = "BH", n=5)
-p.adjust(0.05299, method = "BH", n=5)
+p.adjust(0.1313, method = "BH", n=5)
+p.adjust(0.7535, method = "BH", n=5)
+p.adjust(0.04079, method = "BH", n=5)
 
 #### Normality: Area FDis TB ####
 
@@ -2367,28 +2365,28 @@ ols_test_normality(FDis_Area_Norm_23_TB) #normal
 #### Stats: Area FDis TB ####
 
 #FDis for Fort Keogh 2019 - LMER
-FDis_TB19_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB19_LMER, type = 3) #NS
+FDis_TB19_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2019&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB19_LMER_Area, type = 3) #NS
 
 #FDis for Fort Keogh 2020 - LMER
-FDis_TB20_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="TB"), log(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB20_LMER, type = 3)  #NS
+FDis_TB20_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2020&site=="TB"), log(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB20_LMER_Area, type = 3)  #NS
 
 #FDis for Fort Keogh 2021 - LMER
-FDis_TB21_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
-anova(FDis_TB21_LMER, type = 3) #NS
+FDis_TB21_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2021&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat+ (1|block) + (1|block:paddock))
+anova(FDis_TB21_LMER_Area, type = 3) #NS
 
 #FDis for Fort Keogh 2022 - LMER
-FDis_TB22_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB22_LMER, type = 3) #NS
+FDis_TB22_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2022&site=="TB"), (FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB22_LMER_Area, type = 3) #NS
 
 #FDis for Fort Keogh 2023 - LMER
-FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="TB"),(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
-anova(FDis_TB23_LMER, type = 3) #NS
+FDis_TB23_LMER_Area <- lmerTest::lmer(data = subset(Functional_Diversity_Area,year==2023&site=="TB"),(FDis_Area) ~ Rainfall_reduction_cat + (1|block) + (1|block:paddock))
+anova(FDis_TB23_LMER_Area, type = 3) #NS
 
 # adjust pvalues for Area TB
-p.adjust(0.02851, method = "BH", n=5)
-p.adjust(0.308, method = "BH", n=5)
-p.adjust(0.1803, method = "BH", n=5)
-p.adjust(0.2, method = "BH", n=5)
+p.adjust(0.02827, method = "BH", n=5)
+p.adjust(0.2536, method = "BH", n=5)
+p.adjust(0.1806, method = "BH", n=5)
+p.adjust(0.397, method = "BH", n=5)
 p.adjust(0.2501, method = "BH", n=5)
