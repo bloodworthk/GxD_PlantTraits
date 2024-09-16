@@ -1260,7 +1260,7 @@ anova(FDis_TB23_LMER, type = 3) #NS
 p.adjust(0.1226, method = "BH", n=5)
 p.adjust(0.4875, method = "BH", n=5)
 p.adjust(0.1952, method = "BH", n=5)
-p.adjust(0.1478, method = "BH", n=5)
+p.adjust(0.01478, method = "BH", n=5)
 p.adjust(0.7506, method = "BH", n=5)
 
 
