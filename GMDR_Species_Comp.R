@@ -649,8 +649,7 @@ ols_test_normality(Norm_FK_22_Shannon_Ar) #normal
 #non transformed data
 Norm_FK_23_Shannon_Ar <- lm(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Shannon  ~ rainfall_reduction*grazing_treatment)
 ols_plot_resid_hist(Norm_FK_23_Shannon_Ar) 
-ols_test_normality(Norm_FK_23_Shannon_Ar) #### not normal ####
-
+ols_test_normality(Norm_FK_23_Shannon_Ar)
 #### Normality: Thunder Basin Aerial - Shannon ####
 #TB - Aerial - Shannon: 2018 
 #non transformed data
@@ -5595,3 +5594,326 @@ p.adjust(0.02, method = "BH", n=5)
 
 
 
+
+
+#### Grazing Results ####
+#### Stats: Fort Keogh - Grazing ####
+
+#FK 2018 - checking drought and grazing
+FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_18_Richness_Aerial, type = 3) #NS
+
+#FK 2019
+FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(FK_19_Richness_Aerial, type = 3)
+#adjust drought p-value
+p.adjust(0.03223, method = "BH", n=5) #ns
+
+#FK 2020 
+FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(FK_20_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.1081, method = "BH", n=5) #ns
+
+#FK 2021- 
+FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|block) + (1|block:paddock))
+anova(FK_21_Richness_Aerial, type = 3) #0.05
+#adjust drought p-value
+p.adjust(0.05276, method = "BH", n=5) #ns
+
+#FK 2022
+FK_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(FK_22_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.215, method = "BH", n=5) #ns
+
+#FK 2023
+FK_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(FK_23_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.9585, method = "BH", n=5) #ns
+
+#### Stats: Thunder Basin - Grazing  ####
+
+#TB 2019 - just drought
+TB_19_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_19_Richness_Gr, type = 3) #NS
+
+#TB 2020 
+TB_20_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_20_Richness_Gr, type = 3) #NS
+
+#TB 2021- droughtxgrazing
+TB_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(TB_21_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.3471, method = "BH", n=5) #ns
+
+#TB 2022- droughtxgrazing
+TB_22_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
+anova(TB_22_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.4885, method = "BH", n=5) #ns
+
+#TB 2023- droughtxgrazing
+TB_23_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ rainfall_reduction + (1|block) + (1|block:slope))
+anova(TB_23_Richness_Aerial, type = 3) #NS
+#adjust drought p-value
+p.adjust(0.6383, method = "BH", n=5) #ns
+
+
+#### Stats: Fort Keogh Grazing - Richness ####
+#FK 2019
+FK_19_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_19_Richness_Gr, type = 3)
+#adjust  p-value for grazing
+p.adjust(0.45475, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.02760, method = "BH", n=5)
+
+spglm()
+
+#FK 2020 
+FK_20_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_20_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.4952, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.9141, method = "BH", n=5)
+
+#FK 2021
+FK_21_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(FK_21_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.62509, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.54422, method = "BH", n=5)
+
+#FK 2022
+FK_22_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_22_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.6844, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.9584, method = "BH", n=5)
+
+#FK 2023
+FK_23_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_23_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.8600, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.3705, method = "BH", n=5)
+
+#### Stats: Thunder Basin Grazing  - Richness  ####
+
+#TB 2019
+TB_19_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_19_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.6244, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.2652, method = "BH", n=5)
+
+#TB 2020 
+TB_20_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_20_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.7036, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.7003, method = "BH", n=5)
+
+#TB 2021
+TB_21_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_21_Richness_Gr, type = 3) #0.02165
+#adjust  p-value for grazing
+p.adjust(0.7532, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.5283, method = "BH", n=5)
+
+#TB 2022
+TB_22_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_22_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.5959, method = "BH", n=5) 
+#adjust  p-value for drought x grazing
+p.adjust(0.1660, method = "BH", n=5)
+
+#TB 2023
+TB_23_Richness_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), richness ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:slope))
+anova(TB_23_Richness_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.7194, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.1126, method = "BH", n=5)
+
+#### Stats: Fort Keogh Grazing - Evar ####
+
+#FK 2019
+FK_19_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Evar_FK_19_TF ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_19_Evar_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.6833, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.6095, method = "BH", n=5)
+
+#FK 2020 
+FK_20_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_20_Evar_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.5040, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.6560, method = "BH", n=5)
+
+#FK 2021
+FK_21_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_21_Evar_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.28629, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.25471, method = "BH", n=5)
+
+
+#FK 2022
+FK_22_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_22_Evar_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.1295, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.2049, method = "BH", n=5)
+
+
+#FK 2023
+FK_23_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_23_Evar_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.5793, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.7539, method = "BH", n=5)
+
+#### Stats:  Thunder Basin Grazing - Evar ####
+
+#TB 2019
+TB_19_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_19_Evar_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.7300, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.7947, method = "BH", n=5)
+
+#TB 2020 
+TB_20_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_20_Evar_Gr, type = 3) 
+#adjust  p-value for grazing
+p.adjust(0.1757, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.8973, method = "BH", n=5)
+
+#TB 2021 
+TB_21_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(TB_21_Evar_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.868587, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.456125, method = "BH", n=5)
+
+#TB 2022 
+TB_22_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Evar_TB_22_TF ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(TB_22_Evar_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.06725, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.06080, method = "BH", n=5)
+
+#TB 2023 
+TB_23_Evar_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Evar ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_23_Evar_Gr, type = 3) 
+#adjust  p-value for grazing
+p.adjust(0.2590, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.4658, method = "BH", n=5)
+
+#### Stats: Fort Keogh Grazing - Shannon's ####
+
+#FK 2019
+FK_19_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_19_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.901530, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.315931, method = "BH", n=5)
+
+#FK 2020 
+FK_20_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), Shannon_20_FK_TF ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_20_Shannon_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.2920, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.5789, method = "BH", n=5)
+
+
+#FK 2021 
+FK_21_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(FK_21_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.2956, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.5299, method = "BH", n=5)
+
+#FK 2022 
+FK_22_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "FK"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_22_Shannon_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.1333, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.2217, method = "BH", n=5)
+
+#FK 2023 
+FK_23_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "FK"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(FK_23_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.6575, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.7203, method = "BH", n=5)
+
+#### Stats: Thunder  Basin Grazing - Shannon's####
+
+#TB 2019
+TB_19_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "TB"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_19_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.1907, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.7812, method = "BH", n=5)
+
+#TB 2020 
+TB_20_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "TB"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
+anova(TB_20_Shannon_Gr, type = 3) #ns
+#adjust  p-value for grazing
+p.adjust(0.07654, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.84045, method = "BH", n=5)
+
+#TB 2021 
+TB_21_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "TB"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(TB_21_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.3291, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.1893, method = "BH", n=5)
+
+#TB 2022 
+TB_22_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2022 & site== "TB"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(TB_22_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.1275, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.6302, method = "BH", n=5)
+
+#TB 2023 
+TB_23_Shannon_Gr <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2023 & site== "TB"), Shannon ~ grazing_treatment + rainfall_reduction*grazing_treatment+ (1|block) + (1|block:paddock))
+anova(TB_23_Shannon_Gr, type = 3) #NS
+#adjust  p-value for grazing
+p.adjust(0.1334, method = "BH", n=5)
+#adjust  p-value for drought x grazing
+p.adjust(0.4285, method = "BH", n=5)
