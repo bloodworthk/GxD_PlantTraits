@@ -1,0 +1,804 @@
+"Site","DxG_block","paddock","genus_species","species_code","height_cm","emerging_leaves","developed_leaves","scenesced_leaves","flower_heads","open_flowers","percent_green","lifespan","growth_form","photosynthetic_pathway","Date","Season","people","comments","leaf_thickness_.mm.","wet_leaf_weight_g","date_lab","people_lab","comments_lab","Dry_Biomass_min_Leaf_g","Dry_Leaf_Weight_g","Total.Area","NOTES","ID"
+"TB",1,"LG","Alyssum_desetorum","ALDE",7.2,5,12,0,6,0,100,"annual","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.34,"0.001","5/28/22","KB_KVL","","0.0433","0.0003",0.06,"","ALDE_TB_1_LG"
+"TB",1,"MG","Alyssum_desetorum","ALDE",8,7,22,1,5,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0016","5/28/22","KB_KVL","","0.0142","1e-05",0.053,"","ALDE_TB_1_MG"
+"TB",1,"HG","Alyssum_desetorum","ALDE",9.2,5,7,2,3,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.42,"0.0013","5/28/22","KB_KVL","","0.026","0.0002",0.066,"","ALDE_TB_1_HG"
+"TB",2,"LG","Alyssum_desetorum","ALDE",5.7,2,4,2,2,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","8 seed heads",0.36,"0.0031","5/28/22","KB_KVL","","0.0233","1e-05",0.088,"","ALDE_TB_2_LG"
+"TB",2,"MG","Alyssum_desetorum","ALDE",5.2,0,3,0,0,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 water, 4 seed heads",0.36,"0.0011","5/28/22","KB_KVL","add 0.0012 to total biomass (wet) ","0.0087",NA,0.045,"","ALDE_TB_2_MG"
+"TB",2,"HG","Alyssum_desetorum","ALDE",2.4,0,22,1,4,5,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","8 seed pods",0.63,"0.0034","5/28/22","KB_KVL","","0.0870",NA,0.129,"","ALDE_TB_2_HG"
+"TB",3,"LG","Alyssum_desetorum","ALDE",7.3,8,10,0,3,1,98,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","13 seed heads",0.55,"0.002","5/29/22","KB_KVL","","0.0333","0.0002",0.077,"","ALDE_TB_3_LG"
+"TB",3,"MG","Alyssum_desetorum","ALDE",5.7,0,5,0,0,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","8 seed heads",0.34,"0.0007","5/29/22","KB_KVL","","0.0195","1e-05",0.03,"","ALDE_TB_3_MG"
+"TB",3,"HG","Alyssum_desetorum","ALDE",3.4,6,7,0,3,1,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","7 seed pods",0.48,"0.0016","5/29/22","KB_KVL","","0.0164","1e-05",0.069,"","ALDE_TB_3_HG"
+"FK",1,"LG","Alyssum_desetorum","ALDE",13.9,4,7,0,1,0,99,"annual","forb","C3","5/30/22","Early","KB_KVL","18 seed heads",0.44,"0.0031","5/30/22","KB_KVL","","0.0522","0.0005",0.152,"","ALDE_FK_1_LG"
+"FK",1,"MG","Alyssum_desetorum","ALDE",10.7,7,34,1,2,0,NA,"annual","forb","C3","5/30/22","Early","KB_KVL","9 seed pods, no % green",0.41,"0.0035","5/30/22","KB_KVL","","0.058","0.0012",0.149,"","ALDE_FK_1_MG"
+"FK",1,"HG","Alyssum_desetorum","ALDE",8.5,14,10,0,1,0,99,"annual","forb","C3","5/30/22","Early","KB_KVL","15 seed heads",0.4,"0.0015","5/30/22","KB_KVL","","0.0287","0.0001",0.07,"found","ALDE_FK_1_HG"
+"FK",2,"LG","Alyssum_desetorum","ALDE",10,9,7,0,1,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","17 seed heads",0.33,"0.0033","6/1/22","KB_KVL","","0.054","0.0004",0.138,"found","ALDE_FK_2_LG"
+"FK",2,"MG","Alyssum_desetorum","ALDE",12.2,9,11,0,3,0,98,"annual","forb","C3","5/31/22","Early","KB_KVL","48 seed pods",0.61,"0.0059","6/1/22","KB_KVL","","0.1833","0.001",0.204,"","ALDE_FK_2_MG"
+"FK",2,"HG","Alyssum_desetorum","ALDE",14.9,19,14,0,2,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","45 seed pods",0.42,"0.0034","6/1/22","KB_KVL","","0.1476","0.0011",0.127,"","ALDE_FK_2_HG"
+"FK",3,"LG","Alyssum_desetorum","ALDE",9.4,0,9,0,1,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","4 seed podsa",0.41,"0.0044","6/1/22","KB_KVL","","0.0204","0.0002",0.185,"","ALDE_FK_3_LG"
+"FK",3,"MG","Alyssum_desetorum","ALDE",9.7,15,5,0,1,0,100,"annual","forb","C3","6/1/22","Early","KB_KVL","17 seed heads",0.41,"0.0036","6/1/22","KB_KVL","","0.0566","0.0009",NA,NA,NA
+"FK",3,"HG","Alyssum_desetorum","ALDE",15.5,0,15,1,2,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","19 seed heads",0.56,"0.0053","6/1/22","KB_KVL","","0.0831","0.0011",0.206,"","ALDE_FK_3_HG"
+"TB",1,"LG","Allium_textile","ALTE",6.1,0,2,0,0,1,85,"annual","forb","C3","5/24/22","Early","KB_GT_MF_KVL","plant from B2LG - height measures tallest non flowering leave (veg height), no manipulation",0.45,"0.0398","5/28/22","KB_KVL","","0.0342","0.0066",1.001,"","ALTE_TB_1_LG"
+"TB",1,"MG","Allium_textile","ALTE",11,0,1,0,0,1,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B2 LG",0.58,"0.2296","5/28/22","KB_KVL","","0.0639","0.0346",1.655,"","ALTE_TB_1_MG"
+"TB",1,"HG","Allium_textile","ALTE",7.8,0,2,0,0,1,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","plant from B2LG ",0.62,"0.0702","5/28/22","KB_KVL","","0.0551","0.0145",3.547,"","ALTE_TB_1_HG"
+"TB",2,"LG","Allium_textile","ALTE",9.4,0,2,0,1,0,70,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.65,"0.712","5/28/22","KB_KVL","","0.0563","0.0103",1.414,"","ALTE_TB_2_LG"
+"TB",2,"MG","Allium_textile","ALTE",8.3,0,1,1,1,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.33,"0.0656","5/28/22","KB_KVL","","0.0247","0.0082",1.53,"","ALTE_TB_2_MG"
+"TB",2,"HG","Allium_textile","ALTE",6.8,0,1,0,1,0,98,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.9,"0.0564","5/28/22","KB_KVL","","0.0355","0.0064",1.206,"","ALTE_TB_2_HG"
+"TB",3,"LG","Allium_textile","ALTE",7.7,0,1,1,1,0,70,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.74,"0.0636","5/29/22","KB_KVL","","0.0551","0.0105",1.349,"","ALTE_TB_3_LG"
+"TB",3,"MG","Allium_textile","ALTE",4.5,0,1,0,1,0,80,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.78,"0.0495","5/29/22","KB_KVL","","0.0189","0.0064",1.058,"","ALTE_TB_3_MG"
+"TB",3,"HG","Allium_textile","ALTE",6.8,0,2,0,0,1,60,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.0301","5/29/22","KB_KVL","","0.0348","0.0045",0.902,"","ALTE_TB_3_HG"
+"FK",1,"LG","Androsace_occidentalis","ANOC",2.6,3,5,4,6,0,90,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.44,"0.0011","5/30/22","KB_KVL","","0.0237","1e-05",0.042,"","ANOC_FK_1_LG"
+"FK",1,"MG","Androsace_occidentalis","ANOC",2,3,3,9,3,0,60,"annual","forb","C3","5/30/22","Early","KB_KVL","Plant from B1 water",0.39,"0.0005","5/30/22","KB_KVL","","0.0074","1e-05",0.021,"","ANOC_FK_1_MG"
+"FK",1,"HG","Androsace_occidentalis","ANOC",3.5,4,5,11,4,0,80,"annual","forb","C3","5/30/22","Early","KB_KVL","Plant from B1 water",0.32,"0.0007","5/30/22","KB_KVL","","0.0213","0.0001",0.034,"found","ANOC_FK_1_HG"
+"FK",2,"LG","Androsace_occidentalis","ANOC",2.2,2,11,6,5,0,85,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.42,"0.0007","6/1/22","KB_KVL","","0.0196","0.0002",0.03,"found","ANOC_FK_2_LG"
+"FK",2,"MG","Androsace_occidentalis","ANOC",2.5,3,8,8,6,0,60,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.67,"0.0006","6/1/22","KB_KVL","","0.0256","1e-05",0.023,"","ANOC_FK_2_MG"
+"FK",2,"HG","Androsace_occidentalis","ANOC",3.4,11,15,4,11,0,95,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.46,"0.0009","6/1/22","KB_KVL","","0.0427","1e-05",0.038,"","ANOC_FK_2_HG"
+"FK",3,"LG","Androsace_occidentalis","ANOC",2.5,5,4,7,2,0,80,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.32,"0.0003","6/1/22","KB_KVL","","0.006","1e-05",0.057,"","ANOC_FK_3_LG"
+"FK",3,"MG","Androsace_occidentalis","ANOC",3.7,7,6,7,11,0,70,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.33,"0.0015","6/1/22","KB_KVL","","0.0328","1e-05",0.056,"","ANOC_FK_3_MG"
+"FK",3,"HG","Androsace_occidentalis","ANOC",3.2,3,9,6,4,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.4,"0.001","6/1/22","KB_KVL","","0.013","1e-05",0.03,"","ANOC_FK_3_HG"
+"TB",1,"LG","Antennaria_parvifolia","ANPA",3.5,7,63,3,0,2,85,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.47,"0.0161","5/28/22","KB_KVL","","0.3375","0.0035",0.611,"","ANPA_TB_1_LG"
+"TB",1,"MG","Antennaria_parvifolia","ANPA",1.9,9,39,1,1,13,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.33,"0.0038","5/28/22","KB_KVL","","0.3022","0.0010",0.38,"","ANPA_TB_1_MG"
+"TB",1,"HG","Antennaria_parvifolia","ANPA",1.8,6,79,0,0,7,90,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0101","5/28/22","KB_KVL","","0.3741","0.0015",0.162,"","ANPA_TB_1_HG"
+"TB",2,"LG","Antennaria_parvifolia","ANPA",1.4,2,18,0,1,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.43,"0.024","5/28/22","KB_KVL","","0.0832","0.0047",0.639,"","ANPA_TB_2_LG"
+"TB",2,"MG","Antennaria_parvifolia","ANPA",1.8,3,41,0,0,6,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.24,"0.0166","5/28/22","KB_KVL","","0.2277","0.0024",0.551,"","ANPA_TB_2_MG"
+"TB",2,"HG","Antennaria_parvifolia","ANPA",3.8,8,23,6,0,7,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.0112","5/28/22","KB_KVL","","0.1611","0.0027",0.321,"","ANPA_TB_2_HG"
+"TB",3,"LG","Antennaria_parvifolia","ANPA",1.4,7,34,5,0,1,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.0133","5/29/22","KB_KVL","","0.1261","0.0033",0.479,"","ANPA_TB_3_LG"
+"TB",3,"MG","Antennaria_parvifolia","ANPA",1.1,0,13,0,11,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.34,"0.0171","5/29/22","KB_KVL","","0.0327","0.0051",0.631,"","ANPA_TB_3_MG"
+"TB",3,"HG","Antennaria_parvifolia","ANPA",2,2,34,0,0,4,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.54,"0.0172","5/29/22","KB_KVL","","0.1123","0.0035",0.643,"","ANPA_TB_3_HG"
+"FK",1,"LG","Artemisia_cana","ARCA",21.1,12,56,18,0,0,82,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.37,"0.0404","7/2/22","KB_MF","","0.738","0.013",1.387,"","ARCA_FK_1_LG"
+"FK",1,"MG","Artemisia_cana","ARCA",63.2,7,2,2,0,0,89,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.41,"0.0387","7/2/22","KB_MF","","0.2518","0.0094",1.088,"","ARCA_FK_1_MG"
+"FK",1,"HG","Artemisia_cana","ARCA",39.9,3,15,3,0,0,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.32,"0.031","7/2/22","KB_MF","","0.1295","0.0003",1.226,"","ARCA_FK_1_HG"
+"FK",2,"LG","Artemisia_cana","ARCA",12.8,10,8,2,0,0,71,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.33,"0.0355","7/2/22","KB_MF","","0.1136","0.009",1.148,"","ARCA_FK_2_LG"
+"FK",2,"MG","Artemisia_cana","ARCA",14.8,9,22,3,0,0,92,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.29,"0.0254","7/2/22","KB_MF","","0.1875","0.0085",0.854,"","ARCA_FK_2_MG"
+"FK",2,"HG","Artemisia_cana","ARCA",18.5,16,98,0,0,0,90,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.3,"0.0319","7/2/22","KB_MF","","0.9436","0.0107",1.24,"","ARCA_FK_2_HG"
+"FK",3,"LG","Artemisia_cana","ARCA",39,9,14,0,0,0,99,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B2MG",0.36,"0.0191","7/2/22","KB_MF","","0.0905","0.0061",0.622,"","ARCA_FK_3_LG"
+"FK",3,"MG","Artemisia_cana","ARCA",15.9,19,37,0,0,0,95,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B2HG",0.36,"0.0284","7/2/22","KB_MF","","0.2798","0.0076",1.009,"","ARCA_FK_3_MG"
+"FK",3,"HG","Artemisia_cana","ARCA",29.1,30,48,8,0,0,85,"perennial","woody","C3","7/1/22","Late","AY_JA_KW","Plant from B1LG",0.53,"0.0202","7/2/22","KB_MF","","0.4289","0.0055",0.606,"","ARCA_FK_3_HG"
+"FK",1,"LG","Artemisia_dracunculus","ARDR",32,45,27,6,0,0,86,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.37,"0.0075","7/2/22","KB_MF","","0.5248","0.0014",0.236,"","ARDR_FK_1_LG"
+"FK",1,"MG","Artemisia_dracunculus","ARDR",28.9,62,4,4,0,0,79,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.36,"0.0058","7/2/22","KB_MF","","0.3541","0.0005",0.199,"","ARDR_FK_1_MG"
+"FK",1,"HG","Artemisia_dracunculus","ARDR",10.6,114,83,6,0,0,74,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.33,"0.0043","7/2/22","KB_MF","","0.8274","0.0008",0.167,"","ARDR_FK_1_HG"
+"FK",2,"LG","Artemisia_dracunculus","ARDR",28,36,36,7,0,0,79,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.42,"0.0054","7/2/22","KB_MF","Actually ARFR - change on datasheets","0.1782","1e-05",0.26,"","ARDR_FK_2_LG"
+"FK",2,"MG","Artemisia_dracunculus","ARDR",16.2,36,20,4,0,0,72,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.31,"0.0065","7/2/22","KB_MF","","0.1009","0.0018",0.268,"","ARDR_FK_2_MG"
+"FK",2,"HG","Artemisia_dracunculus","ARDR",33.9,71,154,4,0,0,82,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.4,"0.0107","7/2/22","KB_MF","","0.8126","0.0031",0.394,"","ARDR_FK_2_HG"
+"FK",3,"LG","Artemisia_dracunculus","ARDR",27.9,67,23,3,0,0,75,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.39,"0.0126","7/2/22","KB_MF","","0.3582","0.0039",0.431,"","ARDR_FK_3_LG"
+"FK",3,"MG","Artemisia_dracunculus","ARDR",23.9,113,24,11,0,0,95,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.39,"0.0074","7/2/22","KB_MF","","0.4893","0.0014",0.257,"","ARDR_FK_3_MG"
+"FK",3,"HG","Artemisia_dracunculus","ARDR",20.9,189,22,6,0,0,96,"","","","7/1/22","Late","AY_JA_KW","",0.37,"0.0052","7/2/22","KB_MF","","0.4265","0.0013",0.179,"","ARDR_FK_3_HG"
+"TB",1,"LG","Artemisia_frigida","ARFR",14.8,1,23,23,0,0,85,"perennial","woody","C3","6/28/22","Late","KB","",0.17,"0.0009","6/30/22","KB_AY","","0.0148",NA,NA,NA,NA
+"TB",1,"MG","Artemisia_frigida","ARFR",11.2,13,28,0,0,0,99,"perennial","woody","C3","6/28/22","Late","KB","",0.39,"0.0004","6/30/22","KB_AY","","0.0494","1e-05",NA,NA,NA
+"TB",1,"HG","Artemisia_frigida","ARFR",25.5,12,60,3,0,0,95,"perennial","woody","C3","6/28/22","Late","KB","",0.35,"0.0017","6/30/22","KB_AY","","0.0626","0.002",NA,NA,NA
+"TB",2,"LG","Artemisia_frigida","ARFR",10.8,12,41,4,0,0,95,"perennial","woody","C3","6/29/22","Late","KB","",0.3,"0.0015","6/30/22","KB_AY","","0.41","0.0002",NA,NA,NA
+"TB",2,"MG","Artemisia_frigida","ARFR",12.9,16,44,1,0,0,95,"perennial","woody","C3","6/29/22","Late","KB","",0.36,"0.0017","6/30/22","KB_AY","","0.0567","0.0004",NA,NA,NA
+"TB",2,"HG","Artemisia_frigida","ARFR",14.1,6,47,0,0,0,98,"perennial","woody","C3","6/29/22","Late","KB","",0.32,"0.0014","6/30/22","KB_AY","","0.0434","0.0001",NA,NA,NA
+"TB",3,"LG","Artemisia_frigida","ARFR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"MG","Artemisia_frigida","ARFR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"HG","Aartemisia_frigida","ARFR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","6/29/22","Late","KB","",0.52,"0.00141","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"FK",1,"LG","Artemisia_frigida","ARFR",6.2,8,55,4,0,0,90,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.27,"0.0014","7/2/22","KB_MF","","0.0582","0.0003",0.053,"","ARFR_FK_1_LG"
+"FK",1,"MG","Artemisia_frigida","ARFR",5.4,17,21,21,0,0,74,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.29,"0.0028","7/2/22","KB_MF","","0.1001","0.0005",0.186,"","ARFR_FK_1_MG"
+"FK",1,"HG","Artemisia_frigida","ARFR",5.3,6,19,3,0,0,90,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.29,"0.0004","7/2/22","KB_MF","","0.0156","1e-05",0.053,"","ARFR_FK_1_HG"
+"FK",2,"LG","Artemisia_frigida","ARFR",10.8,12,28,10,0,0,87,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.28,"0.001","7/2/22","KB_MF","","0.0365","0.0002",0.071,"","ARFR_FK_2_LG"
+"FK",2,"MG","Artemisia_frigida","ARFR",4.9,14,23,5,0,0,87,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.38,"0.0015","7/2/22","KB_MF","","0.0291","0.0001",0.105,"","ARFR_FK_2_MG"
+"FK",2,"HG","Artemisia_frigida","ARFR",24.8,14,45,6,0,0,77,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",0.37,"0.0018","7/2/22","KB_MF","","0.0621","0.0001",0.101,"","ARFR_FK_2_HG"
+"FK",3,"LG","Artemisia_frigida","ARFR",29.6,6,33,10,0,0,81,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.37,"0.003","7/2/22","KB_MF","","0.0505","0.0007",0.202,"","ARFR_FK_3_LG"
+"FK",3,"MG","Artemisia_frigida","ARFR",20.9,14,29,3,0,0,97,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.33,"0.0018","7/2/22","KB_MF","","0.0544","0.0001",0.106,"","ARFR_FK_3_MG"
+"FK",3,"HG","Artemisia_frigida","ARFR",26,26,37,20,0,0,85,"perennial","woody","C3","7/1/22","Late","AY_JA_KW","",0.31,"0.0021","7/2/22","KB_MF","","0.1193","0.0014",0.145,"","ARFR_FK_3_HG"
+"TB",1,"LG","Aristida_purpurea","ARPU",11.1,1,4,2,17,0,95,"perennial","graminoid","C4","6/28/22","Late","KB","",0.17,"0.0051","6/30/22","KB_AY","","0.0153","0.0012",NA,NA,NA
+"TB",1,"MG","Aristida_purpurea","ARPU",18.5,0,2,0,11,0,100,"perennial","graminoid","C4","6/28/22","Late","KB","",0.2,"0.0055","6/30/22","KB_AY","","0.0223","0.002",NA,NA,NA
+"TB",1,"HG","Aristida_purpurea","ARPU",24.1,0,3,0,53,0,99,"perennial","graminoid","C4","6/28/22","Late","KB","",0.18,"0.0086","6/30/22","KB_AY","","0.0064","0.0029",NA,NA,NA
+"TB",2,"LG","Aristida_purpurea","ARPU",21.9,1,4,0,42,0,99,"perennial","graminoid","C4","6/29/22","Late","KB","",0.24,"0.0081","6/30/22","KB_AY","","0.0138","0.0025",NA,NA,NA
+"TB",2,"MG","Aristida_purpurea","ARPU",26.5,2,3,0,22,0,60,"perennial","graminoid","C4","6/29/22","Late","KB","",0.26,"0.026","6/30/22","KB_AY","","0.0187","0.0099",NA,NA,NA
+"TB",2,"HG","Aristida_purpurea","ARPU",31.6,1,1,0,18,0,100,"perennial","graminoid","C4","6/29/22","Late","KB","Plant from B2 water",0.19,"0.0185","6/30/22","KB_AY","","0.0104","0.0075",NA,NA,NA
+"TB",3,"LG","Aristida_purpurea","ARPU",NA,NA,NA,NA,NA,NA,NA,"perennial","graminoid","C4","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"MG","Aristida_purpurea","ARPU",NA,NA,NA,NA,NA,NA,NA,"perennial","graminoid","C4","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"HG","Aristida_purpurea","ARPU",NA,NA,NA,NA,NA,NA,NA,"perennial","graminoid","C4","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"FK",1,"LG","Aristida_purpurea","ARPU",14.9,1,2,2,20,0,94,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.3,"0.0097","7/2/22","KB_MF","","0.0138","0.0046",0.519,"","ARPU_FK_1_LG"
+"FK",1,"MG","Aristida_purpurea","ARPU",15.5,0,1,1,66,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.18,"0.0014","7/2/22","KB_MF","","0.0195","0.0012",0.091,"","ARPU_FK_1_MG"
+"FK",1,"HG","Aristida_purpurea","ARPU",17.8,1,3,1,94,0,96,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.18,"0.0069","7/2/22","KB_MF","","0.0294","0.0027",0.392,"","ARPU_FK_1_HG"
+"FK",2,"LG","Aristida_purpurea","ARPU",12.7,0,1,0,32,0,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.18,"0.0088","7/2/22","KB_MF","","0.0415","0.0023",0.604,"","ARPU_FK_2_LG"
+"FK",2,"MG","Aristida_purpurea","ARPU",21.8,0,1,1,43,0,97,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.22,"0.0285","7/2/22","KB_MF","","0.134","0.0123",1.639,"","ARPU_FK_2_MG"
+"FK",2,"HG","Aristida_purpurea","ARPU",27.4,0,2,0,41,0,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.19,"0.0058","7/2/22","KB_MF","","0.0327","0.0018",0.288,"","ARPU_FK_2_HG"
+"FK",3,"LG","Aristida_purpurea","ARPU",29.5,1,2,0,32,0,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B1water",0.29,"0.024","7/2/22","KB_MF","","0.0588","0.0087",1.214,"","ARPU_FK_3_LG"
+"FK",3,"MG","Aristida_purpurea","ARPU",19.7,0,2,1,20,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B2MG",0.16,"0.0026","7/2/22","KB_MF","","0.0244","0.0004",0.118,"","ARPU_FK_3_MG"
+"FK",3,"HG","Aristida_purpurea","ARPU",22.6,0,1,1,44,0,95,"perennial","graminoid","C4","7/1/22","Late","AY_JA_KW","Plant from B2HG",0.21,"0.0036","7/2/22","KB_MF","","0.0298","0.0014",0.182,"","ARPU_FK_3_HG"
+"TB",1,"LG","Artemisia_tridentata","ARTR",29.9,12,15,2,0,0,90,"perennial","woody","C3","6/28/22","Late","KB","just took one small branch for everything except height",0.23,"0.0101","6/30/22","KB_AY","","0.0429","0.0022",NA,NA,NA
+"TB",1,"MG","Artemisia_tridentata","ARTR",29,12,29,0,0,0,98,"perennial","woody","C3","6/28/22","Late","KB","",0.42,"0.0173","6/30/22","KB_AY","","0.0572","0.0042",NA,NA,NA
+"TB",1,"HG","Artemisia_tridentata","ARTR",27.8,5,21,0,0,0,100,"perennial","woody","C3","6/28/22","Late","KB","",0.45,"0.0281","6/30/22","KB_AY","","0.081","0.0079",NA,NA,NA
+"TB",2,"LG","Artemisia_tridentata","ARTR",37.6,9,18,0,1,0,85,"perennial","woody","C3","6/29/22","Late","KB","",0.37,"0.0082","6/30/22","KB_AY","","0.0121","0.0012",NA,NA,NA
+"TB",2,"MG","Artemisia_tridentata","ARTR",21.6,5,10,0,0,0,98,"perennial","woody","C3","6/29/22","Late","KB","",0.49,"0.0186","6/30/22","KB_AY","","0.0295","0.0043",NA,NA,NA
+"TB",2,"HG","Artemisia_tridentata","ARTR",22.3,12,16,0,0,0,100,"perennial","woody","C3","6/29/22","Late","KB","",0.49,"0.0082","6/30/22","KB_AY","","0.0345","0.0033",NA,NA,NA
+"TB",3,"LG","Artemisia_tridentata","ARTR",11,10,7,0,0,0,98,"perennial","woody","C3","6/29/22","Late","KB","",0.47,"0.0149","6/30/22","KB_AY","","0.0231","0.0037",NA,NA,NA
+"TB",3,"MG","Artemisia_tridentata","ARTR",15,9,6,0,0,0,90,"perennial","woody","C3","6/29/22","Late","KB","",0.45,"0.0123","6/30/22","KB_AY","","0.0309","0.0033",NA,NA,NA
+"TB",3,"HG","Artemisia_tridentata","ARTR",12.5,10,10,0,0,0,90,"perennial","woody","C3","6/29/22","Late","KB","",0.28,"0.0104","6/30/22","KB_AY","","0.0511","0.0053",NA,NA,NA
+"FK",1,"LG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",1,"MG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",1,"HG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",2,"LG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",2,"MG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",2,"HG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",3,"LG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",3,"MG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","GT_MF_JH_AY_KW_JA","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"FK",3,"HG","Artemisia_tridentata","ARTR",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","7/1/22","Late","AY_JA_KW","",NA,"","7/2/22","KB_MF","",NA,NA,NA,NA,NA
+"TB",1,"LG","Astragalus_bisulcatus","ASBI",17.4,1,7,0,30,0,97,"perennial","woody","C3","5/24/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.29,"0.3478","5/28/22","KB_KVL","","0.6494","0.0764",11.708,"","ASBI_TB_1_LG"
+"TB",1,"MG","Astragalus_bisulcatus","ASBI",18.1,4,8,0,28,0,97,"perennial","woody","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B3 HG",0.37,"0.3849","5/28/22","KB_KVL","","0.6915",NA,15.196,"","ASBI_TB_1_MG"
+"TB",1,"HG","Astragalus_bisulcatus","ASBI",13,2,6,1,27,0,96,"perennial","woody","C3","5/25/22","Early","KB_GT_MF_KVL","",0.3,"0.4425","5/28/22","KB_KVL","","0.619","0.1117",13.418,"","ASBI_TB_1_HG"
+"TB",2,"LG","Astragalus_bisulcatus","ASBI",12.1,1,8,1,12,0,90,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.5232","5/28/22","KB_KVL","","0.669","0.1030",18.064,"","ASBI_TB_2_LG"
+"TB",2,"MG","Astragalus_bisulcatus","ASBI",11.2,1,6,0,9,0,97,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.25,"0.2155","5/28/22","KB_KVL","","0.3255","0.0377",7.186,"","ASBI_TB_2_MG"
+"TB",2,"HG","Astragalus_bisulcatus","ASBI",10.6,1,5,1,10,0,97,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.38,"0.3622","5/28/22","KB_KVL","3 leaves wouldn’t open (worms)","0.4461","0.0839",11.407,"","ASBI_TB_2_HG"
+"TB",3,"LG","Astragalus_bisulcatus","ASBI",11.4,1,8,0,9,0,98,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.39,"0.3446","5/29/22","KB_KVL","","0.4939","0.0743",11.605,"","ASBI_TB_3_LG"
+"TB",3,"MG","Astragalus_bisulcatus","ASBI",18.6,2,8,0,16,8,99,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 HG",0.27,"0.283","5/29/22","KB_KVL","","1.1747","0.0683",12.157,"","ASBI_TB_3_MG"
+"TB",3,"HG","Astragalus_bisulcatus","ASBI",15.1,2,9,0,14,0,98,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.5037","5/29/22","KB_KVL","","1.085","0.1291",NA,NA,NA
+"FK",1,"LG","Astragalus_gracilis","ASGR",14.6,4,10,0,4,0,99,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.41,"0.1412","5/30/22","KB_KVL","","0.2662","0.033",4.687,"","ASGR_FK_1_LG"
+"FK",1,"MG","Astragalus_gracilis","ASGR",10.1,3,9,0,3,0,99,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.39,"0.1351","5/30/22","KB_KVL","","0.2419","0.0292",3.294,"","ASGR_FK_1_MG"
+"FK",1,"HG","Astragalus_gracilis","ASGR",7.8,2,7,0,0,0,98,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.41,"0.0606","5/30/22","KB_KVL","","0.0795","0.0152",1.829,"found","ASGR_FK_1_HG"
+"FK",2,"LG","Astragalus_gracilis","ASGR",9.4,5,5,0,4,0,99,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.56,"0.1363","6/1/22","KB_KVL","","0.1791","0.0325",3.781,"found","ASGR_FK_2_LG"
+"FK",2,"MG","Astragalus_gracilis","ASGR",10.1,3,6,0,2,0,100,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.49,"0.1123","6/1/22","KB_KVL","","0.1631","0.0286",3.415,"","ASGR_FK_2_MG"
+"FK",2,"HG","Astragalus_gracilis","ASGR",9.2,5,14,0,6,0,99,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.43,"0.0823","6/1/22","KB_KVL","","0.3355","0.017",2.552,"","ASGR_FK_2_HG"
+"FK",3,"LG","Astragalus_gracilis","ASGR",10.3,3,6,0,2,0,100,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.35,"0.1337","6/1/22","KB_KVL","","0.165","0.0293",3.867,"","ASGR_FK_3_LG"
+"FK",3,"MG","Astragalus_gracilis","ASGR",12.4,1,6,0,2,0,98,"perennial","woody","C3","6/1/22","Early","KB_KVL","",0.34,"0.1405","6/1/22","KB_KVL","","0.1664","0.0358",3.996,"","ASGR_FK_3_MG"
+"FK",3,"HG","Astragalus_gracilis","ASGR",14.1,6,4,0,2,0,98,"perennial","woody","C3","6/1/22","Early","KB_KVL","Plant from B1 water",0.33,"0.1469","6/1/22","KB_KVL","","0.1329","0.034",4.224,"","ASGR_FK_3_HG"
+"FK",1,"LG","Astragalus_purshii","ASPU",7.6,2,2,0,1,0,90,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.39,"0.1466","5/30/22","KB_KVL","","0.0616","0.0281",6.498,"","ASPU_FK_1_LG"
+"FK",1,"MG","Astragalus_purshii","ASPU",14.7,3,6,1,1,1,95,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.34,"0.6456","5/30/22","KB_KVL","","0.6332","0.1031",18.614,"","ASPU_FK_1_MG"
+"FK",1,"HG","Astragalus_purshii","ASPU",6.1,5,19,1,4,6,95,"perennial","woody","C3","5/30/22","Early","KB_KVL","",0.63,"0.3755","5/30/22","KB_KVL","","1.2991","0.0738",13.459,"found","ASPU_FK_1_HG"
+"FK",2,"LG","Astragalus_purshii","ASPU",4.8,1,6,1,3,0,97,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.61,"0.0795","6/1/22","KB_KVL","","0.1096","0.0163",2.786,"found","ASPU_FK_2_LG"
+"FK",2,"MG","Astragalus_purshii","ASPU",5.1,4,8,0,0,4,92,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.35,"0.3065","6/1/22","KB_KVL","","0.3528","0.0634",8.355,"","ASPU_FK_2_MG"
+"FK",2,"HG","Astragalus_purshii","ASPU",5.4,2,4,0,1,0,85,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.45,"0.1324","6/1/22","KB_KVL","","0.0621","0.0217",3.959,"","ASPU_FK_2_HG"
+"FK",3,"LG","Astragalus_purshii","ASPU",5.1,1,4,0,1,0,100,"perennial","woody","C3","5/31/22","Early","KB_KVL","",0.57,"0.2383","6/1/22","KB_KVL","","0.1458","0.0438",7.858,"","ASPU_FK_3_LG"
+"FK",3,"MG","Astragalus_purshii","ASPU",4.8,2,8,0,4,0,95,"perennial","woody","C3","6/1/22","Early","KB_KVL","2 dead flower heads",0.58,"0.2039","6/1/22","KB_KVL","","0.2547","0.0427",6.599,"","ASPU_FK_3_MG"
+"FK",3,"HG","Astragalus_purshii","ASPU",5.6,2,11,0,1,3,98,"perennial","woody","C3","6/1/22","Early","KB_KVL","Plant from B3 water",0.48,"0.1583","6/1/22","KB_KVL","","0.1867","0.0298",6.556,"","ASPU_FK_3_HG"
+"FK",1,"LG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Asclepias_stenophylla","ASST",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"LG","Bouteloua_dactyloides","BODA",12.9,1,0,0,0,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Plant from B2HG",0.26,"0.0101","7/2/22","KB_MF","","0.0164","0.0038",0.89,"","BODA_FK_1_LG"
+"FK",1,"MG","Bouteloua_dactyloides","BODA",8.7,1,0,0,6,7,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Plant from B2HG",0.16,"0.0109","7/2/22","KB_MF","","0.0068","0.0048",0.84,"","BODA_FK_1_MG"
+"FK",1,"HG","Bouteloua_dactyloides","BODA",4.8,1,3,0,1,2,97,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Plant from B2HG",0.22,"0.0081","7/2/22","KB_MF","","0.0093","0.0034",0.682,"","BODA_FK_1_HG"
+"FK",2,"LG","Bouteloua_dactyloides","BODA",8.1,1,3,0,16,6,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","taken from B2HG",0.27,"0.011","7/2/22","KB_MF","","0.0129","0.0042",0.735,"","BODA_FK_2_LG"
+"FK",2,"MG","Bouteloua_dactyloides","BODA",9.4,1,4,0,2,6,96,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Taken from B2HG",0.21,"0.0073","7/2/22","KB_MF","","0.0113","0.0027",0.588,"","BODA_FK_2_MG"
+"FK",2,"HG","Bouteloua_dactyloides","BODA",6.9,2,3,0,1,16,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.27,"0.0157","7/2/22","KB_MF","","0.0211","0.0057",1.195,"","BODA_FK_2_HG"
+"FK",3,"LG","Bouteloua_dactyloides","BODA",7.5,1,4,0,13,7,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B2HG",0.23,"0.0107","7/2/22","KB_MF","","0.0196","0.0043",0.916,"","BODA_FK_3_LG"
+"FK",3,"MG","Bouteloua_dactyloides","BODA",8.7,1,3,0,4,2,97,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B2HG",0.24,"0.0084","7/2/22","KB_MF","","0.0149","0.0039",0.665,"","BODA_FK_3_MG"
+"FK",3,"HG","Bouteloua_dactyloides","BODA",11,1,4,0,32,5,97,"perennial","graminoid","C4","7/1/22","Late","AY_JA_KW","Plant from B2HG",0.22,"0.0158","7/2/22","KB_MF","labeled B3 HG BOGR on scan (bottom right)","0.0212","0.0069",1.145,"labeled B3-HG BOGR BOTTOM RIGHT","BODA_FK_3_HG"
+"TB",1,"LG","Bouteloua_gracilis","BOGR",3.2,1,4,0,0,0,95,"perennial","graminoid","C4","6/28/22","Late","KB","",0.18,"0.0084","6/30/22","KB_AY","","0.0099","0.0017",NA,NA,NA
+"TB",1,"MG","Bouteloua_gracilis","BOGR",8.1,1,4,0,0,0,98,"perennial","graminoid","C4","6/28/22","Late","KB","",0.27,"0.0107","6/30/22","KB_AY","","0.0164","0.0029",NA,NA,NA
+"TB",1,"HG","Bouteloua_gracilis","BOGR",9.2,1,4,0,0,0,97,"perennial","graminoid","C4","6/28/22","Late","KB","",0.28,"0.0247","6/30/22","KB_AY","","0.0346","0.009",NA,NA,NA
+"TB",2,"LG","Bouteloua_gracilis","BOGR",5.1,1,2,0,0,0,90,"perennial","graminoid","C4","6/29/22","Late","KB","",0.28,"0.0057","6/30/22","KB_AY","","0.0055","0.0017",NA,NA,NA
+"TB",2,"MG","Bouteloua_gracilis","BOGR",8.6,1,4,0,7,0,97,"perennial","graminoid","C4","6/29/22","Late","KB","",0.26,"0.0089","6/30/22","KB_AY","","0.0171","0.0034",NA,NA,NA
+"TB",2,"HG","Bouteloua_gracilis","BOGR",5.5,1,2,0,0,0,99,"perennial","graminoid","C4","6/29/22","Late","KB","",0.26,"0.009","6/30/22","KB_AY","","0.005","0.0015",NA,NA,NA
+"TB",3,"LG","Bouteloua_gracilis","BOGR",4.1,1,3,0,0,0,97,"perennial","graminoid","C4","6/29/22","Late","KB","",0.24,"0.0091","6/30/22","KB_AY","","0.0112","0.0028",NA,NA,NA
+"TB",3,"MG","Bouteloua_gracilis","BOGR",10.1,1,3,0,0,0,80,"perennial","graminoid","C4","6/29/22","Late","KB","",0.19,"0.0127","6/30/22","KB_AY","","0.0207","0.0047",NA,NA,NA
+"TB",3,"HG","Bouteloua_gracilis","BOGR",9.3,1,2,1,0,0,75,"perennial","graminoid","C4","6/29/22","Late","KB","from B3 water",0.41,"0.0064","6/30/22","KB_AY","","0.0128","0.0036",NA,NA,NA
+"FK",1,"LG","Bouteloua_gracilis","BOGR",7.4,2,1,1,0,0,95,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.31,"0.0167","7/2/22","KB_MF","","0.0258","0.0067",0.823,"","BOGR_FK_1_LG"
+"FK",1,"MG","Bouteloua_gracilis","BOGR",5.2,1,0,0,0,0,95,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.24,"0.013","7/2/22","KB_MF","","0.015","0.0047",0.8,"","BOGR_FK_1_MG"
+"FK",1,"HG","Bouteloua_gracilis","BOGR",5.1,1,2,0,0,0,96,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.26,"0.0106","7/2/22","KB_MF","","0.0078","0.0041",0.645,"","BOGR_FK_1_HG"
+"FK",2,"LG","Bouteloua_gracilis","BOGR",4.3,2,2,0,0,0,96,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.21,"0.009","7/2/22","KB_MF","","0.0127","0.0036",0.586,"","BOGR_FK_2_LG"
+"FK",2,"MG","Bouteloua_gracilis","BOGR",1.4,2,4,0,0,0,90,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.21,"0.0078","7/2/22","KB_MF","","0.0158","0.0031",0.476,"","BOGR_FK_2_MG"
+"FK",2,"HG","Bouteloua_gracilis","BOGR",6.2,1,3,1,0,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.22,"0.0136","7/2/22","KB_MF","","0.0192","0.0055",0.724,"","BOGR_FK_2_HG"
+"FK",3,"LG","Bouteloua_gracilis","BOGR",7.5,1,3,1,0,0,88,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.23,"0.0118","7/2/22","KB_MF","","0.0135","0.0043",0.565,"","BOGR_FK_3_LG"
+"FK",3,"MG","Bouteloua_gracilis","BOGR",4.1,1,1,3,0,0,75,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","",0.22,"0.008","7/2/22","KB_MF","","0.0108","0.004",0.462,"","BOGR_FK_3_MG"
+"FK",3,"HG","Bouteloua_gracilis","BOGR",13.7,1,3,1,1,0,96,"perennial","graminoid","C4","7/1/22","Late","AY_JA_KW","",0.22,"0.0143","7/2/22","KB_MF","","0.041","0.0051",0.811,"labeled B3-HG BOGR middle","BOGR_FK_3_HG"
+"TB",1,"LG","Bromus_arvensis","BRAR",9.6,1,3,1,1,0,95,"annual","graminoid","C3","5/24/22","Early","KB_GT_MF_KVL","Plant from B3HG (all brar)",0.27,"0.0169","5/28/22","KB_KVL","","0.0358","0.0056",0.933,"","BRAR_TB_1_LG"
+"TB",1,"MG","Bromus_arvensis","BRAR",5.8,1,3,0,1,0,100,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.0049","5/28/22","KB_KVL","","0.0075","0.0004",0.351,"","BRAR_TB_1_MG"
+"TB",1,"HG","Bromus_arvensis","BRAR",9.3,1,7,2,1,0,90,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.27,"0.0168","5/28/22","KB_KVL","","0.0309","0.0047",1.074,"","BRAR_TB_1_HG"
+"TB",2,"LG","Bromus_arvensis","BRAR",10.6,1,3,1,1,0,98,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0234","5/28/22","KB_KVL","","0.0301","0.0052",1.351,"","BRAR_TB_2_LG"
+"TB",2,"MG","Bromus_arvensis","BRAR",10.6,1,3,1,1,0,95,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.3,"0.0202","5/28/22","KB_KVL","","0.0224","0.0043",1.431,"","BRAR_TB_2_MG"
+"TB",2,"HG","Bromus_arvensis","BRAR",5.2,1,3,0,1,0,90,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.24,"0.0048","5/28/22","KB_KVL","","0.0072","0.0011",0.438,"","BRAR_TB_2_HG"
+"TB",3,"LG","Bromus_arvensis","BRAR",7,1,3,4,0,0,85,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.22,"0.0129","5/29/22","KB_KVL","","0.0178","0.0032",0.81,"","BRAR_TB_3_LG"
+"TB",3,"LG","Bromus_arvensis","BRAR",7,1,3,4,0,0,85,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.22,"0.0129","5/29/22","KB_KVL","","0.0184","0.0032",0.81,"","BRAR_TB_3_LG"
+"TB",3,"MG","Bromus_arvensis","BRAR",6.5,0,3,3,0,0,90,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.37,"0.0055","5/29/22","KB_KVL","","0.0104","0.0005",0.483,"","BRAR_TB_3_MG"
+"TB",3,"HG","Bromus_arvensis","BRAR",7.9,1,3,4,1,0,85,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.34,"0.0064","5/29/22","KB_KVL","",NA,"0.0003",0.551,"","BRAR_TB_3_HG"
+"FK",1,"LG","Bromus_arvensis","BRAR",8.5,0,3,3,1,0,70,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.22,"0.0048","5/30/22","KB_KVL","","0.0116","0.0016",0.383,"","BRAR_FK_1_LG"
+"FK",1,"MG","Bromus_arvensis","BRAR",7,0,4,1,1,0,95,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.22,"0.0062","5/30/22","KB_KVL","","0.016","0.0016",0.397,"","BRAR_FK_1_MG"
+"FK",1,"HG","Bromus_arvensis","BRAR",8.1,1,5,0,1,0,80,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.26,"0.0075","5/30/22","KB_KVL","","0.0188","0.0017",0.586,"found","BRAR_FK_1_HG"
+"FK",2,"LG","Bromus_arvensis","BRAR",8.8,0,4,1,1,0,95,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.33,"0.0113","6/1/22","KB_KVL","","0.026","0.0034",0.91,"found","BRAR_FK_2_LG"
+"FK",2,"MG","Bromus_arvensis","BRAR",12.4,0,5,1,1,0,95,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.32,"0.0232","6/1/22","KB_KVL","","0.0469","0.005",0.979,"","BRAR_FK_2_MG"
+"FK",2,"HG","Bromus_arvensis","BRAR",6.3,1,2,2,1,0,90,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.37,"0.0019","6/1/22","KB_KVL","","0.008","0.002",0.148,"","BRAR_FK_2_HG"
+"FK",3,"LG","Bromus_arvensis","BRAR",11.4,0,7,1,1,0,90,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.58,"0.014","6/1/22","KB_KVL","","0.0312","0.0038",0.943,"","BRAR_FK_3_LG"
+"FK",3,"MG","Bromus_arvensis","BRAR",8.1,0,4,0,1,0,98,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.51,"0.002","6/1/22","KB_KVL","","0.0098","0.0003",0.124,"","BRAR_FK_3_MG"
+"FK",3,"HG","Bromus_arvensis","BRAR",6.7,0,3,1,1,0,95,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.28,"0.003","6/1/22","KB_KVL","","0.0081","0.0011",0.231,"","BRAR_FK_3_HG"
+"TB",1,"LG","Bromus_tectorum","BRTE",14.2,1,4,0,0,0,100,"annual","graminoid","C3","5/24/22","Early","KB_GT_MF_KVL","",0.23,"0.0282","5/28/22","KB_KVL","","0.0593","0.0075",1.641,"","BRTE_TB_1_LG"
+"TB",1,"MG","Bromus_tectorum","BRTE",18.9,1,5,0,0,0,95,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.47,"0.0594","5/28/22","KB_KVL","","0.1028","0.0111",2.61,"","BRTE_TB_1_MG"
+"TB",1,"HG","Bromus_tectorum","BRTE",16.4,0,4,1,1,0,95,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.0406","5/28/22","KB_KVL","","0.2173",NA,3.463,"","BRTE_TB_1_HG"
+"TB",2,"LG","Bromus_tectorum","BRTE",8.7,1,4,0,3,0,85,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.28,"0.0172","5/28/22","KB_KVL","","0.0255","0.0044",1.091,"","BRTE_TB_2_LG"
+"TB",2,"MG","Bromus_tectorum","BRTE",10.6,0,4,3,1,0,90,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.26,"0.0022","5/28/22","KB_KVL","","0.0311","0.0004",0.186,"found b2-mg-22","BRTE_TB_2_MG"
+"TB",2,"HG","Bromus_tectorum","BRTE",19.1,0,3,2,1,0,70,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.36,"0.0206","5/28/22","KB_KVL","","0.1859","0.0060",1.608,"","BRTE_TB_2_HG"
+"TB",3,"LG","Bromus_tectorum","BRTE",7.6,2,6,0,0,0,97,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","BRTE_TB_3_LG"
+"TB",3,"MG","Bromus_tectorum","BRTE",11.2,0,6,3,1,0,95,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.23,"0.0062","5/29/22","KB_KVL","","0.0656","0.002",0.629,"","BRTE_TB_3_MG"
+"TB",3,"HG","Bromus_tectorum","BRTE",7.1,0,5,1,1,0,97,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.29,"0.0007","5/29/22","KB_KVL","",NA,"1e-05",0.079,"","BRTE_TB_3_HG"
+"FK",1,"LG","Bromus_tectorum","BRTE",29,0,3,2,1,0,95,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.21,"0.0532","5/30/22","KB_KVL","","0.4745","0.0187",3.773,"","BRTE_FK_1_LG"
+"FK",1,"MG","Bromus_tectorum","BRTE",13.3,0,3,8,1,0,90,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.35,"0.0078","5/30/22","KB_KVL","","0.0783","0.0018",0.603,"","BRTE_FK_1_MG"
+"FK",1,"HG","Bromus_tectorum","BRTE",16.7,0,2,4,1,0,95,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.29,"0.0064","5/30/22","KB_KVL","","0.0645","0.0019",0.534,"found","BRTE_FK_1_HG"
+"FK",2,"LG","Bromus_tectorum","BRTE",11.6,1,2,0,3,0,80,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","not BRTE - did not measure, remove from data",NA,NA,NA,"NOT COLLECTED","BRTE_FK_2_LG"
+"FK",2,"MG","Bromus_tectorum","BRTE",15.3,0,4,4,1,0,80,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.26,"0.0152","6/1/22","KB_KVL","","0.1037","0.005",1.216,"","BRTE_FK_2_MG"
+"FK",2,"MG","Bromus_tectorum","BRTE",15.3,0,4,4,1,0,80,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.26,"0.0152","6/1/22","KB_KVL","","0.1037","0.005",1.216,"","BRTE_FK_2_MG"
+"FK",2,"HG","Bromus_tectorum","BRTE",9.6,0,2,2,1,0,90,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.38,"0.0021","6/1/22","KB_KVL","","0.0274","0.0008",0.191,"","BRTE_FK_2_HG"
+"FK",3,"LG","Bromus_tectorum","BRTE",11.9,0,3,8,1,0,75,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.36,"0.0093","6/1/22","KB_KVL","","0.0946","0.0026",0.705,"","BRTE_FK_3_LG"
+"FK",3,"MG","Bromus_tectorum","BRTE",13.2,0,4,1,1,0,90,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.34,"0.0037","6/1/22","KB_KVL","","0.035","0.001",0.292,"","BRTE_FK_3_MG"
+"FK",3,"HG","Bromus_tectorum","BRTE",9.5,0,4,2,1,0,98,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.38,"0.0019","6/1/22","KB_KVL","","0.0263","0.0008",0.179,"","BRTE_FK_3_HG"
+"TB",1,"LG","Carex_duriuscula","CADU",8.9,1,2,0,0,1,98,"perennial","graminoid","C3","5/24/22","Early","KB_GT_MF_KVL","",0.26,"0.015","5/28/22","KB_KVL","","0.0103","0.0059",0.667,"","CADU_TB_1_LG"
+"TB",1,"MG","Carex_duriuscula","CADU",4.8,1,4,0,0,1,95,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0083","5/28/22","KB_KVL","","0.0062","0.0031",0.309,"","CADU_TB_1_MG"
+"TB",1,"HG","Carex_duriuscula","CADU",6,1,2,0,0,3,98,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0089","5/28/22","KB_KVL","","0.0042","0.0031",0.376,"","CADU_TB_1_HG"
+"TB",2,"LG","Carex_duriuscula","CADU",8.3,1,2,0,1,0,60,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.61,"0.0097","5/28/22","KB_KVL","","0.004","0.0034",0.283,"","CADU_TB_2_LG"
+"TB",2,"MG","Carex_duriuscula","CADU",4.6,0,2,0,1,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.33,"0.016","5/28/22","KB_KVL","","0.0373","0.0045",0.821,"","CADU_TB_2_MG"
+"TB",2,"HG","Carex_duriuscula","CADU",6.3,0,1,0,0,1,97,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.51,"0.007","5/28/22","KB_KVL","","0.0158","0.0025",0.306,"","CADU_TB_2_HG"
+"TB",3,"LG","Carex_duriuscula","CADU",7.6,2,3,0,1,0,90,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.34,"0.0147","5/29/22","KB_KVL","","0.0072","0.0055",0.632,"found, b3-lg-22","CADU_TB_3_LG"
+"TB",3,"MG","Carex_duriuscula","CADU",NA,NA,NA,NA,NA,NA,NA,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.54,"0.0146","5/29/22","KB_KVL","","0.0157","0.0049",0.59,"","CADU_TB_3_MG"
+"TB",3,"HG","Carex_duriuscula","CADU",NA,NA,NA,NA,NA,NA,NA,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","CADU_TB_3_HG"
+"FK",1,"LG","Carex_duriuscula","CADU",5.9,0,1,1,1,0,75,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.38,"0.0131","5/30/22","KB_KVL","","0.0381","0.0043",0.541,"","CADU_FK_1_LG"
+"FK",1,"MG","Carex_duriuscula","CADU",9.8,2,3,1,1,0,65,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.28,"0.036","5/30/22","KB_KVL","","0.0237","0.0128",1.581,"","CADU_FK_1_MG"
+"FK",1,"HG","Carex_duriuscula","CADU",4,0,2,1,1,0,90,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","Plant from B1 water",0.43,"0.0141","5/30/22","KB_KVL","","0.0523","0.0042",0.591,"found","CADU_FK_1_HG"
+"FK",2,"LG","Carex_duriuscula","CADU",5.1,0,2,0,1,0,75,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","Plant from B1 water",0.56,"0.0136","6/1/22","KB_KVL","","0.0474","0.0051",0.697,"found","CADU_FK_2_LG"
+"FK",2,"MG","Carex_duriuscula","CADU",1.3,0,1,1,1,0,80,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.41,"0.0213","6/1/22","KB_KVL","","0.0661","0.0058",0.861,"","CADU_FK_2_MG"
+"FK",2,"HG","Carex_duriuscula","CADU",10.3,1,4,0,1,0,80,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","Plant from B3 water",0.39,"0.0489","6/1/22","KB_KVL","","0.0401","0.0182",NA,"MISSING, double checked","CADU_FK_2_HG"
+"FK",3,"LG","Carex_duriuscula","CADU",9.7,0,1,3,1,0,80,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.33,"0.0146","6/1/22","KB_KVL","","0.0515","0.0048",0.63,"","CADU_FK_3_LG"
+"FK",3,"MG","Carex_duriuscula","CADU",2.2,0,1,4,0,1,60,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.28,"0.0048","6/1/22","KB_KVL","","0.0365","0.001",0.295,"","CADU_FK_3_MG"
+"FK",3,"HG","Carex_duriuscula","CADU",4.8,0,4,1,1,0,75,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","Plant from B3 water",0.29,"0.0203","6/1/22","KB_KVL","","0.0153","0.0072",0.766,"","CADU_FK_3_HG"
+"TB",1,"LG","Carex_filifolia","CAFI",12.6,1,3,0,0,16,80,"perennial","graminoid","C3","5/24/22","Early","KB_GT_MF_KVL","",0.42,"0.0165","5/28/22","KB_KVL","","0.0096","0.0052",0.688,"","CAFI_TB_1_LG"
+"TB",1,"MG","Carex_filifolia","CAFI",10.2,3,2,0,0,1,75,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.51,"0.0141","5/28/22","KB_KVL","","0.013",NA,0.456,"","CAFI_TB_1_MG"
+"TB",1,"HG","Carex_filifolia","CAFI",7.9,1,3,0,0,0,70,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0087","5/28/22","KB_KVL","","0.007","0.0030",0.373,"","CAFI_TB_1_HG"
+"TB",2,"LG","Carex_filifolia","CAFI",10.8,1,4,0,0,0,80,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.44,"0.0167","5/28/22","KB_KVL","","0.007","0.0060",NA,NA,NA
+"TB",2,"MG","Carex_filifolia","CAFI",13.9,1,3,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.3,"0.026","5/28/22","KB_KVL","","0.0114","0.0079",1.326,"","CAFI_TB_2_MG"
+"TB",2,"HG","Carex_filifolia","CAFI",9.2,1,3,0,0,0,80,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.52,"0.0119","5/28/22","KB_KVL","","0.0139","0.0039",0.498,"","CAFI_TB_2_HG"
+"TB",3,"LG","Carex_filifolia","CAFI",5.7,0,2,1,1,0,65,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.0098","5/29/22","KB_KVL","","0.0358","0.0032",0.598,"found, b3-lg-22","CAFI_TB_3_LG"
+"TB",3,"MG","Carex_filifolia","CAFI",8.9,1,4,0,1,0,90,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","CAFI_TB_3_MG"
+"TB",3,"HG","Carex_filifolia","CAFI",10.2,0,2,0,1,0,60,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.32,"0.0085","5/29/22","KB_KVL","","0.0156","0.0024",0.421,"","CAFI_TB_3_HG"
+"FK",1,"LG","Carex_filifolia","CAFI",16.8,2,2,1,1,0,90,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.56,"0.0242","5/30/22","KB_KVL","","0.0224","0.0092",0.957,"","CAFI_FK_1_LG"
+"FK",1,"MG","Carex_filifolia","CAFI",15.2,1,4,0,1,0,100,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.37,"0.0246","5/30/22","KB_KVL","","0.0202","0.0082",0.95,"","CAFI_FK_1_MG"
+"FK",1,"HG","Carex_filifolia","CAFI",8.6,1,3,0,1,0,85,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.55,"0.011","6/1/22","KB_KVL","","0.012","0.0032",0.408,"found","CAFI_FK_1_HG"
+"FK",2,"LG","Carex_filifolia","CAFI",9.1,4,4,0,2,0,90,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.62,"0.0224","6/1/22","KB_KVL","","0.0196","0.0077",0.864,"","CAFI_FK_2_LG"
+"FK",2,"MG","Carex_filifolia","CAFI",16.5,1,3,0,3,0,85,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.51,"0.0202","6/1/22","KB_KVL","","0.0176","0.0078",0.745,"","CAFI_FK_2_MG"
+"FK",2,"HG","Carex_filifolia","CAFI",17.8,1,4,0,10,0,97,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.21,"0.024","6/1/22","KB_KVL","","0.0281","0.0088",0.879,"","CAFI_FK_2_HG"
+"FK",3,"LG","Carex_filifolia","CAFI",11.9,1,2,1,4,0,75,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.4,"0.0076","6/1/22","KB_KVL","","0.0088","0.0028",0.396,"","CAFI_FK_3_LG"
+"FK",3,"MG","Carex_filifolia","CAFI",18.9,1,3,0,0,0,75,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.4,"0.0173","6/1/22","KB_KVL","","0.0413","0.0066",0.57,"","CAFI_FK_3_MG"
+"FK",3,"HG","Carex_filifolia","CAFI",12,1,3,1,0,0,60,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.43,"0.0177","6/1/22","KB_KVL","","0.011","0.006",0.696,"","CAFI_FK_3_HG"
+"TB",1,"LG","Cirsium_undulatum","CIUN",10.4,4,16,0,2,0,90,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.45,"0.5788","5/28/22","KB_KVL","","1.1679","0.112",9.68,"","CIUN_TB_1_LG"
+"TB",1,"MG","Cirsium_undulatum","CIUN",7.2,1,4,1,0,0,80,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","","0.2833","0.0606",NA,"not collected","CIUN_TB_1_MG"
+"TB",1,"HG","Cirsium_undulatum","CIUN",10.1,2,17,1,0,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","plant from B1LG",0.62,"0.3161","5/28/22","KB_KVL","","0.6188","0.0321",NA,NA,NA
+"TB",2,"LG","Cirsium_undulatum","CIUN",4.6,2,8,0,0,0,85,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.61,"0.2588","5/28/22","KB_KVL","","0.4148","0.0416",4.3,"","CIUN_TB_2_LG"
+"TB",2,"MG","Cirsium_undulatum","CIUN",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"HG","Cirsium_undulatum","CIUN",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"LG","Cirsium_undulatum","CIUN",9.6,7,13,0,1,0,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.458","5/29/22","KB_KVL","","1.4296","0.0719",NA,NA,NA
+"TB",3,"MG","Cirsium_undulatum","CIUN",11.5,3,5,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.91,"0.8996","5/29/22","KB_KVL","","0.7707","0.1331",NA,NA,NA
+"TB",3,"HG","Cirsium_undulatum","CIUN",9.8,4,11,0,0,0,85,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.79,"1.1777","5/29/22","KB_KVL","","1.8812","0.2016",NA,NA,NA
+"FK",1,"LG","Conyza_canadensis","COCA",21,114,32,0,1,0,95,"biennial","forb","C3","5/30/22","Early","KB_KVL","",0.48,"0.0185","5/30/22","KB_KVL","","0.4281","0.0042",0.686,"","COCA_FK_1_LG"
+"FK",1,"MG","Conyza_canadensis","COCA",19.3,106,36,0,1,0,95,"biennial","forb","C3","5/30/22","Early","KB_KVL","",0.42,"0.029","5/30/22","KB_KVL","","0.5606","0.0075",0.944,"","COCA_FK_1_MG"
+"FK",1,"HG","Conyza_canadensis","COCA",18.6,99,28,6,1,0,97,"biennial","forb","C3","5/30/22","Early","KB_KVL","",0.41,"0.0161","6/1/22","KB_KVL","","0.3908","0.0042",0.563,"found ","COCA_FK_1_HG"
+"FK",2,"LG","Conyza_canadensis","COCA",15.4,29,24,3,4,0,97,"biennial","forb","C3","5/31/22","Early","KB_KVL","",0.42,"0.0141","6/1/22","KB_KVL","","0.182","0.0025",0.559,"found ","COCA_FK_2_LG"
+"FK",2,"MG","Conyza_canadensis","COCA",23.7,166,33,3,1,0,95,"biennial","forb","C3","5/31/22","Early","KB_KVL","",0.48,"0.0128","6/1/22","KB_KVL","","0.6176","0.0034",0.477,"","COCA_FK_2_MG"
+"FK",2,"HG","Conyza_canadensis","COCA",18.1,81,26,0,1,0,95,"biennial","forb","C3","5/31/22","Early","KB_KVL","",0.46,"0.0214","6/1/22","KB_KVL","","0.3294","0.0048",0.756,"","COCA_FK_2_HG"
+"FK",3,"LG","Conyza_canadensis","COCA",15,84,27,0,1,0,98,"biennial","forb","C3","5/31/22","Early","KB_KVL","",0.45,"0.0212","6/1/22","KB_KVL","","0.3392","0.0056",0.723,"","COCA_FK_3_LG"
+"FK",3,"MG","Conyza_canadensis","COCA",22.6,151,32,2,1,0,97,"biennial","forb","C3","6/1/22","Early","KB_KVL","",0.43,"0.018","6/1/22","KB_KVL","","0.5317","0.0044",0.622,"","COCA_FK_3_MG"
+"FK",3,"HG","Conyza_canadensis","COCA",13.2,102,33,0,1,0,97,"biennial","forb","C3","6/1/22","Early","KB_KVL","",0.37,"0.0188","6/2/22","KB_KVL","","0.3182","0.0048",0.753,"","COCA_FK_3_HG"
+"TB",1,"LG","Collomia_linearis","COLI",4.9,7,18,0,0,0,98,"annual","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.34,"0.0048","5/28/22","KB_KVL","","0.0189","0.0013",0.198,"","COLI_TB_1_LG"
+"TB",1,"MG","Collomia_linearis","COLI",4.2,5,19,0,0,0,100,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0037","5/28/22","KB_KVL","","0.0122","0.0005",0.151,"","COLI_TB_1_MG"
+"TB",1,"HG","Collomia_linearis","COLI",3.4,17,20,0,3,0,90,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.39,"0.0051","5/28/22","KB_KVL","","0.0251","0.0009",0.207,"","COLI_TB_1_HG"
+"TB",2,"LG","Collomia_linearis","COLI",4.3,10,18,0,1,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B1LG",0.35,"0.006","5/28/22","KB_KVL","","0.0229","0.0013",0.24,"","COLI_TB_2_LG"
+"TB",2,"MG","Collomia_linearis","COLI",7.7,13,13,0,0,0,80,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.39,"0.0223","5/28/22","KB_KVL","","0.0246","0.0033",0.557,"","COLI_TB_2_MG"
+"TB",2,"HG","Collomia_linearis","COLI",3.3,2,14,0,1,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.53,"0.0029","5/28/22","KB_KVL","","0.0090","0.0005",0.176,"","COLI_TB_2_HG"
+"TB",3,"LG","Collomia_linearis","COLI",8.7,8,6,0,1,0,85,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.0068","5/29/22","KB_KVL","","0.0327","0.0017",0.351,"","COLI_TB_3_LG"
+"TB",3,"MG","Collomia_linearis","COLI",NA,NA,NA,NA,NA,NA,NA,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","COLI_TB_3_MG"
+"TB",3,"HG","Collomia_linearis","COLI",NA,NA,NA,NA,NA,NA,NA,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"0.0022","5/29/22","KB_KVL","",NA,NA,NA,"not colllected","COLI_TB_3_HG"
+"TB",1,"LG","Descurainia_pinnata","DEPI",5.5,0,8,0,2,3,97,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","5 seed pods, plant from B3 water",0.25,"0.0016","5/28/22","KB_KVL","","0.0139","1e-05",0.095,"","DEPI_TB_1_LG"
+"TB",1,"MG","Descurainia_pinnata","DEPI",4.7,2,6,0,3,3,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plan t from B3 HG - 2 seed pods",0.34,"0.0019","5/28/22","KB_KVL","","0.0074","1e-05",0.094,"","DEPI_TB_1_MG"
+"TB",1,"HG","Descurainia_pinnata","DEPI",5.8,0,9,0,0,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","not sure ID is correct (check photo)",0.41,"0.0177","5/28/22","KB_KVL","","0.0666","0.0033",0.588,"","DEPI_TB_1_HG"
+"TB",2,"LG","Descurainia_pinnata","DEPI",2.1,1,4,0,1,1,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","2 seed heads, plant from B3HG",0.66,"0.0013","5/28/22","KB_KVL","","0.0024","1e-05",0.06,"","DEPI_TB_2_LG"
+"TB",2,"MG","Descurainia_pinnata","DEPI",12.7,0,8,1,26,12,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3LG, 20 seed pods",0.45,"0.0135","5/28/22","KB_KVL","","0.1041","0.0020",0.626,"","DEPI_TB_2_MG"
+"TB",2,"HG","Descurainia_pinnata","DEPI",2.2,1,5,0,1,1,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.3,"<0.0001","5/28/22","KB_KVL","","0.0015","1e-05",0.039,"","DEPI_TB_2_HG"
+"TB",3,"LG","Descurainia_pinnata","DEPI",8.4,1,6,0,7,3,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","6 seed pods",0.49,"0.0038","5/29/22","KB_KVL","","0.0209","0.0012",0.202,"","DEPI_TB_3_LG"
+"TB",3,"MG","Descurainia_pinnata","DEPI",4.4,1,7,0,7,2,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","8 seed pods",0.57,"0.0027","5/29/22","KB_KVL","","0.0193","0.0009",0.158,"","DEPI_TB_3_MG"
+"TB",3,"HG","Descurainia_pinnata","DEPI",6.3,2,7,0,5,4,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","3 seed pods",0.41,"0.0022","5/29/22","KB_KVL","","0.0142","1e-05",0.109,"","DEPI_TB_3_HG"
+"TB",1,"LG","Draba_reptans","DRRE",0.9,3,7,0,0,1,100,"annual","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.6,"0.0055","5/28/22","KB_KVL","","0.0054","0.0004",0.119,"","DRRE_TB_1_LG"
+"TB",1,"MG","Draba_reptans","DRRE",2.6,4,6,0,4,0,97,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.45,"0.0058","5/28/22","KB_KVL","","0.0298","0.0009",0.28,"","DRRE_TB_1_MG"
+"TB",1,"HG","Draba_reptans","DRRE",3.4,0,6,0,0,2,100,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.45,"0.0041","5/28/22","KB_KVL","","0.0168","0.0003",0.134,"","DRRE_TB_1_HG"
+"TB",2,"LG","Draba_reptans","DRRE",1.8,9,15,0,0,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","4 seed pods",0.62,"0.012","5/28/22","KB_KVL","","0.1255","0.0019",0.274,"","DRRE_TB_2_LG"
+"TB",2,"MG","Draba_reptans","DRRE",4.3,0,4,3,3,0,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 water 6 seed pods",0.41,"0.0023","5/28/22","KB_KVL","","0.0145","1e-05",0.182,"","DRRE_TB_2_MG"
+"TB",2,"HG","Draba_reptans","DRRE",1.5,3,19,0,3,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","2 seed pods",0.73,"0.013","5/28/22","KB_KVL","","0.0697","0.0019",0.362,"","DRRE_TB_2_HG"
+"TB",3,"LG","Draba_reptans","DRRE",0.7,0,9,0,0,0,98,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","3 seed heads",0.62,"0.002","5/29/22","KB_KVL","","0.0086","1e-05",0.076,"","DRRE_TB_3_LG"
+"TB",3,"MG","Draba_reptans","DRRE",2.8,4,9,0,0,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 seed pod",0.62,"0.0092","5/29/22","KB_KVL","","0.0148","0.0008",0.312,"","DRRE_TB_3_MG"
+"TB",3,"HG","Draba_reptans","DRRE",0.8,0,12,0,2,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","3 seed pods",0.45,"0.002","5/29/22","KB_KVL","","0.0113","0.0001",0.069,"","DRRE_TB_3_HG"
+"TB",1,"LG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/24/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"MG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"HG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"LG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"MG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"HG","Elymus_elymoides","ELEL",11.9,1,2,0,0,0,99,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"LG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"MG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"HG","Elymus_elymoides","ELEL",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Erigeron_canus","ERCA",7.6,6,16,0,4,1,98,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.39,"0.0195","5/28/22","KB_KVL","","0.1448","0.0043",0.506,"","ERCA_TB_1_LG"
+"TB",1,"MG","Erigeron_canus","ERCA",7.4,5,14,1,1,0,97,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0211","5/28/22","KB_KVL","","0.1464","0.0057",0.422,"","ERCA_TB_1_MG"
+"TB",1,"HG","Erigeron_canus","ERCA",7.8,4,15,0,3,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.39,"0.0193","5/28/22","KB_KVL","","0.102","0.0046",0.379,"","ERCA_TB_1_HG"
+"TB",2,"LG","Erigeron_canus","ERCA",5.6,4,12,0,1,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0164","5/28/22","KB_KVL","","0.0623","0.0032",0.44,"","ERCA_TB_2_LG"
+"TB",2,"MG","Erigeron_canus","ERCA",7.1,2,26,0,1,1,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.4,"0.0055","5/28/22","KB_KVL","","0.2405","0.0014",0.193,"","ERCA_TB_2_MG"
+"TB",2,"HG","Erigeron_canus","ERCA",7.5,0,46,0,4,1,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.54,"0.0493","5/28/22","KB_KVL","","0.4322","0.0117",1.212,"","ERCA_TB_2_HG"
+"TB",3,"LG","Erigeron_canus","ERCA",10,3,60,0,8,0,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.44,"0.0172","5/29/22","KB_KVL","","0.8078","0.0043",0.523,"","ERCA_TB_3_LG"
+"TB",3,"MG","Erigeron_canus","ERCA",10.3,2,41,1,4,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.4,"0.0211","5/29/22","KB_KVL","","0.4765","0.0049",0.692,"","ERCA_TB_3_MG"
+"TB",3,"HG","Erigeron_canus","ERCA",6.7,0,51,0,3,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.36,"0.0157","5/29/22","KB_KVL","","0.7665","0.0027",0.542,"","ERCA_TB_3_HG"
+"TB",1,"LG","Eremogone_hookeri","ERHO",1.8,3,12,0,22,0,90,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.45,"0.0015","5/28/22","KB_KVL","","0.0057","0.0003",0.063,"","ERHO_TB_1_LG"
+"TB",1,"MG","Eremogone_hookeri","ERHO",2.2,8,24,5,5,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.41,"0.0017","5/28/22","KB_KVL","","0.0117","0.0006",0.07,"","ERHO_TB_1_MG"
+"TB",1,"HG","Eremogone_hookeri","ERHO",1.1,1,13,5,12,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.46,"0.0028","5/28/22","KB_KVL","","0.0095","0.0060",0.099,"","ERHO_TB_1_HG"
+"TB",2,"LG","Eremogone_hookeri","ERHO",2.9,8,17.2,0,3,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.31,"0.001","5/28/22","KB_KVL","","0.1044","1e-05",0.021,"","ERHO_TB_2_LG"
+"TB",2,"MG","Eremogone_hookeri","ERHO",2.1,2,6,0,21,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.43,"0.0018","5/28/22","KB_KVL","","0.0031","0.0007",0.068,"","ERHO_TB_2_MG"
+"TB",2,"HG","Eremogone_hookeri","ERHO",2.8,10,59,0,1,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.48,"0.002","5/28/22","KB_KVL","","0.0527","0.0007",0.096,"","ERHO_TB_2_HG"
+"TB",3,"LG","Eremogone_hookeri","ERHO",3.9,5,21,4,11,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.52,"0.0038","5/29/22","KB_KVL","","0.0179","0.0011",0.161,"","ERHO_TB_3_LG"
+"TB",3,"MG","Eremogone_hookeri","ERHO",1.7,5,23,0,0,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3LG",0.52,"0.0037","5/29/22","KB_KVL","","0.0186","0.0009",0.122,"","ERHO_TB_3_MG"
+"TB",3,"HG","Eremogone_hookeri","ERHO",2.5,5,17,0,22,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 LG",0.47,"0.0039","5/29/22","KB_KVL","","0.0193","0.0008",0.176,"","ERHO_TB_3_HG"
+"TB",1,"LG","Erigeron_pumilus","ERPU",5.9,1,13,0,2,0,100,"perennial","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.53,"0.0094","5/28/22","KB_KVL","","0.0766","0.0020",0.279,"","ERPU_TB_1_LG"
+"TB",1,"MG","Erigeron_pumilus","ERPU",4.5,5,7,0,1,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0108","5/28/22","KB_KVL","","0.0359","0.0021",0.306,"","ERPU_TB_1_MG"
+"TB",1,"HG","Erigeron_pumilus","ERPU",7.1,1,17,0,2,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.36,"0.0183","5/28/22","KB_KVL","","0.0583","0.0032",0.513,"","ERPU_TB_1_HG"
+"TB",2,"LG","Erigeron_pumilus","ERPU",4.8,23,63,0,8,0,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.45,"0.0204","5/28/22","KB_KVL","","0.2792","0.0047",0.688,"","ERPU_TB_2_LG"
+"TB",2,"MG","Erigeron_pumilus","ERPU",8.5,3,30,0,6,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.29,"0.0084","5/28/22","KB_KVL","","0.2358","0.0023",0.403,"","ERPU_TB_2_MG"
+"TB",2,"HG","Erigeron_pumilus","ERPU",7.6,1,13,0,1,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.0153","5/28/22","KB_KVL","","0.0325","0.0034",0.521,"","ERPU_TB_2_HG"
+"TB",3,"LG","Erigeron_pumilus","ERPU",6.2,2,44,0,4,0,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.44,"0.0059","5/29/22","KB_KVL","","0.2558","0.0013",0.256,"","ERPU_TB_3_LG"
+"TB",3,"MG","Erigeron_pumilus","ERPU",6.7,22,139,7,13,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.45,"0.0132","5/29/22","KB_KVL","","0.9682","0.0034",0.475,"","ERPU_TB_3_MG"
+"TB",3,"HG","Erigeron_pumilus","ERPU",5.1,5,48,0,3,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.0139","5/29/22","KB_KVL","","0.1151","0.002",0.568,"","ERPU_TB_3_HG"
+"FK",1,"LG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Euphorbia_nutans","EUNU",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Gutierrezia_sarothrae","GUSA",15,2,15,0,0,0,95,"perennial","forb","C3","6/28/22","Late","KB","",0.41,"0.0053","6/30/22","KB_AY","","0.051","0.0018",NA,NA,NA
+"TB",1,"MG","Gutierrezia_sarothrae","GUSA",20.2,15,36,1,0,0,80,"perennial","forb","C3","6/28/22","Late","KB","11 dead seed pods",0.38,"0.0062","6/30/22","KB_AY","","0.095","0.0016",NA,NA,NA
+"TB",1,"HG","Gutierrezia_sarothrae","GUSA",11.1,8,23,2,0,0,99,"perennial","forb","C3","6/28/22","Late","KB","6 dead flower heads",0.48,"0.0079","6/30/22","KB_AY","","0.125","0.0019",NA,NA,NA
+"TB",2,"LG","Gutierrezia_sarothrae","GUSA",10.7,4,25,1,0,0,90,"perennial","forb","C3","6/29/22","Late","KB","",0.41,"0.0061","6/30/22","KB_AY","","0.1258","0.0018",NA,NA,NA
+"TB",2,"MG","Gutierrezia_sarothrae","GUSA",11.4,8,23,2,0,0,99,"perennial","forb","C3","6/29/22","Late","KB","",0.44,"0.006","6/30/22","KB_AY","","0.0908","0.0013",NA,NA,NA
+"TB",2,"HG","Gutierrezia_sarothrae","GUSA",11.3,2,22,0,0,0,95,"perennial","forb","C3","6/29/22","Late","KB","",0.44,"0.0072","6/30/22","KB_AY","","0.0638","0.0016",NA,NA,NA
+"TB",3,"LG","Gutierrezia_sarothrae","GUSA",13.4,2,18,9,0,0,95,"perennial","forb","C3","6/29/22","Late","KB","",0.4,"0.0088","6/30/22","KB_AY","","0.0963","0.0013",NA,NA,NA
+"TB",3,"MG","Gutierrezia_sarothrae","GUSA",18.1,4,22,1,2,0,97,"perennial","forb","C3","6/29/22","Late","KB","",0.47,"0.0058","6/30/22","KB_AY","","0.0591","0.0002",NA,NA,NA
+"TB",3,"HG","Gutierrezia_sarothrae","GUSA",10.2,9,31,4,0,0,95,"perennial","forb","C3","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","","0.1602","0.0011",NA,NA,NA
+"TB",1,"LG","Hesperostipa_comata","HECO",11.1,1,1,0,0,0,97,"perennial","graminoid","C3","5/24/22","Early","KB_GT_MF_KVL","",0.32,"0.008","5/28/22","KB_KVL","","0.0057","0.0035",0.302,"","HECO_TB_1_LG"
+"TB",1,"MG","Hesperostipa_comata","HECO",13,1,1,0,0,0,97,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0382","5/28/22","KB_KVL","","0.0091","0.0180",1.1,"","HECO_TB_1_MG"
+"TB",1,"HG","Hesperostipa_comata","HECO",21.4,1,3,0,0,0,80,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.2,"0.0123","5/28/22","KB_KVL","","0.0194","0.0044",0.604,"","HECO_TB_1_HG"
+"TB",2,"LG","Hesperostipa_comata","HECO",19.8,1,1,1,0,0,90,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.26,"0.0201","5/28/22","KB_KVL","","0.0356","0.0072",0.732,"","HECO_TB_2_LG"
+"TB",2,"MG","Hesperostipa_comata","HECO",16.2,1,2,0,0,0,99,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.36,"0.0499","5/28/22","KB_KVL","","0.0344","0.0193",2.471,"","HECO_TB_2_MG"
+"TB",2,"HG","Hesperostipa_comata","HECO",18.8,1,3,0,0,0,98,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.36,"0.0253","5/28/22","KB_KVL","","0.0577","0.0089",1.422,"","HECO_TB_2_HG"
+"TB",3,"LG","Hesperostipa_comata","HECO",10.1,0,4,0,0,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.31,"0.0253","5/29/22","KB_KVL","","0.0171","0.0063",1.243,"","HECO_TB_3_LG"
+"TB",3,"MG","Hesperostipa_comata","HECO",21.1,0,2,0,0,0,98,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.44,"0.0364","5/29/22","KB_KVL","","0.0158","0.0148",1.136,"","HECO_TB_3_MG"
+"TB",3,"HG","Hesperostipa_comata","HECO",7.6,0,3,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.28,"0.0172","5/29/22","KB_KVL","","0.0102","0.0044",1.046,"found, tb-b3-hg-22 ","HECO_TB_3_HG"
+"FK",1,"LG","Hesperostipa_comata","HECO",20.6,2,2,1,0,0,98,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.35,"0.0449","5/30/22","KB_KVL","","0.0672","0.0161",1.759,"","HECO_FK_1_LG"
+"FK",1,"MG","Hesperostipa_comata","HECO",26.1,2,2,0,0,0,80,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.29,"0.0364","5/30/22","KB_KVL","","0.0514","0.0133",2.058,"","HECO_FK_1_MG"
+"FK",1,"HG","Hesperostipa_comata","HECO",24.1,1,1,1,4,0,80,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.25,"0.0144","6/1/22","KB_KVL","","0.0094","0.0048",0.712,"found","HECO_FK_1_HG"
+"FK",2,"LG","Hesperostipa_comata","HECO",14.5,1,2,0,2,0,99,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.33,"0.0255","6/1/22","KB_KVL","","0.0409","0.01",1.157,"","HECO_FK_2_LG"
+"FK",2,"MG","Hesperostipa_comata","HECO",17,1,2,0,2,0,99,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.28,"0.0322","6/1/22","KB_KVL","","0.0162","0.0119",1.723,"","HECO_FK_2_MG"
+"FK",2,"HG","Hesperostipa_comata","HECO",20.2,1,1,0,0,0,80,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.4,"0.0261","6/1/22","KB_KVL","","0.0173","0.0094",1.42,"","HECO_FK_2_HG"
+"FK",3,"LG","Hesperostipa_comata","HECO",13.3,1,2,0,1,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.35,"0.0449","6/1/22","KB_KVL","","0.0295","0.0181",1.609,"","HECO_FK_3_LG"
+"FK",3,"MG","Hesperostipa_comata","HECO",14.6,1,2,0,0,0,98,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.35,"0.0163","6/1/22","KB_KVL","","0.0303","0.0059",0.512,"","HECO_FK_3_MG"
+"FK",3,"HG","Hesperostipa_comata","HECO",17.6,1,2,0,1,0,96,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.37,"0.0511","6/2/22","KB_KVL","","0.0151","0.0217",1.567,"","HECO_FK_3_HG"
+"TB",1,"LG","Hedeoma_hispida","HEHI",5.2,8,33,2,8,4,95,"annual","forb","C3","5/24/22","Early","KB_GT_MF_KVL","",0.55,"0.002","5/28/22","KB_KVL","",NA,NA,0.077,"","HEHI_TB_1_LG"
+"TB",1,"MG","Hedeoma_hispida","HEHI",10.1,4,18,0,3,2,98,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0093","5/28/22","KB_KVL","",NA,NA,0.347,"","HEHI_TB_1_MG"
+"TB",1,"HG","Hedeoma_hispida","HEHI",3.7,4,9,2,3,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.36,"0.0036","5/28/22","KB_KVL","",NA,NA,0.112,"","HEHI_TB_1_HG"
+"TB",2,"LG","Hedeoma_hispida","HEHI",4.4,10,34,3,11,6,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2MG",0.34,"0.0036","5/28/22","KB_KVL","",NA,NA,0.124,"","HEHI_TB_2_LG"
+"TB",2,"MG","Hedeoma_hispida","HEHI",2.3,4,10,0,3,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.57,"0.0053","5/28/22","KB_KVL","",NA,NA,0.161,"","HEHI_TB_2_MG"
+"TB",2,"HG","Hedeoma_hispida","HEHI",4.5,5,24,0,5,5,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.56,"0.0116","5/28/22","KB_KVL","",NA,NA,0.388,"","HEHI_TB_2_HG"
+"TB",3,"LG","Hedeoma_hispida","HEHI",5.1,3,16,0,2,2,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.43,"0.0057","5/29/22","KB_KVL","",NA,NA,0.195,"","HEHI_TB_3_LG"
+"TB",3,"MG","Hedeoma_hispida","HEHI",4.2,8,19,2,9,3,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water, 1 dead flower",0.49,"0.0123","5/29/22","KB_KVL","",NA,NA,0.417,"","HEHI_TB_3_MG"
+"TB",3,"HG","Hedeoma_hispida","HEHI",3.1,6,12,0,5,1,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3 water",0.43,"0.0034","5/29/22","KB_KVL","",NA,NA,0.125,"","HEHI_TB_3_HG"
+"FK",1,"LG","Hedeoma_hispida","HEHI",5.4,3,13,2,0,0,97,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.37,"0.0016","5/30/22","KB_KVL","",NA,NA,0.1,"","HEHI_FK_1_LG"
+"FK",1,"MG","Hedeoma_hispida","HEHI",2.6,4,8,1,0,0,98,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.32,"0.0012","5/30/22","KB_KVL","no leaf in leaf bag - check others",NA,NA,NA,"NO LEAF IN BAG","HEHI_FK_1_MG"
+"FK",1,"HG","Hedeoma_hispida","HEHI",3.2,3,6,0,1,0,100,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.37,"0.0018","6/1/22","KB_KVL","maybe KOMA?",NA,NA,NA,NA,NA
+"FK",2,"LG","Hedeoma_hispida","HEHI",3.6,2,11,0,1,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.47,"0.0018","6/1/22","KB_KVL","",NA,NA,0.11,"found","HEHI_FK_2_LG"
+"FK",2,"MG","Hedeoma_hispida","HEHI",4.2,5,12,0,1,0,90,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.24,"0.0014","6/1/22","KB_KVL","",NA,NA,0.09,"","HEHI_FK_2_MG"
+"FK",2,"HG","Hedeoma_hispida","HEHI",33,6,12,0,1,0,98,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.34,"0.0011","6/1/22","KB_KVL","",NA,NA,0.06,"","HEHI_FK_2_HG"
+"FK",3,"LG","Hedeoma_hispida","HEHI",3.1,5,12,0,1,0,99,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.33,"0.001","6/1/22","KB_KVL","",NA,NA,0.069,"","HEHI_FK_3_LG"
+"FK",3,"MG","Hedeoma_hispida","HEHI",3.1,7,12,0,1,0,100,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.34,"0.0007","6/1/22","KB_KVL","",NA,NA,0.073,"","HEHI_FK_3_MG"
+"FK",3,"HG","Hedeoma_hispida","HEHI",2.5,4,9,0,1,0,100,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.28,"0.0015","6/2/22","KB_KVL","",NA,NA,0.076,"","HEHI_FK_3_HG"
+"TB",1,"LG","Koeleria_macrantha","KOMA",12.5,1,1,0,1,0,100,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.36,"0.0165","5/28/22","KB_KVL","","0.0059","0.0053",0.584,"","KOMA_TB_1_LG"
+"TB",1,"MG","Koeleria_macrantha","KOMA",7.8,1,2,0,2,0,100,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.31,"0.0258","5/28/22","KB_KVL","","0.0128","0.0098",1.005,"","KOMA_TB_1_MG"
+"TB",1,"HG","Koeleria_macrantha","KOMA",17.4,1,2,0,7,1,45,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.32,"0.0245","5/28/22","KB_KVL","","0.0137","0.0079",1.049,"","KOMA_TB_1_HG"
+"TB",2,"LG","Koeleria_macrantha","KOMA",5.5,1,2,0,15,0,70,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.4,"0.016","5/28/22","KB_KVL","","0.0118","0.0061",0.697,"","KOMA_TB_2_LG"
+"TB",2,"MG","Koeleria_macrantha","KOMA",18.1,1,2,2,0,0,70,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.4,"0.0361","5/28/22","KB_KVL","","0.0228","0.0103",1.64,"","KOMA_TB_2_MG"
+"TB",2,"HG","Koeleria_macrantha","KOMA",6.3,1,1,0,1,0,99,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.0251","5/28/22","KB_KVL","","0.0063","0.0080",1.08,"","KOMA_TB_2_HG"
+"TB",3,"LG","Koeleria_macrantha","KOMA",9.4,1,3,0,2,0,99,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.009","5/29/22","KB_KVL","","0.0073","0.0032",0.44,"","KOMA_TB_3_LG"
+"TB",3,"MG","Koeleria_macrantha","KOMA",5.7,1,2,0,2,0,98,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.0102","5/29/22","KB_KVL","","0.0056","0.0033",0.605,"","KOMA_TB_3_MG"
+"TB",3,"HG","Koeleria_macrantha","KOMA",6,1,2,1,4,0,75,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.29,"0.0175","5/29/22","KB_KVL","","0.0127","0.0049",1.008,"","KOMA_TB_3_HG"
+"FK",1,"LG","Koeleria_macrantha","KOMA",10.1,1,2,0,11,0,100,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.33,"0.0328","5/30/22","KB_KVL","","0.0062","0.0105",1.673,"","KOMA_FK_1_LG"
+"FK",1,"MG","Koeleria_macrantha","KOMA",13.2,1,3,0,0,11,99,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.36,"0.0403","5/30/22","KB_KVL","","0.031","0.0136",1.763,"","KOMA_FK_1_MG"
+"FK",1,"HG","Koeleria_macrantha","KOMA",7.3,1,3,0,2,0,97,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.27,"0.0297","6/1/22","KB_KVL","","0.0159","0.009",1.112,"","KOMA_FK_1_HG"
+"FK",2,"LG","Koeleria_macrantha","KOMA",11.1,1,3,0,2,0,77,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.41,"0.0404","6/1/22","KB_KVL","","0.0276","0.013",1.837,"found","KOMA_FK_2_LG"
+"FK",2,"MG","Koeleria_macrantha","KOMA",11.9,1,2,0,7,0,99,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.36,"0.0254","6/1/22","KB_KVL","","0.0141","0.0082",1.011,"","KOMA_FK_2_MG"
+"FK",2,"HG","Koeleria_macrantha","KOMA",18.2,0,4,0,14,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.39,"0.0359","6/1/22","KB_KVL","","0.0273","0.0117",1.581,"","KOMA_FK_2_HG"
+"FK",3,"LG","Koeleria_macrantha","KOMA",12.2,1,2,0,3,0,100,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.36,"0.0579","6/1/22","KB_KVL","PASM - change on all datasheets","0.0358","0.0201",2.104,"","KOMA_FK_3_LG"
+"FK",3,"MG","Koeleria_macrantha","KOMA",7.6,1,3,1,12,0,95,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.44,"0.0244","6/1/22","KB_KVL","","0.0217","0.0072",0.824,"","KOMA_FK_3_MG"
+"FK",3,"HG","Koeleria_macrantha","KOMA",14.9,1,2,0,16,0,99,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.35,"0.0162","6/2/22","KB_KVL","","0.0094","0.0047",0.842,"","KOMA_FK_3_HG"
+"FK",1,"LG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Lactuca_serriola","LASE",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Lepidium_densiflorum","LEDE",10.3,8,13,0,2,0,99,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.39,"0.0011","5/28/22","KB_KVL","","0.0485","1e-05",0.063,"","LEDE_TB_1_LG"
+"TB",1,"MG","Lepidium_densiflorum","LEDE",5.1,0,10,0,1,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0024","5/28/22","KB_KVL","","0.0109","0.0003",0.088,"","LEDE_TB_1_MG"
+"TB",1,"HG","Lepidium_densiflorum","LEDE",13.7,9,25,0,3,0,100,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.32,"0.004","5/28/22","KB_KVL","","0.0744","0.0006",0.182,"","LEDE_TB_1_HG"
+"TB",2,"LG","Lepidium_densiflorum","LEDE",14.1,4,31,0,6,0,98,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.32,"0.0066","5/28/22","KB_KVL","","0.1338","0.0014",0.289,"","LEDE_TB_2_LG"
+"TB",2,"MG","Lepidium_densiflorum","LEDE",6,4,14,0,4,0,98,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.49,"0.0104","5/28/22","KB_KVL","","0.0252","0.0015",0.263,"","LEDE_TB_2_MG"
+"TB",2,"HG","Lepidium_densiflorum","LEDE",1.8,0,8,0,1,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B1MG",0.3,"0.0007","5/28/22","KB_KVL","","0.0075","1e-05",0.046,"","LEDE_TB_2_HG"
+"TB",3,"LG","Lepidium_densiflorum","LEDE",NA,NA,NA,NA,NA,NA,NA,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","LEDE_TB_3_LG"
+"TB",3,"MG","Lepidium_densiflorum","LEDE",NA,NA,NA,NA,NA,NA,NA,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","LEDE_TB_3_MG"
+"TB",3,"HG","Lepidium_densiflorum","LEDE",NA,NA,NA,NA,NA,NA,NA,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","LEDE_TB_3_HG"
+"FK",1,"LG","Lepidium_densiflorum","LEDE",9.9,4,11,0,1,0,98,"annual","forb","C3","5/30/22","Early","KB_KVL","23 seed pods",0.34,"0.0011","5/30/22","KB_KVL","","0.0238","0.0002",0.067,"","LEDE_FK_1_LG"
+"FK",1,"MG","Lepidium_densiflorum","LEDE",4.5,2,4,0,1,0,95,"annual","forb","C3","5/30/22","Early","KB_KVL","5 seed pods",0.28,"0.0007","5/30/22","KB_KVL","","0.0043","1e-05",0.047,"","LEDE_FK_1_MG"
+"FK",1,"HG","Lepidium_densiflorum","LEDE",5.7,0,9,0,1,0,99,"annual","forb","C3","5/30/22","Early","KB_KVL","3 seed heads",0.32,"0.0002","6/1/22","KB_KVL","","0.0067","1e-05",NA,NA,NA
+"FK",2,"LG","Lepidium_densiflorum","LEDE",10.3,2,7,0,1,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","11 seed pods",0.28,"0.0011","6/1/22","KB_KVL","","0.0148","0.0005",0.071,"found","LEDE_FK_2_LG"
+"FK",2,"MG","Lepidium_densiflorum","LEDE",23.2,8,36,0,4,0,98,"annual","forb","C3","5/31/22","Early","KB_KVL","98 seed pods",0.43,"0.0047","6/1/22","KB_KVL","","0.1952","0.0012",0.19,"","LEDE_FK_2_MG"
+"FK",2,"HG","Lepidium_densiflorum","LEDE",9.1,0,7,1,1,0,97,"annual","forb","C3","5/31/22","Early","KB_KVL","Plant from B3HG, 11 seed heads",0.36,"0.0011","6/1/22","KB_KVL","","0.0093","1e-05",0.061,"","LEDE_FK_2_HG"
+"FK",3,"LG","Lepidium_densiflorum","LEDE",5.6,1,6,0,1,0,100,"annual","forb","C3","5/31/22","Early","KB_KVL","9 seed pods",0.3,"0.0004","6/1/22","KB_KVL","","0.0069","1e-05",0.035,"","LEDE_FK_3_LG"
+"FK",3,"MG","Lepidium_densiflorum","LEDE",6.1,0,5,0,1,0,100,"annual","forb","C3","6/1/22","Early","KB_KVL","8 seed heads, Plant from B3 HG",0.24,"0.0002","6/1/22","KB_KVL","","0.0066","1e-05",0.047,"","LEDE_FK_3_MG"
+"FK",3,"HG","Lepidium_densiflorum","LEDE",17.2,7,36,0,8,0,97,"annual","forb","C3","6/1/22","Early","KB_KVL","144 seed pods",0.39,"0.0041","6/2/22","KB_KVL","","0.1687","0.0004",0.166,"","LEDE_FK_3_HG"
+"TB",1,"LG","Lithospermum_incisum","LIIN",4.3,25,18,2,0,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.63,"0.0225","5/28/22","KB_KVL","","0.1334","0.0027",0.633,"","LIIN_TB_1_LG"
+"TB",1,"MG","Lithospermum_incisum","LIIN",7.2,16,36,0,2,1,80,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","1 dead flower",0.45,"0.0181","5/28/22","KB_KVL","","0.2066","0.0029",0.62,"","LIIN_TB_1_MG"
+"TB",1,"HG","Lithospermum_incisum","LIIN",7.1,3,42,0,13,3,90,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","4 dead flower heads",0.42,"0.0241","5/28/22","KB_KVL","","0.3021","0.0044",0.678,"","LIIN_TB_1_HG"
+"TB",2,"LG","Lithospermum_incisum","LIIN",5.5,9,20,0,1,2,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.62,"0.0222","5/28/22","KB_KVL","","0.1105","0.0046",0.619,"","LIIN_TB_2_LG"
+"TB",2,"MG","Lithospermum_incisum","LIIN",3,2,3,2,0,0,75,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.45,"0.0022","5/28/22","KB_KVL","","0.0043","0.0001",0.137,"","LIIN_TB_2_MG"
+"TB",2,"HG","Lithospermum_incisum","LIIN",6.8,2,12,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 water",0.25,"0.0101","5/28/22","KB_KVL","","0.0409","0.0019",0.346,"","LIIN_TB_2_HG"
+"TB",3,"LG","Lithospermum_incisum","LIIN",9.9,3,23,0,0,0,85,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0124","5/29/22","KB_KVL","","0.0713","0.0025",0.497,"","LIIN_TB_3_LG"
+"TB",3,"MG","Lithospermum_incisum","LIIN",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","LIIN_TB_3_MG"
+"TB",3,"HG","Lithospermum_incisum","LIIN",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"LG","Lithospermum_incisum","LIIN",11.3,20,22,1,5,2,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","Plant from B1 water",0.54,"0.0503","5/30/22","KB_KVL","","0.2819","0.0122",1.215,"","LIIN_FK_1_LG"
+"FK",1,"MG","Lithospermum_incisum","LIIN",9.3,3,18,1,1,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.49,"0.0247","5/30/22","KB_KVL","","0.0841","0.0057",0.787,"","LIIN_FK_1_MG"
+"FK",1,"HG","Lithospermum_incisum","LIIN",5.7,2,17,2,0,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.35,"0.0194","6/1/22","KB_KVL","","0.0561","0.0047",0.618,"found","LIIN_FK_1_HG"
+"FK",2,"LG","Lithospermum_incisum","LIIN",11.1,9,20,0,1,0,97,"perennial","forb","C3","5/31/22","Early","KB_KVL","Plant from B1 water",0.54,"0.0286","6/1/22","KB_KVL","","0.1511","0.0074",0.842,"","LIIN_FK_2_LG"
+"FK",2,"MG","Lithospermum_incisum","LIIN",7.4,19,20,1,1,0,97,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.46,"0.0132","6/1/22","KB_KVL","","0.1133","0.0033",NA,"NOT COLLECTED","LIIN_FK_2_MG"
+"FK",2,"HG","Lithospermum_incisum","LIIN",8.8,7,16,0,3,0,95,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.57,"0.0382","6/1/22","KB_KVL","","0.1513","0.0073",1.066,"","LIIN_FK_2_HG"
+"FK",3,"LG","Lithospermum_incisum","LIIN",4.4,3,7,0,0,0,100,"perennial","forb","C3","6/1/22","Early","KB_KVL","Plant from B3HG",0.36,"0.0746","6/1/22","KB_KVL","","0.0474","0.0121",1.69,"","LIIN_FK_3_LG"
+"FK",3,"MG","Lithospermum_incisum","LIIN",9.8,1,4,0,0,0,99,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.58,"0.1599","6/1/22","KB_KVL","LIPU - change on all things","0.0623","0.0369",3.299,"","LIIN_FK_3_MG"
+"FK",3,"HG","Lithospermum_incisum","LIIN",7.1,4,7,0,0,0,99,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.64,"0.1174","6/2/22","KB_KVL","","0.035","0.0253",2.39,"","LIIN_FK_3_HG"
+"FK",1,"LG","Liatris_punctata","LIPU",12.5,9,12,2,1,0,97,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.5,"0.1282","5/30/22","KB_KVL","","0.2143","0.0245",2.823,"FOUND, fk-1-lg-22","LIPU_FK_1_LG"
+"FK",1,"MG","Liatris_punctata","LIPU",14.3,14,20,12,2,0,80,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.49,"0.0308","5/30/22","KB_KVL","","0.4262","0.0079",0.717,"","LIPU_FK_1_MG"
+"FK",1,"HG","Liatris_punctata","LIPU",9.6,3,15,1,0,0,90,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.39,"0.1263","6/1/22","KB_KVL","","0.2091","0.0214",NA,NA,NA
+"FK",2,"LG","Liatris_punctata","LIPU",12.3,3,10,0,1,0,95,"perennial","forb","C3","5/31/22","Early","KB_KVL","Plant from B3MG",0.54,"0.2398","6/1/22","KB_KVL","","0.1881","0.0389",5.496,"","LIPU_FK_2_LG"
+"FK",2,"MG","Liatris_punctata","LIPU",7.4,3,16,0,1,0,97,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.5,"0.0533","6/1/22","KB_KVL","another LIIN - changed on datasheet and scanned data","0.098","0.0099",1.537,"","LIPU_FK_2_MG"
+"FK",2,"HG","Liatris_punctata","LIPU",8.5,8,21,0,1,0,98,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.53,"0.1115","6/1/22","KB_KVL","","0.2893","0.0226",2.367,"","LIPU_FK_2_HG"
+"FK",3,"LG","Liatris_punctata","LIPU",7.8,7,11,0,1,0,100,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.26,"0.0783","6/1/22","KB_KVL","","0.1596","0.0169",1.933,"","LIPU_FK_3_LG"
+"FK",3,"MG","Liatris_punctata","LIPU",11.1,1,4,0,0,0,99,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.43,"0.168","6/1/22","KB_KVL","","0.0341","0.0285",3.693,"found, fk-3,mg-22","LIPU_FK_3_MG"
+"FK",3,"HG","Liatris_punctata","LIPU",9.4,4,6,0,0,0,100,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.55,"0.1014","6/2/22","KB_KVL","","0.067","0.0192",2.367,"","LIPU_FK_3_HG"
+"FK",1,"LG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Linum_rigidum","LIRI",11.3,7,26,3,4,0,97,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Linum_rigidum","LIRI",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Logfia_arvensis","LOAR",3.9,2,30,7,0,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.3,"0.0015","5/28/22","KB_KVL","","0.0149","1e-05",0.114,"","LOAR_TB_1_LG"
+"TB",1,"MG","Logfia_arvensis","LOAR",7.9,5,38,2,1,0,97,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.35,"0.0441","5/28/22","KB_KVL","","0.042","1e-05",0.276,"","LOAR_TB_1_MG"
+"TB",1,"HG","Logfia_arvensis","LOAR",5.3,6,28,3,1,0,97,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0049","5/28/22","KB_KVL","","0.0297","0.0007",0.325,"","LOAR_TB_1_HG"
+"TB",2,"LG","Logfia_arvensis","LOAR",3,7,24,0,1,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.4,"0.0056","5/28/22","KB_KVL","","0.0261","0.0010",0.327,"","LOAR_TB_2_LG"
+"TB",2,"MG","Logfia_arvensis","LOAR",6.9,6,53,0,0,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.53,"0.0069","5/28/22","KB_KVL","","0.0884","0.0005",0.382,"","LOAR_TB_2_MG"
+"TB",2,"HG","Logfia_arvensis","LOAR",3.1,3,13,0,0,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.006","5/29/22","KB_KVL","","0.0229","0.0012",0.311,"","LOAR_TB_2_HG"
+"TB",3,"LG","Logfia_arvensis","LOAR",2.3,0,21,0,1,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.0009","5/29/22","KB_KVL","","0.0051","1e-05",0.064,"","LOAR_TB_3_LG"
+"TB",3,"MG","Logfia_arvensis","LOAR",5.7,0,32,0,1,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.45,"0.0041","5/29/22","KB_KVL","","0.0355","0.0005",0.287,"","LOAR_TB_3_MG"
+"TB",3,"HG","Logfia_arvensis","LOAR",13.8,1,48,0,1,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.0036","5/29/22","KB_KVL","","0.1096","0.0016",0.236,"","LOAR_TB_3_HG"
+"FK",1,"LG","Logfia_arvensis","LOAR",4.9,5,20,2,1,0,98,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.37,"0.001","5/30/22","KB_KVL","","0.0075","1e-05",0.088,"","LOAR_FK_1_LG"
+"FK",1,"MG","Logfia_arvensis","LOAR",3.7,2,29,1,1,0,98,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.42,"0.0014","5/30/22","KB_KVL","","0.009","1e-05",0.093,"","LOAR_FK_1_MG"
+"FK",1,"HG","Logfia_arvensis","LOAR",2.8,4,18,1,1,0,98,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.27,"0.0005","6/1/22","KB_KVL","","0.0043",NA,0.054,"found","LOAR_FK_1_HG"
+"FK",2,"LG","Logfia_arvensis","LOAR",3.5,3,17,1,1,0,99,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.52,"0.0008","6/1/22","KB_KVL","on scanned sheet, LOAR is under B1HG ROSE on scanned sheet","0.0056","1e-05",0.074,"found, literally under B1-HG-Pose","LOAR_FK_2_LG"
+"FK",2,"MG","Logfia_arvensis","LOAR",5.3,3,23,4,1,0,97,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.32,"0.0011","6/1/22","KB_KVL","","0.0092","1e-05",0.058,"","LOAR_FK_2_MG"
+"FK",2,"HG","Logfia_arvensis","LOAR",5.5,2,22,4,1,0,95,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.38,"0.0015","6/1/22","KB_KVL","","0.0072","1e-05",0.112,"","LOAR_FK_2_HG"
+"FK",3,"LG","Logfia_arvensis","LOAR",5.5,3,26,1,1,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.52,"0.0038","6/1/22","KB_KVL","","0.0158","0.0005",0.197,"","LOAR_FK_3_LG"
+"FK",3,"MG","Logfia_arvensis","LOAR",4.7,5,13,2,1,0,90,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.48,"0.0013","6/1/22","KB_KVL","","0.0105","0.0003",0.112,"","LOAR_FK_3_MG"
+"FK",3,"HG","Logfia_arvensis","LOAR",4.5,3,19,4,1,0,80,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.36,"0.0012","6/2/22","KB_KVL","","0.0059","1e-05",0.076,"","LOAR_FK_3_HG"
+"TB",1,"LG","Lomatium_foeniculaceum","LOFO",1.9,1,4,0,0,0,99,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.61,"0.0229","5/28/22","KB_KVL","","0.0158","0.0057",0.639,"","LOFO_TB_1_LG"
+"TB",1,"MG","Lomatium_foeniculaceum","LOFO",5.6,5,7,0,0,2,97,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","1 dead flower",0.36,"0.0053","5/28/22","KB_KVL","","0.38","0.0015",0.274,"","LOFO_TB_1_MG"
+"TB",1,"HG","Lomatium_foeniculaceum","LOFO",5.8,13,0,0,0,6,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.32,"0.0116","5/28/22","KB_KVL","","0.0555","0.0016",0.439,"","LOFO_TB_1_HG"
+"TB",2,"LG","Lomatium_foeniculaceum","LOFO",2.6,1,4,0,0,0,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.67,"0.0267","5/28/22","KB_KVL","","0.1123","0.0063",0.68,"","LOFO_TB_2_LG"
+"TB",2,"MG","Lomatium_foeniculaceum","LOFO",3.3,10,7,3,0,3,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.47,"0.0752","5/28/22","KB_KVL","","0.2293","0.0164",2.493,"","LOFO_TB_2_MG"
+"TB",2,"HG","Lomatium_foeniculaceum","LOFO",2.3,0,6,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.57,"0.025","5/29/22","KB_KVL","","0.0682",NA,0.838,"","LOFO_TB_2_HG"
+"TB",3,"LG","Lomatium_foeniculaceum","LOFO",4.4,0,5,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.5,"0.035","5/29/22","KB_KVL","","0.0354","0.0085",1.48,"","LOFO_TB_3_LG"
+"TB",3,"MG","Lomatium_foeniculaceum","LOFO",6.2,0,58,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.42,"0.1402","5/29/22","KB_KVL","","0.0734","0.03",4.275,"","LOFO_TB_3_MG"
+"TB",3,"HG","Lomatium_foeniculaceum","LOFO",4.8,0,47,0,1,0,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3LG",0.32,"0.051","5/29/22","KB_KVL","","0.252","0.0094",1.939,"","LOFO_TB_3_HG"
+"FK",1,"LG","Lydogesmia_juncea","LYJU",11.9,14,10,0,8,0,99,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.53,"0.0184","5/30/22","KB_KVL","","0.139","0.0037",0.544,"","LYJU_FK_1_LG"
+"FK",1,"MG","Lydogesmia_juncea","LYJU",15.3,24,14,0,10,0,87,"perennial","forb","C3","5/30/22","Early","KB_KVL","Plant from B1LG",0.39,"0.0067","5/30/22","KB_KVL","","0.2006","0.0022",0.247,"","LYJU_FK_1_MG"
+"FK",1,"HG","Lydogesmia_juncea","LYJU",17.2,4,10,1,4,0,97,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.43,"0.025","6/1/22","KB_KVL","","0.1897","0.0044",0.699,"found","LYJU_FK_1_HG"
+"FK",2,"LG","Lydogesmia_juncea","LYJU",12.2,9,13,0,4,0,95,"perennial","forb","C3","5/31/22","Early","KB_KVL","Plant from B1LG",0.56,"0.0088","6/1/22","KB_KVL","","0.0939","0.0025",0.291,"found","LYJU_FK_2_LG"
+"FK",2,"MG","Lydogesmia_juncea","LYJU",12.1,6,17,0,6,0,97,"perennial","forb","C3","5/31/22","Early","KB_KVL","Plant from B2HG",0.55,"0.0202","6/1/22","KB_KVL","","0.175","0.0045",0.544,"","LYJU_FK_2_MG"
+"FK",2,"HG","Lydogesmia_juncea","LYJU",14.1,10,12,1,6,0,99,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.37,"0..0233","6/1/22","KB_KVL","","0.328","0.005",0.726,"","LYJU_FK_2_HG"
+"FK",3,"LG","Lydogesmia_juncea","LYJU",16,8,12,1,5,0,75,"perennial","forb","C3","6/1/22","Early","KB_KVL","Plant from B1LG",0.59,"0.0123","6/1/22","KB_KVL","","0.1353","0.0033",0.421,"","LYJU_FK_3_LG"
+"FK",3,"MG","Lydogesmia_juncea","LYJU",19.4,34,57,5,22,0,90,"perennial","forb","C3","6/1/22","Early","KB_KVL","Plant from B1LG",0.48,"0.024","6/1/22","KB_KVL","","0.6015","0.006",0.585,"","LYJU_FK_3_MG"
+"FK",3,"HG","Lydogesmia_juncea","LYJU",15.8,38,12,2,6,0,55,"perennial","forb","C3","6/1/22","Early","KB_KVL","Plant from B1LG",0.44,"0.0144","6/2/22","KB_KVL","","0.2251","0.0041",0.478,"","LYJU_FK_3_HG"
+"TB",1,"LG","Musineon_divaricatum","MUDI",6.8,0,7,0,0,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.63,"0.0278","5/28/22","KB_KVL","","0.0499","0.0043",0.686,"","MUDI_TB_1_LG"
+"TB",1,"MG","Musineon_divaricatum","MUDI",1.5,0,7,0,0,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.57,"0.0192","5/28/22","KB_KVL","","0.0363","0.0045",0.506,"","MUDI_TB_1_MG"
+"TB",1,"HG","Musineon_divaricatum","MUDI",2.7,0,7,0,0,0,85,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0272","5/28/22","KB_KVL","","0.0466","0.0045",0.831,"","MUDI_TB_1_HG"
+"TB",2,"LG","Musineon_divaricatum","MUDI",5.2,0,2,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.39,"0.0213","5/28/22","KB_KVL","","0.043",NA,0.62,"","MUDI_TB_2_LG"
+"TB",2,"MG","Musineon_divaricatum","MUDI",2,0,14,0,0,0,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.45,"0.0312","5/28/22","KB_KVL","","0.0612","0.0054",0.833,"","MUDI_TB_2_MG"
+"TB",2,"HG","Musineon_divaricatum","MUDI",5.2,2,13,0,0,2,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 dead flower",0.3,"0.0414","5/29/22","KB_KVL","","0.2874","0.0088",1.687,"","MUDI_TB_2_HG"
+"TB",2,"HG","Musineon_divaricatum","MUDI",5.2,2,13,0,0,2,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 dead flower",0.3,"0.0414","5/29/22","KB_KVL","","0.2874","0.0084",1.687,"","MUDI_TB_2_HG"
+"TB",2,"HG","Musineon_divaricatum","MUDI",5.2,2,13,0,0,2,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 dead flower",0.3,"0.0414","5/29/22","KB_KVL","","0.2869","0.0088",1.687,"","MUDI_TB_2_HG"
+"TB",2,"HG","Musineon_divaricatum","MUDI",5.2,2,13,0,0,2,97,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 dead flower",0.3,"0.0414","5/29/22","KB_KVL","","0.2869","0.0084",1.687,"","MUDI_TB_2_HG"
+"TB",3,"LG","Musineon_divaricatum","MUDI",7.3,1,14,0,0,4,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","bag was not MUDI - change to PIOP",NA,NA,NA,NA,NA
+"TB",3,"MG","Musineon_divaricatum","MUDI",9.6,0,53,0,6,3,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.1033","5/29/22","KB_KVL","","0.5978","0.0227",3.99,"","MUDI_TB_3_MG"
+"TB",3,"HG","Musineon_divaricatum","MUDI",5.9,1,75,0,1,3,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.23,"0.0379","5/29/22","KB_KVL","","0.3398","0.0079",1.68,"","MUDI_TB_3_HG"
+"TB",1,"LG","Nassella_viridula","NAVI",24,1,2,0,0,0,70,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","plant from B3 water",0.39,"0.0651","5/28/22","KB_KVL","","0.0393","0.0214",2.536,"","NAVI_TB_1_LG"
+"TB",1,"MG","Nassella_viridula","NAVI",29.2,1,2,0,0,0,85,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B3water",0.25,"0.0715","5/28/22","KB_KVL","","0.0373","0.026",3,"","NAVI_TB_1_MG"
+"TB",1,"HG","Nassella_viridula","NAVI",28.1,1,3,0,0,0,60,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B3MG",0.21,"0.0711","5/28/22","KB_KVL","","0.1435","0.0266",3.014,"","NAVI_TB_1_HG"
+"TB",2,"LG","Nassella_viridula","NAVI",22,1,3,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.23,"0.087","5/28/22","KB_KVL","","0.0497","0.0319",3.669,"","NAVI_TB_2_LG"
+"TB",2,"MG","Nassella_viridula","NAVI",23.1,1,3,1,0,0,80,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.22,"0.062","5/28/22","KB_KVL","","0.1259","0.0206",NA,NA,NA
+"TB",2,"HG","Nassella_viridula","NAVI",19.6,1,2,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.25,"0.0395","5/29/22","KB_KVL","","0.0266","0.0142",2.374,"","NAVI_TB_2_HG"
+"TB",2,"HG","Nassella_viridula","NAVI",19.6,1,2,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.25,"0.0395","5/29/22","KB_KVL","","0.0266","0.0136",2.374,"","NAVI_TB_2_HG"
+"TB",2,"HG","Nassella_viridula","NAVI",19.6,1,2,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.25,"0.0395","5/29/22","KB_KVL","","0.0272","0.0142",2.374,"","NAVI_TB_2_HG"
+"TB",2,"HG","Nassella_viridula","NAVI",19.6,1,2,0,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.25,"0.0395","5/29/22","KB_KVL","","0.0272","0.0136",2.374,"","NAVI_TB_2_HG"
+"TB",3,"LG","Nassella_viridula","NAVI",28.7,1,2,0,0,0,80,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.24,"0.0945","5/29/22","KB_KVL","","0.0652","0.0359",5.666,"","NAVI_TB_3_LG"
+"TB",3,"MG","Nassella_viridula","NAVI",20.5,1,2,0,0,0,65,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.25,"0.0705","5/29/22","KB_KVL","","0.0429","0.03",4.695,"","NAVI_TB_3_MG"
+"TB",3,"HG","Nassella_viridula","NAVI",21.4,1,1,1,0,0,60,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.22,"0.0745","5/29/22","KB_KVL","","0.0399","0.0215",3.51,"","NAVI_TB_3_HG"
+"TB",1,"LG","Nothocalais_cuspidate","NOCU",9.1,0,21,3,0,0,87,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.54,"0.1993","5/28/22","KB_KVL","","0.7885","0.0322",5.598,"","NOCU_TB_1_LG"
+"TB",1,"MG","Nothocalais_cuspidate","NOCU",8.1,1,18,1,0,0,85,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.54,"0.4226","5/28/22","KB_KVL","","0.681","0.0608",9.054,"","NOCU_TB_1_MG"
+"TB",1,"HG","Nothocalais_cuspidate","NOCU",11,3,10,0,1,0,90,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.3936","5/28/22","KB_KVL","","0.6153","0.0653",9.739,"","NOCU_TB_1_HG"
+"TB",2,"LG","Nothocalais_cuspidate","NOCU",13.4,14,12,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.45,"0.2382","5/28/22","KB_KVL","","0.452","0.0341",6.327,"","NOCU_TB_2_LG"
+"TB",2,"MG","Nothocalais_cuspidate","NOCU",7.4,0,8,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.69,"0.3407","5/28/22","KB_KVL","","0.1994","0.0495",7.87,"","NOCU_TB_2_MG"
+"TB",2,"HG","Nothocalais_cuspidate","NOCU",6.5,0,8,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.76,"0.1885","5/29/22","KB_KVL","","0.1769","0.0255",4.776,"","NOCU_TB_2_HG"
+"TB",2,"HG","Nothocalais_cuspidate","NOCU",6.5,0,8,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.76,"0.1885","5/29/22","KB_KVL","","0.1769","0.0245",4.776,"","NOCU_TB_2_HG"
+"TB",2,"HG","Nothocalais_cuspidate","NOCU",6.5,0,8,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.76,"0.1885","5/29/22","KB_KVL","","0.1742","0.0255",4.776,"","NOCU_TB_2_HG"
+"TB",2,"HG","Nothocalais_cuspidate","NOCU",6.5,0,8,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.76,"0.1885","5/29/22","KB_KVL","","0.1742","0.0245",4.776,"","NOCU_TB_2_HG"
+"TB",3,"LG","Nothocalais_cuspidate","NOCU",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","NOCU_TB_3_LG"
+"TB",3,"MG","Nothocalais_cuspidate","NOCU",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","NOCU_TB_3_MG"
+"TB",3,"HG","Nothocalais_cuspidate","NOCU",10.8,0,5,0,1,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.37,"0.2784","5/29/22","KB_KVL","","0.2694","0.0421",11.75,"","NOCU_TB_3_HG"
+"TB",1,"LG","Oenothera_suffrtescuns","OESU",5.5,15,27,0,1,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.0076","5/28/22","KB_KVL","","0.0892","0.0033",0.293,"","OESU_TB_1_LG"
+"TB",1,"MG","Oenothera_suffrtescuns","OESU",6,3,41,0,1,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.28,"0.0068","5/28/22","KB_KVL","","0.1051","0.0018",0.308,"","OESU_TB_1_MG"
+"TB",1,"HG","Oenothera_suffrtescuns","OESU",5.6,10,28,2,1,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0086","5/28/22","KB_KVL","","0.0502","0.0030",0.341,"","OESU_TB_1_HG"
+"TB",2,"LG","Oenothera_suffrtescuns","OESU",5.6,3,20,0,0,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.4,"0.0044","5/28/22","KB_KVL","","0.0386","0.0008",0.188,"","OESU_TB_2_LG"
+"TB",2,"MG","Oenothera_suffrtescuns","OESU",7.8,8,19,0,1,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.26,"0.0108","5/28/22","KB_KVL","","0.0832","0.0026",0.426,"","OESU_TB_2_MG"
+"TB",2,"HG","Oenothera_suffrtescuns","OESU",6.5,0,33,0,1,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.39,"0.0082","5/29/22","KB_KVL","","0.0972","0.0023",0.375,"","OESU_TB_2_HG"
+"TB",3,"LG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","OESU_TB_3_LG"
+"TB",3,"MG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","OESU_TB_3_MG"
+"TB",3,"HG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","OESU_TB_3_HG"
+"FK",1,"LG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Oenothera_suffrtescuns","OESU",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"MG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"HG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"LG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"MG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"HG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"LG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"MG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"HG","Oonipsis_multicaulis","OOMU",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Pascopyrum_smithii","PASM",17.4,1,2,2,0,0,55,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.37,"0.0628","5/28/22","KB_KVL","","0.0264","0.0216",2.126,"","PASM_TB_1_LG"
+"TB",1,"MG","Pascopyrum_smithii","PASM",15.9,1,2,2,0,0,85,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.35,"0.0701","5/28/22","KB_KVL","","0.0433","0.0248",2.135,"","PASM_TB_1_MG"
+"TB",1,"HG","Pascopyrum_smithii","PASM",14.3,1,2,0,0,0,98,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.33,"0.0364","5/28/22","KB_KVL","","0.0233","0.0108",1.261,"","PASM_TB_1_HG"
+"TB",2,"LG","Pascopyrum_smithii","PASM",14.6,1,3,0,0,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.36,"0.848","5/28/22","KB_KVL","","0.0696","0.0317",2.922,"","PASM_TB_2_LG"
+"TB",2,"MG","Pascopyrum_smithii","PASM",19,1,3,2,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.4,"0.1494","5/28/22","KB_KVL","","0.1193","0.0477",NA,NA,NA
+"TB",2,"HG","Pascopyrum_smithii","PASM",11.8,1,2,0,0,0,98,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.0616","5/29/22","KB_KVL","","0.0359","0.0205",2.558,"","PASM_TB_2_HG"
+"TB",3,"LG","Pascopyrum_smithii","PASM",16.4,1,3,0,0,0,80,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.32,"0.0749","5/29/22","KB_KVL","","0.0042","0.0236",3.111,"","PASM_TB_3_LG"
+"TB",3,"MG","Pascopyrum_smithii","PASM",11.6,1,2,0,0,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.29,"0.0679","5/29/22","KB_KVL","","0.0422","0.0229",NA,NA,NA
+"TB",3,"HG","Pascopyrum_smithii","PASM",15.6,1,3,1,0,0,85,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.0864","5/29/22","KB_KVL","","0.1311","0.0289",NA,NA,NA
+"FK",1,"LG","Pascopyrum_smithii","PASM",12.5,1,3,0,0,0,75,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.46,"0.058","5/30/22","KB_KVL","","0.0726","0.0189",2.437,"","PASM_FK_1_LG"
+"FK",1,"MG","Pascopyrum_smithii","PASM",20.3,1,3,2,0,0,60,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.45,"0.1455","5/30/22","KB_KVL","","0.1901","0.0479",5.338,"","PASM_FK_1_MG"
+"FK",1,"HG","Pascopyrum_smithii","PASM",12.2,1,3,2,0,0,60,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.38,"0.0987","6/1/22","KB_KVL","","0.1235","0.0314",3.28,"","PASM_FK_1_HG"
+"FK",2,"LG","Pascopyrum_smithii","PASM",12.9,1,3,0,0,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.38,"0.0605","6/1/22","KB_KVL","","0.1089","0.0209",2.03,"","PASM_FK_2_LG"
+"FK",2,"MG","Pascopyrum_smithii","PASM",15.2,1,3,0,0,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.35,"0.1011","6/1/22","KB_KVL","","0.0946","0.034",3.526,"","PASM_FK_2_MG"
+"FK",2,"HG","Pascopyrum_smithii","PASM",18.6,1,3,0,0,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.4,"0.1048","6/1/22","KB_KVL","","0.1748","0.0337",3.391,"","PASM_FK_2_HG"
+"FK",3,"LG","Pascopyrum_smithii","PASM",16.4,1,3,1,0,0,90,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.48,"0.1083","6/1/22","KB_KVL","","0.1193","0.0367",3.474,"","PASM_FK_3_LG"
+"FK",3,"MG","Pascopyrum_smithii","PASM",17.4,1,3,0,0,0,95,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.53,"0.1178","6/1/22","KB_KVL","","0.1099","0.0387",3.392,"","PASM_FK_3_MG"
+"FK",3,"HG","Pascopyrum_smithii","PASM",11.9,1,3,0,0,0,98,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.51,"0.0374","6/2/22","KB_KVL","","0.0527","0.0121",1.049,"","PASM_FK_3_HG"
+"FK",1,"LG","Pediomelum_esculentum","PEES",5.3,1,3,0,1,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.45,"0.1533","5/30/22","KB_KVL","","0.0845","0.0355",4.424,"","PEES_FK_1_LG"
+"FK",1,"MG","Pediomelum_esculentum","PEES",7.9,3,6,0,5,0,99,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.36,"0.4168","5/30/22","KB_KVL","","0.9468","0.0957",10.754,"","PEES_FK_1_MG"
+"FK",1,"HG","Pediomelum_esculentum","PEES",9.7,2,4,1,2,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.58,"0.4682","6/1/22","KB_KVL","","0.5919","0.988",10.774,"found","PEES_FK_1_HG"
+"FK",2,"LG","Pediomelum_esculentum","PEES",7.5,4,5,0,5,0,100,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.38,"0.8191","6/1/22","KB_KVL","","0.9333","0.1686",15.975,"","PEES_FK_2_LG"
+"FK",2,"MG","Pediomelum_esculentum","PEES",5.2,5,6,0,3,0,100,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.42,"0.5771","6/1/22","KB_KVL","","0.9183","0.1129",12.61,"","PEES_FK_2_MG"
+"FK",2,"HG","Pediomelum_esculentum","PEES",7.9,8,7,0,4,0,98,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.43,"0.5708","6/1/22","KB_KVL","","0.8365","0.139",13.114,"","PEES_FK_2_HG"
+"FK",3,"LG","Pediomelum_esculentum","PEES",6.8,4,8,0,4,0,98,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.63,"0.3542","6/1/22","KB_KVL","","0.7136","0.0878",8.652,"","PEES_FK_3_LG"
+"FK",3,"MG","Pediomelum_esculentum","PEES",8.2,1,3,0,1,0,97,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.63,"0.718","6/1/22","KB_KVL","","0.3253","0.1434",14.86,"NOT LABELED ","PEES_FK_3_MG"
+"FK",3,"HG","Pediomelum_esculentum","PEES",5.6,4,9,0,4,0,98,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.44,"0.5412","6/2/22","KB_KVL","","0.7578","0.1127",10.707,"","PEES_FK_3_HG"
+"TB",1,"LG","Phlox_hoodia","PHHO",1.8,7,35,8,0,0,85,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.48,"0.0019","5/28/22","KB_KVL","","0.0403",NA,0.064,"","PHHO_TB_1_LG"
+"TB",1,"MG","Phlox_hoodia","PHHO",5.4,5,69,0,44,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.59,"0.0032","5/28/22","KB_KVL","","0.0444","1e-05",0.11,"","PHHO_TB_1_MG"
+"TB",1,"HG","Phlox_hoodia","PHHO",2.6,6,21,3,3,1,97,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","1 dead flower head",0.32,"0.0013","5/28/22","KB_KVL","","0.0094","1e-05",0.053,"","PHHO_TB_1_HG"
+"TB",2,"LG","Phlox_hoodia","PHHO",2.8,11,37,0,10,1,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.28,"0.0016","5/28/22","KB_KVL","","0.0137","0.0002",0.044,"","PHHO_TB_2_LG"
+"TB",2,"MG","Phlox_hoodia","PHHO",2.5,6,49,0,2,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water, 8 dead flowers",0.29,"<0.0001","5/28/22","KB_KVL","","0.0121",NA,0.019,"","PHHO_TB_2_MG"
+"TB",2,"HG","Phlox_hoodia","PHHO",3.1,10,82,0,1,1,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","3 dead flowers",0.35,"0.0006","5/29/22","KB_KVL","","0.0369","1e-05",0.022,"","PHHO_TB_2_HG"
+"TB",3,"LG","Phlox_hoodia","PHHO",2.7,3,94,0,0,0,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.0008","5/29/22","KB_KVL","","0.0499","1e-05",0.032,"","PHHO_TB_3_LG"
+"TB",3,"MG","Phlox_hoodia","PHHO",3.4,11,125,0,19,3,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG, 16 dead flower heads",0.37,"0.0007","5/29/22","KB_KVL","","0.0518","1e-05",0.039,"","PHHO_TB_3_MG"
+"TB",3,"HG","Phlox_hoodia","PHHO",1.7,2,134,0,28,1,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.0008","5/29/22","KB_KVL","","0.1448","1e-05",0.03,"","PHHO_TB_3_HG"
+"TB",1,"LG","Picradeniopsis_oppositifolia","PIOP",9.9,1,8,0,5,0,95,"perennial","woody","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from MG B1",0.62,"0.0791","5/28/22","KB_KVL","","0.1452","0.0148",1.67,"","PIOP_TB_1_LG"
+"TB",1,"MG","Picradeniopsis_oppositifolia","PIOP",8.7,1,4,0,0,0,100,"perennial","woody","C3","5/25/22","Early","KB_GT_MF_KVL","",0.7,"0.978","5/28/22","KB_KVL","","0.0721","0.0166",1.928,"","PIOP_TB_1_MG"
+"TB",1,"HG","Picradeniopsis_oppositifolia","PIOP",9.1,0,11,0,0,0,100,"perennial","woody","C3","5/25/22","Early","KB_GT_MF_KVL","",0.57,"0.01","5/28/22","KB_KVL","","0.0341","0.0022",0.451,"","PIOP_TB_1_HG"
+"TB",2,"LG","Picradeniopsis_oppositifolia","PIOP",4.1,6,16,0,0,0,95,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",0.56,"0.022","5/28/22","KB_KVL","","0.03","0.0037",0.561,"","PIOP_TB_2_LG"
+"TB",2,"MG","Picradeniopsis_oppositifolia","PIOP",5.5,3,10,0,0,0,100,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.37,"0.0042","5/28/22","KB_KVL","","0.0096","0.0009",0.281,"","PIOP_TB_2_MG"
+"TB",2,"HG","Picradeniopsis_oppositifolia","PIOP",7,3,5,0,0,0,98,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2MG",0.82,"0.097","5/29/22","KB_KVL","","0.0463","0.0169",1.925,"","PIOP_TB_2_HG"
+"TB",3,"LG","Picradeniopsis_oppositifolia","PIOP",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",0.42,"0.0419","5/29/22","KB_KVL","Change # on other datasheet from MUDI to PIOP","0.0849","0.0088",1.974,"","PIOP_TB_3_LG"
+"TB",3,"MG","Picradeniopsis_oppositifolia","PIOP",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","PIOP_TB_3_MG"
+"TB",3,"HG","Picradeniopsis_oppositifolia","PIOP",NA,NA,NA,NA,NA,NA,NA,"perennial","woody","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","PIOP_TB_3_HG"
+"TB",1,"LG","Plantago_patagonica","PLPA",3,0,14,0,1,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.39,"0.0219","5/28/22","KB_KVL","","0.0594","0.0053",0.494,"FOUND B1LG22-3","PLPA_TB_1_LG"
+"TB",1,"MG","Plantago_patagonica","PLPA",3.9,0,17,1,0,0,99,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.54,"0.0243","5/28/22","KB_KVL","","0.0477","0.0043",0.956,"FOUND B1MG22-2","PLPA_TB_1_MG"
+"TB",1,"HG","Plantago_patagonica","PLPA",4.5,1,12,0,2,0,95,"annual","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant came from LG B1",0.45,"0.0557","5/28/22","KB_KVL","","0.0625","0.0102",0.829,"FOUND, B1HG","PLPA_TB_1_HG"
+"TB",2,"LG","Plantago_patagonica","PLPA",1.8,1,3,1,1,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.38,"0.016","5/28/22","KB_KVL","","0.0051","0.0022",0.354,"FOUNF B2LG","PLPA_TB_2_LG"
+"TB",2,"MG","Plantago_patagonica","PLPA",4,14,46,2,2,0,97,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.59,"0.0227","5/28/22","KB_KVL","","0.1788","0.0040",0.731,"","PLPA_TB_2_MG"
+"TB",2,"HG","Plantago_patagonica","PLPA",3.3,0,5,0,0,0,100,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.43,"0.0137","5/29/22","KB_KVL","","0.0106","0.0034",0.483,"FOUND B2HG22-2","PLPA_TB_2_HG"
+"TB",3,"LG","Plantago_patagonica","PLPA",3.5,0,2,2,1,0,90,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.46,"0.0034","5/29/22","KB_KVL","","0.0006","1e-05",3.155,"FOUND B3LG","PLPA_TB_3_LG"
+"TB",3,"MG","Plantago_patagonica","PLPA",1.9,0,5,0,1,0,99,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.3,"0.0031","5/29/22","KB_KVL","","0.0203","0.0006",0.14,"FOUND B3MG","PLPA_TB_3_MG"
+"TB",3,"HG","Plantago_patagonica","PLPA",3.5,0,4,0,2,0,95,"annual","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.0142","5/29/22","KB_KVL","","0.0103","0.0039",0.437,"FOUND B3HG22-2","PLPA_TB_3_HG"
+"FK",1,"LG","Plantago_patagonica","PLPA",4.4,0,5,5,0,0,90,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.38,"0.0151","5/30/22","KB_KVL","","0.0093","0.0031",0.484,"","PLPA_FK_1_LG"
+"FK",1,"MG","Plantago_patagonica","PLPA",4,0,5,1,1,0,99,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.46,"0.0062","5/30/22","KB_KVL","","0.0074","0.0007",0.288,"","PLPA_FK_1_MG"
+"FK",1,"HG","Plantago_patagonica","PLPA",3.8,1,4,1,1,0,99,"annual","forb","C3","5/30/22","Early","KB_KVL","",0.3,"0.0103","6/1/22","KB_KVL","","0.0075","0.0018",0.367,"found","PLPA_FK_1_HG"
+"FK",2,"LG","Plantago_patagonica","PLPA",3.2,0,9,3,1,0,95,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.4,"0.0087","6/1/22","KB_KVL","","0.0091","0.0016",0.336,"","PLPA_FK_2_LG"
+"FK",2,"MG","Plantago_patagonica","PLPA",2.9,0,5,4,1,0,98,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.31,"0.0045","6/1/22","KB_KVL","","0.0062","0.0006",0.172,"","PLPA_FK_2_MG"
+"FK",2,"HG","Plantago_patagonica","PLPA",3.4,0,4,2,1,0,95,"annual","forb","C3","5/31/22","Early","KB_KVL","",0.32,"0.0094","6/1/22","KB_KVL","","0.0037","0.0019",0.302,"","PLPA_FK_2_HG"
+"FK",3,"LG","Plantago_patagonica","PLPA",2.4,1,3,4,1,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.41,"0.0044","6/1/22","KB_KVL","","0.0036","0.0006",0.137,"","PLPA_FK_3_LG"
+"FK",3,"MG","Plantago_patagonica","PLPA",3.8,0,5,3,1,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.48,"0.013","6/1/22","KB_KVL","","0.0061","0.002",0.348,"","PLPA_FK_3_MG"
+"FK",3,"HG","Plantago_patagonica","PLPA",2.9,0,5,7,1,0,98,"annual","forb","C3","6/1/22","Early","KB_KVL","",0.41,"0.0113","6/2/22","KB_KVL","","0.0049","0.0015",0.242,"","PLPA_FK_3_HG"
+"TB",1,"LG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"MG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"HG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"LG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"MG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",NA,"","5/28/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",2,"HG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"LG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"MG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",3,"HG","Polygonum_aviculare","POAV",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Poa_secunda","POSE",6.6,1,1,0,0,2,98,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.21,"0.0086","5/28/22","KB_KVL","","0.0014","0.0029",0.402,"","POSE_TB_1_LG"
+"TB",1,"MG","Poa_secunda","POSE",5,0,2,0,0,1,98,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.35,"0.0115","5/28/22","KB_KVL","","0.0069","0.0038",0.503,"","POSE_TB_1_MG"
+"TB",1,"HG","Poa_secunda","POSE",9.6,1,4,0,0,2,95,"perennial","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.26,"0.0055","5/28/22","KB_KVL","","0.0062","0.0011",0.373,"","POSE_TB_1_HG"
+"TB",2,"LG","Poa_secunda","POSE",6.5,0,2,0,1,0,75,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.29,"0.0195","5/28/22","KB_KVL","","0.0062","0.0066",0.792,"","POSE_TB_2_LG"
+"TB",2,"MG","Poa_secunda","POSE",11.1,1,3,2,1,0,90,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.38,"0.0044","5/28/22","KB_KVL","","0.0512","0.0016",0.314,"","POSE_TB_2_MG"
+"TB",2,"HG","Poa_secunda","POSE",4.7,1,2,0,0,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.24,"0.0064","5/29/22","KB_KVL","","0.0034","0.0011",0.283,"","POSE_TB_2_HG"
+"TB",3,"LG","Poa_secunda","POSE",3.6,1,1,1,2,0,60,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0067","5/29/22","KB_KVL","","0.0044","0.0021",0.418,"","POSE_TB_3_LG"
+"TB",3,"MG","Poa_secunda","POSE",3.4,0,3,0,0,0,99,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3HG",0.34,"0.0133","5/29/22","KB_KVL","","0.0052","0.0038",0.567,"","POSE_TB_3_MG"
+"TB",3,"HG","Poa_secunda","POSE",4.8,1,3,0,1,0,95,"perennial","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.22,"0.007","5/29/22","KB_KVL","","0.0311","0.0017",0.395,"","POSE_TB_3_HG"
+"FK",1,"LG","Poa_secunda","POSE",5,1,1,2,0,2,75,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.27,"0.0048","5/30/22","KB_KVL","","0.0059","0.0013",0.212,"","POSE_FK_1_LG"
+"FK",1,"MG","Poa_secunda","POSE",17.1,1,2,0,58,0,100,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.4,"0.0214","5/30/22","KB_KVL","","0.0151","0.0076",1.039,"","POSE_FK_1_MG"
+"FK",1,"HG","Poa_secunda","POSE",4.5,1,3,0,3,0,70,"perennial","graminoid","C3","5/30/22","Early","KB_KVL","",0.31,"0.0088","6/1/22","KB_KVL","","0.0082","0.0027",NA,NA,NA
+"FK",2,"LG","Poa_secunda","POSE",5.1,1,3,1,3,0,75,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.34,"0.0078","6/1/22","KB_KVL","","0.0101","0.0021",0.416,"","POSE_FK_2_LG"
+"FK",2,"MG","Poa_secunda","POSE",4.4,0,2,0,1,0,75,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.48,"0.0115","6/1/22","KB_KVL","","0.0041","0.0034",0.412,"","POSE_FK_2_MG"
+"FK",2,"HG","Poa_secunda","POSE",5.9,1,4,0,13,0,95,"perennial","graminoid","C3","5/31/22","Early","KB_KVL","",0.21,"0.0103","6/1/22","KB_KVL","","0.0063","0.0032",0.622,"","POSE_FK_2_HG"
+"FK",3,"LG","Poa_secunda","POSE",4.6,0,2,1,5,0,90,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.34,"0.012","6/1/22","KB_KVL","","0.0036","0.0093",0.681,"","POSE_FK_3_LG"
+"FK",3,"MG","Poa_secunda","POSE",4.5,1,2,1,1,0,70,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.27,"0.0054","6/1/22","KB_KVL","","0.0021","0.0017",0.188,"","POSE_FK_3_MG"
+"FK",3,"HG","Poa_secunda","POSE",11.9,1,2,0,13,0,99,"perennial","graminoid","C3","6/1/22","Early","KB_KVL","",0.36,"0.00198","6/2/22","KB_KVL","","0.0083","0.0087",0.966,"","POSE_FK_3_HG"
+"TB",1,"LG","Psoralidium_tenuiflorum","PSTE",3.1,4,1,0,1,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from MG B1",0.45,"0.0375","5/28/22","KB_KVL","","0.0076","0.0063",1.043,"","PSTE_TB_1_LG"
+"TB",1,"MG","Psoralidium_tenuiflorum","PSTE",2.5,10,5,0,2,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.42,"0.045","5/28/22","KB_KVL","","0.0618","0.0101",1.305,"","PSTE_TB_1_MG"
+"TB",1,"HG","Psoralidium_tenuiflorum","PSTE",4,3,4,0,1,0,99,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B1 MG",0.42,"0.0493","5/28/22","KB_KVL","","0.0345","0.0103",1.41,"","PSTE_TB_1_HG"
+"TB",2,"LG","Psoralidium_tenuiflorum","PSTE",4.6,3,2,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.44,"0.534","5/28/22","KB_KVL","","0.0201","0.0087",1.473,"","PSTE_TB_2_LG"
+"TB",2,"MG","Psoralidium_tenuiflorum","PSTE",5,8,4,0,2,0,99,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.28,"0.0495","5/28/22","KB_KVL","","0.0673","0.0089",1.722,"","PSTE_TB_2_MG"
+"TB",2,"HG","Psoralidium_tenuiflorum","PSTE",8.1,3,2,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.54,"0.0597","5/29/22","KB_KVL","","0.0373","0.0113",1.831,"","PSTE_TB_2_HG"
+"TB",3,"LG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","PSTE_TB_3_LG"
+"TB",3,"MG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","PSTE_TB_3_MG"
+"TB",3,"HG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","PSTE_TB_3_HG"
+"FK",1,"LG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Psoralidium_tenuiflorum","PSTE",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Sphaeralcea_coccinea","SPCO",2.8,3,2,0,0,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.0256","5/28/22","KB_KVL","","0.0259","0.0064",0.738,"","SPCO_TB_1_LG"
+"TB",1,"MG","Sphaeralcea_coccinea","SPCO",2.9,2,6,0,0,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.45,"0.0508","5/28/22","KB_KVL","","0.0324","0.014",1.353,"","SPCO_TB_1_MG"
+"TB",1,"HG","Sphaeralcea_coccinea","SPCO",2.9,7,11,0,0,0,99,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.46,"0.0353","5/28/22","KB_KVL","","0.0717",NA,1.267,"","SPCO_TB_1_HG"
+"TB",2,"LG","Sphaeralcea_coccinea","SPCO",3.6,1,9,0,1,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.43,"0.0539","5/28/22","KB_KVL","","0.0626","0.0127",1.654,"","SPCO_TB_2_LG"
+"TB",2,"MG","Sphaeralcea_coccinea","SPCO",1.6,2,4,0,0,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.7,"0.0213","5/28/22","KB_KVL","","0.0240","0.0064",0.766,"","SPCO_TB_2_MG"
+"TB",2,"HG","Sphaeralcea_coccinea","SPCO",2.5,0,6,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.37,"0.0797","5/29/22","KB_KVL","","0.1244","0.0235",2.527,"","SPCO_TB_2_HG"
+"TB",3,"LG","Sphaeralcea_coccinea","SPCO",6.8,2,7,0,0,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.41,"0.0617","5/29/22","KB_KVL","","0.0911","0.0139",1.764,"","SPCO_TB_3_LG"
+"TB",3,"MG","Sphaeralcea_coccinea","SPCO",3.6,1,6,0,0,0,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.41,"0.0498","5/29/22","KB_KVL","","0.0569","0.0111",1.544,"","SPCO_TB_3_MG"
+"TB",3,"HG","Sphaeralcea_coccinea","SPCO",5.6,3,6,0,0,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.0726","5/29/22","KB_KVL","","0.0972","0.0171",2.216,"","SPCO_TB_3_HG"
+"FK",1,"LG","Sphaeralcea_coccinea","SPCO",9.2,3,5,0,1,0,98,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.58,"0.1017","5/30/22","KB_KVL","","0.2092","0.0319",3.537,"","SPCO_FK_1_LG"
+"FK",1,"MG","Sphaeralcea_coccinea","SPCO",8.1,5,6,0,1,0,98,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.31,"0.1495","5/30/22","KB_KVL","","0.231","0.0371",5.07,"","SPCO_FK_1_MG"
+"FK",1,"HG","Sphaeralcea_coccinea","SPCO",8.3,11,8,0,1,0,99,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.44,"0.1723","6/1/22","KB_KVL","","0.4036","0.0477",NA,NA,NA
+"FK",2,"LG","Sphaeralcea_coccinea","SPCO",7.1,4,6,2,0,0,90,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.43,"0.0848","6/1/22","KB_KVL","","0.1511","0.0226",2.941,"","SPCO_FK_2_LG"
+"FK",2,"MG","Sphaeralcea_coccinea","SPCO",8.4,8,7,0,1,0,100,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.42,"0.1816","6/1/22","KB_KVL","","0.1201","0.0534",5.191,"","SPCO_FK_2_MG"
+"FK",2,"HG","Sphaeralcea_coccinea","SPCO",4.6,3,5,1,1,0,90,"perennial","forb","C3","5/31/22","Early","KB_KVL","",0.47,"0.0976","6/1/22","KB_KVL","","0.1925","0.0258",3.734,"","SPCO_FK_2_HG"
+"FK",3,"LG","Sphaeralcea_coccinea","SPCO",5.4,2,9,0,0,0,97,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.39,"0.1025","6/1/22","KB_KVL","","0.179","0.0303",3.586,"","SPCO_FK_3_LG"
+"FK",3,"MG","Sphaeralcea_coccinea","SPCO",8.3,3,6,0,1,0,99,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.39,"0.0655","6/1/22","KB_KVL","","0.173","0.0215",2.604,"","SPCO_FK_3_MG"
+"FK",3,"HG","Sphaeralcea_coccinea","SPCO",6.9,3,9,0,1,0,97,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.45,"0.0884","6/2/22","KB_KVL","","0.2336","0.0268",3.237,"","SPCO_FK_3_HG"
+"TB",1,"LG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/28/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",1,"MG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/28/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",1,"HG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/28/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",2,"LG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",2,"MG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",2,"HG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"LG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"MG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"TB",3,"HG","Sporobolus_cryptandrus","SPCR",NA,NA,NA,NA,NA,NA,NA,"","","","6/29/22","Late","KB","",NA,"","6/30/22","KB_AY","",NA,NA,NA,NA,NA
+"FK",1,"LG","Sporobolus_cryptandrus","SPCR",23.9,1,0,0,0,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.23,"0.1923","7/2/22","KB_MF","","0.3164","0.0674",8.276,"","SPCR_FK_1_LG"
+"FK",1,"MG","Sporobolus_cryptandrus","SPCR",20.2,1,2,2,0,0,89,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.2,"0.0984","7/2/22","KB_MF","","0.1323","0.0306",5.48,"","SPCR_FK_1_MG"
+"FK",1,"HG","Sporobolus_cryptandrus","SPCR",28,1,4,4,0,0,86,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","",0.25,"0.0533","7/2/22","KB_MF","","0.019","0.44",2.188,"","SPCR_FK_1_HG"
+"FK",2,"LG","Sporobolus_cryptandrus","SPCR",13,1,4,0,0,0,92,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Taken from B1MG",0.24,"0.0545","7/2/22","KB_MF","","0.1087","0.0189",3.152,"","SPCR_FK_2_LG"
+"FK",2,"MG","Sporobolus_cryptandrus","SPCR",18.2,1,4,1,0,0,97,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","Taken from B1HG",0.34,"0.1633","7/2/22","KB_MF","","0.24","0.0686",8.532,"","SPCR_FK_2_MG"
+"FK",2,"HG","Sporobolus_cryptandrus","SPCR",14.6,2,3,0,0,0,99,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH","plant from B1MG",0.19,"0.0894","7/2/22","KB_MF","","0.1378","0.0318",4.146,"","SPCR_FK_2_HG"
+"FK",3,"LG","Sporobolus_cryptandrus","SPCR",17.9,1,3,2,0,0,85,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B1MG",0.2,"0.083","7/2/22","KB_MF","","0.1146","0.0301",4.469,"","SPCR_FK_3_LG"
+"FK",3,"MG","Sporobolus_cryptandrus","SPCR",21.1,1,4,0,0,0,98,"perennial","graminoid","C4","7/1/22","Late","GT_MF_JH_AY_KW_JA","Plant from B1HG",0.2,"0.0749","7/2/22","KB_MF","","0.2498","0.03",4.164,"","SPCR_FK_3_MG"
+"FK",3,"HG","Sporobolus_cryptandrus","SPCR",26.2,1,3,1,0,0,97,"perennial","graminoid","C4","7/1/22","Late","AY_JA_KW","Plant from B1HG",0.3,"0.0826","7/2/22","KB_MF","","0.1586","0.0482",6.692,"","SPCR_FK_3_HG"
+"TB",1,"LG","Taraxacum_officinale","TAOF",4.5,0,10,0,1,0,65,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","1 dead flower head",0.45,"0.0508","5/28/22","KB_KVL","","0.0786","0.0063",1.881,"","TAOF_TB_1_LG"
+"TB",1,"MG","Taraxacum_officinale","TAOF",3.6,0,9,0,0,0,85,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","1 dead flower head",0.3,"0.0611","5/28/22","KB_KVL","","0.1068","0.0040",2.18,"","TAOF_TB_1_MG"
+"TB",1,"HG","Taraxacum_officinale","TAOF",6.2,0,8,0,1,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.43,"0.0921","5/28/22","KB_KVL","","0.0624","0.0156",3.866,"","TAOF_TB_1_HG"
+"TB",2,"LG","Taraxacum_officinale","TAOF",1.6,1,4,1,0,0,50,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0169","5/28/22","KB_KVL","","0.0175","0.0032",0.887,"","TAOF_TB_2_LG"
+"TB",2,"MG","Taraxacum_officinale","TAOF",14.4,0,28,1,6,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water, 1 seed head, 7 head flowers",0.2,"0.1655","5/28/22","KB_KVL","","0.5690","0.0225",7.818,"","TAOF_TB_2_MG"
+"TB",2,"HG","Taraxacum_officinale","TAOF",5.4,0,29,0,10,1,95,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.1586","5/29/22","KB_KVL","","0.7394","0.0205",6.338,"","TAOF_TB_2_HG"
+"TB",3,"LG","Taraxacum_officinale","TAOF",3.1,0,2,0,1,0,60,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.1092","5/29/22","KB_KVL","","0.0209","0.0181",4.694,"","TAOF_TB_3_LG"
+"TB",3,"MG","Taraxacum_officinale","TAOF",2.9,0,5,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.31,"0.0875","5/29/22","KB_KVL","","0.0308","0.0131",4.269,"found, tb-b3-mg-22-2","TAOF_TB_3_MG"
+"TB",3,"HG","Taraxacum_officinale","TAOF",4.5,0,4,0,0,0,80,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","1 dead flower head",0.4,"0.0729","5/29/22","KB_KVL","","0.0398","0.0103",3.086,"","TAOF_TB_3_HG"
+"FK",1,"LG","Taraxacum_officinale","TAOF",4.5,0,3,0,0,0,100,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.45,"0.0869","5/30/22","KB_KVL","","0.031","0.014",6.757,"","TAOF_FK_1_LG"
+"FK",1,"MG","Taraxacum_officinale","TAOF",7.2,0,6,0,0,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","",0.29,"0.10108","5/30/22","KB_KVL","","0.039","0.0162",5.414,"","TAOF_FK_1_MG"
+"FK",1,"HG","Taraxacum_officinale","TAOF",3.4,0,10,1,0,0,95,"perennial","forb","C3","5/30/22","Early","KB_KVL","1 dead flower head",0.28,"0.0544","6/1/22","KB_KVL","","0.0917","0.0093",2.345,"found","TAOF_FK_1_HG"
+"FK",2,"LG","Taraxacum_officinale","TAOF",4.1,0,12,0,0,0,80,"perennial","forb","C3","5/31/22","Early","KB_KVL","2 dead flower heads",0.28,"0.0554","6/1/22","KB_KVL","","0.0965","0.0102",2.248,"","TAOF_FK_2_LG"
+"FK",2,"MG","Taraxacum_officinale","TAOF",4.3,0,13,0,0,0,95,"perennial","forb","C3","5/31/22","Early","KB_KVL","3 dead flower heads",0.28,"0.1241","6/1/22","KB_KVL","","0.1272","0.00203",4.666,"","TAOF_FK_2_MG"
+"FK",2,"HG","Taraxacum_officinale","TAOF",4.1,0,7,0,0,0,70,"perennial","forb","C3","5/31/22","Early","KB_KVL","2 dead flower heads",0.5,"0.0749","6/1/22","KB_KVL","","0.0874","0.0128",6.571,"","TAOF_FK_2_HG"
+"FK",3,"LG","Taraxacum_officinale","TAOF",3.7,0,8,0,1,0,97,"perennial","forb","C3","6/1/22","Early","KB_KVL","1 dead flower head",0.42,"0.0599","6/1/22","KB_KVL","","0.0469","0.0101",2.806,"","TAOF_FK_3_LG"
+"FK",3,"MG","Taraxacum_officinale","TAOF",4.6,0,7,0,0,0,98,"perennial","forb","C3","6/1/22","Early","KB_KVL","",0.41,"0.0657","6/1/22","KB_KVL","","0.0695","0.107",2.316,"","TAOF_FK_3_MG"
+"FK",3,"HG","Taraxacum_officinale","TAOF",4.4,0,9,0,0,0,85,"perennial","forb","C3","6/1/22","Early","KB_KVL","2 dead flower heads",0.42,"0.1034","6/2/22","KB_KVL","","0.076","0.0153",3.957,"","TAOF_FK_3_HG"
+"TB",1,"LG","Tetraneuris_acaulis","TEAC",4.4,5,11,0,0,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant taken from B2LG",0.39,"0.0262","5/28/22","KB_KVL","","0.0756","0.0010",0.771,"","TEAC_TB_1_LG"
+"TB",1,"MG","Tetraneuris_acaulis","TEAC",2.6,3,8,0,0,0,98,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","Plant found in B2LG",0.44,"0.0114","5/28/22","KB_KVL","","0.0246","0.0022",0.238,"","TEAC_TB_1_MG"
+"TB",1,"HG","Tetraneuris_acaulis","TEAC",4.2,2,10,0,0,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","plant from B2LG",0.56,"0.0107","5/28/22","KB_KVL","","0.0269","0.0165",0.345,"","TEAC_TB_1_HG"
+"TB",2,"LG","Tetraneuris_acaulis","TEAC",3.6,3,13,6,0,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.62,"0.019","5/28/22","KB_KVL","","0.0595","0.0048",0.676,"","TEAC_TB_2_LG"
+"TB",2,"MG","Tetraneuris_acaulis","TEAC",4.6,4,15,1,0,0,65,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.44,"0.0483","5/28/22","KB_KVL","","0.1295","0.0107",1.462,"","TEAC_TB_2_MG"
+"TB",2,"HG","Tetraneuris_acaulis","TEAC",8.5,5,32,0,1,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.41,"0.0787","5/29/22","KB_KVL","","0.6890","0.0194",2.145,"","TEAC_TB_2_HG"
+"TB",3,"LG","Tetraneuris_acaulis","TEAC",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","TEAC_TB_3_LG"
+"TB",3,"MG","Tetraneuris_acaulis","TEAC",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","TEAC_TB_3_MG"
+"TB",3,"HG","Tetraneuris_acaulis","TEAC",NA,NA,NA,NA,NA,NA,NA,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","TEAC_TB_3_HG"
+"TB",1,"LG","Tragopogon_dubius","TRDU",16.5,1,21,5,0,0,90,"annual_biennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.1888","5/28/22","KB_KVL","","0.631","0.0331",6.499,"","TRDU_TB_1_LG"
+"TB",1,"MG","Tragopogon_dubius","TRDU",19.9,1,14,1,0,0,95,"annual_biennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.57,"0.1674","5/28/22","KB_KVL","","0.0299","0.4185",5.517,"","TRDU_TB_1_MG"
+"TB",1,"HG","Tragopogon_dubius","TRDU",27,8,41,0,1,0,95,"annual_biennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.42,"0.3631","5/28/22","KB_KVL","","2.8576","0.0023",9.37,"","TRDU_TB_1_HG"
+"TB",2,"LG","Tragopogon_dubius","TRDU",20.4,3,32,0,1,0,95,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.39,"0.2835","5/28/22","KB_KVL","","1.3187","0.0474",7.815,"","TRDU_TB_2_LG"
+"TB",2,"MG","Tragopogon_dubius","TRDU",25.6,8,32,0,1,0,95,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.38,"0.24","5/28/22","KB_KVL","","1.4988","0.0419",8.033,"","TRDU_TB_2_MG"
+"TB",2,"HG","Tragopogon_dubius","TRDU",13.8,0,22,1,1,0,85,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.113","5/29/22","KB_KVL","","0.4405","0.0221",3.856,"","TRDU_TB_2_HG"
+"TB",3,"LG","Tragopogon_dubius","TRDU",17.5,0,19,0,0,0,90,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.42,"0.1545","5/29/22","KB_KVL","","0.4813","0.0312",5.772,"","TRDU_TB_3_LG"
+"TB",3,"MG","Tragopogon_dubius","TRDU",17.6,5,15,0,1,0,80,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B3MG",0.27,"0.1367","5/29/22","KB_KVL","","0.4267","0.0255",5.148,"found, tb-b3-22-2","TRDU_TB_3_MG"
+"TB",3,"HG","Tragopogon_dubius","TRDU",22.1,0,31,0,1,0,85,"annual_biennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.52,"0.1937","5/29/22","KB_KVL","","1.3209","0.0345",4.454,"","TRDU_TB_3_HG"
+"FK",1,"LG","Tragopogon_dubius","TRDU",17.6,2,21,0,1,0,98,"annual_biennial","forb","C3","5/30/22","Early","KB_KVL","",0.42,"0.1665","5/30/22","KB_KVL","","0.671","0.0278",5.588,"","TRDU_FK_1_LG"
+"FK",1,"MG","Tragopogon_dubius","TRDU",24.9,6,23,1,1,0,95,"annual_biennial","forb","C3","5/30/22","Early","KB_KVL","",0.31,"0.2598","5/30/22","KB_KVL","","1.0294","0.0442",8.618,"","TRDU_FK_1_MG"
+"FK",1,"HG","Tragopogon_dubius","TRDU",17.3,0,23,2,1,0,97,"annual_biennial","forb","C3","5/30/22","Early","KB_KVL","",0.34,"0.1199","6/1/22","KB_KVL","","0.621","0.0234",2.298,"found","TRDU_FK_1_HG"
+"FK",2,"LG","Tragopogon_dubius","TRDU",19.4,3,18,0,1,0,95,"annual_biennial","forb","C3","5/31/22","Early","KB_KVL","",0.33,"0.1563","6/1/22","KB_KVL","","0.6737","0.0294",4.932,"","TRDU_FK_2_LG"
+"FK",2,"MG","Tragopogon_dubius","TRDU",17.8,0,17,1,1,0,95,"annual_biennial","forb","C3","5/31/22","Early","KB_KVL","",0.48,"0.1706","6/1/22","KB_KVL","","0.603","0.0326",5.877,"","TRDU_FK_2_MG"
+"FK",2,"HG","Tragopogon_dubius","TRDU",19.7,6,22,1,1,0,92,"annual_biennial","forb","C3","5/31/22","Early","KB_KVL","",0.35,"0.1618","6/1/22","KB_KVL","","0.7619","0.0317",5.738,"","TRDU_FK_2_HG"
+"FK",3,"LG","Tragopogon_dubius","TRDU",21.8,1,19,1,1,0,95,"annual_biennial","forb","C3","6/1/22","Early","KB_KVL","",0.55,"0.1697","6/1/22","KB_KVL","","0.8413","0.0327",5.366,"","TRDU_FK_3_LG"
+"FK",3,"MG","Tragopogon_dubius","TRDU",20.3,4,21,0,1,0,99,"annual_biennial","forb","C3","6/1/22","Early","KB_KVL","",0.78,"0.2545","6/1/22","KB_KVL","","1.0875","0.0476",8.251,"","TRDU_FK_3_MG"
+"FK",3,"HG","Tragopogon_dubius","TRDU",12.8,0,19,0,1,0,90,"annual_biennial","forb","C3","6/1/22","Early","KB_KVL","",0.55,"0.1218","6/2/22","KB_KVL","","0.3468","0.0227",4.176,"","TRDU_FK_3_HG"
+"TB",1,"LG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",1,"MG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",1,"HG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/25/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",2,"LG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",2,"MG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",2,"HG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",3,"LG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",3,"MG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",3,"HG","Tradescantia_occidentalis","TROC",NA,NA,NA,NA,NA,NA,NA,"","","","5/26/22","Early","KB_GT_MF_KVL","",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"TB",1,"LG","Vicia_americana","VIAM",9.4,5,14,0,5,0,100,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.27,"0.0709","5/28/22","KB_KVL","","0.2552","0.0167",3.325,"","VIAM_TB_1_LG"
+"TB",1,"MG","Vicia_americana","VIAM",9.5,3,10,0,3,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.36,"0.0982","5/28/22","KB_KVL","","0.0249","0.1808",3.521,"","VIAM_TB_1_MG"
+"TB",1,"HG","Vicia_americana","VIAM",9.1,5,5,0,7,0,95,"perennial","forb","C3","5/25/22","Early","KB_GT_MF_KVL","",0.38,"0.0741","5/28/22","KB_KVL","","0.1353","0.0610",2.806,"","VIAM_TB_1_HG"
+"TB",2,"LG","Vicia_americana","VIAM",5.5,1,4,0,1,0,85,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.37,"0.0568","5/28/22","KB_KVL","","0.0351","0.0126",2.123,"","VIAM_TB_2_LG"
+"TB",2,"MG","Vicia_americana","VIAM",12.6,2,7,0,6,0,98,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.43,"0.0648","5/28/22","KB_KVL","","0.1597","0.0132",3.235,"","VIAM_TB_2_MG"
+"TB",2,"HG","Vicia_americana","VIAM",5.9,1,5,0,0,0,100,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.4,"0.0324","5/29/22","KB_KVL","","0.0271","0.0085",1.464,"","VIAM_TB_2_HG"
+"TB",3,"LG","Vicia_americana","VIAM",6.6,1,9,0,1,0,83,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.36,"0.0662","5/29/22","KB_KVL","","0.0987","0.0175",3.239,"","VIAM_TB_3_LG"
+"TB",3,"MG","Vicia_americana","VIAM",9.5,3,15,0,2,7,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.39,"0.0724","5/29/22","KB_KVL","","0.3301","0.0206",2.881,"found, tb-b3-22-2","VIAM_TB_3_MG"
+"TB",3,"HG","Vicia_americana","VIAM",8.5,0,21,1,0,0,90,"perennial","forb","C3","5/26/22","Early","KB_GT_MF_KVL","",0.37,"0.0812","5/29/22","KB_KVL","","0.32","0.0188",3.263,"","VIAM_TB_3_HG"
+"FK",1,"LG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"MG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","5/30/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",1,"HG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/30/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"LG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"MG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",0,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",2,"HG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","5/31/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"LG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"MG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/1/22","KB_KVL","",NA,NA,NA,NA,NA
+"FK",3,"HG","Vicia_americana","VIAM",NA,NA,NA,NA,NA,NA,NA,"","","","6/1/22","Early","KB_KVL","",NA,"","6/2/22","KB_KVL","",NA,NA,NA,NA,NA
+"TB",1,"LG","Vulpia_octoflora","VUOC",5.4,0,2,0,1,0,95,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","Plant taken from B2LG",0.23,"0.0012","5/28/22","KB_KVL","","0.009","1e-05",0.094,"","VUOC_TB_1_LG"
+"TB",1,"MG","Vulpia_octoflora","VUOC",4.6,0,3,2,1,0,100,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","",0.34,"0.0005","5/28/22","KB_KVL","","0.0058","0.0004",0.03,"","VUOC_TB_1_MG"
+"TB",1,"HG","Vulpia_octoflora","VUOC",5,0,2,3,1,0,80,"annual","graminoid","C3","5/25/22","Early","KB_GT_MF_KVL","Plant from B2LG",0.27,"0.0005","5/28/22","KB_KVL","","0.0075","0.0194",0.03,"","VUOC_TB_1_HG"
+"TB",2,"LG","Vulpia_octoflora","VUOC",4.9,0,3,1,1,0,99,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.4,"0.0013","5/28/22","KB_KVL","","0.0098","1e-05",0.066,"","VUOC_TB_2_LG"
+"TB",2,"MG","Vulpia_octoflora","VUOC",3.4,0,3,0,2,0,90,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","Plant from B2 Water",0.37,"0.0006","5/28/22","KB_KVL","","0.0020","1e-05",0.048,"","VUOC_TB_2_MG"
+"TB",2,"HG","Vulpia_octoflora","VUOC",4.6,0,3,0,3,0,97,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.3,"0.0002","5/29/22","KB_KVL","","0.0024",NA,0.021,"","VUOC_TB_2_HG"
+"TB",3,"LG","Vulpia_octoflora","VUOC",NA,NA,NA,NA,NA,NA,NA,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.35,"0.0006","5/29/22","KB_KVL","from B2LG bag that had 3 in it - no other traits ","0.0050","1e-05",0.047,"","VUOC_TB_3_LG"
+"TB",3,"MG","Vulpia_octoflora","VUOC",NA,NA,NA,NA,NA,NA,NA,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",0.33,"0.0006","5/29/22","KB_KVL","","0.0029","1e-05",0.038,"","VUOC_TB_3_MG"
+"TB",3,"HG","Vulpia_octoflora","VUOC",NA,NA,NA,NA,NA,NA,NA,"annual","graminoid","C3","5/26/22","Early","KB_GT_MF_KVL","",NA,"","5/29/22","KB_KVL","",NA,NA,NA,"not collected","VUOC_TB_3_HG"
+"FK",1,"LG","Vulpia_octoflora","VUOC",8.2,0,1,2,1,0,80,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.34,"0.0012","5/30/22","KB_KVL","","0.008","0.0001",0.071,"","VUOC_FK_1_LG"
+"FK",1,"MG","Vulpia_octoflora","VUOC",4.4,0,3,0,1,0,95,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.32,"0.0003","5/30/22","KB_KVL","","0.0027","1e-05",0.022,"","VUOC_FK_1_MG"
+"FK",1,"HG","Vulpia_octoflora","VUOC",5.2,0,2,1,1,0,90,"annual","graminoid","C3","5/30/22","Early","KB_KVL","",0.45,"0.0012","6/1/22","KB_KVL","","0.0052","0.0001",0.062,"found","VUOC_FK_1_HG"
+"FK",2,"LG","Vulpia_octoflora","VUOC",6.9,1,1,4,1,0,60,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.37,"0.0017","6/1/22","KB_KVL","","0.0102","0.0005",0.075,"","VUOC_FK_2_LG"
+"FK",2,"MG","Vulpia_octoflora","VUOC",9.1,0,2,1,1,0,95,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.33,"0.0007","6/1/22","KB_KVL","","0.0058","1e-05",0.049,"","VUOC_FK_2_MG"
+"FK",2,"HG","Vulpia_octoflora","VUOC",8,0,2,0,1,0,95,"annual","graminoid","C3","5/31/22","Early","KB_KVL","",0.3,"0.0003","6/1/22","KB_KVL","","0.0063","1e-05",0.022,"","VUOC_FK_2_HG"
+"FK",3,"LG","Vulpia_octoflora","VUOC",7.6,1,2,5,1,0,90,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.3,"0.0006","6/1/22","KB_KVL","","0.0068","1e-05",0.029,"","VUOC_FK_3_LG"
+"FK",3,"MG","Vulpia_octoflora","VUOC",6.2,0,1,3,1,0,80,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.24,"0.0008","6/1/22","KB_KVL","","0.0056","1e-05",0.024,"","VUOC_FK_3_MG"
+"FK",3,"HG","Vulpia_octoflora","VUOC",6.1,0,1,2,1,0,70,"annual","graminoid","C3","6/1/22","Early","KB_KVL","",0.37,"0.0013","6/2/22","KB_KVL","","0.0062","1e-05",NA,NA,NA

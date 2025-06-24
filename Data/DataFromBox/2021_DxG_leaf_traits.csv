@@ -1,0 +1,217 @@
+site,genus_species,species_code,block,paddock,plant,leaf_thickness_(mm),wet_leaf_weight_g,dry_plant_weight_g,dry_leaf_weight_g,date,comments
+TB,Artemisia_frigida,ARFR,1,LG,,0.3,0.0009,,,7/6/21,
+TB,Aristida_purpurea,ARPU,1,LG,,0.32,0.0178,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,1,LG,,0.4,0.0016,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,1,LG,,0.2,0.0099,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,1,LG,,0.37,0.0396,,,7/6/21,
+TB,Logfia_arvensis,LOAR,1,LG,,, ,,,7/6/21,no bag 
+TB,Pascopyrum_smithii,PASM,1,LG,,0.43,0.0996,,,7/6/21,
+TB,Poa_secunda,POSE,1,LG,,,,,,7/6/21,no bag
+TB,Sphaeralcea_coccinea,SPCO,1,LG,,0.54,0.024,,,7/6/21,
+TB,Vicia_americana,VIAM,1,LG,,,,,,7/6/21,no bag
+TB,Artemisia_frigida,ARFR,1,MG,,0.29,0.0018,,,7/6/21,
+TB,Aristida_purpurea,ARPU,1,MG,,0.13,0.005,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,1,MG,,0.32,0.0012,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,1,MG,,0.2,0.0133,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,1,MG,,0.39,0.0262,,,7/6/21,not labled on scanned sheet
+TB,Logfia_arvensis,LOAR,1,MG,,,,,,7/6/21,no bag
+TB,Pascopyrum_smithii,PASM,1,MG,,0.45,0.111,,,7/6/21,
+TB,Poa_secunda,POSE,1,MG,,,,,,7/6/21,no bag
+TB,Sphaeralcea_coccinea,SPCO,1,MG,,0.65,0.0391,,,7/6/21,
+TB,Vicia_americana,VIAM,1,MG,,,,,,7/6/21,no bag
+TB,Artemisia_frigida,ARFR,1,HG,,0.5,0.0017,,,7/6/21,
+TB,Aristida_purpurea,ARPU,1,HG,,0.29,0.0031,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,1,HG,,0.4,0.0009,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,1,HG,,0.28,0.0101,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,1,HG,,0.44,0.0361,,,7/6/21,
+TB,Logfia_arvensis,LOAR,1,HG,,,,,,7/6/21,no bag
+TB,Pascopyrum_smithii,PASM,1,HG,,0.4,0.0594,,,7/6/21,
+TB,Poa_secunda,POSE,1,HG,,,,,,7/6/21,no bag
+TB,Sphaeralcea_coccinea,SPCO,1,HG,,0.48,0.0571,,,7/6/21,
+TB,Vicia_americana,VIAM,1,HG,,,,,,7/6/21,no bag
+TB,Artemisia_frigida,ARFR,2,LG,,0.24,0.0015,,,7/6/21,
+TB,Aristida_purpurea,ARPU,2,LG,,0.27,0.0159,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,2,LG,,0.36,0.0078,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,2,LG,,0.31,0.0136,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,2,LG,,0.45,0.0549,,,7/6/21,
+TB,Logfia_arvensis,LOAR,2,LG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,2,LG,,0.42,0.0611,,,7/6/21,
+TB,Poa_secunda,POSE,2,LG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,2,LG,,0.36,0.0244,,,7/6/21,
+TB,Vicia_americana,VIAM,2,LG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_frigida,ARFR,2,MG,,0.29,0.0011,,,7/6/21,
+TB,Aristida_purpurea,ARPU,2,MG,,0.31,0.0249,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,2,MG,,0.44,0.0051,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,2,MG,,0.23,0.0167,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,2,MG,,0.37,0.0249,,,7/6/21,
+TB,Logfia_arvensis,LOAR,2,MG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,2,MG,,0.4,0.0945,,,7/6/21,
+TB,Poa_secunda,POSE,2,MG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,2,MG,,0.56,0.0398,,,7/6/21,
+TB,Vicia_americana,VIAM,2,MG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_frigida,ARFR,2,HG,,0.35,0.0008,,,7/6/21,
+TB,Aristida_purpurea,ARPU,2,HG,,0.26,0.016,,,7/6/21,
+TB,Artemisia_tridentata,ARTR,2,HG,,0.33,0.0028,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,2,HG,,0.35,0.0223,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,2,HG,,0.44,0.0459,,,7/6/21,
+TB,Logfia_arvensis,LOAR,2,HG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,2,HG,,0.48,0.0834,,,7/6/21,
+TB,Poa_secunda,POSE,2,HG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,2,HG,,0.41,0.0434,,,7/6/21,
+TB,Vicia_americana,VIAM,2,HG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_frigida,ARFR,3,LG,,0.37,0.0007,,,7/6/21,
+TB,Aristida_purpurea,ARPU,3,LG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_tridentata,ARTR,3,LG,,0.55,0.0044,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,3,LG,,0.23,0.013,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,3,LG,,0.37,0.0222,,,7/6/21,
+TB,Logfia_arvensis,LOAR,3,LG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,3,LG,,0.38,0.0341,,,7/6/21,
+TB,Poa_secunda,POSE,3,LG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,3,LG,,0.39,0.0848,,,7/6/21,
+TB,Vicia_americana,VIAM,3,LG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_frigida,ARFR,3,MG,,0.45,0.0007,,,7/6/21,
+TB,Aristida_purpurea,ARPU,3,MG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_tridentata,ARTR,3,MG,,0.49,0.0057,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,3,MG,,0.19,0.0067,,,7/6/21,
+TB,Koeleria_macrantha,KOMA,3,MG,,0.38,0.0335,,,7/6/21,
+TB,Logfia_arvensis,LOAR,3,MG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,3,MG,,0.42,0.0489,,,7/6/21,
+TB,Poa_secunda,POSE,3,MG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,3,MG,,0.4,0.0643,,,7/6/21,
+TB,Vicia_americana,VIAM,3,MG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_frigida,ARFR,3,HG,,,,,,7/6/21,no plant in bag
+TB,Aristida_purpurea,ARPU,3,HG,,,,,,7/6/21,no plant in bag
+TB,Artemisia_tridentata,ARTR,3,HG,,0.43,0.0029,,,7/6/21,
+TB,Bouteloua_gracilis,BOGR,3,HG,,,,,,7/6/21,no plant in bag
+TB,Koeleria_macrantha,KOMA,3,HG,,0.4,0.0199,,,7/6/21,
+TB,Logfia_arvensis,LOAR,3,HG,,,,,,7/6/21,no plant in bag
+TB,Pascopyrum_smithii,PASM,3,HG,,0.34,0.0514,,,7/6/21,
+TB,Poa_secunda,POSE,3,HG,,,,,,7/6/21,no plant in bag
+TB,Sphaeralcea_coccinea,SPCO,3,HG,,0.43,0.0725,,,7/6/21,
+TB,Vicia_americana,VIAM,3,HG,,,,,,7/6/21,no plant in bag
+FK,Artemisia_frigida,ARFR,1,LG,,0.94,0.0015,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,1,LG,,0.3,0.0116,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,1,LG,,0.18,0.0018,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,1,LG,,0.35,0.002,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,1,LG,,0.37,0.0148,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,1,LG,,0.62,0.0212,,,6/28/2021-6/30/2021,no extra biomass
+,Koeleria_macrantha,KOMA,1,LG,,,,,,6/28/2021-6/30/2021,no bag
+,Pascopyrum_smithii,PASM,1,LG,,0.64,0.0588,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,1,LG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Taraxacum_officinale,TAOF,1,LG,,,,,,6/28/2021-6/30/2021,no bag
+,Bouteloua_gracilis,BOGR,1,LG,,0.31,0.0112,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,1,LG,,0.91,0.0131,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,1,LG,,0.7,0.0415,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,1,LG,,0.38,0.0654,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,1,MG,,0.15,0.0009,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,1,MG,,,,,,6/28/2021-6/30/2021,no bag
+,Bouteloua_gracilis,BOGR,1,MG,,0.29,0.0047,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,1,MG,,0.33,0.0026,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,1,MG,,0.21,0.0038,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,1,MG,,,,,,6/28/2021-6/30/2021,no bag
+,Carex_filifolia,CAFI,1,MG,,0.33,0.0123,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,1,MG,,0.32,0.0123,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,1,MG,,0.24,0.0075,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,1,MG,,0.57,0.0785,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,1,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,sphaeralcea_coccinea,SPCO,1,MG,,0.39,0.0491,,,6/28/2021-6/30/2021,
+,Taraxacum_officinale,TAOF,1,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Tragopogon_dubius,TRDU,1,MG,,0.41,0.0395,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,1,HG,,0.39,0.0019,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,1,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Bromus_arvensis,BRAR,1,HG,,0.31,0.0066,,,6/28/2021-6/30/2021,
+,Bouteloua_gracilis,BOGR,1,HG,,0.26,0.0303,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,1,HG,,0.22,0.0108,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,1,HG,,0.45,0.0235,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,1,HG,,0.43,0.0126,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,1,HG,,0.48,0.0222,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,1,HG,,0.49,0.0478,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,1,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Taraxacum_officinale,TAOF,1,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Hesperostipa_comata,HECO,1,HG,,0.26,0.0114,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,1,HG,,0.34,0.0245,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,1,HG,,0.52,0.0405,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,2,LG,,0.26,0.0017,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,2,LG,,0.24,0.0047,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,2,LG,,0.25,0.0022,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,2,LG,,0.28,0.0017,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,2,LG,,0.37,0.0255,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,2,LG,,0.28,0.0177,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,2,LG,,0.36,0.0489,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,2,LG,,0.49,0.07,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,2,LG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Taraxacum_officinale,TAOF,2,LG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Bouteloua_gracilis,BOGR,1,LG,,0.35,0.01,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,1,LG,,0.3,0.0128,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,1,LG,,0.4,0.0413,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,1,LG,,0.54,0.0573,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,2,MG,,0.19,0.0017,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,2,MG,,0.18,0.0089,,,6/28/2021-6/30/2021,
+,Bouteloua_gracilis,BOGR,2,MG,,0.28,0.0043,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,2,MG,,0.3,0.0013,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,2,MG,,0.22,0.0053,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,2,MG,,0.44,0.0105,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,2,MG,,0.29,0.0029,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,2,MG,,0.24,0.0172,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,2,MG,,0.31,0.0107,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,2,MG,,0.4,0.0634,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,2,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,sphaeralcea_coccinea,SPCO,2,MG,,0.38,0.0292,,,6/28/2021-6/30/2021,
+,Taraxacum_officinale,TAOF,2,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Tragopogon_dubius,TRDU,2,MG,,0.22,0.0188,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,2,HG,,0.18,0.0011,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,2,HG,,0.17,0.0037,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,2,HG,,0.19,0.0024,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,2,HG,,0.18,0.0006,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,2,HG,,0.3,0.0176,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,2,HG,,0.37,0.0154,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,2,HG,,0.32,0.0104,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,2,HG,,0.34,0.0461,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,2,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Taraxacum_officinale,TAOF,2,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Bouteloua_gracilis,BOGR,2,HG,,0.36,0.0069,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,2,HG,,0.39,0.0277,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,2,HG,,0.39,0.0359,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,2,HG,,0.39,0.0153,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,3,LG,,0.37,0.0008,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,3,LG,,0.27,0.0022,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,3,LG,,0.34,0.003,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,3,LG,,0.31,0.0016,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,3,LG,,0.63,0.0144,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,3,LG,,0.4,0.0061,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,3,LG,,0.3,0.0125,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,3,LG,,0.55,0.0483,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,3,LG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Taraxacum_officinale,TAOF,3,LG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Bouteloua_gracilis,BOGR,3,LG,,0.32,0.007,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,3,LG,,0.3,0.0181,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,3,LG,,0.4,0.022,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,3,LG,,0.45,0.0117,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,3,MG,,0.27,0.0029,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,3,MG,,0.31,0.0124,,,6/28/2021-6/30/2021,
+,Bouteloua_gracilis,BOGR,3,MG,,0.27,0.0046,,,6/28/2021-6/30/2021,
+,Bromus_arvensis,BRAR,3,MG,,0.35,0.0019,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,3,MG,,0.38,0.0013,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,3,MG,,0.49,0.0282,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,3,MG,,0.3,0.0156,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,3,MG,,0.36,0.011,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,3,MG,,0.38,0.0302,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,3,MG,,0.4,0.0457,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,3,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,sphaeralcea_coccinea,SPCO,3,MG,,0.51,0.043,,,6/28/2021-6/30/2021,
+,Taraxacum_officinale,TAOF,3,MG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Tragopogon_dubius,TRDU,3,MG,,0.47,0.0106,,,6/28/2021-6/30/2021,
+,Artemisia_frigida,ARFR,3,HG,,0.28,0.0012,,,6/28/2021-6/30/2021,
+,Bouteloua_dactyloides,BODA,3,HG,,,,,,6/28/2021-6/30/2021,no plant in bag
+,Bromus_arvensis,BRAR,3,HG,,0.36,0.0031,,,6/28/2021-6/30/2021,
+,Bromus_tectorum,BRTE,3,HG,,0.39,0.0059,,,6/28/2021-6/30/2021,
+,Carex_duriuscula,CADU,3,HG,,0.49,0.0137,,,6/28/2021-6/30/2021,
+,Carex_filifolia,CAFI,3,HG,,0.19,0.0057,,,6/28/2021-6/30/2021,
+,Koeleria_macrantha,KOMA,3,HG,,0.36,0.0189,,,6/28/2021-6/30/2021,
+,Pascopyrum_smithii,PASM,3,HG,,0.48,0.1088,,,6/28/2021-6/30/2021,
+,Poa_secunda,POSE,3,HG,,,,,,6/28/2021-6/30/2021,no bag
+,Taraxacum_officinale,TAOF,3,HG,,,,,,6/28/2021-6/30/2021,no bag
+,Bouteloua_gracilis,BOGR,3,HG,,0.27,0.0043,,,6/28/2021-6/30/2021,
+,Hesperostipa_comata,HECO,3,HG,,0.29,0.0152,,,6/28/2021-6/30/2021,
+,sphaeralcea_coccinea,SPCO,3,HG,,0.37,0.0345,,,6/28/2021-6/30/2021,
+,Tragopogon_dubius,TRDU,3,HG,,0.36,0.1016,,,6/28/2021-6/30/2021,

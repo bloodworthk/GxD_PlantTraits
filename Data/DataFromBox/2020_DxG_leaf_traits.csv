@@ -1,0 +1,91 @@
+site,genus_species,species_code,block,paddock,plant,leaf_thickness_(mm),wet_leaf_weight_g,dry_plant_weight_g,dry_leaf_weight_g,date,comments
+FK,Hesperostipa_comata,HECO,1,1,1,1.42,0.0647,0.0345,0.0314,7/5/20,29 m to weigh
+FK,Hesperostipa_comata,HECO,1,2,2,0.78,0.0255,0.0075,0.0127,7/5/20,bigger leaf
+FK,Hesperostipa_comata,HECO,1,3,3,0.8,0.0692,0.0305,0.035,7/5/20,
+FK,Hesperostipa_comata,HECO,2,1,1,0.24,0.0382,0.0126,0.021,7/5/20,
+FK,Hesperostipa_comata,HECO,2,2,2,0.26,0.0826,0.0467,0.011,7/5/20,
+FK,Hesperostipa_comata,HECO,2,3,3,0.2,0.0647,0.0149,0.0331,7/5/20,Big leaf
+FK,Hesperostipa_comata,HECO,3,1,1,0.32,0.0527,0.017,0.027,7/5/20,
+FK,Hesperostipa_comata,HECO,3,2,2,0.27,0.067,0.0093,0.035,7/5/20,
+FK,Hesperostipa_comata,HECO,3,3,3,0.31,0.0683,0.0218,0.0354,7/5/20,
+FK,Tragopogon_dubius,TRDU,1,3,3,21,0.0167,0.276,0.0031,7/5/20,
+FK,Tragopogon_dubius,TRDU,2,1,1,22,0.0265,0.4595,0.0037,7/5/20,
+FK,Tragopogon_dubius,TRDU,2,2,2,25,0.0563,0.9254,0.0145,7/5/20,
+FK,Tragopogon_dubius,TRDU,1,1,1,22,0.0291,0.4016,0.007,7/5/20,
+FK,Tragopogon_dubius,TRDU,1,2,2,21,0.0366,2.4772,0.0083,7/5/20,
+FK,Tragopogon_dubius,TRDU,3,3,3,32,0.0267,1.4672,0.0056,7/5/20,
+FK,Tragopogon_dubius,TRDU,3,2,2,20,0.0396,1.1446,0.0089,7/5/20,
+FK,Tragopogon_dubius,TRDU,3,1,1,18,0.0122,0.3385,0.0026,7/5/20,
+FK,Tragopogon_dubius,TRDU,2,3,3,30,0.0398,1.2551,0.0095,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,2,1,1,33,0.137,0.5825,0.0443,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,1,1,1,34.5,0.0958,0.2612,0.0383,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,2,2,2,31,0.0293,0.0583,0.0112,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,1,2,2,30,0.0653,0.1234,0.025,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,1,3,3,37,0.0557,0.2242,0.0239,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,2,3,3,11,0.0364,0.1203,0.0099,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,3,2,2,39,0.0622,0.5805,0.0229,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,3,3,3,30,0.0329,0.5243,0.0139,7/5/20,
+FK,Sphaeralcea_coccinea,SPCO,3,1,1,32,0.044,0.1437,0.0144,7/5/20,
+FK,Koeleria_macrantha,KOMA,1,2,2,29,0.0298,0.0308,0.155,7/5/20,Smaller
+FK,Koeleria_macrantha,KOMA,2,1,1,32,0.0218,0.0137,0.0082,7/5/20,Larger
+FK,Koeleria_macrantha,KOMA,2,2,2,34,0.0264,0.0179,0.0113,7/5/20,longest
+FK,Koeleria_macrantha,KOMA,1,1,1,34,0.0348,0.0203,0.0135,7/5/20,
+FK,Koeleria_macrantha,KOMA,1,3,3,30,0.0174,0.003,0.0069,7/5/20,
+FK,Koeleria_macrantha,KOMA,2,3,3,41,0.0474,0.0303,0.02,7/5/20,
+FK,Koeleria_macrantha,KOMA,3,3,3,33,0.0397,0.0347,0.0186,7/5/20,
+FK,Koeleria_macrantha,KOMA,3,2,2,29,0.0187,0.019,0.0062,7/5/20,
+FK,Koeleria_macrantha,KOMA,3,1,1,31.5,0.0203,0.0071,0.0071,7/5/20,
+TB,Bouteloua_gracilis,BOGR,1,1,1,0.34,0.0154,0.0301,0.0089,,PASM
+TB,Bouteloua_gracilis,BOGR,1,2,2,0.17,0.0077,0.0076,0.0037,,
+TB,Bouteloua_gracilis,BOGR,1,3,3,0.2,0.0109,0.0194,0.0043,,
+TB,Bouteloua_gracilis,BOGR,2,1,1,0.22,0.0049,0.0044,0.0026,,
+TB,Bouteloua_gracilis,BOGR,2,2,2,0.17,0.0082,0.0023,0.0019,,Biggest
+TB,Bouteloua_gracilis,BOGR,2,3,3,0.31,0.0021,0.0032,<0.0001,,Smaller
+TB,Bouteloua_gracilis,BOGR,3,1,1,0.17,0.0064,0.0087,0.0041,,Clasp
+TB,Bouteloua_gracilis,BOGR,3,2,2,0.61,0.0034,0.0068,0.0013,,
+TB,Bouteloua_gracilis,BOGR,3,3,3,0.22,0.0128,0.0088,0.0051,,Claspy
+TB,Vicia_americana,VIAM,1,1,1,0.26,0.0203,0.2678,0.007,,
+TB,Vicia_americana,VIAM,1,2,2,0.17,0.021,0.1,0.0066,,
+TB,Vicia_americana,VIAM,1,3,3,0.27,0.031,0.2702,0.0097,,
+TB,Vicia_americana,VIAM,2,1,1,0.14,0.027,0.074,0.0161,,
+TB,Vicia_americana,VIAM,2,2,2,0.3,0.0139,0.0649,0.0019,,
+TB,Vicia_americana,VIAM,2,3,3,0.22,0.0205,0.1043,0.0096,,
+TB,Vicia_americana,VIAM,3,1,1,0.23,0.0039,0.0375,0.004,,
+TB,Vicia_americana,VIAM,3,2,2,0.24,0.0496,0.1117,0.0085,,
+TB,Vicia_americana,VIAM,3,3,3,0.16,0.013,0.0659,0.0074,,
+TB,Koeleria_macrantha,KOMA,1,1,1,0.84,0.046,0.0284,0.0159,,PASM not KOMA
+TB,Koeleria_macrantha,KOMA,1,2,2,0.81,0.0298,0.028,0.0192,,PASM not KOMA
+TB,Koeleria_macrantha,KOMA,1,3,3,0.81,0.0268,0.0174,0.0076,,Longest
+TB,Koeleria_macrantha,KOMA,2,1,1,0.34,0.03,0.0103,0.0153,,Greenest
+TB,Koeleria_macrantha,KOMA,2,2,2,0.85,0.0139,0.0047,0.0076,,Claspy
+TB,Koeleria_macrantha,KOMA,2,3,3,0.35,0.0391,0.0305,0.0173,,
+TB,Koeleria_macrantha,KOMA,3,1,1,0.87,0.0368,0.0167,0.0183,,Longest
+TB,Koeleria_macrantha,KOMA,3,2,2,0.08,0.0126,0.0382,0.0065,,Dead
+TB,Koeleria_macrantha,KOMA,3,3,3,0.3,0.0417,0.0212,0.0193,,PASM
+TB,Pascopyrum_smithii,PASM,1,1,1,0.25,0.0581,0.1046,0.0267,,
+TB,Pascopyrum_smithii,PASM,1,2,2,0.23,0.0581,0.0749,0.0276,,
+TB,Pascopyrum_smithii,PASM,1,3,3,0.29,0.0573,0.0495,0.0188,,
+TB,Pascopyrum_smithii,PASM,2,1,1,0.5,0.1051,0.1561,0.0473,,
+TB,Pascopyrum_smithii,PASM,2,2,2,0.85,0.1176,0.1214,0.0619,,
+TB,Pascopyrum_smithii,PASM,2,3,3,0.85,0.0225,0.0464,0.0123,,
+TB,Pascopyrum_smithii,PASM,3,1,1,0.5,0.0464,0.0453,0.019,,
+TB,Pascopyrum_smithii,PASM,3,2,2,0.89,0.0935,0.0432,0.0533,,green
+TB,Pascopyrum_smithii,PASM,3,3,3,0.89,0.0621,0.045,0.0302,,
+TB,Logfia_arvensis,LOAR,1,1,1,0.25,0.001,0.0643,<0.0001,,
+TB,Logfia_arvensis,LOAR,1,2,2,0.16,0.0009,0.184,<0.0001,,
+TB,Logfia_arvensis,LOAR,1,3,3,0.16,0.0009,0.146,<0.0001,,
+TB,Logfia_arvensis,LOAR,2,1,1,0.27,<0.0001,0.0038,<0.0001,,
+TB,Logfia_arvensis,LOAR,2,2,2,0.28,<0.0001,0.0136,<0.0001,,
+TB,Logfia_arvensis,LOAR,2,3,3,0.23,<0.0001,0.0084,<0.0001,,
+TB,Logfia_arvensis,LOAR,3,1,1,0.27,0.0003,0.0092,<0.0001,,
+TB,Logfia_arvensis,LOAR,3,2,2,0.34,0.0008,0.0529,<0.0001,,
+TB,Logfia_arvensis,LOAR,3,3,3,0.34,0.0005,0.0064,<0.0001,,
+FK,Bromus_arvensis,BRAR,3,1,1,NA,NA,0.0377,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,3,2,2,NA,NA,0.025,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,3,3,3,NA,NA,0.0073,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,2,1,1,NA,NA,0.0428,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,2,2,2,NA,NA,0.1016,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,2,3,3,NA,NA,0.0139,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,1,1,1,NA,NA,0.0243,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,1,2,2,NA,NA,0.0205,NA,,no green leaves
+FK,Bromus_arvensis,BRAR,1,3,3,NA,NA,0.0394,NA,,no green leaves

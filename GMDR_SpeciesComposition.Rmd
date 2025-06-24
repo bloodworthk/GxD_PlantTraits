@@ -1,0 +1,301 @@
+---
+title: "GMDR_SpeciesComp"
+author: "Kathryn Bloodworth"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Packages
+
+```{r Load Packages, echo=TRUE, include=TRUE}
+
+if (!require(pacman)) install.packages("pacman")
+pacman::p_load(tidyverse,
+               codyn,
+               olsrr,
+               car,
+               patchwork,
+               vegan,
+               here,
+               multcomp,
+               pairwiseAdonis,
+               lme4,
+               update = FALSE)
+
+```
+
+## Read in Data
+
+```{r Read in Data, echo=TRUE, include=TRUE}
+
+#All data have previously been cleaned and saved in GMDR_SpeciesComp_Cleaning.R
+Species_Comp_RelCov_Clean<-read.csv(here("Data","Species_Comp_RelCov_Clean.csv"))
+Species_Comp_RelCov_Clean$plot<-as.factor(Species_Comp_RelCov_Clean$plot)
+
+#Species_Comp_RelCov_Clean was then combined with Functional Groups and saved
+RelCov_FunctionalGroups<-read.csv(here("Data","RelCov_FunctionalGroups.csv")) %>% 
+  dplyr::select(-X)
+RelCov_FunctionalGroups$plot<-as.factor(RelCov_FunctionalGroups$plot)
+
+Absolute_FunctionalGroups<-read.csv(here("Data","Absolute_FunctionalGroups.csv")) %>% 
+  dplyr::select(-X)
+Absolute_FunctionalGroups$plot<-as.factor(Absolute_FunctionalGroups$plot)
+
+
+#Read in Plot Data
+plot_layoutK<-read.csv(here("Data","GMDR_site_plot_metadata.csv")) %>% 
+  dplyr::select(site,block,paddock,plot,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021)
+plot_layoutK$plot<-as.factor(plot_layoutK$plot)
+
+```
+
+## Set consistant ggplot graph aesthetics
+
+```{r ggplot theme updates, echo=TRUE, include=TRUE}
+#Set ggplot2 theme to black and white
+theme_set(theme_bw())
+
+#Update text size and grid for graphs
+theme_update(axis.title.x = element_text(size=30, vjust=-0.35, margin=margin(t=15)),
+            axis.title.y = element_text(size=30, angle=90, vjust=0.5,margin=margin(r=15)),
+            axis.text.x = element_text(size=30),
+            axis.text.y = element_text(size=30),
+            plot.title = element_text(size=30, vjust=2),
+            panel.grid.major=element_blank(),
+            panel.grid.minor=element_blank(),
+            legend.title=element_blank(),
+            legend.text=element_text(size=40))
+
+```
+
+## Calculate Community Metrics
+
+```{r Diversity, echo=TRUE, include=TRUE}
+
+#Montana
+Diversity_FK_Aerial <- 
+  community_diversity(df = subset(Species_Comp_RelCov_Clean,
+                                  site == "FK" & aerial_basal=="Aerial"),
+                      time.var = "year",
+                      replicate.var = "plot",
+                      abundance.var = "Relative_Cover") %>% 
+  mutate(site="FK")
+
+#Wyoming
+Diversity_TB_Aerial <- 
+  community_diversity(df = subset(Species_Comp_RelCov_Clean,
+                                  site == "TB" & aerial_basal=="Aerial"),
+                      time.var = "year",
+                      replicate.var = "plot",
+                      abundance.var = "Relative_Cover")  %>% 
+  mutate(site="TB")
+
+#Merge Site Data-  aerial
+Diversity_Aerial<-Diversity_FK_Aerial %>% 
+  full_join(Diversity_TB_Aerial)
+
+```
+
+
+
+```{r Community Structure, echo=TRUE, include=TRUE}
+
+#Montana
+Structure_FK_Aerial <- 
+  community_structure(df = subset(Species_Comp_RelCov_Clean,
+                                  site == "FK" & aerial_basal=="Aerial"),
+                      time.var = "year",
+                      replicate.var = "plot",
+                      abundance.var = "Relative_Cover",
+                      metric = "Evar")  %>% 
+  mutate(site="FK")
+
+#Wyoming
+Structure_TB_Aerial <- 
+  community_structure(df = subset(Species_Comp_RelCov_Clean,
+                                  site == "TB" & aerial_basal=="Aerial"),
+                      time.var = "year",
+                      replicate.var = "plot",
+                      abundance.var = "Relative_Cover",
+                      metric = "Evar") %>% 
+  mutate(site="TB")
+
+#Merge Site Data 
+Structure_Aerial<-Structure_FK_Aerial %>% 
+  full_join(Structure_TB_Aerial)
+
+```
+
+
+```{r Join Datasets, echo=TRUE, include=TRUE}
+
+CommunityMetrics_Aerial <- Diversity_Aerial %>%
+  full_join(Structure_Aerial) %>% 
+  full_join(plot_layoutK) %>%
+  mutate(drought = ifelse(drought == 1, 0, ifelse(drought==2,0, drought))) %>%
+  mutate(plot=ifelse(plot==4,3,ifelse(plot==9,7,ifelse(plot==17,15,ifelse(plot==23,20,ifelse(plot==29,25,ifelse(plot==36,34,ifelse(plot==41,39,ifelse(plot==48,43,ifelse(plot==53,52,plot)))))))))) %>% 
+  #average across 2 controls in each block
+  group_by(year,site,plot,block,paddock,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021) %>% 
+  summarize(slope=mean(as.numeric(slope)),Shannon=mean(Shannon), richness=mean(richness), Evar=mean(Evar)) %>%
+  ungroup() %>% 
+#create column that has all grazing treatments in it for a given year
+  mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment))))) %>% 
+  #create a column for graphing grazing shannons,richness, and evar without 2019 data
+  mutate(richness_fig=ifelse(year==2019,NA,richness)) %>% 
+  mutate(Shannon_fig=ifelse(year==2019,NA,Shannon)) %>% 
+  mutate(Evar_fig=ifelse(year==2019,NA,Evar)) %>% 
+  mutate(livestock_util_2019 = as.factor(livestock_util_2019)) %>%
+  mutate(livestock_util_2020 = as.factor(livestock_util_2020)) %>% 
+  mutate(livestock_util_2021 = as.factor(livestock_util_2021)) %>% 
+  mutate(grazing_treatment_fig = as.factor(grazing_treatment_fig)) %>%
+  dplyr::select(year,site,block,paddock,slope,plot,rainfall_reduction,grazing_treatment,grazing_treatment_fig,livestock_util_2019,richness,richness_fig,Shannon,Shannon_fig,Evar,Evar_fig)
+
+```
+
+``` {r Define Model Formulas, echo=TRUE, include=TRUE}
+normality_formulas <- list(
+  FK = list(
+    `2018` = richness ~ rainfall_reduction * grazing_treatment,
+    `2019` = richness ~ rainfall_reduction,
+    `2020` = richness ~ rainfall_reduction * livestock_util_2019,
+    `2021` = richness ~ rainfall_reduction * grazing_treatment,
+    `2022` = richness ~ rainfall_reduction * grazing_treatment,
+    `2023` = richness ~ rainfall_reduction * grazing_treatment
+  ),
+  TB = list(
+    `2018` = richness ~ rainfall_reduction * grazing_treatment,
+    `2019` = richness ~ rainfall_reduction,
+    `2020` = richness ~ rainfall_reduction * livestock_util_2019,
+    `2021` = richness ~ rainfall_reduction * grazing_treatment,
+    `2022` = richness ~ rainfall_reduction * grazing_treatment,
+    `2023` = richness ~ rainfall_reduction * grazing_treatment
+  )
+)
+
+
+# Define lmer formulas
+lmer_formulas <- list(
+  `2018` = richness ~ rainfall_reduction * grazing_treatment,
+  `2019` = richness ~ rainfall_reduction,
+  `2020` = richness ~ rainfall_reduction,
+  `2021` = richness ~ rainfall_reduction,
+  `2022` = richness ~ rainfall_reduction,
+  `2023` = richness ~ rainfall_reduction
+)
+
+# Function to build full formula
+build_lmer_formula <- function(fixed) {
+  random_part <- "(1|block) + (1|block:paddock)"
+  as.formula(paste(deparse(fixed), "+", random_part))
+}
+```
+
+## Richness Normality & Stats
+
+```{r Richness Normality, echo=TRUE, warning=FALSE, eval=TRUE, include=TRUE, fig.height=4, fig.width=6, results='asis'}
+
+# Loop through sites and years
+for (site in names(normality_formulas)) {
+  for (yr in names(normality_formulas[[site]])) {
+    
+    cat("\n\n---", site, yr, "---\n\n")  # Prints nicely in markdown
+    
+    data_sub <- subset(CommunityMetrics_Aerial, site == site & year == as.numeric(yr))
+    formula <- normality_formulas[[site]][[yr]]
+    model <- lm(formula, data = data_sub)
+    
+    # Print normality test result
+    print(ols_test_normality(model))
+    
+    # Plot residual histogram
+    (ols_plot_resid_hist(model))  # important to print() to ensure plot renders in Rmd
+  }
+}
+
+```
+
+```{r Richness Stats, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE, include=TRUE, results='asis'}
+# Sites to loop through
+sites <- c("FK", "TB")
+model_results <- list()  # <- initialize empty list before the loop
+
+for (site in sites) {
+  for (yr in names(lmer_formulas)) {
+    data_sub <- subset(CommunityMetrics_Aerial, site == site & year == as.numeric(yr))
+    formula <- build_lmer_formula(lmer_formulas[[yr]])
+    model <- lmer(formula, data = data_sub)
+    anova_out <- anova(model, type = 3)
+    # Save results to list for later
+    model_results[[paste(site, yr, sep = "_")]] <- as.data.frame(anova_out) %>%
+      tibble::rownames_to_column("term") %>%
+      mutate(site = site, year = yr)
+  }
+}
+
+# print final summary table
+knitr::kable(dplyr::bind_rows(model_results), caption = "Richness Stats")
+
+```
+
+##  Normality & Stats
+
+```{r Richness Normality1, echo=TRUE, warning=FALSE, eval=TRUE, include=TRUE, fig.height=4, fig.width=6, results='asis'}
+
+# Loop through sites and years
+for (site in names(normality_formulas)) {
+  for (yr in names(normality_formulas[[site]])) {
+    
+    cat("\n\n---", site, yr, "---\n\n")  # Prints nicely in markdown
+    
+    data_sub <- subset(CommunityMetrics_Aerial, site == site & year == as.numeric(yr))
+    formula <- normality_formulas[[site]][[yr]]
+    model <- lm(formula, data = data_sub)
+    
+    # Print normality test result
+    print(ols_test_normality(model))
+    
+    # Plot residual histogram
+    (ols_plot_resid_hist(model))  # important to print() to ensure plot renders in Rmd
+  }
+}
+
+```
+
+```{r Richness Stats1, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE, include=TRUE, results='asis'}
+# Sites to loop through
+sites <- c("FK", "TB")
+model_results <- list()  # <- initialize empty list before the loop
+
+for (site in sites) {
+  for (yr in names(lmer_formulas)) {
+    data_sub <- subset(CommunityMetrics_Aerial, site == site & year == as.numeric(yr))
+    formula <- build_lmer_formula(lmer_formulas[[yr]])
+    model <- lmer(formula, data = data_sub)
+    anova_out <- anova(model, type = 3)
+    # Save results to list for later
+    model_results[[paste(site, yr, sep = "_")]] <- as.data.frame(anova_out) %>%
+      tibble::rownames_to_column("term") %>%
+      mutate(site = site, year = yr)
+  }
+}
+
+# Combine all results into one data frame
+all_results <- dplyr::bind_rows(model_results)
+
+final_table <- all_results %>%
+  filter(!is.na(`Pr(>F)`)) %>%
+  mutate(adj_pvalue = p.adjust(`Pr(>F)`, method = "BH", n = 5)) %>%
+  dplyr::select(site, year, term, `F value`, `Pr(>F)`, adj_pvalue) %>%
+  mutate(
+    `F value` = round(`F value`, 3),
+    `Pr(>F)` = signif(`Pr(>F)`, 3),
+    adj_pvalue = signif(adj_pvalue, 3)
+  )
+
+kable(final_table, caption = "ANOVA fixed effect results with adjusted p-values")
+
+```
