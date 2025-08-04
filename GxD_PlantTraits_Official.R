@@ -102,17 +102,17 @@ Traits<-Field_Traits %>%
 Traits_csv_FK<-Traits %>% 
   filter(Site=="FK") %>% 
   rename(Leaf_Area=Total.Area) %>% 
-  select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
+  dplyr::select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
 
 write.csv(Traits_csv_FK,file="Merged_Traits_FK_2022")
 
 Traits_csv_TB<-Traits %>% 
   filter(Site=="TB") %>% 
   rename(Leaf_Area=Total.Area) %>% 
-  select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
+  dplyr::select(Site,DxG_block,paddock,genus_species,species_code,Date,Season,height_cm,emerging_leaves,developed_leaves,scenesced_leaves,percent_green,lifespan,growth_form,photosynthetic_pathway,leaf_thickness_.mm.,wet_leaf_weight_g,Dry_Biomass_min_Leaf_g,Dry_Leaf_Weight_g,Leaf_Area)
 
 write.csv(Traits_csv_TB,file="Merged_Traits_TB_2022")
-
+ 
 #Read in Plot Data
 plot_layoutK<-read.csv("DxG_Plant_Traits/GMDR_site_plot_metadata.csv") %>% 
   dplyr::select(site,block,paddock,plot,slope,rainfall_reduction,drought,grazing_category,grazing_treatment,livestock_util_2019,livestock_util_2020,livestock_util_2021)
@@ -181,6 +181,7 @@ Traits_Clean_2<-Traits_Clean %>%
   mutate(Genus_Species_2=ifelse(genus_species=="Allium_textile","Allium.textile",ifelse(genus_species=="Alyssum_desetorum","Alyssum.desertorum",ifelse(genus_species=="Antennaria_parvifolia","Antennaria.parvifolia",ifelse(genus_species=="Astragalus_bisulcatus","Astragalus.bisulcatus",ifelse(genus_species=="Bromus_arvensis","Bromus.arvensis",ifelse(genus_species=="Bromus_tectorum","Bromus.tectorum",ifelse(genus_species=="Carex_duriuscula","Carex.duriuscula",ifelse(genus_species=="Carex_filifolia","Carex.filifolia",ifelse(genus_species=="Cirsium_undulatum","Cirsium.undulatum",ifelse(genus_species=="Collomia_linearis","Collomia.linearis",ifelse(genus_species=="Descurainia_pinnata","Descurainia.pinnata",ifelse(genus_species=="Draba_reptans","Draba.reptans",ifelse(genus_species=="Eremogone_hookeri","Eremogone.hookeri",ifelse(genus_species=="Erigeron_canus","Erigeron.canus",ifelse(genus_species=="Erigeron_pumilus","Erigeron.pumilus",ifelse(genus_species=="Hedeoma_hispida","Hedeoma.hispida",ifelse(genus_species=="Hesperostipa_comata","Hesperostipa.comata",ifelse(genus_species=="Koeleria_macrantha","Koeleria.macrantha",ifelse(genus_species=="Lepidium_densiflorum","Lepidium.densiflorum",ifelse(genus_species=="Lithospermum_incisum","Lithospermum.incisum",ifelse(genus_species=="Logfia_arvensis","Logfia.arvensis",ifelse(genus_species=="Lomatium_foeniculaceum","Lomatium.foeniculaceum",ifelse(genus_species=="Musineon_divaricatum","Musineon.divaricatum",ifelse(genus_species=="Nassella_viridula","Nassella.viridula",ifelse(genus_species=="Nothocalais_cuspidate","Nothocalais.cuspidata",ifelse(genus_species=="Oenothera_suffrtescuns","Oenothera.suffrtescuns",ifelse(genus_species=="Pascopyrum_smithii","Pascopyrum.smithii",ifelse(genus_species=="Phlox_hoodia","Phlox.hoodii",ifelse(genus_species=="Picradeniopsis_oppositifolia","Picradeniopsis.oppositifolia",ifelse(genus_species=="Plantago_patagonica","Plantago.patagonica",ifelse(genus_species=="Poa_secunda","Poa.secunda",ifelse(genus_species=="Psoralidium_tenuiflorum","Psoralidium.tenuiflorum",genus_species))))))))))))))))))))))))))))))))) %>%
   mutate(Genus_Species_Correct=ifelse(Genus_Species_2=="Sphaeralcea_coccinea","Sphaeralcea.coccinea",ifelse(Genus_Species_2=="Taraxacum_officinale","Taraxacum.officinale",ifelse(Genus_Species_2=="Tetraneuris_acaulis","Tetraneuris.acaulis",ifelse(Genus_Species_2=="Tragopogon_dubius","Tragopogon.dubius",ifelse(Genus_Species_2=="Vulpia_octoflora","Vulpia.octoflora",ifelse(Genus_Species_2=="Vicia_americana","Vicia.americana",ifelse(Genus_Species_2=="Elymus_elymoides","Elymus.elymoides",ifelse(Genus_Species_2=="Androsace_occidentalis","Androsace.occidentalis",ifelse(Genus_Species_2=="Astragalus_purshii","Astragalus.purshii",ifelse(Genus_Species_2=="Astragalus_gracilis","Astragalus.gracilis",ifelse(Genus_Species_2=="Conyza_canadensis","Conyza.canadensis",ifelse(Genus_Species_2=="Liatris_punctata","Liatris.punctata",ifelse(Genus_Species_2=="Lydogesmia_juncea","Lygodesmia.juncea",ifelse(Genus_Species_2=="Pediomelum_esculentum","Pediomelum.esculentum",ifelse(Genus_Species_2=="Linum_rigidum","Linum.rigidum",ifelse(Genus_Species_2=="Aristida_purpurea","Aristida.purpurea",ifelse(Genus_Species_2=="Artemisia_frigida","Artemisia.frigida",ifelse(Genus_Species_2=="Artemisia_tridentata","Artemisia.tridentata",ifelse(Genus_Species_2=="Bouteloua_gracilis","Bouteloua.gracilis",ifelse(Genus_Species_2=="Gutierrezia_sarothrae","Gutierrezia.sarothrae",ifelse(Genus_Species_2=="Artemisia_cana","Artemisia.cana",ifelse(Genus_Species_2=="Artemisia_dracunculus","Artemisia.dracunculus",ifelse(Genus_Species_2=="Bouteloua_dactyloides","Bouteloua.dactyloides",ifelse(Genus_Species_2=="Sporobolus_cryptandrus","Sporobolus.cryptandrus",Genus_Species_2))))))))))))))))))))))))) %>% 
   dplyr::select(-genus_species,-Genus_Species_2) %>% 
+  #remove outliers
   filter(SLA==ifelse(SLA>447,NA,SLA)) %>% 
   filter(Total.Area==ifelse(Total.Area>7.8,NA,Total.Area))
 
@@ -248,7 +249,6 @@ CWM_Collected_Data<- Species_Comp_RelCov_Clean %>%
   ungroup() %>% 
   mutate(Rainfall_reduction_cat=as.factor(rainfall_reduction)) %>% 
   rename(block=DxG_block)
-
 
 
 #### Normality: CWM Height FK ####
@@ -696,11 +696,11 @@ TB_SLA_2023_LMER_paddock <- lmerTest::lmer(data = subset(CWM_Collected_Data,year
 anova(TB_SLA_2023_LMER_paddock, type = 3) #ns
 
 # adjust pvalues for SLA TB
-p.adjust(0.5702, method = "BH", n=5)
-p.adjust(0.6263, method = "BH", n=5)
-p.adjust(0.9615, method = "BH", n=5)
-p.adjust(0.821, method = "BH", n=5)
-p.adjust(0.1237, method = "BH", n=5)
+p.adjust(0.6491, method = "BH", n=5)
+p.adjust(0.0273, method = "BH", n=5)
+p.adjust(0.1296, method = "BH", n=5)
+p.adjust(0.2446, method = "BH", n=5)
+p.adjust(0.7772, method = "BH", n=5)
 
 
 #### Normality: CWM Area FK ####
@@ -874,12 +874,17 @@ CWM_FK_19_Trait<-CWM_Collected_Data_FK_19 %>%
 CWM_FK_19_Treatment<-CWM_Collected_Data_FK_19 %>% 
   dplyr::select(year,Site,plot,block,paddock,slope,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_FK_19_Treatment$block_paddock <- with(CWM_FK_19_Treatment, interaction(block, paddock))
+
+
 #2020
 CWM_FK_20_Trait<-CWM_Collected_Data_FK_20 %>% 
   dplyr::select(-year,-Site,-plot,-block,-slope,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
 
 CWM_FK_20_Treatment<-CWM_Collected_Data_FK_20 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+CWM_FK_20_Treatment$block_paddock <- with(CWM_FK_20_Treatment, interaction(block, paddock))
 
 #2021
 CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>% 
@@ -888,6 +893,8 @@ CWM_FK_21_Trait<-CWM_Collected_Data_FK_21 %>%
 CWM_FK_21_Treatment<-CWM_Collected_Data_FK_21 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_FK_21_Treatment$block_paddock <- with(CWM_FK_21_Treatment, interaction(block, paddock))
+
 #2022
 CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>% 
   dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
@@ -895,12 +902,16 @@ CWM_FK_22_Trait<-CWM_Collected_Data_FK_22 %>%
 CWM_FK_22_Treatment<-CWM_Collected_Data_FK_22 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_FK_22_Treatment$block_paddock <- with(CWM_FK_22_Treatment, interaction(block, paddock))
+
 #2023
 CWM_FK_23_Trait<-CWM_Collected_Data_FK_23 %>% 
   dplyr::select(-year,-Site,-plot,-slope,-block,-paddock,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
 
 CWM_FK_23_Treatment<-CWM_Collected_Data_FK_23 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+CWM_FK_23_Treatment$block_paddock <- with(CWM_FK_23_Treatment, interaction(block, paddock))
 
 ## TB ##
 
@@ -911,12 +922,16 @@ CWM_TB_19_Trait<-CWM_Collected_Data_TB_19 %>%
 CWM_TB_19_Treatment<-CWM_Collected_Data_TB_19 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_TB_19_Treatment$block_paddock <- with(CWM_TB_19_Treatment, interaction(block, paddock))
+
 #2020
 CWM_TB_20_Trait<-CWM_Collected_Data_TB_20 %>% 
   dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
 
 CWM_TB_20_Treatment<-CWM_Collected_Data_TB_20 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+CWM_TB_20_Treatment$block_paddock <- with(CWM_TB_20_Treatment, interaction(block, paddock))
 
 #2021
 CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>% 
@@ -925,12 +940,16 @@ CWM_TB_21_Trait<-CWM_Collected_Data_TB_21 %>%
 CWM_TB_21_Treatment<-CWM_Collected_Data_TB_21 %>% 
   dplyr::select(year,Site,plot,block,slope,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_TB_21_Treatment$block_paddock <- with(CWM_TB_21_Treatment, interaction(block, paddock))
+
 #2022
 CWM_TB_22_Trait<-CWM_Collected_Data_TB_22 %>% 
   dplyr::select(-year,-Site,-plot,-block,-paddock,-slope,-rainfall_reduction,-drought,-Rainfall_reduction_cat)
 
 CWM_TB_22_Treatment<-CWM_Collected_Data_TB_22 %>% 
   dplyr::select(year,Site,plot,slope,block,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
+
+CWM_TB_22_Treatment$block_paddock <- with(CWM_TB_22_Treatment, interaction(block, paddock))
 
 #2023
 CWM_TB_23_Trait<-CWM_Collected_Data_TB_23 %>% 
@@ -939,75 +958,107 @@ CWM_TB_23_Trait<-CWM_Collected_Data_TB_23 %>%
 CWM_TB_23_Treatment<-CWM_Collected_Data_TB_23 %>% 
   dplyr::select(year,Site,plot,slope,block,paddock,rainfall_reduction,drought,Rainfall_reduction_cat)
 
+CWM_TB_23_Treatment$block_paddock <- with(CWM_TB_23_Treatment, interaction(block, paddock))
+
 # run PERMANOVA using adonis using trait dataframe as data to run adonis on and treatment dataframe as variables
 #### Permanova FK ####
 ## FK ##
 #FK 2019
-PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_19_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_FK_19 <-adonis2(CWM_FK_19_Trait~Rainfall_reduction_cat,
+                          data = CWM_FK_19_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_FK_19_Treatment$block_paddock) 
 print(PERMANOVA_FK_19) #N.S
 
 #FK 2020
-PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_20_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_FK_20 <-adonis2(CWM_FK_20_Trait~Rainfall_reduction_cat,
+                          data = CWM_FK_20_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_FK_20_Treatment$block_paddock) 
 print(PERMANOVA_FK_20) 
 
 #FK 2021
-PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_21_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_FK_21 <-adonis2(CWM_FK_21_Trait~Rainfall_reduction_cat,
+                          data = CWM_FK_21_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_FK_21_Treatment$block_paddock) 
 print(PERMANOVA_FK_21) 
 
 #FK 2022
-PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_22_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_FK_22 <-adonis2(CWM_FK_22_Trait~Rainfall_reduction_cat,
+                          data = CWM_FK_22_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_FK_22_Treatment$block_paddock) 
 print(PERMANOVA_FK_22) 
 
 #FK 2023
-PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_FK_23_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_FK_23 <-adonis2(CWM_FK_23_Trait~Rainfall_reduction_cat,
+                          data = CWM_FK_23_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_FK_23_Treatment$block_paddock) 
 print(PERMANOVA_FK_23) 
 
 # adjust pvalues for perMANOVA FK
-p.adjust(0.3686, method = "BH", n=5)
-p.adjust(0.3267, method = "BH", n=5)
-p.adjust(0.9271, method = "BH", n=5)
-p.adjust(0.9061, method = "BH", n=5)
-p.adjust(0.7383, method = "BH", n=5)
+p.adjust(0.1898, method = "BH", n=5)
+p.adjust(0.06094, method = "BH", n=5)
+p.adjust(0.7552, method = "BH", n=5)
+p.adjust(0.4396, method = "BH", n=5)
+p.adjust(0.4416, method = "BH", n=5)
 
 #### PERMANOVA TB ####
+
 ##TB##
 #TB 2019
-PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_19_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_TB_19 <-adonis2(CWM_TB_19_Trait~Rainfall_reduction_cat,
+                          data = CWM_TB_19_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_TB_19_Treatment$block_paddock) 
 print(PERMANOVA_TB_19)  #NS
 
 #TB 2020
-PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_20_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_TB_20 <-adonis2(CWM_TB_20_Trait~Rainfall_reduction_cat,
+                          data = CWM_TB_20_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_TB_20_Treatment$block_paddock) 
 print(PERMANOVA_TB_20) #NS
 
 #TB 2021
-PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_21_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_TB_21 <-adonis2(CWM_TB_21_Trait~Rainfall_reduction_cat,
+                          data = CWM_TB_21_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_TB_21_Treatment$block_paddock) 
 print(PERMANOVA_TB_21) #NS
 
 #TB 2022
-PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_22_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_TB_22 <-adonis2(CWM_TB_22_Trait~Rainfall_reduction_cat,
+                          data = CWM_TB_22_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_TB_22_Treatment$block_paddock) 
 print(PERMANOVA_TB_22) 
 
 #TB 2023
-PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat + (1|block/paddock), data = CWM_TB_23_Treatment, 
-                          permutations = 1000, method = 'bray') 
+PERMANOVA_TB_23 <-adonis2(CWM_TB_23_Trait~Rainfall_reduction_cat,
+                          data = CWM_TB_23_Treatment, 
+                          permutations = 1000,
+                          method = 'bray',
+                          strata=CWM_TB_23_Treatment$block_paddock) 
 print(PERMANOVA_TB_23) 
 
 # adjust pvalues for perMANOVA FK
-p.adjust(0.964, method = "BH", n=5)
-p.adjust(0.987, method = "BH", n=5)
-p.adjust(0.98, method = "BH", n=5)
-p.adjust(0.961, method = "BH", n=5)
-p.adjust(0.7992, method = "BH", n=5)
-
+p.adjust(0.5934, method = "BH", n=5)
+p.adjust(0.7443, method = "BH", n=5)
+p.adjust(0.9471, method = "BH", n=5)
+p.adjust(0.6663, method = "BH", n=5)
+p.adjust(0.3716, method = "BH", n=5)
 
 
 #### Calculate Multivariate FDis: FK ####
@@ -1952,7 +2003,7 @@ Avg_Traits_FK_Data_SLA<-Avg_Traits_FK_SLA %>%
   dplyr::select(Avg_SLA) %>%  
   as.matrix()
 
-#make row names 1-33 to match the sp_num for future identification 
+#make row names 1-30 to match the sp_num for future identification 
 rownames(Avg_Traits_FK_Data_SLA) <- c(1:30)
 
 #make a dataframe with the species name and identification number 
@@ -1979,7 +2030,7 @@ Species_Comp_FK_Wide_Data_SLA<-Species_Comp_FK_Wide_SLA %>%
   dplyr::select(-ID) %>% 
   as.matrix()
 
-#make a dataframe where ID is assigned a number 1-270 to match the ID row names from above dataframe
+#make a dataframe where ID is assigned a number 1-324 to match the ID row names from above dataframe
 Species_Comp_FK_Wide_PlotData_SLA<-Species_Comp_FK_Wide_SLA %>% 
   mutate(ID_Num=c(1:324)) %>% 
   dplyr::select(ID,ID_Num) 
@@ -2161,11 +2212,11 @@ FDis_TB23_LMER <- lmerTest::lmer(data = subset(Functional_Diversity_SLA,year==20
 anova(FDis_TB23_LMER, type = 3) #NS
 
 # adjust pvalues for SLA TB
-p.adjust(0.554, method = "BH", n=5)
-p.adjust(0.07559, method = "BH", n=5)
-p.adjust(0.1607, method = "BH", n=5)
-p.adjust(0.06956, method = "BH", n=5)
-p.adjust(0.7411, method = "BH", n=5)
+p.adjust(0.217, method = "BH", n=5)
+p.adjust(0.017, method = "BH", n=5)
+p.adjust(0.11, method = "BH", n=5)
+p.adjust(0.22, method = "BH", n=5)
+p.adjust(0.8298, method = "BH", n=5)
 
 #### Calculate Area FDis: FK ####
 
@@ -2210,6 +2261,7 @@ Species_Comp_FK_Wide_Data_Area<-Species_Comp_FK_Wide_Area %>%
 Species_Comp_FK_Wide_PlotData_Area<-Species_Comp_FK_Wide_Area %>% 
   mutate(ID_Num=c(1:324)) %>% 
   dplyr::select(ID,ID_Num) 
+
 
 #run dbFD to recieve Frichness,Fdiversity, etc. for each plot and trait. Currently no correction, but can be sqrt, cailliez, or lingoes
 FK_FunctionalDiversity_Area <- dbFD(Avg_Traits_FK_Data_Area, Species_Comp_FK_Wide_Data_Area,corr = "none")

@@ -1,4 +1,4 @@
-#########################################################################################################
+*#########################################################################################################
 #Project: Plant Species Composition in MGP with Drought x Grazing 
 
 #########################################################################################################
@@ -2858,7 +2858,7 @@ FG_RelCov<-RelCov_FunctionalGroups %>%
   #create column that has all grazing treatments in it for a given year
   mutate(grazing_treatment_fig=ifelse(grazing_category=="MMMMM" &year==2020,"stable",ifelse(grazing_category=="HHMMM" &year==2020, "heavy",ifelse(grazing_category=="MLLMM" &year==2020, "stable",ifelse(year==2019,NA,grazing_treatment)))))
 
-  
+write_csv(FG_RelCov, "SpeciesList_FunctionalGroup.csv")
 
 
 #### Normality: FK Forbs ####
@@ -5618,24 +5618,14 @@ p.adjust(0.02, method = "BH", n=5)
 #### Grazing Results ####
 #### Stats: Fort Keogh - Grazing ####
 
-#FK 2018 - checking drought and grazing
-FK_18_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2018 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
-anova(FK_18_Richness_Aerial, type = 3) #NS
-
-#FK 2019
-FK_19_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2019 & site== "FK"), richness ~ rainfall_reduction + (1|block) + (1|block:paddock))
-anova(FK_19_Richness_Aerial, type = 3)
-#adjust drought p-value
-p.adjust(0.03223, method = "BH", n=5) #ns
-
 #FK 2020 
-FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction* + (1|block) + (1|block:paddock))
+FK_20_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2020 & site== "FK"), richness ~ rainfall_reduction*livestock_util_2019 + (1|block) + (1|block:paddock))
 anova(FK_20_Richness_Aerial, type = 3) #NS
 #adjust drought p-value
 p.adjust(0.1081, method = "BH", n=5) #ns
 
 #FK 2021- 
-FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction+ (1|block) + (1|block:paddock))
+FK_21_Richness_Aerial <- lmerTest::lmer(data = subset(CommunityMetrics_Aerial, year == 2021 & site== "FK"), richness ~ rainfall_reduction*grazing_treatment + (1|block) + (1|block:paddock))
 anova(FK_21_Richness_Aerial, type = 3) #0.05
 #adjust drought p-value
 p.adjust(0.05276, method = "BH", n=5) #ns
