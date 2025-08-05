@@ -554,6 +554,21 @@ RelCov_FunctionalGroups<-Species_Comp_RelCov_Clean %>%
 #write CSV to save RelCov_FunctionalGroups
 write.csv(RelCov_FunctionalGroups,"C:/Users/kjbloodw/Box/Projects/Dissertation/RelCov_FunctionalGroups.csv")
 
+#determine average % cover across years of species used for through time traits
+PercentCover_ThroughTime<-read_csv("/Users/kjbloodw/Library/CloudStorage/Box-Box/Projects/Dissertation/Data/RelCov_FunctionalGroups.csv") %>% 
+  filter(Genus_Species=="Bouteloua.gracilis" |
+         Genus_Species=="Koeleria.macrantha" |
+         Genus_Species=="Logfia.arvensis" |
+         Genus_Species=="Pascopyrum.smithii" | 
+         Genus_Species=="Vicia.americana" |
+         Genus_Species=="Bromus.arvensis" | 
+         Genus_Species=="Hesperostipa.comata" |
+         Genus_Species=="Sphaeralcea.coccinea" | 
+         Genus_Species== "Tragopogon.dubius") %>% 
+  group_by(site,Genus_Species) %>% 
+  summarise(Avg_Relative_Cover=mean(Relative_Cover))
+  
+
 #### Absolute Cover ####
 FK_2018 <- Long_Cov_2018_FK %>% 
   filter(aerial_basal=="Aerial") %>% 
