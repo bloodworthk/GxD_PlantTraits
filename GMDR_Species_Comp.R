@@ -1715,7 +1715,8 @@ Species_Matrix_FK_AR_22 <- Wide_FK_AR_22[,16:ncol(Wide_FK_AR_22)] %>%
 Environment_Matrix_FK_AR_22 <- Wide_FK_AR_22[,1:15]
 
 Environment_Matrix_FK_AR_22$block=as.numeric(Environment_Matrix_FK_AR_22$block)
-Environment_Matrix_FK_AR_22$slope=as.numeric(Environment_Matrix_FK_AR_22$slope)Environment_Matrix_FK_AR_22$block_paddock <- with(Environment_Matrix_FK_AR_22, interaction(block, paddock))
+Environment_Matrix_FK_AR_22$slope=as.numeric(Environment_Matrix_FK_AR_22$slope)
+Environment_Matrix_FK_AR_22$block_paddock <- with(Environment_Matrix_FK_AR_22, interaction(block, paddock))
 
 #run a perMANOVA -- had to change "(1|block:slope)" to "(1|block/slope)" to make this work
 PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reduction,
@@ -1727,7 +1728,7 @@ PerMANOVA_FK_AR_22 <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reducti
 #give a print out of the PermMANOVA
 print(PerMANOVA_FK_AR_22) #drought (0.004)
 #adjust drought p-value
-p.adjust(0.008, method = "BH", n=5) #0.05
+p.adjust(0.003, method = "BH", n=5) #0.05
 #pairwise test
 Posthoc_FK_AR_22<-pairwise.adonis(Species_Matrix_FK_AR_22,factors=Environment_Matrix_FK_AR_22$rainfall_reduction, p.adjust.m = "BH")
 Posthoc_FK_AR_22 #0-99 drought is siginificant (0.03)
@@ -5951,16 +5952,276 @@ p.adjust(0.6277, method = "BH", n=5) #ns
 
 #### Stats: Fort Keogh - PerMANOVA ####
 
-#run a perMANOVA
-
+#2020
 PerMANOVA_FK_20_Gr <- adonis2(formula = Species_Matrix_FK_AR_20~rainfall_reduction*livestock_util_2019,
                               data=Environment_Matrix_FK_AR_20,
                               permutations = 999,
                               method = "bray",
                               type=3,
+                              by="terms",
                               strata=Environment_Matrix_FK_AR_20$block_paddock
 )
 #give a print out of the PermMANOVA
-print(PerMANOVA_FK_20_Gr) #NS 
-#adjust drought p-value
-p.adjust(0.261 , method = "BH", n=5) #NS
+print(PerMANOVA_FK_20_Gr) 
+
+p.adjust(0.284, method = "BH", n=5) 
+p.adjust(0.603, method = "BH", n=5) 
+p.adjust(0.874, method = "BH", n=5) 
+
+#2021
+PerMANOVA_FK_21_Gr <- adonis2(formula = Species_Matrix_FK_AR_21~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_FK_AR_21,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_FK_AR_21$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_21_Gr) 
+
+p.adjust(0.014, method = "BH", n=5) 
+p.adjust(0.124, method = "BH", n=5) 
+p.adjust(0.698, method = "BH", n=5) 
+
+#2022
+PerMANOVA_FK_22_Gr <- adonis2(formula = Species_Matrix_FK_AR_22~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_FK_AR_22,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_FK_AR_22$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_22_Gr) 
+
+p.adjust(0.003, method = "BH", n=5) 
+p.adjust(0.049, method = "BH", n=5) 
+p.adjust(0.872, method = "BH", n=5) 
+
+#2023
+PerMANOVA_FK_23_Gr <- adonis2(formula = Species_Matrix_FK_AR_23~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_FK_AR_23,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_FK_AR_23$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_FK_23_Gr) 
+
+p.adjust(0.001, method = "BH", n=5) 
+p.adjust(0.007, method = "BH", n=5) 
+p.adjust(0.600, method = "BH", n=5) 
+
+#### Stats: Thunder Basin - PerMANOVA ####
+
+#2020
+PerMANOVA_TB_20_Gr <- adonis2(formula = Species_Matrix_TB_AR_20~rainfall_reduction*livestock_util_2019,
+                              data=Environment_Matrix_TB_AR_20,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_TB_AR_20$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_20_Gr) 
+
+p.adjust(0.512, method = "BH", n=5) 
+p.adjust(0.839, method = "BH", n=5) 
+p.adjust(0.907, method = "BH", n=5) 
+
+#2021
+PerMANOVA_TB_21_Gr <- adonis2(formula = Species_Matrix_TB_AR_21~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_TB_AR_21,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_TB_AR_21$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_21_Gr) 
+
+p.adjust(0.005, method = "BH", n=5) 
+p.adjust(0.033, method = "BH", n=5) 
+p.adjust(0.407, method = "BH", n=5) 
+
+#2022
+PerMANOVA_TB_22_Gr <- adonis2(formula = Species_Matrix_TB_AR_22~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_TB_AR_22,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_TB_AR_22$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_22_Gr) 
+
+p.adjust(0.010, method = "BH", n=5) 
+p.adjust(0.115, method = "BH", n=5) 
+p.adjust(0.706, method = "BH", n=5) 
+
+#2023
+PerMANOVA_TB_23_Gr <- adonis2(formula = Species_Matrix_TB_AR_23~rainfall_reduction*grazing_treatment,
+                              data=Environment_Matrix_TB_AR_23,
+                              permutations = 999,
+                              method = "bray",
+                              type=3,
+                              by="terms",
+                              strata=Environment_Matrix_TB_AR_23$block_paddock
+)
+#give a print out of the PermMANOVA
+print(PerMANOVA_TB_23_Gr) 
+
+p.adjust(0.224, method = "BH", n=5) 
+p.adjust(0.559, method = "BH", n=5) 
+p.adjust(0.891, method = "BH", n=5) 
+
+
+#### Stats: Fort Keogh - PermDISP ####
+
+## PERMDISP FK Aerial 2019 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_Gr_19 <- vegdist(Species_Matrix_FK_AR_19)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_Gr_19_GR <- betadisper(BC_Distance_Matrix_FK_Gr_19,FK_AR_19$grazing_treatment)
+permutest(Dispersion_FK_Gr_19_GR,pairwise = T, permutations = 999) #ns
+p.adjust(0.281, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_Gr_19_DR_GR <- betadisper(BC_Distance_Matrix_FK_Gr_19,FK_AR_19$Dr_Gr)
+permutest(Dispersion_FK_Gr_19_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.869, method = "BH", n=5)
+
+
+## PERMDISP FK Aerial 2020 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_Gr_20 <- vegdist(Species_Matrix_FK_AR_20)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_Gr_20_GR <- betadisper(BC_Distance_Matrix_FK_Gr_20,FK_AR_20$grazing_treatment)
+permutest(Dispersion_FK_Gr_20_GR,pairwise = T, permutations = 999) #ns
+p.adjust(0.472, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_Gr_20_DR_GR <- betadisper(BC_Distance_Matrix_FK_Gr_20,FK_AR_20$Dr_Gr)
+permutest(Dispersion_FK_Gr_20_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.904, method = "BH", n=5)
+
+
+## PERMDISP FK Aerial 2021 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_Gr_21 <- vegdist(Species_Matrix_FK_AR_21)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_Gr_21_GR <- betadisper(BC_Distance_Matrix_FK_Gr_21,FK_AR_21$grazing_treatment)
+permutest(Dispersion_FK_Gr_21_GR,pairwise = T, permutations = 999) #ns
+p.adjust(0.597, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_Gr_21_DR_GR <- betadisper(BC_Distance_Matrix_FK_Gr_21,FK_AR_21$Dr_Gr)
+permutest(Dispersion_FK_Gr_21_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.995, method = "BH", n=5)
+
+## PERMDISP FK Aerial 2022 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_Gr_22 <- vegdist(Species_Matrix_FK_AR_22)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_Gr_22_GR <- betadisper(BC_Distance_Matrix_FK_Gr_22,FK_AR_22$grazing_treatment)
+permutest(Dispersion_FK_Gr_22_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.692, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_Gr_22_DR_GR <- betadisper(BC_Distance_Matrix_FK_Gr_22,FK_AR_22$Dr_Gr)
+permutest(Dispersion_FK_Gr_22_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.98, method = "BH", n=5)
+
+## PERMDISP FK Aerial 2023 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_FK_Gr_23 <- vegdist(Species_Matrix_FK_AR_23)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_FK_Gr_23_GR <- betadisper(BC_Distance_Matrix_FK_Gr_23,FK_AR_23$grazing_treatment)
+permutest(Dispersion_FK_Gr_23_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.737, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_FK_Gr_23_DR_GR <- betadisper(BC_Distance_Matrix_FK_Gr_23,FK_AR_23$Dr_Gr)
+permutest(Dispersion_FK_Gr_23_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.971, method = "BH", n=5)
+
+
+#### Stats: Thunder Basin - PermDISP ####
+
+## PERMDISP TB Aerial 2020 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_Gr_20 <- vegdist(Species_Matrix_TB_AR_20)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_Gr_20_GR <- betadisper(BC_Distance_Matrix_TB_Gr_20,TB_AR_20$grazing_treatment)
+permutest(Dispersion_TB_Gr_20_GR,pairwise = T, permutations = 999) #ns
+p.adjust(0.003, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_Gr_20_DR_GR <- betadisper(BC_Distance_Matrix_TB_Gr_20,TB_AR_20$Dr_Gr)
+permutest(Dispersion_TB_Gr_20_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.72, method = "BH", n=5)
+
+
+## PERMDISP TB Aerial 2021 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_Gr_21 <- vegdist(Species_Matrix_TB_AR_21)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_Gr_21_GR <- betadisper(BC_Distance_Matrix_TB_Gr_21,TB_AR_21$grazing_treatment)
+permutest(Dispersion_TB_Gr_21_GR,pairwise = T, permutations = 999) #ns
+p.adjust(0.012, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_Gr_21_DR_GR <- betadisper(BC_Distance_Matrix_TB_Gr_21,TB_AR_21$Dr_Gr)
+permutest(Dispersion_TB_Gr_21_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.453, method = "BH", n=5)
+
+## PERMDISP TB Aerial 2022 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_Gr_22 <- vegdist(Species_Matrix_TB_AR_22)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_Gr_22_GR <- betadisper(BC_Distance_Matrix_TB_Gr_22,TB_AR_22$grazing_treatment)
+permutest(Dispersion_TB_Gr_22_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.001, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_Gr_22_DR_GR <- betadisper(BC_Distance_Matrix_TB_Gr_22,TB_AR_22$Dr_Gr)
+permutest(Dispersion_TB_Gr_22_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.307, method = "BH", n=5)
+
+## PERMDISP TB Aerial 2023 
+
+#Make a new dataframe and calculate the dissimilarity of the Species_Matrix dataframe
+BC_Distance_Matrix_TB_Gr_23 <- vegdist(Species_Matrix_TB_AR_23)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing
+Dispersion_TB_Gr_23_GR <- betadisper(BC_Distance_Matrix_TB_Gr_23,TB_AR_23$grazing_treatment)
+permutest(Dispersion_TB_Gr_23_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.195, method = "BH", n=5)
+
+#Run a dissimilarity matrix (PermDisp) comparing grazing*Drought
+Dispersion_TB_Gr_23_DR_GR <- betadisper(BC_Distance_Matrix_TB_Gr_23,TB_AR_23$Dr_Gr)
+permutest(Dispersion_TB_Gr_23_DR_GR,pairwise = F, permutations = 999) #ns
+p.adjust(0.666, method = "BH", n=5)
