@@ -1,0 +1,11 @@
+﻿Site,Year,Time_Point,Rainfall (mm),DataSource
+FK,2019,Oct-June,232.92,NOAA - Miles City Airport Station
+FK,2020,Oct-July,221.74,NOAA - Miles City Airport Station
+FK,2021,Oct-June,135.128,NOAA - Miles City Airport Station
+FK,2022,Oct-June,228.6,NOAA - Miles City Airport Station
+FK,2023,Oct-June,235.2,NOAA - Miles City Airport Station
+TB,2019,Oct-June,223.774,RS_manual precip
+TB,2020,Oct-July,133.6,RS_manual precip
+TB,2021,Oct-June,202.44,RS_manual precip
+TB,2022,Oct-June,204.5,GxDR_GxDRDaily_2021_April_2023Sept
+TB,2023,Oct-June,226,GxDR_GxDRDaily_2021_April_2023Sept
